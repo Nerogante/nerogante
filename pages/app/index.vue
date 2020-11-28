@@ -3,23 +3,25 @@
     <v-container>
       <v-row>
         <v-col sm="">
-          <div v-for="section of toolSections" :key="section.title">
-            <section v-if="section.tools" class="mb-5">
+          <template v-for="section of toolSections">
+            <section v-if="section.tools && !section.hidden" :key="section.title" class="mb-5">
               <h1>
-                <v-icon :color="section.color">
+                <!-- <v-icon :color="section.color">
                   {{ section.icon }}
-                </v-icon>
+                </v-icon> -->
                 {{ section.title }}
               </h1>
               <v-row justify="start">
-                <v-col v-for="tool of section.tools" :key="tool.title" cols="12" lg="3">
-                  <v-hover v-slot:default="{ hover }">
-                    <ToolCard :app="tool" :elevation="hover ? 6 : 2" />
-                  </v-hover>
-                </v-col>
+                <template v-for="tool of section.tools">
+                  <v-col v-if="!tool.hidden" :key="tool.title" cols="12" lg="3">
+                    <v-hover v-slot:default="{ hover }">
+                      <ToolCard :app="tool" :elevation="hover ? 6 : 2" />
+                    </v-hover>
+                  </v-col>
+                </template>
               </v-row>
             </section>
-          </div>
+          </template>
         </v-col>
       </v-row>
       <!-- Tools -->
@@ -39,20 +41,59 @@ export default {
     return {
       toolSections: [
         {
+          title: 'Web Scraping',
+          hidden: false,
+          icon: '',
+          color: '',
+          tools: [
+            {
+              title: 'Downloader',
+              hidden: false,
+              description: 'Download files from various sites',
+              route: '/app/downloader',
+              icon: 'mdi-download',
+              image: 'Downloader.png',
+              iconColor: 'green darken-1',
+              color: 'green lighten-5'
+            }
+          ]
+        },
+        {
+          title: 'Image Editing',
+          hidden: false,
+          icon: '',
+          color: '',
+          tools: [
+            {
+              title: 'Photo Editor',
+              hidden: false,
+              description: 'Dong',
+              route: '/app/photo-editor',
+              icon: 'mdi-invert-colors',
+              image: 'Draw.png',
+              iconColor: 'blue darken-1',
+              color: 'blue lighten-5'
+            }
+          ]
+        },
+        {
           title: 'Artificial Intelligence',
+          hidden: true,
           icon: '',
           color: '',
           tools: [
             {
               title: 'Reality 3D',
+              hidden: false,
               description: 'Dong',
               route: '/app/reality-maker',
               icon: 'mdi-cube-outline',
-              iconColor: 'white',
-              color: 'blue lighten-2'
+              color: 'white',
+              iconColor: 'blue lighten-2'
             },
             {
               title: 'Photo Enhancement',
+              hidden: false,
               description: 'Dong',
               route: '/app/photoenhancement',
               icon: 'mdi-image-size-select-large',
@@ -63,26 +104,12 @@ export default {
         },
         {
           title: 'Unfinished Prototypes',
+          hidden: true,
           icon: '',
           tools: [
             {
-              title: 'Photo Editor',
-              description: 'Dong',
-              route: '/app/photo-editor',
-              icon: 'mdi-invert-colors',
-              iconColor: 'dark',
-              color: 'grey lighten-5'
-            },
-            {
-              title: 'Creepy Downloader',
-              description: 'Download files from various sites',
-              route: '/app/creepydownloader',
-              icon: 'mdi-download',
-              iconColor: 'dark',
-              color: 'grey lighten-5'
-            },
-            {
               title: 'Tensorflow simple',
+              hidden: false,
               description: 'Dong',
               route: '/app/tensorflowsimple',
               icon: 'mdi-brain',
@@ -91,6 +118,7 @@ export default {
             },
             {
               title: 'Tensorflow Reference',
+              hidden: true,
               description: 'Dong',
               route: '/app/tensorflowtest',
               icon: 'mdi-brain',
@@ -99,6 +127,7 @@ export default {
             },
             {
               title: 'Three JS',
+              hidden: false,
               description: 'Dong',
               route: '/app/test-three-js',
               icon: 'mdi-cube',
@@ -107,6 +136,7 @@ export default {
             },
             {
               title: 'Babylon JS',
+              hidden: false,
               description: 'Dong',
               route: '/app/test-babylon-js',
               icon: 'mdi-cube',

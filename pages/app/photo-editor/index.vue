@@ -60,7 +60,6 @@
           <v-btn
             small
             dark
-            color="secondary"
             @click="()=>{
               toggleHidden()
               toggleApp()

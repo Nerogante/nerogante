@@ -1,12 +1,21 @@
+
 <template>
   <div>
     <section>
-      <v-container>
-        <h1 class="text-center text-h2 mt-16">
+      <v-container fluid class="pa-0">
+        <!-- <h1 class="text-center text-h2 mt-16">
           I make things <v-icon x-large class="rotate">
             mdi-emoticon-cool-outline
           </v-icon>
-        </h1>
+        </h1> -->
+        <div id="playground" class="d-flex justify-center align-center">
+          <div id="overlay">
+            <h1 class="text-h1">
+              Welcome to my hideout
+            </h1>
+          </div>
+          <canvas id="canvas" />
+        </div>
       </v-container>
     </section>
   </div>
@@ -15,6 +24,7 @@
 <script>
 // import ToolCard from '~/components/ToolCard'
 // import util from 'assets/util'
+// import random from 'assets/random'
 import { mapMutations } from 'vuex'
 
 export default {
@@ -38,23 +48,39 @@ export default {
       ],
       camera: null,
       scene: null,
-      renderer: null
+      renderer: null,
+      FRAME_PERIOD: 10,
+      lastTime: 0
     }
   },
   computed: {
 
   },
   mounted () {
-    // this.$store.commit('appBar/setApp', false)
-    // this.$store.commit('appBar/setFixed', true)
+    this.$store.commit('appBar/setApp', false)
+    this.$store.commit('appBar/setFixed', true)
     this.initialize()
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.afterResize)
   },
   methods: {
     initialize () {
+
+    },
+    draw (time) {
+
+    },
+    shuffle () {
+
+    },
+    afterResize () {
+      console.log(1)
     },
     ...mapMutations({
       toggleHidden: 'appBar/toggleHidden'
     })
+
   },
   head () {
     return {
@@ -68,6 +94,22 @@ export default {
 </script>
 
 <style>
+#playground {
+  height: 100vh;
+  width: 100%;
+  background-color: transparent;
+}
+#canvas {
+  position: absolute;
+  /* background-color: grey; */
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  image-rendering: pixelated;
+}
+#overlay {
+  z-index: 1;
+}
 .rotate {
    animation: rotation 2s infinite alternate
 }

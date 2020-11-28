@@ -1,9 +1,10 @@
 <template>
   <v-card :elevation="elevation" nuxt :to="app.route">
     <v-sheet :color="app.color" class="text-center">
-      <v-icon class="py-10" :color="app.iconColor" size="64">
+      <!-- <v-icon class="py-10" :color="app.iconColor" size="64">
         {{ app.icon }}
-      </v-icon>
+      </v-icon> -->
+      <v-img :src="'/appimg/' + app.image" />
     </v-sheet>
     <v-card-title>
       <span>

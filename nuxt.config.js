@@ -6,6 +6,10 @@ export default {
     TWITTER_API_KEY_SECRET: 'yuGWmuec2kL6UdvOkOuV7YVmL2NXm2Su0easkWfY041VRZS0Rq',
     TWITTER_BEARER_TOKEN: 'AAAAAAAAAAAAAAAAAAAAAHFOFQEAAAAA%2F2muFR0OpMtvAM%2Fpn%2FoDOtbI24I%3D0DRACCkwykPnvG1UrJKHbS78ocm0yjZwItxL3qlHAwquy5Atqd'
   },
+  server: {
+    port: 8000,
+    host :'0.0.0.0'
+  },
   /*
   ** Headers of the page
   */

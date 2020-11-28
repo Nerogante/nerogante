@@ -80,8 +80,8 @@ export default {
       this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
       this.renderer = new THREE.WebGLRenderer({ alpha: true })
 
+      // this.renderer.shadowMap.enabled = true
       this.renderer.shadowMap.enabled = true
-      this.renderer.shadowMapSoft = true
       this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
       this.renderer.toneMapping = THREE.ReinhardToneMapping
@@ -107,7 +107,7 @@ export default {
 
       // Sphere 1
       const geometry = new THREE.SphereGeometry(1, 64, 64)
-      const material = new THREE.MeshStandardMaterial({
+      const material = new THREE.MeshPhysicalMaterial({
         color: 0xFFFFFF,
         metalness: 1
       })
@@ -130,12 +130,14 @@ export default {
       // this.scene.add(ambientLight)
 
       // Light
-      const spotLight = new THREE.SpotLight(new THREE.Color(1, 1, 1), 1)
-      spotLight.castShadow = true
-      spotLight.position.y = 2
-      spotLight.shadow.mapSize.width = 2048
-      spotLight.radius = 4
-      this.scene.add(spotLight)
+      const PointLight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1)
+      PointLight.castShadow = true
+      PointLight.position.y = 0
+      PointLight.decay = 2
+      PointLight.shadow.radius = 10
+      PointLight.shadow.mapSize.width = 2048
+      PointLight.shadow.mapSize.height = 2048
+      this.scene.add(PointLight)
 
       const update = () => {
         requestAnimationFrame(update)
@@ -214,7 +216,7 @@ export default {
       ])
 
       geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
-      const material = new THREE.MeshStandardMaterial({ color: new THREE.Color('rgb(180,180,180)') })
+      const material = new THREE.MeshPhysicalMaterial({ color: new THREE.Color('rgb(180,180,180)') })
       const mesh = new THREE.Mesh(geometry, material)
       mesh.geometry.computeVertexNormals()
       mesh.geometry.normalsNeedUpdate = true
@@ -286,7 +288,7 @@ export default {
       ])
 
       geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
-      const material = new THREE.MeshStandardMaterial({ color: new THREE.Color('rgb(180,180,180)') })
+      const material = new THREE.MeshPhysicalMaterial({ color: new THREE.Color('rgb(180,180,180)') })
       const mesh = new THREE.Mesh(geometry, material)
       mesh.geometry.computeVertexNormals()
       mesh.geometry.normalsNeedUpdate = true

@@ -24,17 +24,21 @@
         :key="link.title"
         :to="link.route"
         :text="link.textBtn"
-        :color="link.color"
-        active-class="font-weight-black"
+        active-class="font-weight-black black darken-4"
         link
         nuxt
       >
-        <v-icon left class="d-md" :color="link.iconColor">
+        <!-- <v-icon left class="d-md" :color="link.iconColor">
           {{ link.icon }}
-        </v-icon>
-        <span class="white--text" :class="{'d-none': link.textBtn, 'd-md-inline': true}">
+        </v-icon> -->
+        <span class="" :class="{'d-none': link.textBtn, 'd-md-inline': true}">
           {{ link.title }}
         </span>
+      </v-btn>
+      <v-btn>
+        <v-icon>
+          mdi-unfold-more-vertical
+        </v-icon>
       </v-btn>
       <!-- <v-btn fab small elevation="0" @click="toggle">
         <v-icon small>
