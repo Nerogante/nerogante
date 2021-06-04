@@ -1,3 +1,4 @@
+<!--
 <template>
   <div>
     <canvas ref="babylonCanvas" class="babylonCanvas" />
@@ -144,3 +145,4 @@ html, body {
   touch-action: none;
 }
 </style>
+-->

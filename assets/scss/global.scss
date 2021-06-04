@@ -1,3 +1,45 @@
-.vh-100 {
+.h-100-v {
   height: 100vh;
+}
+.full-height {
+  height: 100%;
+  max-height: 100%;
+}
+.full-width {
+  width: 100%;
+  max-width: 100%;
+}
+.full-size {
+  height: 100%;
+  max-height: 100%;
+  width: 100%;
+  max-width: 100%;
+}
+.fixed{
+  position: fixed !important;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-scroll {
+  overflow: scroll;
+}
+
+@for $i from 1 to 101 {
+  $number: percentage($i / 100);
+  .h-#{$i}-p {
+    height: $number !important;
+  }
+  .mh-#{$i}-p {
+    max-height: $number !important;
+  }
+  .w-#{$i}-p {
+    width: $number !important;
+  }
+  .mw-#{$i}-p {
+    max-width: $number !important;
+  }
 }

@@ -1,31 +1,26 @@
 export const state = () => ({
-  collapsed: false,
   hidden: false,
   app: true,
   fixed: false
 })
 
 export const mutations = {
-  toggleCollapse (state) {
-    state.collapsed = !state.collapsed
+  toggleAppBar (state) {
+    state.app = !state.app
+    state.fixed = !state.app
+    state.hidden = !state.app
   },
-  setCollapsed (state, collapsed) {
-    state.collapsed = collapsed
+  hide (state) {
+    state.app = false
+    state.fixed = true
+    state.hidden = true
   },
-  toggleHidden (state) {
-    state.hidden = !state.hidden
-  },
+
   setHidden (state, hidden) {
     state.hidden = hidden
   },
-  toggleApp (state) {
-    state.app = !state.app
-  },
   setApp (state, app) {
     state.app = app
-  },
-  toggleFixed (state) {
-    state.fixed = !state.fixed
   },
   setFixed (state, fixed) {
     state.fixed = fixed

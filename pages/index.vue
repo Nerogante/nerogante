@@ -1,31 +1,19 @@
-
 <template>
-  <div>
-    <section>
-      <v-container fluid class="pa-0">
-        <!-- <h1 class="text-center text-h2 mt-16">
-          I make things <v-icon x-large class="rotate">
-            mdi-emoticon-cool-outline
-          </v-icon>
-        </h1> -->
-        <div id="playground" class="d-flex justify-center align-center">
-          <div id="overlay">
-            <h1 class="text-h1">
-              Welcome to my hideout
-            </h1>
-          </div>
-          <canvas id="canvas" />
-        </div>
-      </v-container>
-    </section>
-  </div>
+  <section>
+    <v-container>
+      <v-row>
+        <v-col>
+          ola ke tal
+        </v-col>
+        <v-col>
+          jeje
+        </v-col>
+      </v-row>
+    </v-container>
+  </section>
 </template>
 
 <script>
-// import ToolCard from '~/components/ToolCard'
-// import util from 'assets/util'
-// import random from 'assets/random'
-import { mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -34,53 +22,8 @@ export default {
   },
   data () {
     return {
-      colors: [
-        'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'blue-grey', 'grey'
-      ],
-      colorVariants: [
-        'lighten', 'darken'
-      ],
-      colorAlones: [
-        'black', 'white', 'transparent'
-      ],
-      shapes: [
 
-      ],
-      camera: null,
-      scene: null,
-      renderer: null,
-      FRAME_PERIOD: 10,
-      lastTime: 0
     }
-  },
-  computed: {
-
-  },
-  mounted () {
-    this.$store.commit('appBar/setApp', false)
-    this.$store.commit('appBar/setFixed', true)
-    this.initialize()
-  },
-  destroyed () {
-    window.removeEventListener('resize', this.afterResize)
-  },
-  methods: {
-    initialize () {
-
-    },
-    draw (time) {
-
-    },
-    shuffle () {
-
-    },
-    afterResize () {
-      console.log(1)
-    },
-    ...mapMutations({
-      toggleHidden: 'appBar/toggleHidden'
-    })
-
   },
   head () {
     return {
@@ -89,6 +32,18 @@ export default {
         { hid: 'description', name: 'description', contant: 'Very Useless Site' }
       ]
     }
+  },
+  computed: {
+
+  },
+  mounted () {
+
+  },
+  destroyed () {
+
+  },
+  methods: {
+
   }
 }
 </script>

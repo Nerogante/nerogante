@@ -6,51 +6,96 @@
       flat
       dark
       dense
-      short
-      :collapse="collapsed"
       class="px-0 mx-0"
       :value="!hidden"
+      color="black"
     >
       <!-- <v-app-bar-nav-icon @click="mini = !mini" /> -->
 
-      <router-link v-show="!collapsed" to="/" class="font-weight-black red-text text-decoration-none pagename ml-3">
-        <v-toolbar-title>Nerogante</v-toolbar-title>
+      <v-btn disabled icon />
+
+      <router-link id="page-title" to="/" class="font-weight-black text-decoration-none ml-5 white--text">
+        <v-toolbar-title>
+          Nerogante
+        </v-toolbar-title>
       </router-link>
+
       <v-spacer />
 
-      <v-btn
+      <router-link
         v-for="link of links"
-        v-show="!collapsed"
+        v-show="true"
         :key="link.title"
         :to="link.route"
-        :text="link.textBtn"
-        active-class="font-weight-black black darken-4"
+        text
+        class="d-none d-md-flex headerSection text-decoration-none mx-3 grey--text"
+        active-class="font-weight-bold text--lighten-3"
         link
         nuxt
       >
-        <!-- <v-icon left class="d-md" :color="link.iconColor">
-          {{ link.icon }}
-        </v-icon> -->
-        <span class="" :class="{'d-none': link.textBtn, 'd-md-inline': true}">
+        <span class="">
           {{ link.title }}
         </span>
-      </v-btn>
-      <v-btn>
-        <v-icon>
-          mdi-unfold-more-vertical
-        </v-icon>
-      </v-btn>
+      </router-link>
+      <v-menu offset-y tile>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon color="grey">
+              mdi-dots-vertical
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-list dense>
+          <v-list-item-group>
+            <v-list-item
+              v-for="(item, i) in menuItems"
+              :key="i"
+              @click="item.method"
+            >
+              <v-list-item-icon>
+                <v-icon>
+                  {{ item.icon }}
+                </v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-menu>
       <!-- <v-btn fab small elevation="0" @click="toggle">
         <v-icon small>
           mdi-unfold-more-vertical
         </v-icon>
       </v-btn> -->
     </v-app-bar>
+    <v-app-bar
+      flat
+      collapse
+      fixed
+      dense
+      style="right: unset"
+      color="black"
+    >
+      <v-btn
+        fab
+        small
+        text
+        @click="toggleAppbar"
+      >
+        <v-icon color="red">
+          mdi-alpha-n-circle-outline
+        </v-icon>
+      </v-btn>
+    </v-app-bar>
   </div>
 </template>
 
 <script>
-// import { mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
   data () {
@@ -58,39 +103,24 @@ export default {
       links: [
         {
           title: 'Games',
-          icon: 'mdi-gamepad',
-          color: 'red',
-          iconColor: 'red',
-          route: '/games',
-          textBtn: true
+          route: '/games'
         },
         {
           title: 'Web Apps',
-          icon: 'mdi-creation',
-          color: 'green',
-          iconColor: 'green',
-          route: '/app',
-          textBtn: true
+          route: '/app'
         },
-        // {
-        //   title: 'Art',
-        //   icon: 'mdi-image',
-        //   color: 'yellow',
-        //   iconColor: 'yellow',
-        //   route: '/art',
-        //   textBtn: true
-        // },
         {
           title: 'Donate',
-          icon: 'mdi-gift-outline',
-          color: 'blue',
-          iconColor: 'blue',
-          route: '/donate',
-          textBtn: true
+          route: '/donate'
         }
       ],
-      mini: false,
-      dark: true
+      menuItems: [
+        {
+          title: 'Hello',
+          icon: 'mdi-hand-right',
+          method: () => {}
+        }
+      ]
     }
   },
   computed: {
@@ -105,22 +135,27 @@ export default {
     },
     fixed () {
       return this.$store.state.appBar.fixed
+    },
+    dark () {
+      return this.$store.state.theme.dark
     }
   },
+  mounted () {
+
+  },
   methods: {
-    // ...mapMutations({
-    //   toggleCollapsed: 'appBar/toggleCollapsed',
-    //   toggleHidden: 'appBar/toggleHidden',
-    //   toggleApp: 'appBar/toggleApp'
-    // })
+    ...mapMutations({
+      toggleAppbar: 'appBar/toggleAppBar',
+      switchTheme: 'theme/switch'
+    }),
+    debug (event) {
+      alert(event)
+    }
   }
 }
 </script>
 
 <style>
-a.pagename {
-  color: white !important;
-}
 .fit {
   max-height: 100%;
   max-width: 100%;

@@ -11,6 +11,35 @@ const util = {
   },
   findPercentage (number, a, b) {
     return (number - a) / (b - a)
+  },
+  maxInArray (array) {
+    let max = array[0]
+    const len = array.length
+    for (let i = 0; i < len; i++) {
+      if (array[i] > max) {
+        max = array[i]
+      }
+    }
+    return max
+  },
+  calculateStrength (average, peak, offset) {
+    let strength
+    if (average > peak) {
+      if (average > peak + offset) {
+        strength = 0
+      } else {
+        strength = util.findPercentage(average, peak + offset, peak)
+      }
+    } else if (average < peak) {
+      if (average < peak - offset) {
+        strength = 0
+      } else {
+        strength = util.findPercentage(average, peak - offset, peak)
+      }
+    } else {
+      strength = 1
+    }
+    return util.clamp(Math.abs(strength), 0, 1)
   }
 }
 

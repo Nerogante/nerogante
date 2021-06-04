@@ -7,7 +7,7 @@
         </h1>
         <v-row justify="start">
           <v-col v-for="game of section.games" :key="game.title" sm="2">
-            <v-hover v-slot:default="{ hover }">
+            <v-hover v-slot="{ hover }">
               <ToolCard :app="game" :elevation="hover ? 6 : 2" />
             </v-hover>
           </v-col>
@@ -28,49 +28,26 @@ export default {
     return {
       gameSections: [
         {
-          title: 'Casual Games',
-          games: [
-            {
-              title: '4',
-              description: 'Show your abilities',
-              image: '/gamepics/tictactoe.jpg',
-              route: '/games/tictactoe'
-            }
-          ]
-        },
-        {
-          title: 'Hardcore Games',
-          games: [
-            {
-              title: 'Sliding Puzzle',
-              description: 'Slide the blocks',
-              image: '/gamepics/slidingpuzzle.jpg',
-              route: '/games/slide'
-            },
-            {
-              title: 'Tic Tac Toe',
-              description: 'asd',
-              image: '/gamepics/tictactoe.jpg',
-              route: '/games/tictactoe'
-            },
-            {
-              title: 'Snake',
-              description: 'asd',
-              image: '/gamepics/tictactoe.jpg',
-              route: '/games/snake'
-            }
-          ]
-        },
-        {
-          title: 'Pure Skill',
-          games: [
-            {
-              title: 'Rock Paper Scissors',
-              description: 'See the future',
-              image: '/gamepics/rockpaperscissors.png',
-              route: '/games/rockpaperscissors'
-            }
-          ]
+        //   title: 'Random browser ',
+        //   games: [
+        //     {
+        //       title: 'Multiplications',
+        //       description: 'Random multiplications',
+        //       image: '/gamepics/tictactoe.jpg',
+        //       route: '/games/tictactoe'
+        //     }
+        //   ]
+        // },
+        // {
+        //   title: 'Pure Skill',
+        //   games: [
+        //     {
+        //       title: 'Rock Paper Scissors',
+        //       description: 'See the future',
+        //       image: '/gamepics/rockpaperscissors.png',
+        //       route: '/games/rockpaperscissors'
+        //     }
+        //   ]
         }
       ]
     }

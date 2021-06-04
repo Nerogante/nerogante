@@ -1,5 +1,6 @@
 
 export default {
+  target: 'static',
   env: {
     title: 'Nerogante',
     TWITTER_API_KEY: 'wrnSG471OkyHXUAF1OKpyuvxg',
@@ -8,7 +9,7 @@ export default {
   },
   server: {
     port: 8000,
-    host :'0.0.0.0'
+    host: '0.0.0.0'
   },
   /*
   ** Headers of the page
@@ -49,6 +50,10 @@ export default {
     '@nuxtjs/vuetify'
   ],
   vuetify: {
+    theme: {
+      light: false,
+      dark: false
+    },
     icons: {
 
     }

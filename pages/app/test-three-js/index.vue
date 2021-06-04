@@ -1,15 +1,8 @@
-<template>
+<!--<template>
   <div>
     <section>
       <v-container fluid class="pa-0">
         <div ref="olap" />
-        <!-- <v-row no-gutters>
-          <v-col>
-            <div class="vh-100">
-              <canvas ref="mainCanvas" width="" height="" class="mainCanvas" />
-            </div>
-          </v-col>
-        </v-row> -->
       </v-container>
     </section>
   </div>
@@ -318,3 +311,4 @@ export default {
   width: 100%;
 }
 </style>
+-->

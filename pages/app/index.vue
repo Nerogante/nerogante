@@ -1,11 +1,11 @@
 <template>
-  <div class="">
+  <div>
     <v-container>
       <v-row>
         <v-col sm="">
           <template v-for="section of toolSections">
-            <section v-if="section.tools && !section.hidden" :key="section.title" class="mb-5">
-              <h1>
+            <section v-if="section.tools && !section.hidden" :key="section.title" class="">
+              <h1 class="mt-6 mb-3">
                 <!-- <v-icon :color="section.color">
                   {{ section.icon }}
                 </v-icon> -->
@@ -13,9 +13,9 @@
               </h1>
               <v-row justify="start">
                 <template v-for="tool of section.tools">
-                  <v-col v-if="!tool.hidden" :key="tool.title" cols="12" lg="3">
-                    <v-hover v-slot:default="{ hover }">
-                      <ToolCard :app="tool" :elevation="hover ? 6 : 2" />
+                  <v-col v-if="!tool.hidden" :key="tool.title" cols="6" lg="3">
+                    <v-hover v-slot="{ hover }">
+                      <ToolCard :app="tool" :elevation="hover ? 4 : 2" />
                     </v-hover>
                   </v-col>
                 </template>
@@ -24,7 +24,6 @@
           </template>
         </v-col>
       </v-row>
-      <!-- Tools -->
     </v-container>
   </div>
 </template>
@@ -42,7 +41,7 @@ export default {
       toolSections: [
         {
           title: 'Web Scraping',
-          hidden: false,
+          hidden: true,
           icon: '',
           color: '',
           tools: [
@@ -65,14 +64,27 @@ export default {
           color: '',
           tools: [
             {
-              title: 'Photo Editor',
+              title: 'Exposer',
               hidden: false,
-              description: 'Dong',
-              route: '/app/photo-editor',
+              description: 'Enhance white balance on your photos',
+              route: '/app/exposer',
               icon: 'mdi-invert-colors',
-              image: 'Draw.png',
+              image: 'cat meme.png',
               iconColor: 'blue darken-1',
               color: 'blue lighten-5'
+            }
+          ]
+        },
+        {
+          title: 'Random apps',
+          tools: [
+            {
+              title: 'Multiplications',
+              description: 'Random Multiplications',
+              route: '/app/multiplications',
+              icon: '',
+              image: 'multiplications.png',
+              color: 'white'
             }
           ]
         },
@@ -148,15 +160,6 @@ export default {
       ]
     }
   },
-  mounted () {
-    this.$store.commit('appBar/setFixed', false)
-    this.$store.commit('appBar/setApp', true)
-  },
-  methods: {
-    ...mapMutations({
-
-    })
-  },
   head () {
     return {
       title: 'Apps - ' + process.env.title,
@@ -164,6 +167,14 @@ export default {
         { hid: 'description', name: 'description', content: 'Creations' }
       ]
     }
+  },
+  mounted () {
+
+  },
+  methods: {
+    ...mapMutations({
+
+    })
   }
   // beforeRouteLeave (to, from, next) {
   //   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
