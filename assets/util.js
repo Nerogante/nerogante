@@ -22,6 +22,42 @@ const util = {
     }
     return max
   },
+  secondMaxInArray (array) {
+    let max = array[0]
+    let second = 0
+    const len = array.length
+    for (let i = 0; i < len; i++) {
+      if (array[i] > max) {
+        second = max
+        max = array[i]
+      }
+    }
+    return second
+  },
+  thirdMaxInArray (array) {
+    let max = array[0]
+    let second = 0
+    let third = 0
+    const len = array.length
+    for (let i = 0; i < len; i++) {
+      if (array[i] > max) {
+        third = second
+        second = max
+        max = array[i]
+      }
+    }
+    return third
+  },
+  maxHistogramPoint (array) {
+    let max = array[1]
+    const len = array.length - 1
+    for (let i = 1; i < len; i++) {
+      if (array[i] > max) {
+        max = array[i]
+      }
+    }
+    return max
+  },
   calculateStrength (average, peak, offset) {
     let strength
     if (average > peak) {

@@ -12,28 +12,20 @@ const histogram = {
       histG[data[i + 1] & 0xFF]++
       histB[data[i + 2] & 0xFF]++
     }
-    const highestR = util.maxInArray(histR)
-    const highestG = util.maxInArray(histG)
-    const highestB = util.maxInArray(histB)
+    const highestR = util.maxHistogramPoint(histR)
+    const highestG = util.maxHistogramPoint(histG)
+    const highestB = util.maxHistogramPoint(histB)
 
     const factorR = 100 / highestR
     const factorG = 100 / highestG
     const factorB = 100 / highestB
 
     for (let i = 0; i < 256; i++) {
-      histR[i] = histR[i] * factorR
-      histG[i] = histG[i] * factorG
-      histB[i] = histB[i] * factorB
+      histR[i] = util.clamp(histR[i] * factorR, 0, 100)
+      histG[i] = util.clamp(histG[i] * factorG, 0, 100)
+      histB[i] = util.clamp(histB[i] * factorB, 0, 100)
     }
     return [histR, histG, histB]
-  },
-  clearCanvas (id) {
-    const canvas = document.getElementById(id)
-    const ctx = canvas.getContext('2d')
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.imageSmoothingEnabled = false
-    ctx.strokeStyle = 'lightgrey'
-    return ctx
   },
   drawHistogram (ctx, histogram, height = 100) {
     ctx.beginPath()
@@ -44,16 +36,31 @@ const histogram = {
     ctx.stroke()
   },
   drawRGB (histR, histG, histB, ctx) {
+    ctx.strokeStyle = '#ff4040'
     ctx.beginPath()
     for (let i = 0; i < 256; i++) {
       ctx.moveTo(i + 0.5, 100)
       ctx.lineTo(i + 0.5, 100 - histR[i])
     }
     ctx.stroke()
+    ctx.strokeStyle = '#40ff40'
+    ctx.beginPath()
+    for (let i = 0; i < 256; i++) {
+      ctx.moveTo(i + 0.5, 100 - histR[i])
+      ctx.lineTo(i + 0.5, 100 - histG[i])
+    }
+    ctx.stroke()
+    ctx.strokeStyle = '#4040ff'
+    ctx.beginPath()
+    for (let i = 0; i < 256; i++) {
+      ctx.moveTo(i + 0.5, 100 - Math.max(histG[i], histR[i]))
+      ctx.lineTo(i + 0.5, 100 - histB[i])
+    }
+    ctx.stroke()
   },
   processImage (inImg) {
-    const width = inImg.width
-    const height = inImg.height
+    // const width = inImg.width
+    // const height = inImg.height
     const src = new Uint32Array(inImg.data.buffer)
     const isValueHistogram = true
 

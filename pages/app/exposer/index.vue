@@ -31,16 +31,6 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-btn small class="secondary" @click="zoom+=0.1">
-        <v-icon>
-          mdi-plus
-        </v-icon>
-      </v-btn>
-      <v-btn small class="secondary" :disabled="zoom <= 0.1" @click="zoom-=0.1">
-        <v-icon>
-          mdi-minus
-        </v-icon>
-      </v-btn>
       <v-btn
         fab
         text
@@ -83,7 +73,7 @@
           </v-tabs>
           <v-tabs-items v-model="workTabs" class="h-100-p mh-95-p">
             <!-- Working Area -->
-            <v-tab-item class="blue full-size">
+            <v-tab-item class="blue full-size" eager>
               <div id="viewportContainer" sm="" class="grey darken-4 h-100-p d-flex justify-center overflow-scroll pa-4" @wheel="viewportZoom">
                 <canvas
                   ref="mainCanvas"
@@ -109,25 +99,54 @@
               Otra cosa
             </v-tab>
           </v-tabs>
-          <v-tabs-items v-model="rightTabs" class="secondary white--text">
+          <v-tabs-items v-model="rightTabs" class="secondary white--text" dark>
             <!-- Histogram items -->
-            <v-tab-item class="py-2">
-              <div class="text-caption">
-                RGB
-              </div>
-              <canvas id="histogramRGB" width="256" height="100" class="grey darken-4" />
-              <div class="text-caption">
-                Red
-              </div>
-              <canvas id="histogramRed" width="256" height="100" class="grey darken-4" />
-              <div class="text-caption">
-                Green
-              </div>
-              <canvas id="histogramGreen" width="256" height="100" class="grey darken-4" />
-              <div class="text-caption">
-                Blue
-              </div>
-              <canvas id="histogramBlue" width="256" height="100" class="grey darken-4" />
+            <v-tab-item class="py-2" eager>
+              <v-form :disabled="!dataOriginal">
+                <template v-for="(block, index) in controlBlocks">
+                  <v-col :key="index" sm="auto" style="width: 256px">
+                    <div class="text-caption">
+                      {{ block.title }}
+                    </div>
+                    <canvas :ref="block.name" width="256" height="100" class="grey darken-4" />
+                    <div class="mt-3">
+                      <v-row
+                        v-for="control in block.controls"
+                        :key="control.title"
+                        no-gutters
+                      >
+                        <v-col sm="1">
+                          <small class="text-caption">{{ control.title }}</small>
+                        </v-col>
+                        <v-spacer />
+                        <v-col sm="2">
+                          <v-text-field
+                            v-model="control.value"
+                            dense
+                            class="ma-0 pa-0 text-caption align-center"
+                            type="number"
+                            height="1rem"
+                            hide-details
+                          />
+                        </v-col>
+                        <v-col sm="12">
+                          <v-slider
+                            v-model="control.value"
+                            :min="control.min"
+                            :max="control.max"
+                            class="align-center"
+                            hide-details
+                            dense
+                            height="1rem"
+                            style="width: 256px;"
+                            @input="onValueChange"
+                          />
+                        </v-col>
+                      </v-row>
+                    </div>
+                  </v-col>
+                </template>
+              </v-form>
             </v-tab-item>
 
             <v-tab-item>
@@ -181,13 +200,74 @@ export default {
         }
       ],
       documentName: 'Untitled',
+      zoom: 1,
       sidebarOpen: true,
       workTabs: null,
       rightTabs: null,
-      finalData: null,
-      tempData: null,
-      previewData: null,
-      zoom: 1
+      histograms: [],
+      canvasMain: null,
+      ctxMain: null,
+      dataOriginal: null,
+      dataResult: null,
+      controlBlocks: [
+        // Red
+        {
+          name: 'histR',
+          title: 'Red',
+          controls: [
+            {
+              title: 'Shift',
+              value: 0,
+              min: -128,
+              max: 128
+            },
+            {
+              title: 'Spread',
+              value: 0,
+              min: -128,
+              max: 128
+            }
+          ]
+        },
+        // Green
+        {
+          name: 'histG',
+          title: 'Green',
+          controls: [
+            {
+              title: 'Shift',
+              value: 0,
+              min: -128,
+              max: 128
+            },
+            {
+              title: 'Spread',
+              value: 0,
+              min: -128,
+              max: 128
+            }
+          ]
+        },
+        // Blue
+        {
+          name: 'histB',
+          title: 'Blue',
+          controls: [
+            {
+              title: 'Shift',
+              value: 0,
+              min: -128,
+              max: 128
+            },
+            {
+              title: 'Spread',
+              value: 0,
+              min: -128,
+              max: 128
+            }
+          ]
+        }
+      ]
     }
   },
   head () {
@@ -206,6 +286,16 @@ export default {
   mounted () {
     this.isMounted = true
     this.hideAppBar()
+    this.canvasMain = this.$refs.mainCanvas
+    this.ctxMain = this.canvasMain.getContext('2d')
+
+    this.histograms[0] = this.$refs.histR[0].getContext('2d')
+    this.histograms[1] = this.$refs.histG[0].getContext('2d')
+    this.histograms[2] = this.$refs.histB[0].getContext('2d')
+    for (let i = 0; i < this.histograms.length; i++) {
+      this.histograms[i].imageSmoothingEnabled = false
+      this.histograms[i].strokeStyle = 'lightgrey'
+    }
   },
   methods: {
     ...mapMutations({
@@ -218,13 +308,11 @@ export default {
       if (this.$refs.imageInput.files.length === 0) {
         return
       }
+
       const file = this.$refs.imageInput.files[0]
       this.documentName = file.name
       const img = new Image()
       img.src = URL.createObjectURL(file)
-      const canvas = this.$refs.mainCanvas
-
-      const context = canvas.getContext('2d')
 
       img.onload = () => {
         // const viewportHeight = document.getElementById('viewportContainer').clientHeight
@@ -239,32 +327,87 @@ export default {
         //   this.zoom = factorWidth - 0.01
         // }
 
-        canvas.width = img.naturalWidth
-        canvas.height = img.naturalHeight
-        context.clearRect(0, 0, canvas.width, canvas.height)
-        context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight)
+        this.canvasMain.width = img.naturalWidth
+        this.canvasMain.height = img.naturalHeight
+        this.ctxMain.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight)
+        const imageData = this.ctxMain.getImageData(0, 0, this.canvasMain.width, this.canvasMain.height)
+        this.dataOriginal = new Uint8ClampedArray(imageData.data)
+        this.dataResult = new Uint8ClampedArray(this.dataOriginal)
         this.updateHistograms()
-        // this.originalData = context.getImageData(0, 0, canvas.width, canvas.height)
       }
     },
+    processModifiers () {
+      const width = this.canvasMain.width
+      const height = this.canvasMain.height
+      const dataOriginal = this.dataOriginal
+      const len = dataOriginal.length
+
+      const buf = new ArrayBuffer(dataOriginal.length)
+      const view8 = new Uint8ClampedArray(buf)
+      const view32 = new Uint32Array(buf)
+      // Shift
+      let r, g, b
+      const shiftR = this.controlBlocks[0].controls[0].value
+      const shiftG = this.controlBlocks[1].controls[0].value
+      const shiftB = this.controlBlocks[2].controls[0].value
+
+      for (let i = 0, j = 0; i < len; i += 4, j++) {
+        r = util.clamp(dataOriginal[i] + shiftR, 0, 255)
+        g = util.clamp(dataOriginal[i + 1] + shiftG, 0, 255)
+        b = util.clamp(dataOriginal[i + 2] + shiftB, 0, 255)
+        view32[j] =
+        (255 << 24) | // alpha
+        (b << 16) | // blue
+        (g << 8) | // green
+          r // red
+      }
+
+      // Spread
+      const spreadtR = this.controlBlocks[0].controls[1].value
+      const spreadtG = this.controlBlocks[1].controls[1].value
+      const spreadtB = this.controlBlocks[2].controls[1].value
+      let dir = 1
+      let distance = 0
+
+      for (let i = 0, j = 0; i < len; i += 4, j++) {
+        dir = view8[i] < 128 ? -1 : 1
+        distance = util.findPercentage(view8[i], 128, dir === 1 ? 255 : 0)
+        r = util.clamp(view8[i] + (distance * dir * spreadtR), 0, 255)
+        dir = view8[i + 1] < 128 ? -1 : 1
+        distance = util.findPercentage(view8[i + 1], 128, dir === 1 ? 255 : 0)
+        g = util.clamp(view8[i + 1] + (distance * dir * spreadtG), 0, 255)
+        dir = view8[i + 2] < 128 ? -1 : 1
+        distance = util.findPercentage(view8[i + 2], 128, dir === 1 ? 255 : 0)
+        b = util.clamp(view8[i + 2] + (distance * dir * spreadtB), 0, 255)
+
+        view32[j] =
+        (255 << 24) | // alpha
+        (b << 16) | // blue
+        (g << 8) | // green
+          r // red
+      }
+
+      const imageData = this.ctxMain.getImageData(0, 0, width, height)
+      imageData.data.set(view8)
+      this.ctxMain.putImageData(imageData, 0, 0)
+      this.dataResult = view8
+      this.updateHistograms()
+    },
+    onValueChange () {
+      this.processModifiers()
+    },
+    updateCanvasf () {
+
+    },
     updateHistograms () {
-      // Load Red Canvas
-      const canvasOG = this.$refs.mainCanvas
-      const ctxOG = canvasOG.getContext('2d')
+      const [redHistogram, greenHistogram, blueHistogram] = histogram.getHistograms(this.dataResult)
 
-      const rgbCtx = histogram.clearCanvas('histogramRGB')
-      const redCtx = histogram.clearCanvas('histogramRed')
-      const greenCtx = histogram.clearCanvas('histogramGreen')
-      const blueCtx = histogram.clearCanvas('histogramBlue')
-
-      const imageData = ctxOG.getImageData(0, 0, canvasOG.width, canvasOG.height).data
-
-      const [redHistogram, greenHistogram, blueHistogram] = histogram.getHistograms(imageData)
-
-      histogram.drawHistogram(redCtx, redHistogram)
-      histogram.drawHistogram(greenCtx, greenHistogram)
-      histogram.drawHistogram(blueCtx, blueHistogram)
-      histogram.drawRGB(redHistogram, greenHistogram, blueHistogram, rgbCtx)
+      for (let i = 0; i < 3; i++) {
+        this.histograms[i].clearRect(0, 0, 256, 100)
+      }
+      histogram.drawHistogram(this.histograms[0], redHistogram)
+      histogram.drawHistogram(this.histograms[1], greenHistogram)
+      histogram.drawHistogram(this.histograms[2], blueHistogram)
     },
     viewportZoom (e) {
       if (e.altKey) {
@@ -280,15 +423,19 @@ export default {
         }
         this.zoom += wheelDirection * zoomAmount
       }
+    },
+    debugArray (array, length) {
+      const text = []
+      for (let i = 0; i < length; i++) {
+        text[i] = array[i]
+      }
+      console.log(text)
     }
   }
 }
 </script>
 
 <style scoped>
-.enhancer-grid {
-  /* display: grid; */
-}
 #viewportContainer::-webkit-scrollbar {
   width: auto;
 }
@@ -304,7 +451,5 @@ canvas {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   display: block;
-}
-.v-window__container {
 }
 </style>
