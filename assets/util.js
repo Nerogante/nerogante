@@ -15,12 +15,22 @@ const util = {
   maxInArray (array) {
     let max = array[0]
     const len = array.length
-    for (let i = 0; i < len; i++) {
+    for (let i = 1; i < len; i++) {
       if (array[i] > max) {
         max = array[i]
       }
     }
     return max
+  },
+  minInArray (array) {
+    let min = array[0]
+    const len = array.length
+    for (let i = 1; i < len; i++) {
+      if (array[i] < min) {
+        min = array[i]
+      }
+    }
+    return min
   },
   secondMaxInArray (array) {
     let max = array[0]

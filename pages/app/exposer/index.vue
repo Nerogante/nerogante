@@ -36,11 +36,12 @@
         text
         dark
         small
+        dense
         class="ml-auto mr-5"
         @click="sidebarOpen = !sidebarOpen"
       >
         <v-icon>
-          {{ sidebarOpen ? 'mdi-arrow-collapse-right' : 'mdi-arrow-expand-left' }}
+          {{ sidebarOpen ? 'mdi-arrow-collapse' : 'mdi-arrow-expand' }}
         </v-icon>
       </v-btn>
     </v-sheet>
@@ -77,6 +78,8 @@
               <div id="viewportContainer" sm="" class="grey darken-4 h-100-p d-flex justify-center overflow-scroll pa-4" @wheel="viewportZoom">
                 <canvas
                   ref="mainCanvas"
+                  width="0"
+                  height="0"
                   class="mw-100-p mh-100-p"
                   :style="{
                     //position: 'absolute',
@@ -90,67 +93,116 @@
           </v-tabs-items>
         </v-col>
         <!-- Sidebar -->
-        <v-col v-show="sidebarOpen" sm="3" class="full-height secondary scrollable px-5">
+        <v-col v-show="sidebarOpen" sm="auto" class="full-height secondary scrollable px-10">
           <v-tabs v-model="rightTabs" dark background-color="secondary" class="secondary" height="2rem">
             <v-tab class="secondary text-caption">
-              Histograms
+              Channel Spread
             </v-tab>
             <v-tab class="text-caption">
-              Otra cosa
+              Adjustments
             </v-tab>
           </v-tabs>
           <v-tabs-items v-model="rightTabs" class="secondary white--text" dark>
             <!-- Histogram items -->
             <v-tab-item class="py-2" eager>
-              <v-form :disabled="!dataOriginal">
-                <template v-for="(block, index) in controlBlocks">
-                  <v-col :key="index" sm="auto" style="width: 256px">
-                    <div class="text-caption">
-                      {{ block.title }}
-                    </div>
-                    <canvas :ref="block.name" width="256" height="100" class="grey darken-4" />
-                    <div class="mt-3">
-                      <v-row
-                        v-for="control in block.controls"
-                        :key="control.title"
-                        no-gutters
-                      >
-                        <v-col sm="1">
-                          <small class="text-caption">{{ control.title }}</small>
-                        </v-col>
-                        <v-spacer />
-                        <v-col sm="2">
-                          <v-text-field
-                            v-model="control.value"
-                            dense
-                            class="ma-0 pa-0 text-caption align-center"
-                            type="number"
-                            height="1rem"
-                            hide-details
-                          />
-                        </v-col>
-                        <v-col sm="12">
-                          <v-slider
-                            v-model="control.value"
-                            :min="control.min"
-                            :max="control.max"
-                            class="align-center"
-                            hide-details
-                            dense
-                            height="1rem"
-                            style="width: 256px;"
-                            @input="onValueChange"
-                          />
-                        </v-col>
-                      </v-row>
-                    </div>
+              <v-form :disabled="!channelControlsEnabled">
+                <v-row no-gutters class="d-flex justify-end">
+                  <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoChannels">
+                    auto
+                  </v-btn>
+                  <v-text-field
+                    v-model="channelControls.shiftAutoClip"
+                    dense
+                    class="ma-0 pa-0 text-caption align-center"
+                    type="number"
+                    hide-details
+                  />
+                  <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickResetChannels">
+                    reset
+                  </v-btn>
+                </v-row>
+                <template v-for="(index) in [0, 1, 2]">
+                  <v-col :key="index" sm="auto">
+                    <h6 class="text-caption">
+                      {{ channelControls.titles[index] }}
+                    </h6>
+                    <v-col sm="" class="pa-0">
+                      <canvas :ref="channelControls.names[index]" width="256" height="100" class="grey darken-4" />
+                    </v-col>
+                    <v-col sm="" class="d-flex justify-space-between pa-0 mt-1">
+                      <small>{{ channelControls.blackCount[index].toLocaleString() }}</small>
+                      <small>{{ channelControls.whiteCount[index].toLocaleString() }}</small>
+                    </v-col>
+
+                    <!-- Shift -->
+                    <v-row no-gutters>
+                      <v-col sm="1">
+                        <small class="text-caption">Shift</small>
+                      </v-col>
+                      <v-spacer />
+                      <v-col sm="auto">
+                        <v-text-field
+                          v-model="channelControls.shift[index].value"
+                          dense
+                          class="ma-0 pa-0 text-caption align-center"
+                          type="number"
+                          height="1rem"
+                          hide-details
+                          style="width: 3rem;"
+                        />
+                      </v-col>
+                      <v-col sm="12">
+                        <v-slider
+                          v-model="channelControls.shift[index].value"
+                          :min="-128"
+                          :max="128"
+                          class="align-center"
+                          hide-details
+                          dense
+                          height="1rem"
+                          @input="onValueChangeChannel"
+                        />
+                      </v-col>
+                    </v-row>
+                    <!--  -->
+                    <!-- Spread -->
+                    <v-row no-gutters>
+                      <v-col sm="1">
+                        <small class="text-caption">Spread</small>
+                      </v-col>
+                      <v-spacer />
+                      <v-col sm="auto">
+                        <v-text-field
+                          v-model="channelControls.spread[index].value"
+                          dense
+                          class="ma-0 pa-0 text-caption align-center"
+                          type="number"
+                          height="1rem"
+                          hide-details
+                          style="width: 3rem;"
+                        />
+                      </v-col>
+                      <v-col sm="12">
+                        <v-slider
+                          v-model="channelControls.spread[index].value"
+                          :min="0"
+                          :max="512"
+                          class="align-center"
+                          hide-details
+                          dense
+                          height="1rem"
+                          @input="onValueChangeChannel"
+                        />
+                      </v-col>
+                    </v-row>
+                    <!--  -->
                   </v-col>
                 </template>
               </v-form>
             </v-tab-item>
 
             <v-tab-item>
-              Otra cosa
+              <canvas width="256" height="100" />
             </v-tab-item>
           </v-tabs-items>
         </v-col>
@@ -160,15 +212,29 @@
 
     <!-- Info Bar -->
     <v-sheet color="secondary white--text h-3-p mh-3-p ma-0 pa-0">
-      <div class="text-caption">
-        Zoom: {{ zoomPercent }}
-      </div>
+      <v-row no-gutters justify="start">
+        <v-col sm="auto">
+          <div class="text-caption">
+            Zoom: {{ zoomPercent }}
+          </div>
+        </v-col>
+        <v-col sm="auto" class="ml-12">
+          <div class="text-caption">
+            {{ width }} x {{ height }} pixels
+          </div>
+        </v-col>
+        <v-col sm="auto" class="ml-12">
+          <div class="text-caption">
+            Best clip: {{ Math.round((width * height * 0.001)).toLocaleString() }}
+          </div>
+        </v-col>
+      </v-row>
     </v-sheet>
   </div>
 </template>
 
 <script>
-import util from 'assets/util'
+// import util from 'assets/util'
 import histogram from 'assets/histogram'
 import { mapMutations } from 'vuex'
 
@@ -201,73 +267,28 @@ export default {
       ],
       documentName: 'Untitled',
       zoom: 1,
+      width: 0,
+      height: 0,
       sidebarOpen: true,
       workTabs: null,
       rightTabs: null,
       histograms: [],
       canvasMain: null,
       ctxMain: null,
-      dataOriginal: null,
-      dataResult: null,
-      controlBlocks: [
-        // Red
-        {
-          name: 'histR',
-          title: 'Red',
-          controls: [
-            {
-              title: 'Shift',
-              value: 0,
-              min: -128,
-              max: 128
-            },
-            {
-              title: 'Spread',
-              value: 0,
-              min: -128,
-              max: 128
-            }
-          ]
-        },
-        // Green
-        {
-          name: 'histG',
-          title: 'Green',
-          controls: [
-            {
-              title: 'Shift',
-              value: 0,
-              min: -128,
-              max: 128
-            },
-            {
-              title: 'Spread',
-              value: 0,
-              min: -128,
-              max: 128
-            }
-          ]
-        },
-        // Blue
-        {
-          name: 'histB',
-          title: 'Blue',
-          controls: [
-            {
-              title: 'Shift',
-              value: 0,
-              min: -128,
-              max: 128
-            },
-            {
-              title: 'Spread',
-              value: 0,
-              min: -128,
-              max: 128
-            }
-          ]
-        }
-      ]
+      finalView8: null,
+      finalView32: null,
+      originalChannels: [],
+      channelsResult: null,
+      channelControls: {
+        titles: ['Red', 'Green', 'Blue'],
+        names: ['histR', 'histG', 'histB'],
+        blackCount: [0, 0, 0],
+        whiteCount: [0, 0, 0],
+        shift: [{ value: 0 }, { value: 0 }, { value: 0 }],
+        shiftAutoClip: 0,
+        spread: [{ value: 0 }, { value: 0 }, { value: 0 }],
+        spreadAutoClip: 0
+      }
     }
   },
   head () {
@@ -281,6 +302,9 @@ export default {
   computed: {
     zoomPercent () {
       return (this.zoom * 100).toFixed(0) + '%'
+    },
+    channelControlsEnabled () {
+      return this.originalChannels[0]
     }
   },
   mounted () {
@@ -326,88 +350,129 @@ export default {
         // } else {
         //   this.zoom = factorWidth - 0.01
         // }
-
+        if (this.canvasMain.width > 0) {
+          this.hardReset()
+        }
         this.canvasMain.width = img.naturalWidth
         this.canvasMain.height = img.naturalHeight
+        this.width = img.naturalWidth
+        this.height = img.naturalHeight
         this.ctxMain.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight)
         const imageData = this.ctxMain.getImageData(0, 0, this.canvasMain.width, this.canvasMain.height)
-        this.dataOriginal = new Uint8ClampedArray(imageData.data)
-        this.dataResult = new Uint8ClampedArray(this.dataOriginal)
+        this.originalChannels = histogram.separateChannels(imageData.data)
+        this.channelsResult = this.originalChannels
+        this.finalView8 = new Uint8ClampedArray(imageData.data)
+        this.finalView32 = new Uint32Array(this.finalView8.buffer)
         this.updateHistograms()
       }
     },
+    hardReset () {
+      this.clickResetChannels()
+      this.ctxMain.clearRect(0, 0, this.canvasMain.width, this.canvasMain.height)
+    },
     processModifiers () {
+      // Cache
+      // eslint-disable-next-line no-unreachable
       const width = this.canvasMain.width
       const height = this.canvasMain.height
-      const dataOriginal = this.dataOriginal
-      const len = dataOriginal.length
+      const finalView32 = this.finalView32
+      const shiftR = this.channelControls.shift[0].value
+      const shiftG = this.channelControls.shift[1].value
+      const shiftB = this.channelControls.shift[2].value
+      const spreadR = this.channelControls.spread[0].value
+      const spreadG = this.channelControls.spread[1].value
+      const spreadB = this.channelControls.spread[2].value
 
-      const buf = new ArrayBuffer(dataOriginal.length)
-      const view8 = new Uint8ClampedArray(buf)
-      const view32 = new Uint32Array(buf)
+      const channelR = new Uint8ClampedArray(this.originalChannels[0])
+      const channelG = new Uint8ClampedArray(this.originalChannels[1])
+      const channelB = new Uint8ClampedArray(this.originalChannels[2])
+      const channelLength = channelR.length
+
       // Shift
-      let r, g, b
-      const shiftR = this.controlBlocks[0].controls[0].value
-      const shiftG = this.controlBlocks[1].controls[0].value
-      const shiftB = this.controlBlocks[2].controls[0].value
-
-      for (let i = 0, j = 0; i < len; i += 4, j++) {
-        r = util.clamp(dataOriginal[i] + shiftR, 0, 255)
-        g = util.clamp(dataOriginal[i + 1] + shiftG, 0, 255)
-        b = util.clamp(dataOriginal[i + 2] + shiftB, 0, 255)
-        view32[j] =
-        (255 << 24) | // alpha
-        (b << 16) | // blue
-        (g << 8) | // green
-          r // red
+      if (shiftR !== 0) {
+        histogram.shiftChannel(channelR, shiftR)
+      }
+      if (shiftG !== 0) {
+        histogram.shiftChannel(channelG, shiftG)
+      }
+      if (shiftB !== 0) {
+        histogram.shiftChannel(channelB, shiftB)
       }
 
       // Spread
-      const spreadtR = this.controlBlocks[0].controls[1].value
-      const spreadtG = this.controlBlocks[1].controls[1].value
-      const spreadtB = this.controlBlocks[2].controls[1].value
-      let dir = 1
-      let distance = 0
-
-      for (let i = 0, j = 0; i < len; i += 4, j++) {
-        dir = view8[i] < 128 ? -1 : 1
-        distance = util.findPercentage(view8[i], 128, dir === 1 ? 255 : 0)
-        r = util.clamp(view8[i] + (distance * dir * spreadtR), 0, 255)
-        dir = view8[i + 1] < 128 ? -1 : 1
-        distance = util.findPercentage(view8[i + 1], 128, dir === 1 ? 255 : 0)
-        g = util.clamp(view8[i + 1] + (distance * dir * spreadtG), 0, 255)
-        dir = view8[i + 2] < 128 ? -1 : 1
-        distance = util.findPercentage(view8[i + 2], 128, dir === 1 ? 255 : 0)
-        b = util.clamp(view8[i + 2] + (distance * dir * spreadtB), 0, 255)
-
-        view32[j] =
-        (255 << 24) | // alpha
-        (b << 16) | // blue
-        (g << 8) | // green
-          r // red
+      if (spreadR !== 0) {
+        histogram.spread(channelR, spreadR)
+      }
+      if (spreadG !== 0) {
+        histogram.spread(channelG, spreadG)
+      }
+      if (spreadB !== 0) {
+        histogram.spread(channelB, spreadB)
       }
 
-      const imageData = this.ctxMain.getImageData(0, 0, width, height)
-      imageData.data.set(view8)
-      this.ctxMain.putImageData(imageData, 0, 0)
-      this.dataResult = view8
+      // Combine channels
+      for (let i = 0; i < channelLength; i++) {
+        finalView32[i] =
+        (255 << 24) | // alpha
+        (channelB[i] << 16) | // blue
+        (channelG[i] << 8) | // green
+          channelR[i] // red
+      }
+      this.updateCanvas(width, height)
       this.updateHistograms()
     },
-    onValueChange () {
+    onValueChangeChannel () {
       this.processModifiers()
     },
-    updateCanvasf () {
-
+    updateCanvas (width, height) {
+      const imageData = this.ctxMain.getImageData(0, 0, width, height)
+      imageData.data.set(this.finalView8)
+      this.ctxMain.putImageData(imageData, 0, 0)
     },
     updateHistograms () {
-      const [redHistogram, greenHistogram, blueHistogram] = histogram.getHistograms(this.dataResult)
+      // eslint-disable-next-line no-unreachable
+      const histdata = histogram.getHistograms(this.finalView8)
+      for (let i = 0, j = 0; i < 3; i++, j += 2) {
+        this.channelControls.blackCount[i] = histdata[3][j]
+        this.channelControls.whiteCount[i] = histdata[3][j + 1]
+      }
 
       for (let i = 0; i < 3; i++) {
         this.histograms[i].clearRect(0, 0, 256, 100)
+        histogram.drawHistogram(this.histograms[i], histdata[i])
       }
-      histogram.drawHistogram(this.histograms[0], redHistogram)
-      histogram.drawHistogram(this.histograms[1], greenHistogram)
-      histogram.drawHistogram(this.histograms[2], blueHistogram)
+    },
+    clickAutoChannels () {
+      // Cache
+      const width = this.canvasMain.width
+      const height = this.canvasMain.height
+      const finalView32 = this.finalView32
+      const channelR = new Uint8ClampedArray(this.originalChannels[0])
+      const channelG = new Uint8ClampedArray(this.originalChannels[1])
+      const channelB = new Uint8ClampedArray(this.originalChannels[2])
+
+      const shiftAutoClip = this.channelControls.shiftAutoClip
+      const [shiftR, leftR, rightR, gapR] = histogram.getShiftAuto(channelR, shiftAutoClip)
+      const [shiftG, leftG, rightG, gapG] = histogram.getShiftAuto(channelG, shiftAutoClip)
+      const [shiftB, leftB, rightB, gapB] = histogram.getShiftAuto(channelB, shiftAutoClip)
+
+      this.channelControls.shift[0].value = shiftR
+      this.channelControls.shift[1].value = shiftG
+      this.channelControls.shift[2].value = shiftB
+
+      this.channelControls.spread[0].value = histogram.getSpreadAuto(gapR)
+      this.channelControls.spread[1].value = histogram.getSpreadAuto(gapG)
+      this.channelControls.spread[2].value = histogram.getSpreadAuto(gapB)
+
+      // console.log(this.channelControls.shift[0].value, this.channelControls.shift[1].value, this.channelControls.shift[2].value)
+      this.onValueChangeChannel()
+    },
+    clickResetChannels () {
+      for (let i = 0; i < 3; i++) {
+        this.channelControls.shift[i].value = 0
+        this.channelControls.spread[i].value = 0
+      }
+      this.onValueChangeChannel()
     },
     viewportZoom (e) {
       if (e.altKey) {

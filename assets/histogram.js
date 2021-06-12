@@ -1,6 +1,20 @@
 import util from 'assets/util'
 
 const histogram = {
+  separateChannels (view8) {
+    const channelSize = view8.length * 0.25
+    const channelR = new Uint8ClampedArray(channelSize)
+    const channelG = new Uint8ClampedArray(channelSize)
+    const channelB = new Uint8ClampedArray(channelSize)
+
+    const len = view8.length
+    for (let i = 0, j = 0; i < len; i += 4, j++) {
+      channelR[j] = view8[i]
+      channelG[j] = view8[i + 1]
+      channelB[j] = view8[i + 2]
+    }
+    return [channelR, channelG, channelB]
+  },
   getHistograms (data) {
     const histR = new Uint32Array(256)
     const histG = new Uint32Array(256)
@@ -8,24 +22,27 @@ const histogram = {
 
     const len = data.length
     for (let i = 0; i < len; i += 4) {
-      histR[data[i] & 0xFF]++
+      histR[data[i] & 0b11111111]++
       histG[data[i + 1] & 0xFF]++
       histB[data[i + 2] & 0xFF]++
     }
-    const highestR = util.maxHistogramPoint(histR)
-    const highestG = util.maxHistogramPoint(histG)
-    const highestB = util.maxHistogramPoint(histB)
+
+    const counts = [histR[0], histR[255], histG[0], histG[255], histB[0], histB[255]]
+
+    const highestR = util.maxInArray(histR)
+    const highestG = util.maxInArray(histG)
+    const highestB = util.maxInArray(histB)
 
     const factorR = 100 / highestR
     const factorG = 100 / highestG
     const factorB = 100 / highestB
 
     for (let i = 0; i < 256; i++) {
-      histR[i] = util.clamp(histR[i] * factorR, 0, 100)
-      histG[i] = util.clamp(histG[i] * factorG, 0, 100)
-      histB[i] = util.clamp(histB[i] * factorB, 0, 100)
+      histR[i] = histR[i] > 0 ? util.clamp(histR[i] * factorR, 1, 100) : 0
+      histG[i] = histG[i] > 0 ? util.clamp(histG[i] * factorG, 1, 100) : 0
+      histB[i] = histB[i] > 0 ? util.clamp(histB[i] * factorB, 1, 100) : 0
     }
-    return [histR, histG, histB]
+    return [histR, histG, histB, counts]
   },
   drawHistogram (ctx, histogram, height = 100) {
     ctx.beginPath()
@@ -34,6 +51,126 @@ const histogram = {
       ctx.lineTo(i + 0.5, height - histogram[i])
     }
     ctx.stroke()
+    // ctx.beginPath
+    // for (let i = 0; i < 256; i++) {
+
+    // }
+  },
+  shiftChannel (channel, amount) {
+    const len = channel.length
+    for (let i = 0; i < len; i++) {
+      channel[i] += amount
+    }
+  },
+  getShiftAuto (channel, treshold = 0) {
+    const counted = this.getCount(channel)
+    const half = channel.length / 2
+    let leftCount = 0
+    let halfIndex = 0
+
+    for (let i = 0; i < 256; i++) {
+      leftCount += counted[i]
+      halfIndex = i
+      if (leftCount >= half) {
+        break
+      }
+    }
+    const shiftByHalf = 128 - halfIndex
+    console.log('half', half, 'leftCount', leftCount, 'halfIndex', halfIndex, 'shiftByHalf', shiftByHalf)
+    let sumL = counted[0]
+    let leftIndex = 0
+    let sumR = counted[255]
+    let rightIndex = 255
+
+    if (sumL <= treshold) {
+      for (let i = 0; i < 256; i++) {
+        sumL += counted[i]
+        leftIndex = i
+        if (sumL > treshold) {
+          break
+        }
+      }
+    }
+    if (sumR <= treshold) {
+      for (let i = 255; i >= 0; i--) {
+        sumR += counted[i]
+        rightIndex = i
+        if (sumR > treshold) {
+          break
+        }
+      }
+    }
+    rightIndex = 256 - rightIndex
+    const shiftValue = parseInt((-leftIndex + rightIndex) / 2)
+    const gap = leftIndex + shiftValue
+    console.log('shiftValue', shiftValue, 'gap', gap)
+    return [shiftByHalf, leftIndex, rightIndex, gap]
+  },
+  histogramEqualization (channel) {
+    const counted = this.getCount(channel)
+    const cdf = this.getCdf(counted)
+    const min = util.minInArray(channel)
+    const max = util.maxInArray(channel)
+    this.equalizeLevel(channel, cdf, min, max)
+    return channel
+  },
+  getChannel (array, index) {
+    const data = new Uint8ClampedArray(array.length / 4)
+    const len = array.length
+    for (let i = index, j = 0; i < len; i += 4, j++) {
+      data[j] = array[i]
+    }
+    return data
+  },
+  getCount (channel) {
+    const counted = new Uint32Array(256)
+    const len = channel.length
+    for (let i = 0; i < len; i++) {
+      counted[channel[i] & 0xFF]++
+      // for (let j = 0; j < 256; j++) {
+      //   if (channelArray[i] === j) {
+      //     counted[j]++
+      //     break
+      //   }
+      // }
+    }
+    return counted
+  },
+  getCdf (countedArray) {
+    const cdf = new Uint32Array(countedArray)
+    const len = countedArray.length
+    for (let i = 1; i < len; i++) {
+      cdf[i] += cdf[i - 1]
+    }
+    return cdf
+  },
+  equalizeLevel (channel, cdf, min, max) {
+    // const factor = 1 / 255
+    const len = channel.length
+    for (let i = 0; i < len; i++) {
+      channel[i] = Math.round((cdf[channel[i]] - cdf[min]) / (len - cdf[min]) * 255)
+    }
+  },
+  spread (channel, amount) {
+    const len = channel.length
+    let dir = 1
+    let distance = 0
+    for (let i = 0; i < len; i++) {
+      dir = channel[i] < 128 ? -1 : 1
+      // distance = util.findPercentage(channel[i], 128, dir === 1 ? 255 : 0)
+      distance = (channel[i] - 128) / (dir === 1 ? 255 : 0 - 128)
+      channel[i] += (distance * dir * amount)
+    }
+  },
+  getSpreadAuto (gap) {
+    const distanceL = (gap - 128) / (0 - 128)
+    const finalL = (gap / distanceL)
+    // const distanceR = (255 - gap - 128) / (255 - 128)
+    // const finalR = (255 - gap / distanceR)
+    // console.log('gap:', gap, 'distanceL:', distanceL, 'finalLAmount', finalL)
+    // console.log('rightGap:', 255 - gap, 'distanceR:', distanceR, 'finalRAmount', finalR)
+
+    return finalL
   },
   drawRGB (histR, histG, histB, ctx) {
     ctx.strokeStyle = '#ff4040'
