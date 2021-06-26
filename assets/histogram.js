@@ -29,9 +29,9 @@ const histogram = {
 
     const counts = [histR[0], histR[255], histG[0], histG[255], histB[0], histB[255]]
 
-    const highestR = util.maxInArray(histR)
-    const highestG = util.maxInArray(histG)
-    const highestB = util.maxInArray(histB)
+    const highestR = util.maxHistogramPoint(histR)
+    const highestG = util.maxHistogramPoint(histG)
+    const highestB = util.maxHistogramPoint(histB)
 
     const factorR = 100 / highestR
     const factorG = 100 / highestG
@@ -55,56 +55,6 @@ const histogram = {
     // for (let i = 0; i < 256; i++) {
 
     // }
-  },
-  shiftChannel (channel, amount) {
-    const len = channel.length
-    for (let i = 0; i < len; i++) {
-      channel[i] += amount
-    }
-  },
-  getShiftAuto (channel, treshold = 0) {
-    const counted = this.getCount(channel)
-    const half = channel.length / 2
-    let leftCount = 0
-    let halfIndex = 0
-
-    for (let i = 0; i < 256; i++) {
-      leftCount += counted[i]
-      halfIndex = i
-      if (leftCount >= half) {
-        break
-      }
-    }
-    const shiftByHalf = 128 - halfIndex
-    console.log('half', half, 'leftCount', leftCount, 'halfIndex', halfIndex, 'shiftByHalf', shiftByHalf)
-    let sumL = counted[0]
-    let leftIndex = 0
-    let sumR = counted[255]
-    let rightIndex = 255
-
-    if (sumL <= treshold) {
-      for (let i = 0; i < 256; i++) {
-        sumL += counted[i]
-        leftIndex = i
-        if (sumL > treshold) {
-          break
-        }
-      }
-    }
-    if (sumR <= treshold) {
-      for (let i = 255; i >= 0; i--) {
-        sumR += counted[i]
-        rightIndex = i
-        if (sumR > treshold) {
-          break
-        }
-      }
-    }
-    rightIndex = 256 - rightIndex
-    const shiftValue = parseInt((-leftIndex + rightIndex) / 2)
-    const gap = leftIndex + shiftValue
-    console.log('shiftValue', shiftValue, 'gap', gap)
-    return [shiftByHalf, leftIndex, rightIndex, gap]
   },
   histogramEqualization (channel) {
     const counted = this.getCount(channel)
@@ -151,26 +101,64 @@ const histogram = {
       channel[i] = Math.round((cdf[channel[i]] - cdf[min]) / (len - cdf[min]) * 255)
     }
   },
-  spread (channel, amount) {
+  getAutoClips (channel, limit) {
+    const counted = this.getCount(channel)
+    const limitL = counted[0] + limit
+    const limitR = counted[255] + limit
+    let sumL = 0
+    let sumR = 0
+    let clipL = 0
+    let clipR = 255
+    for (let i = 0; i < 256; i++) {
+      sumL += counted[i]
+      if (sumL <= limitL) {
+        clipL = i
+      } else {
+        break
+      }
+    }
+    for (let i = 255; i >= 0; i--) {
+      sumR += counted[i]
+      if (sumR <= limitR) {
+        clipR = i
+      } else {
+        break
+      }
+    }
+    return [clipL, clipR]
+  },
+  spread (channel, clipL, clipR) {
+    // Example: clipL: 10, clipR: 230, newCenter: 90
+    const shift = Math.round(((255 - clipR) - clipL) * 0.5)
+    const gap = clipL + shift
+    const gapDistance = util.findPercentage(gap, 127, 0)
+    const factor = gapDistance > 0 ? Math.round(gap / gapDistance) : 0
+    // const newCenter = 127 - shift
     const len = channel.length
-    let dir = 1
-    let distance = 0
+    const dividerA = 1 / (0 - 127) * -1 * factor
+    const dividerB = 1 / (255 - 128) * factor
+    // Shift
     for (let i = 0; i < len; i++) {
-      dir = channel[i] < 128 ? -1 : 1
-      // distance = util.findPercentage(channel[i], 128, dir === 1 ? 255 : 0)
-      distance = (channel[i] - 128) / (dir === 1 ? 255 : 0 - 128)
-      channel[i] += (distance * dir * amount)
+      channel[i] += shift
+      if (channel[i] <= 127) {
+        channel[i] += (channel[i] - 127) * dividerA
+      } else {
+        channel[i] += (channel[i] - 128) * dividerB
+      }
     }
   },
-  getSpreadAuto (gap) {
-    const distanceL = (gap - 128) / (0 - 128)
-    const finalL = (gap / distanceL)
-    // const distanceR = (255 - gap - 128) / (255 - 128)
-    // const finalR = (255 - gap / distanceR)
-    // console.log('gap:', gap, 'distanceL:', distanceL, 'finalLAmount', finalL)
-    // console.log('rightGap:', 255 - gap, 'distanceR:', distanceR, 'finalRAmount', finalR)
-
-    return finalL
+  changeCenter (channel, newMidPoint) {
+    const factor = 127 - newMidPoint
+    const len = channel.length
+    let distance
+    for (let i = 0; i < len; i++) {
+      if (channel[i] <= newMidPoint) {
+        distance = util.findPercentage(channel[i], 0, newMidPoint)
+      } else {
+        distance = util.findPercentage(channel[i], 255, newMidPoint)
+      }
+      channel[i] += factor * distance
+    }
   },
   drawRGB (histR, histG, histB, ctx) {
     ctx.strokeStyle = '#ff4040'
@@ -353,9 +341,9 @@ const histogram = {
       b = util.clamp(b, 0, 255)
 
       data[j] =
-      (255 << 24) | // alpha
-      (b << 16) | // blue
-      (g << 8) | // green
+        (255 << 24) | // alpha
+        (b << 16) | // blue
+        (g << 8) | // green
         r // red
     }
     imageData.data.set(buf8)

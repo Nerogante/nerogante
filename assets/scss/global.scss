@@ -27,6 +27,14 @@
 .overflow-scroll {
   overflow: scroll;
 }
+.scrollbar-dense::-webkit-scrollbar{
+  width: 12px;
+  background-color: grey;
+}
+.scrollbar-dense::-webkit-scrollbar-thumb{
+  border-radius: 12px;
+  background-color: black;
+}
 
 @for $i from 1 to 101 {
   $number: percentage($i / 100);
@@ -42,4 +50,8 @@
   .mw-#{$i}-p {
     max-width: $number !important;
   }
+}
+body {
+  overflow-y: hidden;
+  overflow-x: hidden;
 }

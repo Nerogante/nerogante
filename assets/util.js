@@ -12,6 +12,12 @@ const util = {
   findPercentage (number, a, b) {
     return (number - a) / (b - a)
   },
+  lerp (a, b, f) {
+    // const x = 20
+    // const y = 80
+    // return 0
+    return (a * (1.0 - f)) + (b * f)
+  },
   maxInArray (array) {
     let max = array[0]
     const len = array.length
@@ -61,7 +67,7 @@ const util = {
   maxHistogramPoint (array) {
     let max = array[1]
     const len = array.length - 1
-    for (let i = 1; i < len; i++) {
+    for (let i = 2; i < len; i++) {
       if (array[i] > max) {
         max = array[i]
       }

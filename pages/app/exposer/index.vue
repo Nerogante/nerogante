@@ -56,10 +56,10 @@
         </v-sheet> -->
 
     <!-- Working area and sidebar -->
-    <div class="h-90-p mh-90-p green">
-      <v-row no-gutters class="yellow h-100-p mh-100-p">
+    <div class="h-90-p mh-90-p green mw-100-p">
+      <v-row no-gutters class="yellow h-100-p mh-100-p" dense>
         <!-- Left Window -->
-        <v-col class="h-100-p mh-100-p purple">
+        <v-col class="full-height purple">
           <v-tabs
             v-model="workTabs"
             dark
@@ -92,9 +92,16 @@
             </v-tab-item>
           </v-tabs-items>
         </v-col>
-        <!-- Sidebar -->
-        <v-col v-show="sidebarOpen" sm="auto" class="full-height secondary scrollable px-10">
-          <v-tabs v-model="rightTabs" dark background-color="secondary" class="secondary" height="2rem">
+        <!--  -->
+        <!-- Right Window Sidebar -->
+        <v-col v-show="sidebarOpen" cols="auto" class="h-100-p mh-100-p secondary">
+          <v-tabs
+            v-model="rightTabs"
+            dark
+            background-color="secondary"
+            class="secondary h-5-p"
+            height="100%"
+          >
             <v-tab class="secondary text-caption">
               Channel Spread
             </v-tab>
@@ -102,103 +109,63 @@
               Adjustments
             </v-tab>
           </v-tabs>
-          <v-tabs-items v-model="rightTabs" class="secondary white--text" dark>
-            <!-- Histogram items -->
-            <v-tab-item class="py-2" eager>
-              <v-form :disabled="!channelControlsEnabled">
-                <v-row no-gutters class="d-flex justify-end">
-                  <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoChannels">
-                    auto
-                  </v-btn>
-                  <v-text-field
-                    v-model="channelControls.shiftAutoClip"
-                    dense
-                    class="ma-0 pa-0 text-caption align-center"
-                    type="number"
-                    hide-details
-                  />
-                  <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickResetChannels">
-                    reset
-                  </v-btn>
-                </v-row>
-                <template v-for="(index) in [0, 1, 2]">
-                  <v-col :key="index" sm="auto">
-                    <h6 class="text-caption">
-                      {{ channelControls.titles[index] }}
-                    </h6>
-                    <v-col sm="" class="pa-0">
-                      <canvas :ref="channelControls.names[index]" width="256" height="100" class="grey darken-4" />
+          <v-tabs-items v-model="rightTabs" class="secondary white--text h-100-p mh-95-p" dark>
+            <!-- Channel spread -->
+            <v-tab-item class="py-2 full-height overflow-y-auto px-6 scrollbar-dense" eager>
+              <v-row justify="center">
+                <v-form :disabled="!channelControlsEnabled" class="">
+                  <div class="d-flex justify-end">
+                    <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoChannels">
+                      auto
+                    </v-btn>
+                    <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickResetChannels">
+                      reset
+                    </v-btn>
+                  </div>
+                  <template v-for="(index) in [0, 1, 2]">
+                    <v-col :key="index" sm="auto">
+                      <h6 class="text-caption">
+                        {{ channelControls.titles[index] }}
+                      </h6>
+                      <v-col sm="" class="pa-0">
+                        <!-- <v-slider
+                          v-model="channelControls.newMidPoint[index].value"
+                          min="0"
+                          max="255"
+                          thumb-color="blue"
+                          thumb-label=""
+                          hide-details
+                          height="1rem"
+                          @input="changeSliderClip(index)"
+                        /> -->
+                        <canvas :ref="channelControls.names[index]" width="256" height="100" class="grey darken-4" />
+                        <v-range-slider
+                          v-model="channelControls.spreadClip[index].value"
+                          min="0"
+                          max="255"
+                          thumb-color="blue"
+                          thumb-label=""
+                          hide-details
+                          height="1rem"
+                          @input="changeSliderClip(index)"
+                        />
+                      </v-col>
+                      <!-- BW Info -->
+                      <v-col class="pa-0">
+                        <v-row justify="space-between" align="center">
+                          <v-col cols="" class="grey--text text--lighten-1">
+                            <small>{{ channelControls.blackCount[index].toLocaleString() }}</small>
+                          </v-col>
+                          <v-col cols="" class="text-right grey--text text--lighten-1">
+                            <small>{{ channelControls.whiteCount[index].toLocaleString() }}</small>
+                          </v-col>
+                        </v-row>
+                      </v-col>
+                      <!--  -->
                     </v-col>
-                    <v-col sm="" class="d-flex justify-space-between pa-0 mt-1">
-                      <small>{{ channelControls.blackCount[index].toLocaleString() }}</small>
-                      <small>{{ channelControls.whiteCount[index].toLocaleString() }}</small>
-                    </v-col>
-
-                    <!-- Shift -->
-                    <v-row no-gutters>
-                      <v-col sm="1">
-                        <small class="text-caption">Shift</small>
-                      </v-col>
-                      <v-spacer />
-                      <v-col sm="auto">
-                        <v-text-field
-                          v-model="channelControls.shift[index].value"
-                          dense
-                          class="ma-0 pa-0 text-caption align-center"
-                          type="number"
-                          height="1rem"
-                          hide-details
-                          style="width: 3rem;"
-                        />
-                      </v-col>
-                      <v-col sm="12">
-                        <v-slider
-                          v-model="channelControls.shift[index].value"
-                          :min="-128"
-                          :max="128"
-                          class="align-center"
-                          hide-details
-                          dense
-                          height="1rem"
-                          @input="onValueChangeChannel"
-                        />
-                      </v-col>
-                    </v-row>
-                    <!--  -->
-                    <!-- Spread -->
-                    <v-row no-gutters>
-                      <v-col sm="1">
-                        <small class="text-caption">Spread</small>
-                      </v-col>
-                      <v-spacer />
-                      <v-col sm="auto">
-                        <v-text-field
-                          v-model="channelControls.spread[index].value"
-                          dense
-                          class="ma-0 pa-0 text-caption align-center"
-                          type="number"
-                          height="1rem"
-                          hide-details
-                          style="width: 3rem;"
-                        />
-                      </v-col>
-                      <v-col sm="12">
-                        <v-slider
-                          v-model="channelControls.spread[index].value"
-                          :min="0"
-                          :max="512"
-                          class="align-center"
-                          hide-details
-                          dense
-                          height="1rem"
-                          @input="onValueChangeChannel"
-                        />
-                      </v-col>
-                    </v-row>
-                    <!--  -->
-                  </v-col>
-                </template>
-              </v-form>
+                  </template>
+                </v-form>
+              </v-row>
             </v-tab-item>
 
             <v-tab-item>
@@ -234,7 +201,7 @@
 </template>
 
 <script>
-// import util from 'assets/util'
+import util from 'assets/util'
 import histogram from 'assets/histogram'
 import { mapMutations } from 'vuex'
 
@@ -277,6 +244,7 @@ export default {
       ctxMain: null,
       finalView8: null,
       finalView32: null,
+      finalView64: null,
       originalChannels: [],
       channelsResult: null,
       channelControls: {
@@ -284,10 +252,8 @@ export default {
         names: ['histR', 'histG', 'histB'],
         blackCount: [0, 0, 0],
         whiteCount: [0, 0, 0],
-        shift: [{ value: 0 }, { value: 0 }, { value: 0 }],
-        shiftAutoClip: 0,
-        spread: [{ value: 0 }, { value: 0 }, { value: 0 }],
-        spreadAutoClip: 0
+        newMidPoint: [{ value: 127 }, { value: 127 }, { value: 127 }],
+        spreadClip: [{ value: [0, 255] }, { value: [0, 255] }, { value: [0, 255] }]
       }
     }
   },
@@ -372,60 +338,35 @@ export default {
     },
     processModifiers () {
       // Cache
-      // eslint-disable-next-line no-unreachable
-      const width = this.canvasMain.width
-      const height = this.canvasMain.height
       const finalView32 = this.finalView32
-      const shiftR = this.channelControls.shift[0].value
-      const shiftG = this.channelControls.shift[1].value
-      const shiftB = this.channelControls.shift[2].value
-      const spreadR = this.channelControls.spread[0].value
-      const spreadG = this.channelControls.spread[1].value
-      const spreadB = this.channelControls.spread[2].value
+      const newMidPoint = this.channelControls.newMidPoint.map(a => a.value)
+      const spreadClip = this.channelControls.spreadClip.map(a => a.value)
+      const channels = this.originalChannels.map(a => new Uint8ClampedArray(a))
 
-      const channelR = new Uint8ClampedArray(this.originalChannels[0])
-      const channelG = new Uint8ClampedArray(this.originalChannels[1])
-      const channelB = new Uint8ClampedArray(this.originalChannels[2])
-      const channelLength = channelR.length
-
-      // Shift
-      if (shiftR !== 0) {
-        histogram.shiftChannel(channelR, shiftR)
-      }
-      if (shiftG !== 0) {
-        histogram.shiftChannel(channelG, shiftG)
-      }
-      if (shiftB !== 0) {
-        histogram.shiftChannel(channelB, shiftB)
-      }
-
-      // Spread
-      if (spreadR !== 0) {
-        histogram.spread(channelR, spreadR)
-      }
-      if (spreadG !== 0) {
-        histogram.spread(channelG, spreadG)
-      }
-      if (spreadB !== 0) {
-        histogram.spread(channelB, spreadB)
+      const channelLength = channels[0].length
+      for (let i = 0; i < 3; i++) {
+        // Spread
+        histogram.spread(channels[i], spreadClip[i][0], spreadClip[i][1])
+        // Recenter
+        // histogram.changeCenter(channels[i], newMidPoint[i])
       }
 
       // Combine channels
       for (let i = 0; i < channelLength; i++) {
         finalView32[i] =
-        (255 << 24) | // alpha
-        (channelB[i] << 16) | // blue
-        (channelG[i] << 8) | // green
-          channelR[i] // red
+        (0b11111111000000000000000000000000) | // alpha 255 << 24
+        (channels[2][i] << 16) | // blue
+        (channels[1][i] << 8) | // green
+          channels[0][i] // red
       }
-      this.updateCanvas(width, height)
+      this.updateCanvas()
       this.updateHistograms()
     },
     onValueChangeChannel () {
       this.processModifiers()
     },
-    updateCanvas (width, height) {
-      const imageData = this.ctxMain.getImageData(0, 0, width, height)
+    updateCanvas () {
+      const imageData = this.ctxMain.getImageData(0, 0, this.canvasMain.width, this.canvasMain.height)
       imageData.data.set(this.finalView8)
       this.ctxMain.putImageData(imageData, 0, 0)
     },
@@ -442,35 +383,20 @@ export default {
         histogram.drawHistogram(this.histograms[i], histdata[i])
       }
     },
+    changeSliderClip (index) {
+      this.onValueChangeChannel()
+    },
     clickAutoChannels () {
-      // Cache
-      const width = this.canvasMain.width
-      const height = this.canvasMain.height
-      const finalView32 = this.finalView32
-      const channelR = new Uint8ClampedArray(this.originalChannels[0])
-      const channelG = new Uint8ClampedArray(this.originalChannels[1])
-      const channelB = new Uint8ClampedArray(this.originalChannels[2])
-
-      const shiftAutoClip = this.channelControls.shiftAutoClip
-      const [shiftR, leftR, rightR, gapR] = histogram.getShiftAuto(channelR, shiftAutoClip)
-      const [shiftG, leftG, rightG, gapG] = histogram.getShiftAuto(channelG, shiftAutoClip)
-      const [shiftB, leftB, rightB, gapB] = histogram.getShiftAuto(channelB, shiftAutoClip)
-
-      this.channelControls.shift[0].value = shiftR
-      this.channelControls.shift[1].value = shiftG
-      this.channelControls.shift[2].value = shiftB
-
-      this.channelControls.spread[0].value = histogram.getSpreadAuto(gapR)
-      this.channelControls.spread[1].value = histogram.getSpreadAuto(gapG)
-      this.channelControls.spread[2].value = histogram.getSpreadAuto(gapB)
-
-      // console.log(this.channelControls.shift[0].value, this.channelControls.shift[1].value, this.channelControls.shift[2].value)
+      const limit = Math.round(this.width * this.height * 0.001)
+      for (let i = 0; i < 3; i++) {
+        this.channelControls.spreadClip[i].value = histogram.getAutoClips(this.originalChannels[i], limit)
+      }
       this.onValueChangeChannel()
     },
     clickResetChannels () {
       for (let i = 0; i < 3; i++) {
-        this.channelControls.shift[i].value = 0
-        this.channelControls.spread[i].value = 0
+        this.channelControls.spreadClip[i].value = [0, 255]
+        // this.channelControls.newMidPoint[i].value = 127
       }
       this.onValueChangeChannel()
     },
