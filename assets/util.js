@@ -12,11 +12,24 @@ const util = {
   findPercentage (number, a, b) {
     return (number - a) / (b - a)
   },
+  findPercentageClamped (number, a, b) {
+    const result = (number - a) / (b - a)
+    if (result <= 0) {
+      return 0
+    }
+    if (result >= 1) {
+      return 1
+    }
+    return result
+  },
   lerp (a, b, f) {
-    // const x = 20
-    // const y = 80
-    // return 0
     return (a * (1.0 - f)) + (b * f)
+  },
+  slerp (a, b, t) {
+    Math.sin((1 - t) * Math.pi)
+  },
+  getArrayIndexFrom2dPos (x, y, width) {
+    return width * y + x
   },
   maxInArray (array) {
     let max = array[0]
@@ -92,6 +105,40 @@ const util = {
       strength = 1
     }
     return util.clamp(Math.abs(strength), 0, 1)
+  },
+  degrees_to_radians (degrees) {
+    const pi = Math.PI
+    return degrees * (pi / 180)
+  },
+  radians_to_degrees (radians) {
+    const pi = Math.PI
+    return radians * (180 / pi)
+  },
+  getCircleY (radians, radius) {
+    return Math.sin(radians) * radius
+  },
+  exportArray (array) {
+    const len = array.length
+    let text = '['
+    for (let i = 0; i < len; i++) {
+      text += array[i]
+      if (i < 256 - 1) {
+        text += ', '
+      }
+    }
+    text += ']'
+    console.log(text)
+  },
+  exportArrayIndexed (array) {
+    const len = array.length
+    let text = ''
+    for (let i = 0; i < len; i++) {
+      text += '[' + i + ', ' + array[i] + ']'
+      if (i < 256 - 1) {
+        text += ', '
+      }
+    }
+    console.log(text)
   }
 }
 

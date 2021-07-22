@@ -23,7 +23,7 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
   /*
@@ -50,6 +50,7 @@ export default {
     '@nuxtjs/vuetify'
   ],
   vuetify: {
+    customVariables: ['~/assets/scss/variables.scss'],
     theme: {
       light: false,
       dark: false
