@@ -117,6 +117,38 @@ const util = {
   getCircleY (radians, radius) {
     return Math.sin(radians) * radius
   },
+  mean (array) {
+    const len = array.length
+    let sum = 0
+    for (let i = 0; i < len; i++) {
+      sum += array[i]
+    }
+    return sum / len
+  },
+  rangedMean (array, levels) {
+    const levelLen = levels.length
+    const means = Array(levelLen)
+    const sums = Array(levelLen)
+    const counts = Array(levelLen)
+    for (let i = 0; i < levelLen; i++) {
+      sums[i] = 0
+      counts[i] = 0
+    }
+    const len = array.length
+    for (let i = 0; i < len; i++) {
+      for (let j = 0; j < levelLen; j++) {
+        if (array[i] < levels[j][1]) {
+          sums[j] += array[i]
+          counts[j]++
+          break
+        }
+      }
+    }
+    for (let i = 0; i < levelLen; i++) {
+      means[i] = sums[i] / counts[i]
+    }
+    return means
+  },
   exportArray (array) {
     const len = array.length
     let text = '['
