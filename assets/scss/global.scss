@@ -1,3 +1,10 @@
+.d-one {
+  width: 0px !important;
+  height: 0px !important;
+  padding: unset;
+  margin: 0 !important;
+  // overflow: hidden;
+}
 .h-100-v {
   height: 100vh;
 }
@@ -39,6 +46,16 @@
   background-color: black;
 }
 
+#canvasContainer::-webkit-scrollbar {
+  width: auto;
+}
+#canvasContainer::-webkit-scrollbar-track {
+  background: hsl(0, 0%, 20%);
+}
+#canvasContainer::-webkit-scrollbar-thumb {
+  background: #616161;
+}
+
 @for $i from 1 to 101 {
   $number: percentage($i / 100);
   .h-#{$i}-p {
@@ -53,8 +70,4 @@
   .mw-#{$i}-p {
     max-width: $number !important;
   }
-}
-body {
-  overflow-y: hidden;
-  overflow-x: hidden;
 }

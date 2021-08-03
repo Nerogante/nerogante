@@ -1,14 +1,47 @@
 <template>
-  <!-- App container -->
-  <v-row no-gutters class="h-100-v grey darken-4">
-    <!-- Left Side -->
-    <v-col class="full-height">
-      <!-- Hidden inputs -->
-      <input v-show="false" ref="imageInput" type="file" accepts="image/*" @change="loadImage">
+  <!-- Root -->
+  <div class="">
+    <!-- App container -->
+    <v-row no-gutters class="grey darken-4 app-container">
       <!-- Top menu -->
-      <v-sheet class="d-flex" color="transparent">
-        <div class="mx-10" />
-        <v-menu v-for="(menu, index) of menus" :key="index" offset-y tile>
+      <v-app-bar
+        dark
+        dense
+        class="pl-15 appbar"
+        color=""
+      >
+        <v-btn @click="clickOpenImage">
+          <v-icon left>mdi-upload</v-icon>
+          Open
+        </v-btn>
+        <v-spacer />
+        <v-btn icon :color="switches.histograms ? 'green accent-4' : 'white'" @click="switches.histograms = !switches.histograms">
+          <v-icon>mdi-chart-histogram</v-icon>
+        </v-btn>
+        <v-menu
+          offset-y
+          :close-on-content-click="false"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list dense dark>
+            <v-list-item @click="clickExportImage">
+              <v-list-item-title>
+                <v-icon left>mdi-content-save</v-icon>
+                Save Image
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <!-- <v-menu v-for="(menu, index) of menus" :key="index" offset-y tile>
           <template #activator="{ on, attrs }">
             <v-btn
               color="secondary"
@@ -35,264 +68,267 @@
               </v-list-item-title>
             </v-list-item>
           </v-list>
-        </v-menu>
-      </v-sheet>
-      <!-- End top menu -->
+        </v-menu> -->
+      </v-app-bar>
+      <!--              End top menu -->
 
-      <!-- Working area and sidebar -->
-      <v-row no-gutters class="h-95-p full-width" dense justify="center" align="stretch">
-        <!-- Histograms -->
-        <v-col cols="auto" class="pa-5 mt-0 white--text" align-self="center">
-          <template v-for="(value, index) in ['#D32F2F', '#388E3C', '#1976D2']">
-            <v-col :key="index" cols="auto" class="px-0 pt-0">
-              <h6 class="text-caption">
-                {{ channelControls.titles[index] }}
-              </h6>
-              <v-col sm="auto" class="pa-0">
-                <div
-                  :style="{
-                    width: histogramsLevels.black[index] + '%',
-                    height: '.5rem',
-                    backgroundColor: value
-                  }"
-                />
-                <canvas :ref="channelControls.names[index]" width="256" height="100" class="secondary darken-2" />
-                <div
-                  :style="{
-                    width: histogramsLevels.white[index] + '%',
-                    height: '.5rem',
-                    backgroundColor: value
-                  }"
-                />
-                <!-- <v-range-slider
-                  v-model="channelControls.spreadClip[index].value"
-                  min="0"
-                  max="255"
-                  thumb-color="blue"
-                  thumb-label=""
-                  hide-details
-                  height="1rem"
-                  @input="changeSliderClip(index)"
-                /> -->
-              </v-col>
-              <!-- BW Info -->
-              <!-- <v-col cols="auto" class="pa-0">
-                <v-row justify="space-between" align="center">
-                  <v-col cols="" class="grey--text text--lighten-2">
-                    <small>{{ channelControls.blackCount[index].toLocaleString() }}</small>
-                  </v-col>
-                  <v-col cols="" class="text-right grey--text text--lighten-2">
-                    <small>{{ channelControls.whiteCount[index].toLocaleString() }}</small>
-                  </v-col>
-                </v-row>
-              </v-col> -->
-              <!--  -->
-            </v-col>
-          </template>
-        </v-col>
-        <!-- Window -->
-        <v-col class="full-height purple">
-          <div id="viewportContainer" sm="" class="grey darken-4 h-100-p d-flex justify-center align-center overflow-scroll pa-4" @wheel="viewportZoom">
-            <canvas
-              ref="mainCanvas"
-              width="0"
-              height="0"
-              class="mw-100-p mh-100-p"
+      <!-- Histograms -->
+      <v-sheet
+        elevation="2"
+        class="white--text justify-center justify-md-start align-center histograms"
+        :class="switches.histograms ? 'd-flex flex-md-column flex-row px-2' : 'd-one'"
+      >
+        <div class="d-none">
+          <h6 class="text-caption">
+            RGB
+          </h6>
+          <div
+            :style="{
+              width: 0 + '%',
+              height: '.5rem'
+            }"
+          />
+          <div class="d-flex justify-center align-center">
+            <canvas ref="histogramRGB" width="256" height="100" class="secondary darken-2" />
+          </div>
+          <div
+            :style="{
+              width: 0 + '%',
+              height: '.5rem'
+            }"
+          />
+        </div>
+        <div v-for="(value, index) in ['#D32F2F', '#388E3C', '#1976D2']" :key="index" class="d-flex justify-center align-center mx-1 my-2">
+          <canvas :ref="channelControls.names[index]" width="256" height="100" class="secondary darken-2 h-100-p w-100-p" />
+
+          <!-- <h6 class="text-caption">
+            {{ channelControls.titles[index] }}
+          </h6> -->
+          <!-- <v-col sm="auto" class="pa-0">
+            <div
               :style="{
-                //position: 'absolute',
-                //left: '0%',
-                //top: '0%',
-                transform: 'scale(' + zoom + ') translate(0%, 0%)'
+                width: histogramsLevels.black[index] + '%',
+                height: '.5rem',
+                backgroundColor: value
               }"
             />
-          </div>
-        </v-col>
-      </v-row>
-      <!-- Info Bar -->
-      <!-- <v-row no-gutters justify="space-between" align="center" class="white--text h-4-p ma-0 pa-0">
-        <v-col sm="auto">
-          <div class="text-caption">
-            {{ width }} x {{ height }} pixels
-          </div>
-        </v-col>
-        <v-col sm="auto">
-          <div class="text-caption">
-            Zoom: {{ zoomPercent }}
-          </div>
-        </v-col>
-      </v-row> -->
+            <div
+              :style="{
+                width: histogramsLevels.white[index] + '%',
+                height: '.5rem',
+                backgroundColor: value
+              }"
+            />
+          </v-col> -->
+        <!-- BW Info -->
+        <!-- <v-col cols="auto" class="pa-0">
+          <v-row justify="space-between" align="center">
+            <v-col cols="" class="grey--text text--lighten-2">
+              <small>{{ channelControls.blackCount[index].toLocaleString() }}</small>
+            </v-col>
+            <v-col cols="" class="text-right grey--text text--lighten-2">
+              <small>{{ channelControls.whiteCount[index].toLocaleString() }}</small>
+            </v-col>
+          </v-row>
+        </v-col> -->
+        <!--  -->
+        </div>
+      </v-sheet>
       <!--  -->
-    </v-col>
-    <!--  -->
-    <!-- Right Window Sidebar -->
-    <v-col v-show="sidebarOpen" cols="auto" class="full-height secondary px-3">
-      <div class="d-flex flex-column full-height">
-        <v-row no-gutters justify="center" class="py-3 pr-3">
-          <v-col cols="" class="">
-            <canvas ref="histogramRGB" width="256" height="100" class="grey darken-4 w-100-p" />
-          </v-col>
-        </v-row>
-        <!-- Adjustments -->
-        <v-row no-gutters class="full-height pb-3 overflow-y-scroll scrollbar-dense" justify="center" align="stretch">
-          <v-col cols="auto" class="">
-            <div class="medidor" />
-            <!-- Hidden expander -->
-            <v-expansion-panels
-              dark
-              hover
-              accordion
-              multiple
-              :disabled="!channelControlsEnabled"
-              class="d-block"
-            >
-              <!-- Channel Spread -->
-              <v-expansion-panel>
-                <v-expansion-panel-header color="secondary darken-1">
-                  Levels
-                </v-expansion-panel-header>
-                <v-expansion-panel-content eager color="secondary" class="pt-3">
-                  <v-row no-gutters justify="center">
-                    <v-col cols="">
-                      <v-col cols="12" class="px-0">
-                        <v-slider
-                          v-model="controls.levels.limit"
-                          dense
-                          min="0"
-                          max="20"
-                          thumb-label="always"
-                          :thumb-size="24"
-                          thumb-color="deep-orange darken-1"
-                          hint="Level Limit"
-                          persistent-hint
-                          append-icon="mdi-plus"
-                          prepend-icon="mdi-minus"
-                          @click:append="clickAddlevelsLimit(1)"
-                          @click:prepend="clickAddlevelsLimit(-1)"
-                          @input="inputLevels()"
-                        />
-                        <v-switch
-                          v-model="controls.levels.keepBalance"
-                          label="Keep Balance"
-                          hide-details
-                          dense
-                          @click="inputLevels()"
-                        />
-                      </v-col>
-                    </v-col>
-                  </v-row>
-                  <div class="d-flex justify-end">
-                    <!-- <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoChannels">
-                      auto
-                    </v-btn> -->
-                    <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="resetLevels()">
-                      reset
-                    </v-btn>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <!--  -->
-              <!-- Color Balance -->
-              <v-expansion-panel>
-                <v-expansion-panel-header color="secondary darken-1">
-                  Color Balance
-                </v-expansion-panel-header>
-                <v-expansion-panel-content eager color="secondary" class="pt-3">
-                  <div class="d-flex justify-space-between">
-                    <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoBalance">
-                      auto
-                    </v-btn>
-                    <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickResetColorBalance">
-                      reset
-                    </v-btn>
-                  </div>
-                  <v-row no-gutters>
-                    <v-col class="gradient-track">
-                      <template v-for="(color, index) in ['red', 'green', 'blue']">
-                        <v-col :key="index" cols="12" :class="'px-0 g-' + color">
-                          <h6 class="text-caption">
-                            {{ channelControls.titles[index] }}
-                          </h6>
-                          <v-slider
-                            v-model="colorBalanceControls.colorBalance[index].value"
-                            min="-128"
-                            max="128"
-                            thumb-color="grey"
-                            thumb-label=""
-                            hide-details
-                            height="1rem"
-                            color="transparent"
-                            @input="changeSliderColorBalance(index)"
-                          />
-                        </v-col>
-                      </template>
-                    </v-col>
-                  </v-row>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <!--  -->
-              <!-- Intensity -->
-              <v-expansion-panel>
-                <v-expansion-panel-header color="secondary darken-1">
-                  Intensity
-                </v-expansion-panel-header>
-                <v-expansion-panel-content eager color="secondary" class="pt-3">
-                  <div class="d-flex justify-space-between">
-                    <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoIntensity">
-                      auto
-                    </v-btn>
-                    <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickResetIntensity">
-                      reset
-                    </v-btn>
-                  </div>
-                  <v-row no-gutters>
-                    <v-col class="">
-                      <template v-for="(value, index) in ['Mids', 'Darks', 'Lights', 'Blacks', 'Whites']">
-                        <v-col :key="index" cols="12" class="px-0">
-                          <h6 class="text-caption">
-                            {{ value }}
-                          </h6>
-                          <v-slider
-                            v-model="intensityControls[index].value"
-                            min="-100"
-                            max="100"
-                            thumb-color="grey"
-                            thumb-label=""
-                            hide-details
-                            height="1rem"
-                            color=""
-                            @input="changeSliderIntensity(index)"
-                          />
-                        </v-col>
-                      </template>
 
-                      <v-col cols="12" class="px-0">
-                        <h6 class="text-caption">
-                          HE
-                        </h6>
-                        <v-slider
-                          v-model="controls.levels.adaptativeSpread.value"
-                          min="0"
-                          max="100"
-                          thumb-color="grey"
-                          thumb-label=""
-                          hide-details
-                          height="1rem"
-                          color=""
-                          @input="changeSliderIntensity(0)"
-                        />
-                      </v-col>
-                    </v-col>
-                  </v-row>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <!--  -->
-            </v-expansion-panels>
-          </v-col>
-        </v-row>
+      <!-- Window -->
+      <div
+        id="canvasContainer"
+        cols=""
+        class="overflow-hidden mh-100-p mw-100-p"
+        @wheel="viewportZoom"
+        @mousedown="canvasMouseDown"
+        @mousemove="canvasMouseMove"
+        @mouseleave="canvasMouseLeave"
+        @mouseup="canvasMouseUp"
+        @mouseout="canvasMouseOut"
+        @dblclick="canvasDoubleClick"
+        @resize="canvasContainerResize"
+      >
+        <canvas
+          ref="mainCanvas"
+          width="0"
+          height="0"
+          class="work-canvas"
+          :style="{
+            //position: 'absolute',
+            //left: '0%',
+            //top: '0%',
+            transform: 'scale(' + zoom + ') translate(' + offsetX + 'px, ' + offsetY + 'px)'
+          }"
+        />
+        <!-- <div id="canvasContainer" sm="" class="mw-100-p mh-100-p">
+        </div> -->
       </div>
-    </v-col>
-  <!--  -->
-  </v-row>
+      <!--          End Window -->
+
+      <!-- Adjustments Sidebar -->
+      <v-sheet cols="auto" class="mh-100-p d-flex flex-column justify-start adjustments">
+        <!-- Tabs container -->
+        <div class="d-flex flex-column flex-md-column-reverse">
+          <v-tabs-items v-model="adjustmentTabs" dark style="overflow: visible;" class="transparent pt-md-10">
+            <v-tab-item value="tab-1" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
+              <v-col cols="12">
+                <v-slider
+                  v-model="controls.levels.limit"
+                  dense
+                  min="0"
+                  max="20"
+                  thumb-label="always"
+                  thumb-size=""
+                  hide-details=""
+                  thumb-color="blue darken-3"
+                  append-icon="mdi-plus"
+                  prepend-icon="mdi-minus"
+                  @click:append="clickAddlevelsLimit(1)"
+                  @click:prepend="clickAddlevelsLimit(-1)"
+                  @input="inputLevels()"
+                />
+                <v-checkbox
+                  v-model="controls.levels.keepBalance"
+                  label="Keep Balance"
+                  color="blue"
+                  hide-details
+                  dense
+                  @click="inputLevels()"
+                />
+                <div class="d-flex justify-end">
+                  <!-- <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoChannels">
+                  auto
+                </v-btn> -->
+                  <v-btn icon dark :disabled="!channelControlsEnabled" @click="clickResetSpread">
+                    <v-icon>mdi-undo-variant</v-icon>
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-tab-item>
+            <!--  -->
+
+            <!-- Balance -->
+            <v-tab-item value="tab-2" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
+              <v-col class="gradient-track">
+                <template v-for="(color, index) in ['red', 'green', 'blue']">
+                  <v-col :key="index" cols="" :class="'px-0 g-' + color">
+                    <h6 class="text-caption">
+                      {{ channelControls.titles[index] }}
+                    </h6>
+                    <v-slider
+                      v-model="colorBalanceControls.colorBalance[index].value"
+                      min="-128"
+                      max="128"
+                      thumb-color="grey"
+                      thumb-label=""
+                      hide-details
+                      height="1rem"
+                      color="transparent"
+                      @input="changeSliderColorBalance(index)"
+                    />
+                    <!-- <v-range-slider
+                      v-model="channelControls.spreadClip[index].value"
+                      min="0"
+                      max="255"
+                      thumb-color="blue"
+                      thumb-label=""
+                      hide-details
+                      height="1rem"
+                      @input="changeSliderClip(index)"
+                    /> -->
+                  </v-col>
+                </template>
+              </v-col>
+            </v-tab-item>
+            <!--  -->
+
+            <!-- Intensity -->
+            <v-tab-item value="tab-3" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
+              <div class="d-flex justify-space-between">
+                <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoIntensity">
+                  auto
+                </v-btn>
+                <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickResetIntensity">
+                  reset
+                </v-btn>
+              </div>
+              <v-row no-gutters>
+                <v-col class="">
+                  <template v-for="(value, index) in ['Mids', 'Darks', 'Lights', 'Blacks', 'Whites']">
+                    <v-col :key="index" cols="12" class="px-0">
+                      <h6 class="text-caption">
+                        {{ value }}
+                      </h6>
+                      <v-slider
+                        v-model="intensityControls[index].value"
+                        min="-100"
+                        max="100"
+                        thumb-color="grey"
+                        thumb-label=""
+                        hide-details
+                        height="1rem"
+                        color=""
+                        @input="changeSliderIntensity(index)"
+                      />
+                    </v-col>
+                  </template>
+
+                  <v-col cols="12" class="px-0">
+                    <h6 class="text-caption">
+                      HE
+                    </h6>
+                    <v-slider
+                      v-model="controls.levels.adaptativeSpread.value"
+                      min="0"
+                      max="100"
+                      thumb-color="grey"
+                      thumb-label=""
+                      hide-details
+                      height="1rem"
+                      color=""
+                      @input="changeSliderIntensity(0)"
+                    />
+                  </v-col>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+          </v-tabs-items>
+          <v-tabs
+            v-model="adjustmentTabs"
+            background-color="transparent"
+            centered
+            icons-and-text
+            dark
+            height=""
+          >
+            <!-- <v-tabs-slider /> -->
+            <v-tab href="#tab-1" :disabled="!imageLoaded">
+              Spread
+              <v-icon>mdi-chart-bar</v-icon>
+            </v-tab>
+            <v-tab href="#tab-2" :disabled="!imageLoaded">
+              Balance
+              <v-icon>mdi-palette</v-icon>
+            </v-tab>
+            <v-tab href="#tab-3" :disabled="!imageLoaded">
+              Levels
+              <v-icon>mdi-chart-bell-curve</v-icon>
+            </v-tab>
+          </v-tabs>
+        </div>
+      </v-sheet>
+      <!--  -->
+
+      <v-footer class="footer d-none d-md-block" dark>
+        olap
+      </v-footer>
+    </v-row>
+    <!-- <p>Ola ke tal</p> -->
+    <!-- Hidden inputs -->
+    <input v-show="false" ref="imageInput" type="file" accepts="image/*" @change="loadImage">
+  </div>
 </template>
 
 <script>
@@ -330,7 +366,17 @@ export default {
           ]
         }
       ],
+      switches: {
+        histograms: true
+      },
+      imageLoaded: false,
       documentName: 'Untitled',
+      adjustmentTabs: null,
+      tabsTransition: 'a',
+      pressing: false,
+      startPosition: [0, 0],
+      offsetX: 0,
+      offsetY: 0,
       zoom: 1,
       width: 0,
       height: 0,
@@ -423,6 +469,9 @@ export default {
     clickOpenImage () {
       this.$refs.imageInput.click()
     },
+    clickExportImage () {
+      console.log('Export Image')
+    },
     loadImage () {
       if (this.$refs.imageInput.files.length === 0) {
         return
@@ -434,8 +483,8 @@ export default {
       img.src = URL.createObjectURL(file)
 
       img.onload = () => {
-        // const viewportHeight = document.getElementById('viewportContainer').clientHeight
-        // const viewportWidth = document.getElementById('viewportContainer').clientWidth
+        // const viewportHeight = document.getElementById('canvasContainer').clientHeight
+        // const viewportWidth = document.getElementById('canvasContainer').clientWidth
 
         // const factorHeight = viewportHeight / img.naturalHeight
         // const factorWidth = viewportWidth / img.naturalWidth
@@ -452,6 +501,7 @@ export default {
         this.canvasMain.height = img.naturalHeight
         this.width = img.naturalWidth
         this.height = img.naturalHeight
+        this.canvasContainerResize()
         this.ctxMain.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight)
         this.imageData = this.ctxMain.getImageData(0, 0, this.canvasMain.width, this.canvasMain.height)
         this.originalChannels = histogram.separateChannels(this.imageData.data)
@@ -462,6 +512,7 @@ export default {
         this.previewView8 = new Uint8ClampedArray(this.imageData.data)
         this.previewView32 = new Uint32Array(this.previewView8.buffer)
         this.originalCounts = this.originalChannels.map(chan => histogram.getCount(chan))
+        this.imageLoaded = true
         this.updateHistograms()
       }
     },
@@ -738,11 +789,10 @@ export default {
     clickAutoIntensity () {
 
     },
-    clickResetChannels () {
-      for (let i = 0; i < 3; i++) {
-        this.channelControls.spreadClip[i].value = [0, 255]
-      }
-      this.onValueChangeChannel()
+    clickResetSpread () {
+      this.controls.levels.keepBalance = false
+      this.controls.levels.limit = 0
+      this.inputLevels()
     },
     clickResetColorBalance () {
       for (let i = 0; i < 3; i++) {
@@ -844,19 +894,59 @@ export default {
       util.exportArray(factorLOL())
     },
     viewportZoom (e) {
-      if (e.altKey) {
-        e.preventDefault()
-        let wheelDirection = e.deltaY < 0 ? 1 : -1
-        const zoomAmount = 0.1
-        // alert(wheelDirection)
-        if (wheelDirection === -1) {
-          // alert(this.zoom)
-          if (this.zoom + wheelDirection * zoomAmount <= 0) {
-            wheelDirection = 0
-          }
+      e.preventDefault()
+      let wheelDirection = e.deltaY < 0 ? 1 : -1
+      const zoomAmount = 0.1
+      // alert(wheelDirection)
+      if (wheelDirection === -1) {
+        // alert(this.zoom)
+        if (this.zoom + wheelDirection * zoomAmount <= 0) {
+          wheelDirection = 0
         }
-        this.zoom += wheelDirection * zoomAmount
       }
+      this.zoom += wheelDirection * zoomAmount
+    },
+    canvasMouseDown (e) {
+      this.pressing = true
+      const startX = (e.screenX / this.zoom) - this.offsetX
+      const startY = (e.screenY / this.zoom) - this.offsetY
+      this.startPosition = [startX, startY]
+    },
+    canvasMouseMove (e) {
+      if (this.pressing) {
+        const newX = (e.screenX / this.zoom) - this.startPosition[0]
+        const newY = (e.screenY / this.zoom) - this.startPosition[1]
+        this.offsetX = newX
+        this.offsetY = newY
+      }
+    },
+    canvasMouseLeave (e) {
+      this.pressing = false
+    },
+    canvasMouseUp (e) {
+      this.pressing = false
+    },
+    canvasMouseOut (e) {
+      this.pressing = false
+    },
+    canvasDoubleClick (e) {
+      this.zoom = 1
+      this.offsetX = 0
+      this.offsetY = 0
+    },
+    canvasContainerResize () {
+      const container = document.getElementById('canvasContainer')
+      const containerRatio = container.clientHeight / container.clientWidth
+      const imgRatio = this.height / this.width
+
+      if (containerRatio >= imgRatio) {
+        this.canvasMain.style.width = '100%'
+        this.canvasMain.style.height = 'unset'
+      } else {
+        this.canvasMain.style.width = 'unset'
+        this.canvasMain.style.height = '100%'
+      }
+      console.log(containerRatio, imgRatio)
     },
     hardReset () {
       this.clickResetChannels()
@@ -874,14 +964,17 @@ export default {
 </script>
 
 <style scoped>
-#viewportContainer::-webkit-scrollbar {
-  width: auto;
+.app-container {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-columns: 1fr;
 }
-#viewportContainer::-webkit-scrollbar-track {
-  background: hsl(0, 0%, 20%);
+.histograms {
+  background-color: #272727 !important;
 }
-#viewportContainer::-webkit-scrollbar-thumb {
-  background: #616161;
+.adjustments {
+  background-color: #272727 !important;
 }
 canvas {
   image-rendering: -moz-crisp-edges;
@@ -889,6 +982,21 @@ canvas {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   display: block;
+}
+#canvasContainer {
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 100%;
+  align-items: center;
+  justify-items: center;
+}
+.work-canvas {
+  object-fit: contain;
+  grid-column: 1;
+  grid-row: 1;
+}
+.work-canvas:hover {
+  cursor: pointer;
 }
 .v-expansion-panel-header {
   min-height: unset;
@@ -909,6 +1017,32 @@ canvas {
 }
 .gradient-track .g-blue >>> .v-slider__track-container {
   background: linear-gradient(90deg, rgba(255,255,0,1) 0%, rgba(0,0,255,1) 100%);
+}
+@media screen and (orientation: landscape) {
+  .app-container {
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto 1fr auto;
+  }
+  .appbar {
+    grid-column: 1 / 4;
+    grid-row: 1;
+  }
+  .histograms {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+  }
+  #canvasContainer {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+  }
+  .adjustments {
+    grid-row: 2 / 3;
+    grid-column: 3 / 4;
+  }
+  .footer {
+    grid-row: 3 / 4;
+    grid-column: 1 / 4;
+  }
 }
 </style>
 <style>

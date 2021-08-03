@@ -1,8 +1,7 @@
 <template>
   <div>
     <v-app-bar
-      :app="app"
-      :fixed="fixed"
+      fixed
       flat
       dark
       dense
@@ -27,15 +26,26 @@
         :key="link.title"
         :to="link.route"
         text
-        class="head-link text-decoration-none mx-3 d-none d-md-flex font-weight-bold white--text"
+        class="d-none d-md-block head-link text-decoration-none mx-3 font-weight-bold white--text"
         active-class="selected-link"
         link
         nuxt
       >
-        <span class="">
-          {{ link.title }}
-        </span>
+        {{ link.title }}
       </router-link>
+
+      <v-btn
+        v-for="link of links"
+        :key="link.icon"
+        :to="link.route"
+        icon
+        nuxt
+        link
+        class="d-md-none"
+        active-class="green--text"
+      >
+        <v-icon>{{ link.icon }}</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-app-bar
       flat
@@ -43,7 +53,7 @@
       fixed
       dense
       style="right: unset"
-      color="black"
+      color="transparent"
     >
       <v-btn
         fab
@@ -52,6 +62,7 @@
         @click="toggleAppbar"
       >
         <v-avatar>
+          <!-- <img class="pa-2" :src="!hidden ?'/logo_white.png' : '/logo_color.png'" alt="favicon"> -->
           <img class="pa-2" src="/logo_color.png" alt="favicon">
         </v-avatar>
         <!-- <v-icon color="red">
@@ -71,15 +82,18 @@ export default {
       links: [
         {
           title: 'Games',
-          route: '/games'
+          route: '/games',
+          icon: 'mdi-gamepad-round-right'
         },
         {
           title: 'Web Apps',
-          route: '/app'
+          route: '/app',
+          icon: 'mdi-tools'
         },
         {
           title: 'Donate',
-          route: '/donate'
+          route: '/donate',
+          icon: 'mdi-gift'
         }
       ],
       menuItems: [
