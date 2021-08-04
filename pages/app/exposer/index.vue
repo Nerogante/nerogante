@@ -11,7 +11,9 @@
         color=""
       >
         <v-btn @click="clickOpenImage">
-          <v-icon left>mdi-upload</v-icon>
+          <v-icon left>
+            mdi-upload
+          </v-icon>
           Open
         </v-btn>
         <v-spacer />
@@ -22,7 +24,7 @@
           offset-y
           :close-on-content-click="false"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn
               icon
               v-bind="attrs"
@@ -35,7 +37,9 @@
           <v-list dense dark>
             <v-list-item @click="clickExportImage">
               <v-list-item-title>
-                <v-icon left>mdi-content-save</v-icon>
+                <v-icon left>
+                  mdi-content-save
+                </v-icon>
                 Save Image
               </v-list-item-title>
             </v-list-item>
@@ -140,7 +144,7 @@
       <div
         id="canvasContainer"
         cols=""
-        class="overflow-hidden mh-100-p mw-100-p"
+        class="overflow-hidden mh-100-p mw-100-p pa-2"
         @wheel="viewportZoom"
         @mousedown="canvasMouseDown"
         @mousemove="canvasMouseMove"
@@ -172,10 +176,11 @@
         <!-- Tabs container -->
         <div class="d-flex flex-column flex-md-column-reverse">
           <v-tabs-items v-model="adjustmentTabs" dark style="overflow: visible;" class="transparent pt-md-10">
+            <!-- Spread -->
             <v-tab-item value="tab-1" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
               <v-col cols="12">
                 <v-slider
-                  v-model="controls.levels.limit"
+                  v-model="controls.spread.limit"
                   dense
                   min="0"
                   max="20"
@@ -185,24 +190,26 @@
                   thumb-color="blue darken-3"
                   append-icon="mdi-plus"
                   prepend-icon="mdi-minus"
-                  @click:append="clickAddlevelsLimit(1)"
-                  @click:prepend="clickAddlevelsLimit(-1)"
-                  @input="inputLevels()"
+                  @click:append="clickAddSpreadLimit(1)"
+                  @click:prepend="clickAddSpreadLimit(-1)"
+                  @input="inputSpread()"
                 />
                 <v-checkbox
-                  v-model="controls.levels.keepBalance"
+                  v-model="controls.spread.keepBalance"
                   label="Keep Balance"
                   color="blue"
                   hide-details
                   dense
-                  @click="inputLevels()"
+                  @click="inputSpread()"
                 />
-                <div class="d-flex justify-end">
-                  <!-- <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoChannels">
-                  auto
-                </v-btn> -->
-                  <v-btn icon dark :disabled="!channelControlsEnabled" @click="clickResetSpread">
-                    <v-icon>mdi-undo-variant</v-icon>
+                <div class="d-flex justify-end pt-2">
+                  <!-- <v-btn dark :disabled="!channelControlsEnabled" @click="clickApplySpread">
+                    <v-icon left>mdi-check</v-icon>
+                    Apply
+                  </v-btn> -->
+                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetSpread">
+                    <v-icon left>mdi-undo-variant</v-icon>
+                    Reset
                   </v-btn>
                 </div>
               </v-col>
@@ -211,35 +218,32 @@
 
             <!-- Balance -->
             <v-tab-item value="tab-2" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
-              <v-col class="gradient-track">
-                <template v-for="(color, index) in ['red', 'green', 'blue']">
-                  <v-col :key="index" cols="" :class="'px-0 g-' + color">
-                    <h6 class="text-caption">
-                      {{ channelControls.titles[index] }}
-                    </h6>
-                    <v-slider
-                      v-model="colorBalanceControls.colorBalance[index].value"
-                      min="-128"
-                      max="128"
-                      thumb-color="grey"
-                      thumb-label=""
-                      hide-details
-                      height="1rem"
-                      color="transparent"
-                      @input="changeSliderColorBalance(index)"
-                    />
-                    <!-- <v-range-slider
-                      v-model="channelControls.spreadClip[index].value"
-                      min="0"
-                      max="255"
-                      thumb-color="blue"
-                      thumb-label=""
-                      hide-details
-                      height="1rem"
-                      @input="changeSliderClip(index)"
-                    /> -->
-                  </v-col>
-                </template>
+              <v-col cols="12">
+                <v-slider
+                  v-model="controls.balance.strength"
+                  dense
+                  min="0"
+                  max="20"
+                  thumb-label="always"
+                  thumb-size=""
+                  hide-details=""
+                  thumb-color="blue darken-3"
+                  append-icon="mdi-plus"
+                  prepend-icon="mdi-minus"
+                  @click:append="clickAddBalanceStrength(1)"
+                  @click:prepend="clickAddBalanceStrength(-1)"
+                  @input="inputBalance()"
+                />
+                <div class="d-flex justify-end pt-2">
+                  <!-- <v-btn dark :disabled="!channelControlsEnabled" @click="clickApplySpread">
+                    <v-icon left>mdi-check</v-icon>
+                    Apply
+                  </v-btn> -->
+                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetSpread">
+                    <v-icon left>mdi-undo-variant</v-icon>
+                    Reset
+                  </v-btn>
+                </div>
               </v-col>
             </v-tab-item>
             <!--  -->
@@ -274,23 +278,6 @@
                       />
                     </v-col>
                   </template>
-
-                  <v-col cols="12" class="px-0">
-                    <h6 class="text-caption">
-                      HE
-                    </h6>
-                    <v-slider
-                      v-model="controls.levels.adaptativeSpread.value"
-                      min="0"
-                      max="100"
-                      thumb-color="grey"
-                      thumb-label=""
-                      hide-details
-                      height="1rem"
-                      color=""
-                      @input="changeSliderIntensity(0)"
-                    />
-                  </v-col>
                 </v-col>
               </v-row>
             </v-tab-item>
@@ -321,8 +308,8 @@
       </v-sheet>
       <!--  -->
 
-      <v-footer class="footer d-none d-md-block" dark>
-        olap
+      <v-footer class="footer d-none d-md-block" dark elevation="6">
+        Hello
       </v-footer>
     </v-row>
     <!-- <p>Ola ke tal</p> -->
@@ -339,33 +326,6 @@ import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
-      menus: [
-        {
-          title: 'File',
-          submenus: [
-            {
-              title: 'Open',
-              icon: 'mdi-plus',
-              click: this.clickOpenImage
-            },
-            {
-              title: 'Export',
-              icon: 'mdi-file-export',
-              click: () => {
-                console.log(this.originalData)
-                console.log(this.tempData)
-              }
-            },
-            {
-              title: 'Close',
-              icon: 'mdi-exit-to-app',
-              click: () => {
-                console.log('close')
-              }
-            }
-          ]
-        }
-      ],
       switches: {
         histograms: true
       },
@@ -421,12 +381,12 @@ export default {
         { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }
       ],
       controls: {
-        levels: {
-          keepBalance: false,
+        spread: {
           limit: 0,
-          adaptativeSpread: {
-            value: 0
-          }
+          keepBalance: false
+        },
+        balance: {
+          strength: 0
         }
       }
     }
@@ -483,17 +443,6 @@ export default {
       img.src = URL.createObjectURL(file)
 
       img.onload = () => {
-        // const viewportHeight = document.getElementById('canvasContainer').clientHeight
-        // const viewportWidth = document.getElementById('canvasContainer').clientWidth
-
-        // const factorHeight = viewportHeight / img.naturalHeight
-        // const factorWidth = viewportWidth / img.naturalWidth
-
-        // if (factorHeight < factorWidth) {
-        //   this.zoom = factorHeight - 0.01
-        // } else {
-        //   this.zoom = factorWidth - 0.01
-        // }
         if (this.canvasMain.width > 0) {
           this.hardReset()
         }
@@ -517,9 +466,9 @@ export default {
       }
     },
     // Levels
-    previewLevels () {
-      const levelsLimit = this.controls.levels.limit - 1
-      const keepBalance = this.controls.levels.keepBalance
+    previewSpread () {
+      const levelsLimit = this.controls.spread.limit - 1
+      const keepBalance = this.controls.spread.keepBalance
       const channels = this.originalChannels.map(chan => new Uint8ClampedArray(chan))
       const limit = (this.width * this.height * 0.0001) * levelsLimit * (keepBalance ? 4 : 2)
 
@@ -561,11 +510,13 @@ export default {
       this.updateCanvasPreview()
       this.updateHistogramsPreview()
     },
-    applyLevels () {
+    clickApplySpread () {
 
     },
-    resetLevels () {
-
+    clickResetSpread () {
+      this.controls.spread.keepBalance = false
+      this.controls.spread.limit = 0
+      this.inputSpread()
     },
     processModifiers () {
       // Cache
@@ -756,12 +707,15 @@ export default {
       this.histogramRGB.clearRect(0, 0, 256, 100)
       histogram.drawRGB(this.histogramRGB, histdata[0], histdata[1], histdata[2])
     },
-    inputLevels (value) {
+    inputSpread (value) {
       // const limit = Math.round(this.width * this.height * 0.001)
       // for (let i = 0; i < 3; i++) {
       //   this.channelControls.spreadClip[i].value = histogram.getAutoClips(this.originalChannels[i], limit)
       // }
-      this.previewLevels()
+      this.previewSpread()
+    },
+    inputBalance (value) {
+
     },
     changeSliderClip (index) {
       this.onValueChangeChannel()
@@ -776,9 +730,13 @@ export default {
       this.onValueChangeChannel()
     },
     // Levels
-    clickAddlevelsLimit (amount) {
+    clickAddSpreadLimit (amount) {
       this.controls.levels.limit += amount
-      this.inputLevels()
+      this.inputSpread()
+    },
+    clickAddBalanceStrength (amount) {
+      this.controls.balance.limit += amount
+      this.inputSpread()
     },
     clickAutoChannels () {
 
@@ -788,11 +746,6 @@ export default {
     },
     clickAutoIntensity () {
 
-    },
-    clickResetSpread () {
-      this.controls.levels.keepBalance = false
-      this.controls.levels.limit = 0
-      this.inputLevels()
     },
     clickResetColorBalance () {
       for (let i = 0; i < 3; i++) {
