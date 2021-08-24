@@ -80,7 +80,7 @@
       <v-sheet
         elevation="2"
         class="white--text justify-center justify-md-start align-center histograms"
-        :class="switches.histograms ? 'd-flex flex-md-column flex-row px-2' : 'd-one'"
+        :class="switches.histograms ? 'd-flex flex-md-column flex-row pa-2' : 'd-one'"
       >
         <div class="d-none">
           <h6 class="text-caption">
@@ -190,8 +190,8 @@
                   thumb-color="blue darken-3"
                   append-icon="mdi-plus"
                   prepend-icon="mdi-minus"
-                  @click:append="clickAddSpreadLimit(1)"
-                  @click:prepend="clickAddSpreadLimit(-1)"
+                  @click:append="clickAddSpreadLimit(1, 0, 20)"
+                  @click:prepend="clickAddSpreadLimit(-1, 0, 20)"
                   @input="inputSpread()"
                 />
                 <v-checkbox
@@ -208,7 +208,9 @@
                     Apply
                   </v-btn> -->
                   <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetSpread">
-                    <v-icon left>mdi-undo-variant</v-icon>
+                    <v-icon left>
+                      mdi-undo-variant
+                    </v-icon>
                     Reset
                   </v-btn>
                 </div>
@@ -223,15 +225,15 @@
                   v-model="controls.balance.strength"
                   dense
                   min="0"
-                  max="20"
+                  max="10"
                   thumb-label="always"
                   thumb-size=""
                   hide-details=""
                   thumb-color="blue darken-3"
                   append-icon="mdi-plus"
                   prepend-icon="mdi-minus"
-                  @click:append="clickAddBalanceStrength(1)"
-                  @click:prepend="clickAddBalanceStrength(-1)"
+                  @click:append="clickAddBalanceStrength(1, 0, 10)"
+                  @click:prepend="clickAddBalanceStrength(-1, 0, 10)"
                   @input="inputBalance()"
                 />
                 <div class="d-flex justify-end pt-2">
@@ -239,8 +241,10 @@
                     <v-icon left>mdi-check</v-icon>
                     Apply
                   </v-btn> -->
-                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetSpread">
-                    <v-icon left>mdi-undo-variant</v-icon>
+                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetBalance">
+                    <v-icon left>
+                      mdi-undo-variant
+                    </v-icon>
                     Reset
                   </v-btn>
                 </div>
@@ -309,7 +313,15 @@
       <!--  -->
 
       <v-footer class="footer d-none d-md-block" dark elevation="6">
-        Hello
+        <span class="green--text text--accent-3">
+          {{ UIMessage }}
+        </span>
+        <span class="">
+          {{ parseInt(UIValue) }}
+        </span>
+        <span class="green--text text--accent-3">
+          ms
+        </span>
       </v-footer>
     </v-row>
     <!-- <p>Ola ke tal</p> -->
@@ -340,7 +352,6 @@ export default {
       zoom: 1,
       width: 0,
       height: 0,
-      sidebarOpen: true,
       histograms: [],
       histogramsLevels: {
         black: [0, 0, 0],
@@ -349,46 +360,33 @@ export default {
       histogramRGB: null,
       canvasMain: null,
       ctxMain: null,
-      imageData: null,
-      finalView8: null,
-      finalView32: null,
-      previewView8: null,
-      previewView32: null,
-      originalChannels: Array(3),
-      originalCounts: Array(3),
-      hsl: Array(3),
-      checkPoints: [],
+      views: [],
+      counts: [],
+      displayCounts: [],
       channelControls: {
         titles: ['Red', 'Green', 'Blue'],
         names: ['histR', 'histG', 'histB'],
         blackCount: [0, 0, 0],
-        whiteCount: [0, 0, 0],
-        spreadClip: [{ value: [0, 255] }, { value: [0, 255] }, { value: [0, 255] }],
-        prevSpreadClip: [{ value: [0, 255] }, { value: [0, 255] }, { value: [0, 255] }]
-      },
-      colorBalanceControls: {
-        colorBalance: [
-          { value: 0 }, { value: 0 }, { value: 0 }
-        ],
-        prevColorBalance: [
-          { value: 0 }, { value: 0 }, { value: 0 }
-        ]
+        whiteCount: [0, 0, 0]
       },
       intensityControls: [
-        { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }
-      ],
-      prevIntensityControls: [
         { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }
       ],
       controls: {
         spread: {
           limit: 0,
-          keepBalance: false
+          limitOld: 0,
+          keepBalance: false,
+          keepBalanceOld: false
         },
         balance: {
-          strength: 0
+          strength: 0,
+          strengthOld: 0
         }
-      }
+      },
+      UIMessage: 'Debug: ',
+      UIValue: 0,
+      wasmHistogram: null
     }
   },
   head () {
@@ -404,11 +402,10 @@ export default {
       return (this.zoom * 100).toFixed(0) + '%'
     },
     channelControlsEnabled () {
-      return this.originalChannels[0]
+      return this.imageLoaded
     }
   },
   mounted () {
-    this.isMounted = true
     this.hideAppBar()
     this.canvasMain = this.$refs.mainCanvas
     this.ctxMain = this.canvasMain.getContext('2d')
@@ -436,16 +433,17 @@ export default {
       if (this.$refs.imageInput.files.length === 0) {
         return
       }
-
       const file = this.$refs.imageInput.files[0]
       this.documentName = file.name
       const img = new Image()
       img.src = URL.createObjectURL(file)
 
-      img.onload = () => {
+      img.onload = async () => {
         if (this.canvasMain.width > 0) {
           this.hardReset()
         }
+        const startTime = performance.now()
+
         this.canvasMain.width = img.naturalWidth
         this.canvasMain.height = img.naturalHeight
         this.width = img.naturalWidth
@@ -453,62 +451,102 @@ export default {
         this.canvasContainerResize()
         this.ctxMain.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight)
         this.imageData = this.ctxMain.getImageData(0, 0, this.canvasMain.width, this.canvasMain.height)
-        this.originalChannels = histogram.separateChannels(this.imageData.data)
-        this.checkPoints[0] = this.originalChannels.map(chan => new Uint8ClampedArray(chan))
-        this.checkPoints[1] = this.originalChannels.map(chan => new Uint8ClampedArray(chan))
-        this.finalView8 = this.imageData.data
-        this.finalView32 = new Uint32Array(this.finalView8.buffer)
-        this.previewView8 = new Uint8ClampedArray(this.imageData.data)
-        this.previewView32 = new Uint32Array(this.previewView8.buffer)
-        this.originalCounts = this.originalChannels.map(chan => histogram.getCount(chan))
+        console.log('Image Loaded. width:', this.width, 'height:', this.height, 'total pixels:', this.width * this.height)
+
+        const bytesPerPage = 64 * 1024 // 65.536
+        const channelLength = this.width * this.height
+        const viewLength = channelLength * 4
+        // const bytesNeeded = (channelLength * 4 * 2) + (256 * 4 * 3) + (256 * 6)
+        const pagesNeeded = Math.ceil(2560000000 / bytesPerPage) + 1
+
+        const memory = new WebAssembly.Memory({
+          initial: pagesNeeded
+        })
+        const importObject = {
+          env: {
+            abort: (_msg, _file, line, column) =>
+              console.error(`Error at ${line}:${column}`),
+            memory
+          },
+          index: {
+            consoleFloat: value => console.log(value),
+            consoleLog: value => console.log(value)
+          }
+        }
+        this.wasmHistogram = await WebAssembly.instantiateStreaming(fetch('/wasm/optimized.wasm'), importObject)
+        const exports = this.wasmHistogram.instance.exports
+        const buffer = memory.buffer
+        // [original]
+        // [percentile]
+        // [grayWorld]
+        // [B]
+        let arrayOffset = 0
+        const totalViews = 4
+        for (let i = 0; i < totalViews; i++) {
+          this.views[i] = new Uint8ClampedArray(buffer, arrayOffset, viewLength)
+          arrayOffset += viewLength
+        }
+
+        for (let i = 0; i < totalViews; i++) {
+          this.counts[i] = Array(3)
+          for (let c = 0; c < 3; c++) {
+            this.counts[i][c] = new Uint32Array(buffer, arrayOffset, 256)
+            arrayOffset += 256 * 4
+          }
+        }
+        for (let i = 0; i < totalViews; i++) {
+          this.displayCounts[i] = Array(3)
+          for (let c = 0; c < 3; c++) {
+            this.displayCounts[i][c] = new Uint8ClampedArray(buffer, arrayOffset, 256)
+            arrayOffset += 256
+          }
+        }
+        this.views[0].set(this.imageData.data)
+        this.views[1].set(this.imageData.data)
+        this.views[2].set(this.imageData.data)
+        this.views[3].set(this.imageData.data)
+        exports.initData(this.width, this.height, totalViews)
+        exports.calculateCounts(0)
+        exports.calculateDisplayCounts(0)
+
+        const endTime = performance.now()
+        this.UIMessage = 'Load Image'
+        this.UIValue = endTime - startTime
+        this.debugMemory()
+
+        this.updateHistograms(0)
         this.imageLoaded = true
-        this.updateHistograms()
       }
     },
     // Levels
     previewSpread () {
-      const levelsLimit = this.controls.spread.limit - 1
+      const limitValue = this.controls.spread.limit - 1
+      const limitValueOld = this.controls.spread.limitOld - 1
       const keepBalance = this.controls.spread.keepBalance
-      const channels = this.originalChannels.map(chan => new Uint8ClampedArray(chan))
-      const limit = (this.width * this.height * 0.0001) * levelsLimit * (keepBalance ? 4 : 2)
+      const keepBalanceOld = this.controls.spread.keepBalanceOld
+      const balanceStrength = this.controls.balance.strength
+      const balanceStrengthOld = this.controls.balance.strengthOld
 
-      const previewView32 = this.previewView32
-      const len = this.originalChannels[0].length
+      const limit = Math.ceil((this.width * this.height * 0.0001) * limitValue * (keepBalance ? 4 : 2))
 
-      const clips = Array(3)
-      for (let i = 0; i < 3; i++) {
-        clips[i] = histogram.getAutoClips(channels[i], limit, this.originalCounts[i])
-      }
+      const runPercentileStretch = (limitValue !== limitValueOld) || (keepBalance !== keepBalanceOld)
+      const runGrayWorld = (balanceStrength !== balanceStrengthOld)
 
-      let clipL = clips[0][0]
-      let clipR = clips[0][1]
+      console.log({ runPercentileStretch }, { runGrayWorld })
 
-      for (let i = 1; i < 3; i++) {
-        if (clips[i][0] < clipL) {
-          clipL = clips[i][0]
-        }
-        if (clips[i][1] > clipR) {
-          clipR = clips[i][1]
-        }
-      }
+      const startTime = performance.now()
+      this.wasmHistogram.instance.exports.process(runPercentileStretch, runGrayWorld, keepBalance, limit, limitValue, balanceStrength)
+      const endTime = performance.now()
+      this.UIMessage = 'Process time: '
+      this.UIValue = endTime - startTime
+      this.debugMemory()
 
-      for (let i = 0; i < 3; i++) {
-        if (!keepBalance) {
-          histogram.percentileStretch(channels[i], clips[i][0], clips[i][1])
-        } else {
-          histogram.percentileStretch(channels[i], clipL, clipR)
-        }
-      }
+      this.controls.spread.limitOld = this.controls.spread.limit
+      this.controls.spread.keepBalanceOld = this.controls.spread.keepBalance
+      this.controls.balance.strengthOld = this.controls.balance.strength
 
-      for (let i = 0; i < len; i++) {
-        previewView32[i] =
-        (0b11111111000000000000000000000000) | // alpha 255 << 24
-        (channels[2][i] << 16) | // blue
-        (channels[1][i] << 8) | // green
-          channels[0][i] // red
-      }
-      this.updateCanvasPreview()
-      this.updateHistogramsPreview()
+      this.updateCanvas(1)
+      this.updateHistograms(1)
     },
     clickApplySpread () {
 
@@ -522,19 +560,20 @@ export default {
       // Cache
       const finalView32 = this.finalView32
       // Controls
-      const levelsLimit = this.controls.levelsLimit
+      // const levelsLimit = this.controls.levelsLimit
       const spreadClip = this.channelControls.spreadClip.map(a => a.value)
       const prevSpreadClip = this.channelControls.prevSpreadClip.map(a => a.value)
       const colorBalance = this.colorBalanceControls.colorBalance.map(a => a.value)
-      const prevColorBalance = this.colorBalanceControls.prevColorBalance.map(a => a.value)
+      // const prevColorBalance = this.colorBalanceControls.prevColorBalance.map(a => a.value)
       const intensity = this.intensityControls.map(a => a.value)
       const prevIntensity = this.prevIntensityControls.map(a => a.value)
-      const he = this.controls.adaptativeSpread.value
+      // const he = this.controls.adaptativeSpread.value
 
       const channels = Array(3)
-      const hsl = this.hsl
+      // const hsl = this.hsl
 
-      let changedSpread, changedBalance
+      let changedSpread
+      // let changedSpread, changedBalance
       for (let i = 0; i < 3; i++) {
         spreadClip[i] = histogram.getAutoClips(channels)
 
@@ -569,15 +608,15 @@ export default {
       // const limit = Math.round(this.width * this.height * 0.001)
       // histogram.minMaxStretch(channels, limit)
 
-      const channelBW = new Uint8ClampedArray(channelLength)
-      const channelBWClone = new Uint8ClampedArray(channelLength)
+      // const channelBW = new Uint8ClampedArray(channelLength)
+      // const channelBWClone = new Uint8ClampedArray(channelLength)
 
       // const Rfactor = 0.2126
       // const Gfactor = 0.7152
       // const Bfactor = 0.0722
-      const Rfactor = 1 / 3
-      const Gfactor = 1 / 3
-      const Bfactor = 1 / 3
+      // const Rfactor = 1 / 3
+      // const Gfactor = 1 / 3
+      // const Bfactor = 1 / 3
       // for (let i = 0; i < channelLength; i++) {
       //   channelBW[i] = channels[0][i] * Rfactor + channels[1][i] * Gfactor + channels[2][i] * Bfactor
       //   channelBWClone[i] = channelBW[i]
@@ -665,57 +704,32 @@ export default {
     onValueChangeChannel () {
       this.processModifiers()
     },
-    updateCanvasPreview () {
-      this.imageData.data.set(this.previewView8)
+    updateCanvas (index) {
+      this.imageData.data.set(this.views[index])
       this.ctxMain.putImageData(this.imageData, 0, 0)
     },
-    updateCanvas () {
-      this.imageData.data.set(this.finalView8)
-      this.ctxMain.putImageData(this.imageData, 0, 0)
-    },
-    updateHistogramsPreview () {
-      const histdata = histogram.getHistograms(this.previewView8)
-      for (let i = 0, j = 0; i < 3; i++, j += 2) {
-        this.channelControls.blackCount[i] = histdata[3][j]
-        this.channelControls.whiteCount[i] = histdata[3][j + 1]
-      }
+    updateHistograms (index) {
+      // const histdata = histogram.getHistograms(this.view8)
+      // for (let i = 0, j = 0; i < 3; i++, j += 2) {
+      //   this.channelControls.blackCount[i] = histdata[3][j]
+      //   this.channelControls.whiteCount[i] = histdata[3][j + 1]
+      // }
 
       for (let i = 0; i < 3; i++) {
         this.histograms[i].clearRect(0, 0, 256, 100)
-        this.histogramsLevels.black[i] = histdata[i][0]
-        this.histogramsLevels.white[i] = histdata[i][255]
-        histogram.drawHistogram(this.histograms[i], histdata[i])
+        // this.histogramsLevels.black[i] = histdata[i][0]
+        // this.histogramsLevels.white[i] = histdata[i][255]
+        histogram.drawHistogram(this.histograms[i], this.displayCounts[index][i])
       }
 
-      this.histogramRGB.clearRect(0, 0, 256, 100)
-      histogram.drawRGB(this.histogramRGB, histdata[0], histdata[1], histdata[2])
-    },
-    updateHistograms () {
-      const histdata = histogram.getHistograms(this.finalView8)
-      for (let i = 0, j = 0; i < 3; i++, j += 2) {
-        this.channelControls.blackCount[i] = histdata[3][j]
-        this.channelControls.whiteCount[i] = histdata[3][j + 1]
-      }
-
-      for (let i = 0; i < 3; i++) {
-        this.histograms[i].clearRect(0, 0, 256, 100)
-        this.histogramsLevels.black[i] = histdata[i][0]
-        this.histogramsLevels.white[i] = histdata[i][255]
-        histogram.drawHistogram(this.histograms[i], histdata[i])
-      }
-
-      this.histogramRGB.clearRect(0, 0, 256, 100)
-      histogram.drawRGB(this.histogramRGB, histdata[0], histdata[1], histdata[2])
+      // this.histogramRGB.clearRect(0, 0, 256, 100)
+      // histogram.drawRGB(this.histogramRGB, histdata[0], histdata[1], histdata[2])
     },
     inputSpread (value) {
-      // const limit = Math.round(this.width * this.height * 0.001)
-      // for (let i = 0; i < 3; i++) {
-      //   this.channelControls.spreadClip[i].value = histogram.getAutoClips(this.originalChannels[i], limit)
-      // }
       this.previewSpread()
     },
     inputBalance (value) {
-
+      this.previewSpread()
     },
     changeSliderClip (index) {
       this.onValueChangeChannel()
@@ -730,13 +744,19 @@ export default {
       this.onValueChangeChannel()
     },
     // Levels
-    clickAddSpreadLimit (amount) {
-      this.controls.levels.limit += amount
-      this.inputSpread()
+    clickAddSpreadLimit (amount, min, max) {
+      const old = this.controls.spread.limit
+      if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
+        this.controls.spread.limit += amount
+        this.inputSpread()
+      }
     },
-    clickAddBalanceStrength (amount) {
-      this.controls.balance.limit += amount
-      this.inputSpread()
+    clickAddBalanceStrength (amount, min, max) {
+      const old = this.controls.balance.strength
+      if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
+        this.controls.balance.strength += amount
+        this.inputSpread()
+      }
     },
     clickAutoChannels () {
 
@@ -747,11 +767,9 @@ export default {
     clickAutoIntensity () {
 
     },
-    clickResetColorBalance () {
-      for (let i = 0; i < 3; i++) {
-        this.colorBalanceControls.colorBalance[i].value = 0
-      }
-      this.onValueChangeChannel()
+    clickResetBalance () {
+      this.controls.balance.strength = 0
+      this.inputBalance()
     },
     clickResetIntensity () {
       for (let i = 0; i < this.intensityControls.length; i++) {
@@ -779,7 +797,7 @@ export default {
     clickResetHE () {
     },
     clickSwitchSidebar () {
-      // this.sidebarOpen = !this.sidebarOpen
+      // eslint-disable-next-line no-unused-vars
       const linearAbs = () => {
         const factors = Array(256)
         const sum = 128
@@ -790,6 +808,7 @@ export default {
         return factors
       }
       // Google
+      // eslint-disable-next-line no-unused-vars
       const sphericalMid = () => {
         const factors = Array(256)
         for (let i = 0; i < 128; i++) {
@@ -800,6 +819,7 @@ export default {
         }
         return factors
       }
+      // eslint-disable-next-line no-unused-vars
       const sphericalDark = () => {
         const factors = Array(256)
         for (let i = 0; i < 255; i++, factors[i] = 0) {
@@ -899,7 +919,7 @@ export default {
         this.canvasMain.style.width = 'unset'
         this.canvasMain.style.height = '100%'
       }
-      console.log(containerRatio, imgRatio)
+      // console.log(containerRatio, imgRatio)
     },
     hardReset () {
       this.clickResetChannels()
@@ -911,6 +931,14 @@ export default {
         text[i] = array[i]
       }
       console.log(text)
+    },
+    debugMemory () {
+      console.log('Views:')
+      console.log(this.views)
+      console.log('Counts')
+      console.log(this.counts)
+      console.log('Display Counts')
+      console.log(this.displayCounts)
     }
   }
 }
