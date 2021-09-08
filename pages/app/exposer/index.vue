@@ -17,9 +17,15 @@
           Open
         </v-btn>
         <v-spacer />
+
+        <v-btn icon color="">
+          <v-icon>mdi-select-compare</v-icon>
+        </v-btn>
+
         <v-btn icon :color="switches.histograms ? 'green accent-4' : 'white'" @click="switches.histograms = !switches.histograms">
           <v-icon>mdi-chart-histogram</v-icon>
         </v-btn>
+
         <v-menu
           offset-y
           :close-on-content-click="false"
@@ -45,34 +51,6 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <!-- <v-menu v-for="(menu, index) of menus" :key="index" offset-y tile>
-          <template #activator="{ on, attrs }">
-            <v-btn
-              color="secondary"
-              v-bind="attrs"
-              small
-              class="text-capitalize"
-              tile=""
-              v-on="on"
-            >
-              {{ menu.title }}
-            </v-btn>
-          </template>
-          <v-list class="py-0" dense dark color="secondary">
-            <v-list-item
-              v-for="(submenu, jIndex) of menu.submenus"
-              :key="jIndex"
-              @click="submenu.click"
-            >
-              <v-list-item-icon>
-                <v-icon v-text="submenu.icon" />
-              </v-list-item-icon>
-              <v-list-item-title class="">
-                {{ submenu.title }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu> -->
       </v-app-bar>
       <!--              End top menu -->
 
@@ -102,40 +80,18 @@
             }"
           />
         </div>
+        <div
+          v-for="{value, index} in curvesHistograms"
+          :key="index"
+          :class="switches.debugHistograms ? 'd-flex justify-center align-center mx-1 my-2' : 'd-none'"
+        >
+          <canvas :ref="'curvesHistograms'" width="256" height="100" class="secondary darken-3 h-100-p w-100-p" />
+          <div class="d-none">
+            {{ value }}
+          </div>
+        </div>
         <div v-for="(value, index) in ['#D32F2F', '#388E3C', '#1976D2']" :key="index" class="d-flex justify-center align-center mx-1 my-2">
           <canvas :ref="channelControls.names[index]" width="256" height="100" class="secondary darken-2 h-100-p w-100-p" />
-
-          <!-- <h6 class="text-caption">
-            {{ channelControls.titles[index] }}
-          </h6> -->
-          <!-- <v-col sm="auto" class="pa-0">
-            <div
-              :style="{
-                width: histogramsLevels.black[index] + '%',
-                height: '.5rem',
-                backgroundColor: value
-              }"
-            />
-            <div
-              :style="{
-                width: histogramsLevels.white[index] + '%',
-                height: '.5rem',
-                backgroundColor: value
-              }"
-            />
-          </v-col> -->
-        <!-- BW Info -->
-        <!-- <v-col cols="auto" class="pa-0">
-          <v-row justify="space-between" align="center">
-            <v-col cols="" class="grey--text text--lighten-2">
-              <small>{{ channelControls.blackCount[index].toLocaleString() }}</small>
-            </v-col>
-            <v-col cols="" class="text-right grey--text text--lighten-2">
-              <small>{{ channelControls.whiteCount[index].toLocaleString() }}</small>
-            </v-col>
-          </v-row>
-        </v-col> -->
-        <!--  -->
         </div>
       </v-sheet>
       <!--  -->
@@ -166,13 +122,11 @@
             transform: 'scale(' + zoom + ') translate(' + offsetX + 'px, ' + offsetY + 'px)'
           }"
         />
-        <!-- <div id="canvasContainer" sm="" class="mw-100-p mh-100-p">
-        </div> -->
       </div>
       <!--          End Window -->
 
       <!-- Adjustments Sidebar -->
-      <v-sheet cols="auto" class="mh-100-p d-flex flex-column justify-start adjustments">
+      <v-sheet cols="auto" class="mh-100-p d-flex flex-column justify-start adjustments px-2">
         <!-- Tabs container -->
         <div class="d-flex flex-column flex-md-column-reverse">
           <v-tabs-items v-model="adjustmentTabs" dark style="overflow: visible;" class="transparent pt-md-10">
@@ -180,7 +134,7 @@
             <v-tab-item value="tab-1" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
               <v-col cols="12">
                 <v-slider
-                  v-model="controls.spread.limit"
+                  v-model="controls[0][0].limit"
                   dense
                   min="0"
                   max="20"
@@ -192,22 +146,18 @@
                   prepend-icon="mdi-minus"
                   @click:append="clickAddSpreadLimit(1, 0, 20)"
                   @click:prepend="clickAddSpreadLimit(-1, 0, 20)"
-                  @input="inputSpread()"
+                  @input="inputControl(0)"
                 />
                 <v-checkbox
-                  v-model="controls.spread.keepBalance"
+                  v-model="controls[0][0].keepBalance"
                   label="Keep Balance"
                   color="blue"
                   hide-details
                   dense
-                  @click="inputSpread()"
+                  @click="inputControl(0)"
                 />
                 <div class="d-flex justify-end pt-2">
-                  <!-- <v-btn dark :disabled="!channelControlsEnabled" @click="clickApplySpread">
-                    <v-icon left>mdi-check</v-icon>
-                    Apply
-                  </v-btn> -->
-                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetSpread">
+                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetControls(0)">
                     <v-icon left>
                       mdi-undo-variant
                     </v-icon>
@@ -218,30 +168,59 @@
             </v-tab-item>
             <!--  -->
 
-            <!-- Balance -->
+            <!-- Color -->
             <v-tab-item value="tab-2" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
               <v-col cols="12">
+                <v-col cols="12" class="pa-0">
+                  <v-slider
+                    v-for="(element, index) in controls[1]"
+                    :key="index"
+                    v-model="element.strength"
+                    dense
+                    min="-10"
+                    max="10"
+                    thumb-label="always"
+                    thumb-size=""
+                    :thumb-color="index === 0 ? 'red darken-3' : index === 1 ? 'green darken-3' : 'blue darken-3'"
+                    append-icon="mdi-plus"
+                    prepend-icon="mdi-minus"
+                    @click:append="clickAddBalanceStrength(1, -10, 10)"
+                    @click:prepend="clickAddBalanceStrength(-1, -10, 10)"
+                    @input="inputControl(1)"
+                  />
+                </v-col>
+                <div class="d-flex justify-end pt-2">
+                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetControls(1)">
+                    <v-icon left>
+                      mdi-undo-variant
+                    </v-icon>
+                    Reset
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-tab-item>
+            <!--  -->
+
+            <!-- Brightness -->
+            <v-tab-item value="tab-3" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
+              <v-col cols="12">
                 <v-slider
-                  v-model="controls.balance.strength"
+                  v-model="controls[2][0].newCenter"
                   dense
-                  min="0"
-                  max="10"
+                  min="-32"
+                  max="32"
                   thumb-label="always"
                   thumb-size=""
                   hide-details=""
                   thumb-color="blue darken-3"
                   append-icon="mdi-plus"
                   prepend-icon="mdi-minus"
-                  @click:append="clickAddBalanceStrength(1, 0, 10)"
-                  @click:prepend="clickAddBalanceStrength(-1, 0, 10)"
-                  @input="inputBalance()"
+                  @click:append="clickAddMidShift(1, -32, 32)"
+                  @click:prepend="clickAddMidShift(-1, -32, 32)"
+                  @input="inputControl(2)"
                 />
                 <div class="d-flex justify-end pt-2">
-                  <!-- <v-btn dark :disabled="!channelControlsEnabled" @click="clickApplySpread">
-                    <v-icon left>mdi-check</v-icon>
-                    Apply
-                  </v-btn> -->
-                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetBalance">
+                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetControls(2)">
                     <v-icon left>
                       mdi-undo-variant
                     </v-icon>
@@ -252,40 +231,9 @@
             </v-tab-item>
             <!--  -->
 
-            <!-- Intensity -->
-            <v-tab-item value="tab-3" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
-              <div class="d-flex justify-space-between">
-                <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickAutoIntensity">
-                  auto
-                </v-btn>
-                <v-btn tile small color="secondary" :disabled="!channelControlsEnabled" @click="clickResetIntensity">
-                  reset
-                </v-btn>
-              </div>
-              <v-row no-gutters>
-                <v-col class="">
-                  <template v-for="(value, index) in ['Mids', 'Darks', 'Lights', 'Blacks', 'Whites']">
-                    <v-col :key="index" cols="12" class="px-0">
-                      <h6 class="text-caption">
-                        {{ value }}
-                      </h6>
-                      <v-slider
-                        v-model="intensityControls[index].value"
-                        min="-100"
-                        max="100"
-                        thumb-color="grey"
-                        thumb-label=""
-                        hide-details
-                        height="1rem"
-                        color=""
-                        @input="changeSliderIntensity(index)"
-                      />
-                    </v-col>
-                  </template>
-                </v-col>
-              </v-row>
-            </v-tab-item>
+            <!--  -->
           </v-tabs-items>
+
           <v-tabs
             v-model="adjustmentTabs"
             background-color="transparent"
@@ -293,10 +241,11 @@
             icons-and-text
             dark
             height=""
+            :vertical="!$vuetify.breakpoint.mobile"
           >
             <!-- <v-tabs-slider /> -->
             <v-tab href="#tab-1" :disabled="!imageLoaded">
-              Spread
+              Clip
               <v-icon>mdi-chart-bar</v-icon>
             </v-tab>
             <v-tab href="#tab-2" :disabled="!imageLoaded">
@@ -304,8 +253,12 @@
               <v-icon>mdi-palette</v-icon>
             </v-tab>
             <v-tab href="#tab-3" :disabled="!imageLoaded">
-              Levels
-              <v-icon>mdi-chart-bell-curve</v-icon>
+              Light
+              <v-icon>mdi-lightbulb-on</v-icon>
+            </v-tab>
+            <v-tab href="#tab-4" :disabled="!imageLoaded">
+              Color
+              <v-icon>mdi-lightbulb-on</v-icon>
             </v-tab>
           </v-tabs>
         </div>
@@ -339,7 +292,8 @@ export default {
   data () {
     return {
       switches: {
-        histograms: true
+        histograms: true,
+        debugHistograms: false
       },
       imageLoaded: false,
       documentName: 'Untitled',
@@ -365,28 +319,36 @@ export default {
       displayCounts: [],
       channelControls: {
         titles: ['Red', 'Green', 'Blue'],
-        names: ['histR', 'histG', 'histB'],
+        names: ['histR', 'histG', 'histB', 'histCurves'],
         blackCount: [0, 0, 0],
         whiteCount: [0, 0, 0]
       },
-      intensityControls: [
-        { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }
+      controls: [
+        [
+          { limit: 0, keepBalance: false }
+        ],
+        [
+          { strength: 0 }, { strength: 0 }, { strength: 0 }
+        ],
+        [
+          { newCenter: 0 }
+        ]
       ],
-      controls: {
-        spread: {
-          limit: 0,
-          limitOld: 0,
-          keepBalance: false,
-          keepBalanceOld: false
-        },
-        balance: {
-          strength: 0,
-          strengthOld: 0
-        }
-      },
+      lastControls: [
+        [
+          { limit: 0, keepBalance: false }
+        ],
+        [
+          { strength: 0 }, { strength: 0 }, { strength: 0 }
+        ],
+        [
+          { newCenter: 0 }
+        ]
+      ],
       UIMessage: 'Debug: ',
       UIValue: 0,
-      wasmHistogram: null
+      wasmHistogram: null,
+      curvesHistograms: []
     }
   },
   head () {
@@ -403,6 +365,13 @@ export default {
     },
     channelControlsEnabled () {
       return this.imageLoaded
+    },
+    portrait () {
+      if (process.window) {
+        return screen.orientation.type === 'portrait-primary'
+      } else {
+        return true
+      }
     }
   },
   mounted () {
@@ -418,6 +387,7 @@ export default {
       this.histograms[i].imageSmoothingEnabled = false
       this.histograms[i].strokeStyle = 'lightgrey'
     }
+    // this.initializeCurves()
   },
   methods: {
     ...mapMutations({
@@ -428,6 +398,7 @@ export default {
     },
     clickExportImage () {
       console.log('Export Image')
+      this.drawCurves()
     },
     loadImage () {
       if (this.$refs.imageInput.files.length === 0) {
@@ -510,7 +481,7 @@ export default {
         exports.calculateDisplayCounts(0)
 
         const endTime = performance.now()
-        this.UIMessage = 'Load Image'
+        this.UIMessage = 'Load time'
         this.UIValue = endTime - startTime
         this.debugMemory()
 
@@ -519,190 +490,80 @@ export default {
       }
     },
     // Levels
-    previewSpread () {
-      const limitValue = this.controls.spread.limit - 1
-      const limitValueOld = this.controls.spread.limitOld - 1
-      const keepBalance = this.controls.spread.keepBalance
-      const keepBalanceOld = this.controls.spread.keepBalanceOld
-      const balanceStrength = this.controls.balance.strength
-      const balanceStrengthOld = this.controls.balance.strengthOld
-
+    process () {
+      // Spread
+      const limitValue = this.controls[0][0].limit - 1
+      const lastLimitValue = this.lastControls[0][0].limit - 1
+      const keepBalance = this.controls[0][0].keepBalance
+      const lastKeepBalance = this.lastControls[0][0].keepBalance
       const limit = Math.ceil((this.width * this.height * 0.0001) * limitValue * (keepBalance ? 4 : 2))
 
-      const runPercentileStretch = (limitValue !== limitValueOld) || (keepBalance !== keepBalanceOld)
-      const runGrayWorld = (balanceStrength !== balanceStrengthOld)
+      // Balance
+      const balanceStrength = this.controls[1][0].strength
+      const lastBalanceStrength = this.lastControls[1][0].strength
 
-      console.log({ runPercentileStretch }, { runGrayWorld })
+      // Center Shift
+      const newCenter = this.controls[2][0].newCenter
+      const lastNewCenter = this.lastControls[2][0].newCenter
+
+      const spreadDefault = (limitValue === -1) && (keepBalance === false)
+      const balanceDefault = (balanceStrength === 0)
+      const centerShiftDefault = (newCenter === 0)
+
+      const runPercentileStretch = (limitValue !== lastLimitValue) || (keepBalance !== lastKeepBalance)
+      const runGrayWorld = (balanceStrength !== lastBalanceStrength) || (runPercentileStretch && !balanceDefault)
+      const runCenterShift = (newCenter !== lastNewCenter) || ((runPercentileStretch || runGrayWorld) && !centerShiftDefault)
+
+      let displayIndex = 0
+
+      if (runCenterShift) {
+        displayIndex = 3
+      } else if (!balanceDefault) {
+        displayIndex = 2
+      } else if (!spreadDefault) {
+        displayIndex = 1
+      }
+
+      console.log({ runPercentileStretch }, { runGrayWorld }, { runCenterShift })
 
       const startTime = performance.now()
-      this.wasmHistogram.instance.exports.process(runPercentileStretch, runGrayWorld, keepBalance, limit, limitValue, balanceStrength)
+
+      this.wasmHistogram.instance.exports.process(
+        runPercentileStretch, runGrayWorld, runCenterShift,
+        keepBalance, limit, limitValue,
+        balanceStrength,
+        newCenter)
+
       const endTime = performance.now()
+
       this.UIMessage = 'Process time: '
       this.UIValue = endTime - startTime
       this.debugMemory()
 
-      this.controls.spread.limitOld = this.controls.spread.limit
-      this.controls.spread.keepBalanceOld = this.controls.spread.keepBalance
-      this.controls.balance.strengthOld = this.controls.balance.strength
+      // Assign Last values
+      this.lastControls[0][0].limit = this.controls[0][0].limit
+      this.lastControls[0][0].keepBalance = this.controls[0][0].keepBalance
 
-      this.updateCanvas(1)
-      this.updateHistograms(1)
+      this.lastControls[1][0].strength = this.controls[1][0].strength
+
+      this.lastControls[2][0].newCenter = this.controls[2][0].newCenter
+
+      this.updateCanvas(displayIndex)
+      this.updateHistograms(displayIndex)
     },
-    clickApplySpread () {
-
-    },
-    clickResetSpread () {
-      this.controls.spread.keepBalance = false
-      this.controls.spread.limit = 0
-      this.inputSpread()
-    },
-    processModifiers () {
-      // Cache
-      const finalView32 = this.finalView32
-      // Controls
-      // const levelsLimit = this.controls.levelsLimit
-      const spreadClip = this.channelControls.spreadClip.map(a => a.value)
-      const prevSpreadClip = this.channelControls.prevSpreadClip.map(a => a.value)
-      const colorBalance = this.colorBalanceControls.colorBalance.map(a => a.value)
-      // const prevColorBalance = this.colorBalanceControls.prevColorBalance.map(a => a.value)
-      const intensity = this.intensityControls.map(a => a.value)
-      const prevIntensity = this.prevIntensityControls.map(a => a.value)
-      // const he = this.controls.adaptativeSpread.value
-
-      const channels = Array(3)
-      // const hsl = this.hsl
-
-      let changedSpread
-      // let changedSpread, changedBalance
-      for (let i = 0; i < 3; i++) {
-        spreadClip[i] = histogram.getAutoClips(channels)
-
-        changedSpread = (spreadClip[i][0] !== prevSpreadClip[i][0] || spreadClip[i][1] !== prevSpreadClip[i][1])
-        // changedBalance = (colorBalance[i] !== prevColorBalance[i])
-
-        // Spread
-        if (changedSpread) {
-          channels[i] = new Uint8ClampedArray(this.originalChannels[i])
-          histogram.percentileStretch(channels[i], spreadClip[i][0], spreadClip[i][1])
-          this.checkPoints[0][i] = new Uint8ClampedArray(channels[i])
-        } else {
-          channels[i] = new Uint8ClampedArray(this.checkPoints[0][i])
-        }
-        // Color Balance
-        // if (changedSpread || changedBalance) {
-        //   histogram.moveSection(channels[i], colorBalance[i], histogram.range.MID, histogram.interpolation.LINEAR)
-        //   this.checkPoints[1][i] = new Uint8ClampedArray(channels[i])
-        // } else {
-        //   channels[i] = new Uint8ClampedArray(this.checkPoints[1][i])
-        // }
-
-        // histogram.moveSection(channels[i], 128, colorBalance[i])
-        // Color Balance
-
-        // Adaptative Spread
-        // console.log('Spread:', changedSpread, 'new:', spreadClip[i][0], spreadClip[i][1], 'old:', prevSpreadClip[i][0], prevSpreadClip[i][1])
-        // console.log('Balance:', changedBalance, 'new:', colorBalance[i], 'old:', prevColorBalance[i])
+    clickResetControls (index) {
+      const controls = this.controls[index]
+      if (index === 0) {
+        controls[0].limit = 0
+        controls[0].keepBalance = false
+      } else if (index === 1) {
+        controls.forEach((element) => {
+          element.strength = 0
+        })
+      } else if (index === 2) {
+        controls[0].newCenter = 0
       }
-      const channelLength = channels[0].length
-
-      // const limit = Math.round(this.width * this.height * 0.001)
-      // histogram.minMaxStretch(channels, limit)
-
-      // const channelBW = new Uint8ClampedArray(channelLength)
-      // const channelBWClone = new Uint8ClampedArray(channelLength)
-
-      // const Rfactor = 0.2126
-      // const Gfactor = 0.7152
-      // const Bfactor = 0.0722
-      // const Rfactor = 1 / 3
-      // const Gfactor = 1 / 3
-      // const Bfactor = 1 / 3
-      // for (let i = 0; i < channelLength; i++) {
-      //   channelBW[i] = channels[0][i] * Rfactor + channels[1][i] * Gfactor + channels[2][i] * Bfactor
-      //   channelBWClone[i] = channelBW[i]
-      // }
-      // histogram.exposure(channelBW, intensity[0])
-      // histogram.moveSection(channelBW, intensity[0], histogram.range.MID, histogram.interpolation.SPHERICAL)
-      // histogram.moveSection(channelBW, intensity[1], histogram.range.DARK, histogram.interpolation.SPHERICAL)
-      // histogram.moveSection(channelBW, intensity[2], histogram.range.LIGHT, histogram.interpolation.SPHERICAL)
-      // histogram.moveSection(channelBW, intensity[3], histogram.range.BLACK, histogram.interpolation.SPHERICAL)
-      // histogram.moveSection(channelBW, intensity[4], histogram.range.WHITE, histogram.interpolation.SPHERICAL)
-
-      // histogram.adaptativeSpread(channelBW, this.width, this.height, he)
-
-      // for (let i = 0; i < channelLength; i++) {
-      //   channels[0][i] += channelBW[i] - channelBWClone[i]
-      //   channels[1][i] += channelBW[i] - channelBWClone[i]
-      //   channels[2][i] += channelBW[i] - channelBWClone[i]
-      // }
-
-      // RGB to HSL
-      // hsl[0] = Array(channelLength)
-      // hsl[1] = Array(channelLength)
-      // hsl[2] = Array(channelLength)
-      // let h, s, l
-      // for (let i = 0; i < channelLength; i++) {
-      //   //
-      //   [h, s, l] = histogram.RGBToHSL(channels[0][i], channels[1][i], channels[2][i])
-      //   hsl[0][i] = h
-      //   hsl[1][i] = s
-      //   hsl[2][i] = l
-      // }
-      // const channelsCompare = Array(3)
-      // channelsCompare[0] = new Uint8ClampedArray(channelLength)
-      // channelsCompare[1] = new Uint8ClampedArray(channelLength)
-      // channelsCompare[2] = new Uint8ClampedArray(channelLength)
-
-      // let r; let g; let b; let totalWrong = 0
-      // for (let i = 0; i < channelLength; i++) {
-      //   [r, g, b] = histogram.HSLToRGB(hsl[0][i], hsl[1][i], hsl[2][i])
-      //   channelsCompare[0][i] = r
-      //   channelsCompare[1][i] = g
-      //   channelsCompare[2][i] = b
-
-      //   if (channels[0][i] !== channelsCompare[0][i] || channels[1][i] !== channelsCompare[1][i] || channels[2][i] !== channelsCompare[2][i]) {
-      //     totalWrong++
-      //   }
-      //   console.log('r:', channels[0][i], channelsCompare[0][i], 'g:', channels[1][i], channelsCompare[1][i], 'b:', channels[2][i], channelsCompare[2][i])
-      // }
-      // console.log('Total Wrong:', totalWrong, 'TotalCorrect:', channelLength - totalWrong)
-
-      // Convert RGB to HSL
-      // for (let i = 0; i < 5; i++) {
-      //   histogram.moveSection()
-      // }
-
-      // histogram.grayWorld(channels)
-      // histogram.grayWorldLevels(channels)
-
-      // Previous values
-      for (let i = 0; i < 3; i++) {
-        prevSpreadClip[i][0] = spreadClip[i][0]
-        prevSpreadClip[i][1] = spreadClip[i][1]
-        this.colorBalanceControls.prevColorBalance[i].value = colorBalance[i]
-      }
-      for (let i = 0; i < intensity.length; i++) {
-        prevIntensity[i] = intensity[i]
-      }
-
-      // Combine channels
-      for (let i = 0; i < channelLength; i++) {
-        finalView32[i] =
-        (0b11111111000000000000000000000000) | // alpha 255 << 24
-        (channels[2][i] << 16) | // blue
-        (channels[1][i] << 8) | // green
-          channels[0][i] // red
-        // finalView32[i] =
-        // (0b11111111000000000000000000000000) | // alpha 255 << 24
-        // (channelBW[i] << 16) | // blue
-        // (channelBW[i] << 8) | // green
-        //   channelBW[i] // red
-      }
-      this.updateCanvas()
-      this.updateHistograms()
-    },
-    onValueChangeChannel () {
-      this.processModifiers()
+      this.inputControl()
     },
     updateCanvas (index) {
       this.imageData.data.set(this.views[index])
@@ -725,146 +586,227 @@ export default {
       // this.histogramRGB.clearRect(0, 0, 256, 100)
       // histogram.drawRGB(this.histogramRGB, histdata[0], histdata[1], histdata[2])
     },
-    inputSpread (value) {
-      this.previewSpread()
-    },
-    inputBalance (value) {
-      this.previewSpread()
-    },
-    changeSliderClip (index) {
-      this.onValueChangeChannel()
-    },
-    changeSliderHE (index) {
-      this.onValueChangeChannel()
-    },
-    changeSliderColorBalance (index) {
-      this.onValueChangeChannel()
-    },
-    changeSliderIntensity (index) {
-      this.onValueChangeChannel()
+    inputControl (index) {
+      this.process()
     },
     // Levels
     clickAddSpreadLimit (amount, min, max) {
-      const old = this.controls.spread.limit
+      const old = this.controls[0].limit
       if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
-        this.controls.spread.limit += amount
-        this.inputSpread()
+        this.controls[0].limit += amount
+        this.inputControl(0)
       }
     },
     clickAddBalanceStrength (amount, min, max) {
-      const old = this.controls.balance.strength
+      const old = this.controls[1].strength
       if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
-        this.controls.balance.strength += amount
-        this.inputSpread()
+        this.controls[1].strength += amount
+        this.inputControl(1)
       }
     },
-    clickAutoChannels () {
-
-    },
-    clickAutoBalance () {
-
-    },
-    clickAutoIntensity () {
-
-    },
-    clickResetBalance () {
-      this.controls.balance.strength = 0
-      this.inputBalance()
-    },
-    clickResetIntensity () {
-      for (let i = 0; i < this.intensityControls.length; i++) {
-        this.intensityControls[i].value = 0
+    clickAddMidShift (amount, min, max) {
+      const old = this.controls[2].newCenter
+      if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
+        this.controls[2].newCenter += amount
+        this.inputControl(2)
       }
-      this.onValueChangeChannel()
     },
-    clickAutoHE () {
-      const newChannels = this.originalChannels.map(a => new Uint8ClampedArray(a))
-      const channelLength = this.originalChannels[0].length
-      const finalView32 = this.finalView32
-      for (let i = 0; i < 3; i++) {
-        newChannels[i] = histogram.histogramEqualization(newChannels[i])
+    initializeCurves () {
+      const zeroArray = (size) => {
+        const zeroes = Array(size)
+        for (let i = 0; i < size; i++) {
+          zeroes[i] = 0
+        }
+        return zeroes
       }
-      for (let i = 0; i < channelLength; i++) {
-        finalView32[i] =
-        (0b11111111000000000000000000000000) | // alpha 255 << 24
-        (newChannels[2][i] << 16) | // blue
-        (newChannels[1][i] << 8) | // green
-          newChannels[0][i] // red
-      }
-      this.updateCanvas()
-      this.updateHistograms()
-    },
-    clickResetHE () {
-    },
-    clickSwitchSidebar () {
-      // eslint-disable-next-line no-unused-vars
-      const linearAbs = () => {
+      const line = (from, to) => {
         const factors = Array(256)
-        const sum = 128
-        for (let i = 0; i < 128; i++) {
-          factors[i] = (i - 0 + sum) / (127 - 0 + sum)
-          factors[255 - i] = factors[i]
-        }
-        return factors
-      }
-      // Google
-      // eslint-disable-next-line no-unused-vars
-      const sphericalMid = () => {
-        const factors = Array(256)
-        for (let i = 0; i < 128; i++) {
-          const degree = (i + 1) * (360 / 256)
-          const radian = util.degrees_to_radians(degree)
-          factors[i] = (1 - Math.cos(radian)) * 0.5
-          factors[255 - i] = factors[i]
-        }
-        return factors
-      }
-      // eslint-disable-next-line no-unused-vars
-      const sphericalDark = () => {
-        const factors = Array(256)
-        for (let i = 0; i < 255; i++, factors[i] = 0) {
-          // a
-        }
-        for (let i = 0; i < 64; i++) {
-          const degree = (i + 1) * (360 / 128)
-          const radian = util.degrees_to_radians(degree)
-          factors[i] = (1 - Math.cos(radian)) * 0.5
-          factors[127 - i] = factors[i]
-        }
-        for (let i = 0; i < 192; i++) {
-          // const degree = (i + 1) * (360 / 384)
-          // const radian = util.degrees_to_radians(degree)
-          // factors[255 - i] = (1 - Math.cos(radian)) * 0.5
-        }
-        return factors
-      }
-      const factorLOL = () => {
-        const factors = Array(256)
-        for (let i = 0; i <= 255; i++) {
+        for (let i = 0; i < 256; i++) {
           factors[i] = 0
         }
-        let degFactor = 90 / 64
-        let degree = 270
-        for (let i = 0; i < 64; i++) {
-          const radian = util.degrees_to_radians(degree)
-          factors[i] = (Math.sin(radian) + 1) / 2 + 0.5
-          degree += degFactor
+        if (from < to) {
+          const f = 1 / (to - from)
+          for (let i = from, c = 0; i < to; i++, c++) {
+            factors[i] = c * f
+          }
+        } else {
+          const f = 1 / (from - to)
+          for (let i = from, c = 0; i >= to; i--, c++) {
+            factors[i] = c * f
+          }
         }
-        degFactor = 90 / 192
-        degree = 181
-        for (let i = 64; i < 256; i++) {
-          const radian = util.degrees_to_radians(degree)
-          factors[i] = (Math.sin(radian) + 1) / 2 + 0.5
-          degree += degFactor
-        }
-        // for (let i = 64, a = 256; i < 256; i++, a++) {
-        //   const degree = (a) * (360 / 768)
-        //   const radian = util.degrees_to_radians(degree)
-        //   factors[i] = Math.cos(radian) + 1
-        // }
         return factors
       }
-      util.exportArray(factorLOL())
+      const curveExpUp = (from, to) => {
+        const factors = zeroArray()
+        const radius = 1
+        const xFactor = 1 / 255
+        for (let i = 0, x = 0; i <= 255; i++, x += xFactor) {
+          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = 1 - y
+        }
+        return factors
+      }
+      const curveExpDown = (from, to) => {
+        const factors = zeroArray(256)
+        const radius = 1
+        const xFactor = 1 / 255
+        for (let i = 255, x = 0; i >= 0; i--, x += xFactor) {
+          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = 1 - y
+        }
+        return factors
+      }
+      const curveRootUp = (from, to) => {
+        const factors = zeroArray(256)
+        const radius = 1
+        const xFactor = 1 / 255
+        for (let i = 0, x = -1; i <= 255; i++, x += xFactor) {
+          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = y
+        }
+        return factors
+      }
+      const curveRootDown = (from, to) => {
+        const factors = zeroArray(256)
+        const radius = 1
+        const xFactor = 1 / 255
+        for (let i = 255, x = -1; i >= 0; i--, x += xFactor) {
+          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = y
+        }
+        return factors
+      }
+      const curveRootUpMid = (from, to) => {
+        const factors = zeroArray(256)
+        const radius = 1
+        const xFactor = 1 / 255
+        for (let i = 0, x = -1; i <= 255; i++, x += xFactor) {
+          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = y / 2 + 0.5
+        }
+        return factors
+      }
+      const curveRootDownMid = (from, to) => {
+        const factors = zeroArray(256)
+        const radius = 1
+        const xFactor = 1 / 255
+        for (let i = 255, x = -1; i >= 0; i--, x += xFactor) {
+          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = y / 2 + 0.5
+        }
+        return factors
+      }
+      const curveSphereFull = (center = 128) => {
+        const factors = zeroArray(256)
+        let xFactor = 1 / (center)
+        const radius = 1
+        for (let i = 0, x = 0; i <= center; i++, x += xFactor) {
+          const y = 1 - Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = y
+          // factors[i] = Math.pow(y, 2).toFixed(10)
+        }
+
+        xFactor = 1 / (255 - center + 1)
+        for (let i = 255, x = 0; i >= center; i--, x += xFactor) {
+          const y = 1 - Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = y
+          // factors[i] = Math.pow(y, 2).toFixed(10)
+        }
+        return factors
+      }
+      const curvePowFull = (center = 128, exponent = 2) => {
+        const factors = zeroArray(256)
+        let xFactor = 1 / center
+        let x = 0
+        for (let i = 0; i <= center; i++) {
+          const y = Math.pow(x, exponent)
+          factors[i] = y
+          x += xFactor
+        }
+        xFactor = 1 / (255 - center)
+        x = 0
+        for (let i = 255; i >= center; i--) {
+          const y = Math.pow(x, exponent)
+          factors[i] = y
+          x += xFactor
+        }
+        return factors
+      }
+      const curveSinFull = (center = 128) => {
+        const factors = zeroArray(256)
+        let degree = 0
+        let radian = 0
+        let angleFactor = 90 / center
+        for (let i = 0; i <= center; i++) {
+          radian = util.degrees_to_radians(degree)
+          const y = Math.sin(radian)
+          factors[i] = y
+          degree += angleFactor
+        }
+        angleFactor = 90 / (255 - center)
+        degree = 0
+        for (let i = 255; i >= center; i--) {
+          radian = util.degrees_to_radians(degree)
+          const y = Math.sin(radian)
+          factors[i] = y
+          degree += angleFactor
+        }
+        return factors
+      }
+      const blob = (center = 128, exponent = 4) => {
+        const factors = zeroArray(256)
+        const radius = 1
+        let xFactor = 1 / center
+        let x = -1
+        for (let i = 0; i <= center; i++) {
+          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = y
+          x += xFactor
+        }
+        xFactor = 1 / (255 - center)
+        x = -1
+        for (let i = 255; i >= center; i--) {
+          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+          factors[i] = y
+          x += xFactor
+        }
+        return factors
+      }
+      // util.exportArray(data)
+      this.curvesHistograms = [
+        // line(0, 256),
+        // line(256, 0),
+        // curveExpUp(),
+        // curveExpDown(),
+        // curveRootUp(),
+        // curveRootDown(),
+        // curveRootUpMid(),
+        // curveRootDownMid(),
+        blob(64),
+        blob(128),
+        curvePowFull(32, 2),
+        curveSinFull(32)
+        // curveSphereFull(64),
+        // curveSphereFull(192)
+      ]
+    },
+    drawCurves () {
+      this.switches.debugHistograms = true
+      const canvases = this.$refs.curvesHistograms
+      for (let i = 0; i < canvases.length; i++) {
+        const ctx = canvases[i].getContext('2d')
+        ctx.imageSmoothingEnabled = false
+        ctx.strokeStyle = 'lightgrey'
+        ctx.clearRect(0, 0, 256, 100)
+        const data = Array(256)
+        for (let j = 0; j < 256; j++) {
+          data[j] = this.curvesHistograms[i][j] * 100
+        }
+        histogram.drawHistogram(ctx, data)
+      }
+      console.log(this.curvesHistograms)
+      util.exportArray(this.curvesHistograms[3])
     },
     viewportZoom (e) {
       e.preventDefault()
@@ -922,8 +864,7 @@ export default {
       // console.log(containerRatio, imgRatio)
     },
     hardReset () {
-      this.clickResetChannels()
-      this.ctxMain.clearRect(0, 0, this.canvasMain.width, this.canvasMain.height)
+      // this.ctxMain.clearRect(0, 0, this.canvasMain.width, this.canvasMain.height)
     },
     debugArray (array, length) {
       const text = []
