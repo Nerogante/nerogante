@@ -126,13 +126,13 @@
       <!--          End Window -->
 
       <!-- Adjustments Sidebar -->
-      <v-sheet cols="auto" class="mh-100-p d-flex flex-column justify-start adjustments px-2">
+      <v-sheet cols="auto" class="mh-100-p adjustments pt-5">
         <!-- Tabs container -->
-        <div class="d-flex flex-column flex-md-column-reverse">
-          <v-tabs-items v-model="adjustmentTabs" dark style="overflow: visible;" class="transparent pt-md-10">
+        <div class="d-flex flex-column flex-md-row">
+          <v-tabs-items v-model="adjustmentTabs" dark style="overflow: visible; min-width:256px" class="transparent pt-md-10">
             <!-- Spread -->
             <v-tab-item value="tab-1" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
-              <v-col cols="12">
+              <v-col cols="12" class="">
                 <v-slider
                   v-model="controls[0][0].limit"
                   dense
@@ -168,24 +168,26 @@
             </v-tab-item>
             <!--  -->
 
-            <!-- Color -->
+            <!-- Temp -->
             <v-tab-item value="tab-2" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
-              <v-col cols="12">
-                <v-col cols="12" class="pa-0">
+              <v-col cols="12" class="">
+                <v-col cols="12" class="pa-0 temperature">
                   <v-slider
                     v-for="(element, index) in controls[1]"
                     :key="index"
                     v-model="element.strength"
+                    :class="['gradient-red', 'gradient-green'][index]"
                     dense
-                    min="-10"
-                    max="10"
+                    color="transparent"
+                    min="-256"
+                    max="256"
                     thumb-label="always"
                     thumb-size=""
-                    :thumb-color="index === 0 ? 'red darken-3' : index === 1 ? 'green darken-3' : 'blue darken-3'"
+                    :thumb-color="['red darken-3', 'green darken-3', 'grey darken-2'][index]"
                     append-icon="mdi-plus"
                     prepend-icon="mdi-minus"
-                    @click:append="clickAddBalanceStrength(1, -10, 10)"
-                    @click:prepend="clickAddBalanceStrength(-1, -10, 10)"
+                    @click:append="clickAddBalanceStrength(1, -256, 256)"
+                    @click:prepend="clickAddBalanceStrength(-1, -256, 256)"
                     @input="inputControl(1)"
                   />
                 </v-col>
@@ -201,24 +203,29 @@
             </v-tab-item>
             <!--  -->
 
-            <!-- Brightness -->
+            <!-- Light -->
             <v-tab-item value="tab-3" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
               <v-col cols="12">
-                <v-slider
-                  v-model="controls[2][0].newCenter"
-                  dense
-                  min="-32"
-                  max="32"
-                  thumb-label="always"
-                  thumb-size=""
-                  hide-details=""
-                  thumb-color="blue darken-3"
-                  append-icon="mdi-plus"
-                  prepend-icon="mdi-minus"
-                  @click:append="clickAddMidShift(1, -32, 32)"
-                  @click:prepend="clickAddMidShift(-1, -32, 32)"
-                  @input="inputControl(2)"
-                />
+                <v-col cols="12" class="pa-0">
+                  <v-slider
+                    v-for="(element, index) in controls[2]"
+                    :key="index"
+                    v-model="element.value"
+                    :vertical="false"
+                    dense
+                    min="-128"
+                    max="128"
+                    thumb-label="always"
+                    thumb-size=""
+                    :hide-details="false"
+                    thumb-color="blue darken-3"
+                    append-icon="mdi-plus"
+                    prepend-icon="mdi-minus"
+                    @click:append="clickAddMidShift(1, -128, 128)"
+                    @click:prepend="clickAddMidShift(-1, -128, 128)"
+                    @input="inputControl(2)"
+                  />
+                </v-col>
                 <div class="d-flex justify-end pt-2">
                   <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetControls(2)">
                     <v-icon left>
@@ -237,28 +244,36 @@
           <v-tabs
             v-model="adjustmentTabs"
             background-color="transparent"
-            centered
             icons-and-text
             dark
             height=""
+            :centered="$vuetify.breakpoint.mobile"
             :vertical="!$vuetify.breakpoint.mobile"
+            color="green accent-3"
+            active-class="green--text text--accent-1"
           >
             <!-- <v-tabs-slider /> -->
-            <v-tab href="#tab-1" :disabled="!imageLoaded">
+            <v-tab href="#tab-1" class="" :disabled="!imageLoaded">
               Clip
-              <v-icon>mdi-chart-bar</v-icon>
+              <v-icon :color="clipDefault ? 'grey' : 'green accent-3'">
+                mdi-chart-bar
+              </v-icon>
             </v-tab>
-            <v-tab href="#tab-2" :disabled="!imageLoaded">
-              Balance
-              <v-icon>mdi-palette</v-icon>
+            <v-tab href="#tab-2" class="" :disabled="!imageLoaded">
+              Temp
+              <v-icon :color="tempDefault ? 'grey' : 'green accent-3'">
+                mdi-thermometer
+              </v-icon>
             </v-tab>
             <v-tab href="#tab-3" :disabled="!imageLoaded">
               Light
-              <v-icon>mdi-lightbulb-on</v-icon>
+              <v-icon :color="lightDefault ? 'grey' : 'green accent-3'">
+                mdi-tune
+              </v-icon>
             </v-tab>
             <v-tab href="#tab-4" :disabled="!imageLoaded">
               Color
-              <v-icon>mdi-lightbulb-on</v-icon>
+              <v-icon>mdi-palette</v-icon>
             </v-tab>
           </v-tabs>
         </div>
@@ -298,7 +313,7 @@ export default {
       imageLoaded: false,
       documentName: 'Untitled',
       adjustmentTabs: null,
-      tabsTransition: 'a',
+      tabsTransition: 'none',
       pressing: false,
       startPosition: [0, 0],
       offsetX: 0,
@@ -328,10 +343,10 @@ export default {
           { limit: 0, keepBalance: false }
         ],
         [
-          { strength: 0 }, { strength: 0 }, { strength: 0 }
+          { strength: 0 }, { strength: 0 }
         ],
         [
-          { newCenter: 0 }
+          { value: 0 }, { value: 0 }, { value: 0 }
         ]
       ],
       lastControls: [
@@ -339,10 +354,10 @@ export default {
           { limit: 0, keepBalance: false }
         ],
         [
-          { strength: 0 }, { strength: 0 }, { strength: 0 }
+          { strength: 0 }, { strength: 0 }
         ],
         [
-          { newCenter: 0 }
+          { value: 0 }, { value: 0 }, { value: 0 }
         ]
       ],
       UIMessage: 'Debug: ',
@@ -372,6 +387,15 @@ export default {
       } else {
         return true
       }
+    },
+    clipDefault () {
+      return this.controls[0][0].limit === 0 && !this.controls[0][0].keepBalance
+    },
+    tempDefault () {
+      return this.controls[1][0].strength === 0 && this.controls[1][1].strength === 0
+    },
+    lightDefault () {
+      return this.controls[2][0].value === 0 && this.controls[2][1].value === 0 && this.controls[2][2].value === 0
     }
   },
   mounted () {
@@ -387,7 +411,7 @@ export default {
       this.histograms[i].imageSmoothingEnabled = false
       this.histograms[i].strokeStyle = 'lightgrey'
     }
-    // this.initializeCurves()
+    this.initializeCurves()
   },
   methods: {
     ...mapMutations({
@@ -491,48 +515,50 @@ export default {
     },
     // Levels
     process () {
-      // Spread
+      // Clip
       const limitValue = this.controls[0][0].limit - 1
       const lastLimitValue = this.lastControls[0][0].limit - 1
       const keepBalance = this.controls[0][0].keepBalance
       const lastKeepBalance = this.lastControls[0][0].keepBalance
       const limit = Math.ceil((this.width * this.height * 0.0001) * limitValue * (keepBalance ? 4 : 2))
 
-      // Balance
-      const balanceStrength = this.controls[1][0].strength
-      const lastBalanceStrength = this.lastControls[1][0].strength
+      // Temp
+      const balanceR = this.controls[1][0].strength
+      const balanceG = this.controls[1][1].strength
+      const lastBalanceR = this.lastControls[1][0].strength
+      const lastBalanceG = this.lastControls[1][1].strength
 
-      // Center Shift
-      const newCenter = this.controls[2][0].newCenter
-      const lastNewCenter = this.lastControls[2][0].newCenter
-
-      const spreadDefault = (limitValue === -1) && (keepBalance === false)
-      const balanceDefault = (balanceStrength === 0)
-      const centerShiftDefault = (newCenter === 0)
+      // Light
+      const midAmount = this.controls[2][0].value
+      const lastMidAmount = this.lastControls[2][0].value
+      const shadowAmount = this.controls[2][1].value
+      const lastShadowAmount = this.lastControls[2][1].value
+      const highlightAmount = this.controls[2][2].value
+      const lastHighlightAmount = this.lastControls[2][2].value
 
       const runPercentileStretch = (limitValue !== lastLimitValue) || (keepBalance !== lastKeepBalance)
-      const runGrayWorld = (balanceStrength !== lastBalanceStrength) || (runPercentileStretch && !balanceDefault)
-      const runCenterShift = (newCenter !== lastNewCenter) || ((runPercentileStretch || runGrayWorld) && !centerShiftDefault)
+      const runColorBalance = (balanceR !== lastBalanceR || balanceG !== lastBalanceG) || (runPercentileStretch && !this.tempDefault)
+      const runLight = (midAmount !== lastMidAmount || shadowAmount !== lastShadowAmount || highlightAmount !== lastHighlightAmount) || ((runPercentileStretch || runColorBalance) && !this.lightDefault)
 
       let displayIndex = 0
 
-      if (runCenterShift) {
+      if (runLight) {
         displayIndex = 3
-      } else if (!balanceDefault) {
+      } else if (!this.tempDefault) {
         displayIndex = 2
-      } else if (!spreadDefault) {
+      } else if (!this.clipDefault) {
         displayIndex = 1
       }
 
-      console.log({ runPercentileStretch }, { runGrayWorld }, { runCenterShift })
+      console.log({ runPercentileStretch }, { runColorBalance }, { runLight })
 
       const startTime = performance.now()
 
       this.wasmHistogram.instance.exports.process(
-        runPercentileStretch, runGrayWorld, runCenterShift,
+        runPercentileStretch, runColorBalance, runLight,
         keepBalance, limit, limitValue,
-        balanceStrength,
-        newCenter)
+        balanceR, balanceG,
+        midAmount, shadowAmount, highlightAmount)
 
       const endTime = performance.now()
 
@@ -545,8 +571,11 @@ export default {
       this.lastControls[0][0].keepBalance = this.controls[0][0].keepBalance
 
       this.lastControls[1][0].strength = this.controls[1][0].strength
+      this.lastControls[1][1].strength = this.controls[1][1].strength
 
-      this.lastControls[2][0].newCenter = this.controls[2][0].newCenter
+      this.lastControls[2][0].value = this.controls[2][0].value
+      this.lastControls[2][1].value = this.controls[2][1].value
+      this.lastControls[2][2].value = this.controls[2][2].value
 
       this.updateCanvas(displayIndex)
       this.updateHistograms(displayIndex)
@@ -561,7 +590,9 @@ export default {
           element.strength = 0
         })
       } else if (index === 2) {
-        controls[0].newCenter = 0
+        controls.forEach((element) => {
+          element.value = 0
+        })
       }
       this.inputControl()
     },
@@ -618,24 +649,6 @@ export default {
           zeroes[i] = 0
         }
         return zeroes
-      }
-      const line = (from, to) => {
-        const factors = Array(256)
-        for (let i = 0; i < 256; i++) {
-          factors[i] = 0
-        }
-        if (from < to) {
-          const f = 1 / (to - from)
-          for (let i = from, c = 0; i < to; i++, c++) {
-            factors[i] = c * f
-          }
-        } else {
-          const f = 1 / (from - to)
-          for (let i = from, c = 0; i >= to; i--, c++) {
-            factors[i] = c * f
-          }
-        }
-        return factors
       }
       const curveExpUp = (from, to) => {
         const factors = zeroArray()
@@ -773,6 +786,26 @@ export default {
         }
         return factors
       }
+      const lineUp = (from = 0, to = 255, min = 0, max = 1) => {
+        const factors = zeroArray(256)
+        const lineFactor = (1 - min) / (255)
+        let currentScale = 0
+        for (let i = from; i <= to; i++) {
+          factors[i] = currentScale * lineFactor + min
+          currentScale++
+        }
+        return factors
+      }
+      const lineDown = (from = 255, to = 0, min = 0, max = 1) => {
+        const factors = zeroArray(256)
+        const lineFactor = (1 - min) / (255)
+        let currentScale = 0
+        for (let i = from; i >= to; i--) {
+          factors[i] = currentScale * lineFactor + min
+          currentScale++
+        }
+        return factors
+      }
       // util.exportArray(data)
       this.curvesHistograms = [
         // line(0, 256),
@@ -783,10 +816,15 @@ export default {
         // curveRootDown(),
         // curveRootUpMid(),
         // curveRootDownMid(),
-        blob(64),
-        blob(128),
-        curvePowFull(32, 2),
-        curveSinFull(32)
+        // blob(64),
+        // blob(128),
+        // curvePowFull(128, 2),
+        // curveSinFull(32)
+        lineUp(0, 255, 0, 1),
+        lineUp(0, 255, 0.2, 1),
+        lineDown(255, 0, 0, 1),
+        lineDown(255, 0, 0.75, 1),
+        lineDown(255, 0, 0.5, 1)
         // curveSphereFull(64),
         // curveSphereFull(192)
       ]
@@ -799,6 +837,10 @@ export default {
         ctx.imageSmoothingEnabled = false
         ctx.strokeStyle = 'lightgrey'
         ctx.clearRect(0, 0, 256, 100)
+        // const data = [0, 0.012271538285719925, 0.024541228522912288, 0.03680722294135883, 0.049067674327418015, 0.06132073630220858, 0.07356456359966743, 0.0857973123444399, 0.0980171403295606, 0.11022220729388306, 0.1224106751992162, 0.1345807085071262, 0.14673047445536175, 0.15885814333386145, 0.17096188876030122, 0.18303988795514098, 0.19509032201612825, 0.20711137619221856, 0.2191012401568698, 0.23105810828067114, 0.24298017990326387, 0.25486565960451457, 0.2667127574748984, 0.27851968938505306, 0.29028467725446233, 0.3020059493192281, 0.3136817403988915, 0.3253102921622629, 0.33688985339222005, 0.34841868024943456, 0.35989503653498817, 0.3713171939518375, 0.3826834323650898, 0.3939920400610481, 0.40524131400498986, 0.41642956009763715, 0.4275550934302821, 0.43861623853852766, 0.4496113296546066, 0.46053871095824, 0.47139673682599764, 0.4821837720791227, 0.49289819222978404, 0.5035383837257176, 0.5141027441932218, 0.524589682678469, 0.5349976198870972, 0.5453249884220465, 0.5555702330196022, 0.5657318107836131, 0.5758081914178453, 0.5857978574564389, 0.5956993044924334, 0.6055110414043255, 0.6152315905806268, 0.6248594881423863, 0.6343932841636455, 0.6438315428897915, 0.6531728429537768, 0.6624157775901718, 0.6715589548470184, 0.680600997795453, 0.6895405447370668, 0.6983762494089729, 0.7071067811865475, 0.7157308252838187, 0.7242470829514669, 0.7326542716724128, 0.7409511253549591, 0.7491363945234593, 0.7572088465064846, 0.765167265622459, 0.7730104533627369, 0.7807372285720945, 0.7883464276266062, 0.7958369046088836, 0.8032075314806449, 0.8104571982525948, 0.8175848131515837, 0.8245893027850253, 0.8314696123025452, 0.8382247055548381, 0.844853565249707, 0.8513551931052652, 0.8577286100002721, 0.8639728561215867, 0.8700869911087113, 0.8760700941954066, 0.881921264348355, 0.8876396204028539, 0.8932243011955153, 0.8986744656939538, 0.9039892931234433, 0.9091679830905224, 0.9142097557035307, 0.9191138516900578, 0.9238795325112867, 0.9285060804732156, 0.9329927988347388, 0.937339011912575, 0.9415440651830208, 0.9456073253805213, 0.9495281805930367, 0.9533060403541938, 0.9569403357322089, 0.9604305194155658, 0.9637760657954398, 0.9669764710448521, 0.970031253194544, 0.9729399522055602, 0.9757021300385286, 0.9783173707196277, 0.9807852804032304, 0.9831054874312163, 0.9852776423889412, 0.9873014181578584, 0.989176509964781, 0.99090263542778, 0.99247953459871, 0.9939069700023561, 0.9951847266721969, 0.996312612182778, 0.9972904566786902, 0.9981181129001492, 0.9987954562051724, 0.9993223845883495, 0.9996988186962042, 0.9999247018391445, 1, 0.9999235113880168, 0.9996940572530831, 0.9993116726964553, 0.9987764162142612, 0.9980883696885519, 0.9972476383747746, 0.9962543508856719, 0.9951086591716065, 0.9938107384973163, 0.9923607874151029, 0.9907590277344579, 0.9890057044881306, 0.987101085894644, 0.9850454633172632, 0.9828391512194237, 0.9804824871166252, 0.9779758315248003, 0.9753195679051626, 0.9725141026055468, 0.9695598647982466, 0.9664573064143603, 0.9632069020746571, 0.9598091490169693, 0.9562645670201276, 0.9525736983244458, 0.9487371075487713, 0.9447553816041101, 0.9406291296038441, 0.9363589827705495, 0.9319455943394349, 0.9273896394584106, 0.922691815084807, 0.9178528398787554, 0.9128734540932497, 0.9077544194609043, 0.9024965190774269, 0.8971005572818217, 0.891567359533345, 0.8858977722852279, 0.880092662855189, 0.8741529192927533, 0.8680794502434023, 0.861873184809571, 0.8555350724085166, 0.8490660826270794, 0.842467205073358, 0.835739449225322, 0.8288838442763844, 0.821901438977959, 0.8147933014790248, 0.8075605191627243, 0.8002041984800174, 0.7927254647804212, 0.7851254621398553, 0.7774053531856262, 0.7695663189185703, 0.7616095585323882, 0.7535362892301958, 0.7453477460383191, 0.7370451816173642, 0.7286298660705877, 0.7201030867496008, 0.7114661480574334, 0.7027203712489903, 0.6938670942289291, 0.6849076713469913, 0.6758434731908176, 0.6666758863762795, 0.6574063133353583, 0.6480361721016052, 0.6385668960932144, 0.6289999338937424, 0.6193367490305086, 0.6095788197507078, 0.5997276387952729, 0.5897847131705194, 0.5797515639176072, 0.5696297258798569, 0.5594207474679529, 0.5491261904230721, 0.5387476295779733, 0.5282866526160832, 0.5177448598286177, 0.5071238638697727, 0.49642528951002607, 0.4856507733875834, 0.4748019637580109, 0.46388052024208903, 0.45288811357192854, 0.4418264253353865, 0.4306971477188217, 0.41950198324822885, 0.4082426445287903, 0.396920853982887, 0.3855383435866072, 0.374096854604793, 0.3625981373246669, 0.35104395078807754, 0.3394360625224065, 0.3277762482701767, 0.3160662917174045, 0.3043079842207361, 0.2925031245334109, 0.2806535185300931, 0.2687609789306142, 0.256827325022668, 0.24485438238350124, 0.23284398260064146, 0.2207979629917062, 0.2087181663233351, 0.19660644052928852, 0.18446463842775587, 0.17229461743791663, 0.16009823929579745, 0.1478773697694689, 0.13563387837362562, 0.12336963808359294, 0.11108652504880454, 0.09878641830579413, 0.0864711994907457, 0.0741427525516462, 0.061802963460084105, 0.049453719922738996, 0.03709691109260531, 0.024734427279994954, 0.012368159663362913, 0]
+        // for (let j = 0; j < 256; j++) {
+        //   data[j] = data[j] * 100
+        // }
         const data = Array(256)
         for (let j = 0; j < 256; j++) {
           data[j] = this.curvesHistograms[i][j] * 100
@@ -806,7 +848,10 @@ export default {
         histogram.drawHistogram(ctx, data)
       }
       console.log(this.curvesHistograms)
-      util.exportArray(this.curvesHistograms[3])
+      for (let i = 0; i < this.curvesHistograms.length; i++) {
+        console.log('Export:', i)
+        util.exportArray(this.curvesHistograms[i])
+      }
     },
     viewportZoom (e) {
       e.preventDefault()
@@ -939,6 +984,12 @@ canvas {
 }
 .gradient-track .g-blue >>> .v-slider__track-container {
   background: linear-gradient(90deg, rgba(255,255,0,1) 0%, rgba(0,0,255,1) 100%);
+}
+.temperature .gradient-red >>> .v-slider__track-container {
+  background: linear-gradient(90deg, rgba(0, 32, 255, 1) 0%, rgba(255 ,223,0,1) 100%);
+}
+.temperature .gradient-green >>> .v-slider__track-container {
+  background: linear-gradient(90deg, rgba(255,32,255,1) 0%, rgba(32, 255, 32, 1) 100%);
 }
 @media screen and (orientation: landscape) {
   .app-container {
