@@ -213,16 +213,17 @@
                     v-model="element.value"
                     :vertical="false"
                     dense
-                    min="-128"
-                    max="128"
+                    min="-100"
+                    max="100"
                     thumb-label="always"
                     thumb-size=""
                     :hide-details="false"
+                    :color="['grey', 'white', 'black'][index]"
                     thumb-color="blue darken-3"
                     append-icon="mdi-plus"
                     prepend-icon="mdi-minus"
-                    @click:append="clickAddMidShift(1, -128, 128)"
-                    @click:prepend="clickAddMidShift(-1, -128, 128)"
+                    @click:append="clickAddMidShift(1, -100, 100)"
+                    @click:prepend="clickAddMidShift(-1, -100, 100)"
                     @input="inputControl(2)"
                   />
                 </v-col>
@@ -806,25 +807,51 @@ export default {
         }
         return factors
       }
+      const curveSinUp = () => {
+        const factors = zeroArray(256)
+        let degree = 0
+        let radian = 0
+        const angleFactor = 90 / 255
+        for (let i = 0; i <= 255; i++) {
+          radian = util.degrees_to_radians(degree)
+          const y = Math.sin(radian)
+          factors[i] = y
+          degree += angleFactor
+        }
+        return factors
+      }
+      const curveSinDown = () => {
+        const factors = zeroArray(256)
+        let degree = 0
+        let radian = 0
+        const angleFactor = 90 / 255
+        for (let i = 0; i <= 255; i++) {
+          radian = util.degrees_to_radians(degree)
+          const y = Math.sin(radian)
+          factors[255 - i] = y
+          degree += angleFactor
+        }
+        return factors
+      }
+      const logUp = (offset = 1) => {
+        const factors = zeroArray(256)
+        for (let i = 0; i < 256; i++) {
+          factors[i] = Math.log10(i + offset) / Math.log10(255 + offset)
+        }
+        return factors
+      }
+      const logDown = (offset = 1) => {
+        const factors = zeroArray(256)
+        for (let i = 0; i < 256; i++) {
+          factors[255 - i] = Math.log10(i + offset) / Math.log10(255 + offset)
+        }
+        return factors
+      }
+
       // util.exportArray(data)
       this.curvesHistograms = [
-        // line(0, 256),
-        // line(256, 0),
-        // curveExpUp(),
-        // curveExpDown(),
-        // curveRootUp(),
-        // curveRootDown(),
-        // curveRootUpMid(),
-        // curveRootDownMid(),
-        // blob(64),
-        // blob(128),
-        // curvePowFull(128, 2),
-        // curveSinFull(32)
-        lineUp(0, 255, 0, 1),
-        lineUp(0, 255, 0.2, 1),
-        lineDown(255, 0, 0, 1),
-        lineDown(255, 0, 0.75, 1),
-        lineDown(255, 0, 0.5, 1)
+        logDown(1),
+        logUp(1)
         // curveSphereFull(64),
         // curveSphereFull(192)
       ]
