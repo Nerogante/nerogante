@@ -412,6 +412,8 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
 
   let clipL: i32 = 0
   let clipR: i32 = 255
+  let lightClipL: i32 = 0
+  let lightClipR: i32 = 255
 
   if (midAmount > 0) {
     clipR = 255 - <i32> (midAmount * 1.5)
@@ -420,10 +422,21 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
     clipL = 0
     clipR = 255  -midAmount * 20
   }
+  if (lightAmount > 0) {
+    lightClipL = <i32> 0
+    lightClipR = <i32> (255 + -lightAmount * 1)
+  } else {
+    lightClipL = <i32> (-lightAmount * 0)
+    lightClipR = <i32> (255 + -lightAmount * 1)
+  }
 
   const rfactor: f32 = 1 / <f32> (clipR - clipL) * 255
   const gfactor: f32 = 1 / <f32> (clipR - clipL) * 255
   const bfactor: f32 = 1 / <f32> (clipR - clipL) * 255
+
+  const lightRfactor: f32 = 1 / <f32> (lightClipR - lightClipL) * 255
+  const lightGfactor: f32 = 1 / <f32> (lightClipR - lightClipL) * 255
+  const lightBfactor: f32 = 1 / <f32> (lightClipR - lightClipL) * 255
 
   const exposureCompensation: f32 = <f32> Math.pow(2, 1 / 100 * <f32> midAmount * 3)
   let expValue: f32 = 1
@@ -459,6 +472,10 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
   let lightR: f32 = 0
   let lightG: f32 = 0
   let lightB: f32 = 0
+  
+  let dstR: i32 = 0
+  let dstG: i32 = 0
+  let dstB: i32 = 0
 
   let curveR: f32 = 0
   let curveG: f32 = 0
@@ -471,45 +488,20 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
   let middle: i32 = 0
   let highest: i32 = 0
 
+  // avg = <i32> (r * 0.2126 + g * 0.7152 + b * 0.0722)
+  // midR = <f32> (<f32> (r - clipL) * rfactor + (<f32> midAmount * curveR * 0.2))
+
   for (let i = 0; i < viewLength; i += 4) {
     r = load<u8>(originStartOffset + i)
     g = load<u8>(originStartOffset + i + 1)
     b = load<u8>(originStartOffset + i + 2)
 
-    lowest = r
-    if (g < r) {
-      lowest = g
-      if (b < g) {
-        lowest = b
-      }
-    } else if (b < r) {
-      lowest = b
-    }
-    highest = b
-    if (r > b) {
-      highest = r
-      if (g > r) {
-        highest = g
-      }
-    } else if (g > b) {
-      highest = g
-    }
+    // Mids
+    lowest = lowestRGB(r, g, b)
+    highest = highestRGB(r, g, b)
     avg = <i32> (<f32> (r + g + b) * divider)
-    // avg = <i32> (r * 0.2126 + g * 0.7152 + b * 0.0722)
 
     if (midAmount > 0) {
-      // curveR = unchecked(1 - curveLogUp0[<i32> (avg * 0.75) + <i32> (r * 0.25)])
-      // curveG = unchecked(1 - curveLogUp0[<i32> (avg * 0.75) + <i32> (g * 0.25)])
-      // curveB = unchecked(1 - curveLogUp0[<i32> (avg * 0.75) + <i32> (b * 0.25)])
-    
-      // const normR: f32 = unchecked(rgb2normalized[r]) * expValue
-      // const normG: f32 = unchecked(rgb2normalized[g]) * expValue
-      // const normB: f32 = unchecked(rgb2normalized[b]) * expValue
-
-      // midR = normalize2rgb(minVal, maxVal, 0, 255, normR)
-      // midG = normalize2rgb(minVal, maxVal, 0, 255, normG)
-      // midB = normalize2rgb(minVal, maxVal, 0, 255, normB)
-      
       curveR = unchecked(curveSinFull[avg])
       curveG = unchecked(curveSinFull[avg])
       curveB = unchecked(curveSinFull[avg])
@@ -519,13 +511,6 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
       midB = <f32> (b + midAmount * 0.5)
 
     } else {
-      // curveR = unchecked(curveLogDown0[<i32> (r * 0.5) + <i32> (avg * 0.5)])
-      // curveG = unchecked(curveLogDown0[<i32> (g * 0.5) + <i32> (avg * 0.5)])
-      // curveB = unchecked(curveLogDown0[<i32> (b * 0.5) + <i32> (avg * 0.5)])
-
-      // midR = <f32> r * expValue
-      // midG = <f32> g * expValue
-      // midB = <f32> b * expValue
       curveR = unchecked(curveSinFull[r])
       curveG = unchecked(curveSinFull[g])
       curveB = unchecked(curveSinFull[b])
@@ -534,69 +519,30 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
       midG = <f32> (g + midAmount * 0.5)
       midB = <f32> (b + midAmount * 0.5)
     }
-
-    // midR = <f32> (<f32> (r - clipL) * rfactor + (<f32> midAmount * curveR * 0.2))
-    // midG = <f32> (<f32> (g - clipL) * gfactor + (<f32> midAmount * curveG * 0.2))
-    // midB = <f32> (<f32> (b - clipL) * bfactor + (<f32> midAmount * curveB * 0.2))
-
-    // curveR = (1 - (1 / 255) * <f32> avg) * 0.5 + 0.5
-    // curveG = (1 - (1 / 255) * <f32> avg) * 0.5 + 0.5
-    // curveB = (1 - (1 / 255) * <f32> avg) * 0.5 + 0.5
+    dstR = <i32> lerp(<f32> r, midR, curveR)
+    dstG = <i32> lerp(<f32> g, midG, curveG)
+    dstB = <i32> lerp(<f32> b, midB, curveB)
     
-    // const poto: f32 = 1.1 - (<f32> avg * 1 / 255)
-
-    midR = lerp(<f32> r, midR, curveR)
-    midG = lerp(<f32> g, midG, curveG)
-    midB = lerp(<f32> b, midB, curveB)
-
+    dstR = clampI32(dstR, 0, 255)
+    dstG = clampI32(dstG, 0, 255)
+    dstB = clampI32(dstB, 0, 255)
     
-    if (midR > 255) {
-      midR = 255
-    } else if (midR < 0) {
-      midR = 0
-    }
-    if (midG > 255) {
-      midG = 255
-    } else if (midG < 0) {
-      midG = 0
-    }
-    if (midB > 255) {
-      midB = 255 
-    } else if (midB < 0) {
-      midB = 0
-    }
-
     // Shadows
-    avg = <i32> ((midR + midG + midB) * divider)
-    lowest = <i32> midR
-    if (midG < midR) {
-      lowest = <i32> midG
-      if (midB < midG) {
-        lowest = <i32> midB
-      }
-    } else if (midB < midR) {
-      lowest = <i32> midB
-    }
-    highest = <i32> midB
-    if (midR > midB) {
-      highest = <i32> midR
-      if (midG > midR) {
-        highest = <i32> midG
-      }
-    } else if (midG > midB) {
-      highest = <i32> midG
-    }
-    const shadowFactor: f32 = 1 + (<f32> shadowAmount / 100 * 5)
+    avg = <i32> (<f32> (dstR + dstG + dstB) * divider)
+    lowest = lowestRGB(dstR, dstG, dstB)
+    highest = highestRGB(dstR, dstG, dstB)
+    const shadowFactor: f32 = 1 + (<f32> shadowAmount * 0.05)
+
     if (shadowAmount > 0) {
-      curveR = unchecked(1 - curveLogUp0[<i32> avg])
-      curveG = unchecked(1 - curveLogUp0[<i32> avg])
-      curveB = unchecked(1 - curveLogUp0[<i32> avg])
+      curveR = unchecked(1 - curveLogUp0[avg])
+      curveG = unchecked(1 - curveLogUp0[avg])
+      curveB = unchecked(1 - curveLogUp0[avg])
       // curveR = curveR * curveR
       // curveG = curveG * curveG
       // curveB = curveB * curveB
-      shadowR = midR * <f32> shadowFactor + <f32> shadowAmount * 0.5
-      shadowG = midG * <f32> shadowFactor + <f32> shadowAmount * 0.5
-      shadowB = midB * <f32> shadowFactor + <f32> shadowAmount * 0.5
+      shadowR = <f32> dstR * shadowFactor + <f32> shadowAmount * 0.5
+      shadowG = <f32> dstG * shadowFactor + <f32> shadowAmount * 0.5
+      shadowB = <f32> dstB * shadowFactor + <f32> shadowAmount * 0.5
       // const normR: f32 = unchecked(rgb2normalized[<i32> midR]) * shadowFactor
       // const normG: f32 = unchecked(rgb2normalized[<i32> midG]) * shadowFactor
       // const normB: f32 = unchecked(rgb2normalized[<i32> midB]) * shadowFactor
@@ -606,86 +552,72 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
       // shadowB = normalize2rgb(minVal, maxVal, 0, 255, normB)
 
     } else {
-      curveR = unchecked(1 - curveLogUp0[<i32> midR])
-      curveG = unchecked(1 - curveLogUp0[<i32> midG])
-      curveB = unchecked(1 - curveLogUp0[<i32> midB])
+      curveR = unchecked(1 - curveLogUp0[dstR])
+      curveG = unchecked(1 - curveLogUp0[dstG])
+      curveB = unchecked(1 - curveLogUp0[dstB])
       // curveR = curveR * curveR
       // curveG = curveG * curveG
       // curveB = curveB * curveB
       // shadowR = midR * <f32> shadowFactor
       // shadowG = midG * <f32> shadowFactor
       // shadowB = midB * <f32> shadowFactor
-      const normR: f32 = unchecked(rgb2normalized[<i32> midR]) * shadowFactor
-      const normG: f32 = unchecked(rgb2normalized[<i32> midG]) * shadowFactor
-      const normB: f32 = unchecked(rgb2normalized[<i32> midB]) * shadowFactor
+      const normR: f32 = unchecked(rgb2normalized[dstR]) * shadowFactor
+      const normG: f32 = unchecked(rgb2normalized[dstG]) * shadowFactor
+      const normB: f32 = unchecked(rgb2normalized[dstB]) * shadowFactor
 
       shadowR = normalize2rgb(minVal, maxVal, 0, 255, normR)
       shadowG = normalize2rgb(minVal, maxVal, 0, 255, normG)
       shadowB = normalize2rgb(minVal, maxVal, 0, 255, normB)
     }
-    midR = lerp(<f32> midR, shadowR, curveR)
-    midG = lerp(<f32> midG, shadowG, curveG)
-    midB = lerp(<f32> midB, shadowB, curveB)
+    dstR = <i32> lerp(<f32> dstR, shadowR, curveR)
+    dstG = <i32> lerp(<f32> dstG, shadowG, curveG)
+    dstB = <i32> lerp(<f32> dstB, shadowB, curveB)
 
-    if (midR > 255) {
-      midR = 255
-    } else if (midR < 0) {
-      midR = 0
-    }
-    if (midG > 255) {
-      midG = 255
-    } else if (midG < 0) {
-      midG = 0
-    }
-    if (midB > 255) {
-      midB = 255
-    } else if (midB < 0) {
-      midB = 0
-    }
+    dstR = clampI32(dstR, 0, 255)
+    dstG = clampI32(dstG, 0, 255)
+    dstB = clampI32(dstB, 0, 255)
 
     // Light
-    avg = <i32> ((midR + midG + midB) * divider)
-    const lightFactor: f32 = 1 + (<f32> lightAmount / 100 * 5)
+    avg = <i32> (<f32> (dstR + dstG + dstB) * divider)
+    lowest = lowestRGB(dstR, dstG, dstB)
+    highest = highestRGB(dstR, dstG, dstB)
+    const lightFactor: f32 = 1 + (<f32> lightAmount * 0.05)
 
     if (lightAmount > 0) {
-      curveR = 1 - unchecked(curveLogDown0[<i32> avg])
-      curveG = 1 - unchecked(curveLogDown0[<i32> avg])
-      curveB = 1 - unchecked(curveLogDown0[<i32> avg])
-      lightR = midR
-      lightG = midG
-      lightB = midB
+      curveR = 1 - unchecked(curveExpDown[highest])
+      curveG = 1 - unchecked(curveExpDown[highest])
+      curveB = 1 - unchecked(curveExpDown[highest])
+      lightR = <f32> (dstR - lightClipL) * lightRfactor
+      lightG = <f32> (dstG - lightClipL) * lightGfactor
+      lightB = <f32> (dstB - lightClipL) * lightBfactor
     } else {
-      curveR = 1 - unchecked(curveLogDown0[<i32> midR])
-      curveG = 1 - unchecked(curveLogDown0[<i32> midG])
-      curveB = 1 - unchecked(curveLogDown0[<i32> midB])
-      lightR = midR + <f32> lightAmount
-      lightG = midG + <f32> lightAmount
-      lightB = midB + <f32> lightAmount
+      // curveR = (1 - unchecked(curveLogDown0[<i32> midR])) * 0.25
+      // curveG = (1 - unchecked(curveLogDown0[<i32> midG])) * 0.25
+      // curveB = (1 - unchecked(curveLogDown0[<i32> midB])) * 0.25
+      // lightR = midR * lerp(1, lightFactor, unchecked(lineDownToPoint5[<i32> midR]))
+      // lightG = midG * lerp(1, lightFactor, unchecked(lineDownToPoint5[<i32> midG]))
+      // lightB = midB * lerp(1, lightFactor, unchecked(lineDownToPoint5[<i32> midB]))
+      curveR = 1 - unchecked(curveExpUp[dstR])
+      curveG = 1 - unchecked(curveExpUp[dstG])
+      curveB = 1 - unchecked(curveExpUp[dstB])
+      
+      lightR = <f32> (dstR - lightClipL) * lightRfactor
+      lightG = <f32> (dstG - lightClipL) * lightGfactor
+      lightB = <f32> (dstB - lightClipL) * lightBfactor
+      
     }
 
-    lightR = lerp(midR, lightR, curveR)
-    lightG = lerp(midG, lightG, curveG)
-    lightB = lerp(midB, lightB, curveB)
+    dstR = <i32> lerp(<f32> dstR, lightR, curveR)
+    dstG = <i32> lerp(<f32> dstG, lightG, curveG)
+    dstB = <i32> lerp(<f32> dstB, lightB, curveB)
 
-    if (lightR > 255) {
-      lightR = 255
-    } else if (lightR < 0) {
-      lightR = 0
-    }
-    if (lightG > 255) {
-      lightG = 255
-    } else if (lightG < 0) {
-      lightG = 0
-    }
-    if (lightB > 255) {
-      lightB = 255
-    } else if (lightB < 0) {
-      lightB = 0
-    }
+    dstR = clampI32(dstR, 0, 255)
+    dstG = clampI32(dstG, 0, 255)
+    dstB = clampI32(dstB, 0, 255)
 
-    store<u8>(targetOffset + i, <u8> lightR)
-    store<u8>(targetOffset + i + 1, <u8> lightG)
-    store<u8>(targetOffset + i + 2, <u8> lightB)
+    store<u8>(targetOffset + i, <u8> dstR)
+    store<u8>(targetOffset + i + 1, <u8> dstG)
+    store<u8>(targetOffset + i + 2, <u8> dstB)
   }
 }
 
@@ -1008,6 +940,17 @@ export function lightColorful (midAmount: i32, shadowAmount: i32, highlightAmoun
 export function lerp (a: f32, b: f32, f: f32): f32 {
   return  (a * (1.0 - f)) + (b * f)
 }
+function lerp_f64 (a: f64, b: f64, f: f64): f64 {
+  return  (a * (1.0 - f)) + (b * f)
+}
+function clampI32 (value: i32, min: i32, max: i32): i32 {
+  if (value < min)
+    return min
+  else if (value > max)
+    return max
+  else
+    return value
+}
 
 function normalize2rgb (oMin: f32, oMax: f32, dMin: f32, dMax: f32, value: f32): f32 {
   return <f32> ((value - oMin) / (oMax - oMin) * (dMax - dMin) + dMin)
@@ -1015,6 +958,34 @@ function normalize2rgb (oMin: f32, oMax: f32, dMin: f32, dMax: f32, value: f32):
 
 function findPercentage (number: f32, a: f32, b: f32): f32 {
   return (number - a) / (b - a)
+}
+
+function lowestRGB(r: i32, g: i32, b: i32): i32 {
+  if (r < g) {
+    if (r < b) {
+      return r
+    } else {
+      return b
+    }
+  } else if (g < b) {
+    return g
+  } else {
+    return b
+  }
+}
+
+function highestRGB(r: i32, g: i32, b: i32): i32 {
+  if (r > g) {
+    if (r > b) {
+      return r
+    } else {
+      return b
+    }
+  } else if (g > b) {
+    return g
+  } else {
+    return b
+  }
 }
 
 export function calculateCounts (index: u32): void {

@@ -281,16 +281,35 @@
       </v-sheet>
       <!--  -->
 
-      <v-footer class="footer d-none d-md-block" dark elevation="6">
-        <span class="green--text text--accent-3">
-          {{ UIMessage }}
-        </span>
-        <span class="">
-          {{ parseInt(UIValue) }}
-        </span>
-        <span class="green--text text--accent-3">
-          ms
-        </span>
+      <v-footer class="footer d-none d-md-flex justify-space-between" dark elevation="6">
+        <div>
+          <span class="green--text text--accent-3">
+            Average Time:
+          </span>
+          <span class="">
+            {{ averageProcess }}
+          </span>
+          <span class="green--text text--accent-3">
+            {{ UIMessage }}
+          </span>
+          <span class="">
+            {{ parseInt(UIValue) }}
+          </span>
+        </div>
+        <div>
+          <span class="green--text text--accent-3">
+            Width:
+          </span>
+          <span>
+            {{width}}
+          </span>
+          <span class="green--text text--accent-3">
+            Height:
+          </span>
+          <span>
+            {{height}}
+          </span>
+        </div>
       </v-footer>
     </v-row>
     <!-- <p>Ola ke tal</p> -->
@@ -363,6 +382,8 @@ export default {
       ],
       UIMessage: 'Debug: ',
       UIValue: 0,
+      totalRuns: 0,
+      runSum: 0,
       wasmHistogram: null,
       curvesHistograms: []
     }
@@ -378,6 +399,9 @@ export default {
   computed: {
     zoomPercent () {
       return (this.zoom * 100).toFixed(0) + '%'
+    },
+    averageProcess () {
+      return (this.runSum / this.totalRuns || 0).toFixed()
     },
     channelControlsEnabled () {
       return this.imageLoaded
@@ -560,11 +584,17 @@ export default {
         keepBalance, limit, limitValue,
         balanceR, balanceG,
         midAmount, shadowAmount, highlightAmount)
+      this.wasmHistogram.instance.exports.__collect()
 
       const endTime = performance.now()
 
       this.UIMessage = 'Process time: '
       this.UIValue = endTime - startTime
+
+      if (runPercentileStretch || runColorBalance || runLight) {
+        this.totalRuns++
+        this.runSum += endTime - startTime
+      }
       this.debugMemory()
 
       // Assign Last values
@@ -651,43 +681,13 @@ export default {
         }
         return zeroes
       }
-      const curveExpUp = (from, to) => {
+      const curveExpUp = (exp = 2, flipX = false, flipY = false) => {
         const factors = zeroArray()
         const radius = 1
         const xFactor = 1 / 255
         for (let i = 0, x = 0; i <= 255; i++, x += xFactor) {
-          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = 1 - y
-        }
-        return factors
-      }
-      const curveExpDown = (from, to) => {
-        const factors = zeroArray(256)
-        const radius = 1
-        const xFactor = 1 / 255
-        for (let i = 255, x = 0; i >= 0; i--, x += xFactor) {
-          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = 1 - y
-        }
-        return factors
-      }
-      const curveRootUp = (from, to) => {
-        const factors = zeroArray(256)
-        const radius = 1
-        const xFactor = 1 / 255
-        for (let i = 0, x = -1; i <= 255; i++, x += xFactor) {
-          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = y
-        }
-        return factors
-      }
-      const curveRootDown = (from, to) => {
-        const factors = zeroArray(256)
-        const radius = 1
-        const xFactor = 1 / 255
-        for (let i = 255, x = -1; i >= 0; i--, x += xFactor) {
-          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = y
+          const y = Math.sqrt(Math.pow(radius, exp) - Math.pow(x, exp))
+          factors[flipX ? (255 - i) : i] = flipY ? y : 1 - y
         }
         return factors
       }
@@ -726,24 +726,6 @@ export default {
           const y = 1 - Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
           factors[i] = y
           // factors[i] = Math.pow(y, 2).toFixed(10)
-        }
-        return factors
-      }
-      const curvePowFull = (center = 128, exponent = 2) => {
-        const factors = zeroArray(256)
-        let xFactor = 1 / center
-        let x = 0
-        for (let i = 0; i <= center; i++) {
-          const y = Math.pow(x, exponent)
-          factors[i] = y
-          x += xFactor
-        }
-        xFactor = 1 / (255 - center)
-        x = 0
-        for (let i = 255; i >= center; i--) {
-          const y = Math.pow(x, exponent)
-          factors[i] = y
-          x += xFactor
         }
         return factors
       }
@@ -807,7 +789,7 @@ export default {
         }
         return factors
       }
-      const curveSinUp = () => {
+      const curveSinUp = (flipX = false, flipY = false) => {
         const factors = zeroArray(256)
         let degree = 0
         let radian = 0
@@ -815,20 +797,7 @@ export default {
         for (let i = 0; i <= 255; i++) {
           radian = util.degrees_to_radians(degree)
           const y = Math.sin(radian)
-          factors[i] = y
-          degree += angleFactor
-        }
-        return factors
-      }
-      const curveSinDown = () => {
-        const factors = zeroArray(256)
-        let degree = 0
-        let radian = 0
-        const angleFactor = 90 / 255
-        for (let i = 0; i <= 255; i++) {
-          radian = util.degrees_to_radians(degree)
-          const y = Math.sin(radian)
-          factors[255 - i] = y
+          factors[flipX ? (255 - i) : i] = flipY ? (1 - y) : y
           degree += angleFactor
         }
         return factors
@@ -850,10 +819,10 @@ export default {
 
       // util.exportArray(data)
       this.curvesHistograms = [
-        logDown(1),
-        logUp(1)
-        // curveSphereFull(64),
-        // curveSphereFull(192)
+        curveSinUp(false, false),
+        curveSinUp(true, false),
+        curveSinUp(false, true),
+        curveSinUp(true, true)
       ]
     },
     drawCurves () {
