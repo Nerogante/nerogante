@@ -22,6 +22,10 @@
           <v-icon>mdi-select-compare</v-icon>
         </v-btn>
 
+        <v-btn icon color="" @click="runBenchmarkLight">
+          <v-icon>mdi-console</v-icon>
+        </v-btn>
+
         <v-btn icon :color="switches.histograms ? 'green accent-4' : 'white'" @click="switches.histograms = !switches.histograms">
           <v-icon>mdi-chart-histogram</v-icon>
         </v-btn>
@@ -449,6 +453,19 @@ export default {
       console.log('Export Image')
       this.drawCurves()
     },
+    async runBenchmarkLight () {
+      const caca = async () => {
+        for (let i = -100; i <= 100; i += 10) {
+          this.controls[2][0].value = i
+          await this.inputControl()
+          await timeout(0)
+        }
+      }
+      const timeout = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms))
+      }
+      await caca()
+    },
     loadImage () {
       if (this.$refs.imageInput.files.length === 0) {
         return
@@ -729,24 +746,20 @@ export default {
         }
         return factors
       }
-      const curveSinFull = (center = 128) => {
+      const curveSinFull = (min = 0) => {
         const factors = zeroArray(256)
-        let degree = 0
-        let radian = 0
-        let angleFactor = 90 / center
-        for (let i = 0; i <= center; i++) {
-          radian = util.degrees_to_radians(degree)
-          const y = Math.sin(radian)
-          factors[i] = y
-          degree += angleFactor
+        for (let i = 0; i < 128; i++) {
+          const y = Math.sin((i) * (1 / 256) * Math.PI) * (1 - min) + min
+          factors[i] = y.toFixed(25)
+          factors[255 - i] = y.toFixed(25)
         }
-        angleFactor = 90 / (255 - center)
-        degree = 0
-        for (let i = 255; i >= center; i--) {
-          radian = util.degrees_to_radians(degree)
-          const y = Math.sin(radian)
+        return factors
+      }
+      const curveCamel = () => {
+        const factors = zeroArray(256)
+        for (let i = 0; i < 256; i++) {
+          const y = Math.pow(Math.sin((i) / 255 * Math.PI * 2), 2).toFixed(25)
           factors[i] = y
-          degree += angleFactor
         }
         return factors
       }
@@ -816,13 +829,20 @@ export default {
         }
         return factors
       }
-
+      const midUp = () => {
+        const factors = zeroArray(256)
+        let y = 0
+        for (let i = 0; i < 256; i++) {
+          y = Math.sin(i / 255 * Math.PI * 1.5) / 2 + 0.5
+          factors[i] = y
+        }
+        return factors
+      }
       // util.exportArray(data)
       this.curvesHistograms = [
-        curveSinUp(false, false),
-        curveSinUp(true, false),
-        curveSinUp(false, true),
-        curveSinUp(true, true)
+        curveSinFull(0),
+        curveSinFull(0.25),
+        curveSinFull(0.5)
       ]
     },
     drawCurves () {

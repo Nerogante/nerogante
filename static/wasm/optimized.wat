@@ -2,13 +2,14 @@
  (type $i32_i32_=>_none (func (param i32 i32)))
  (type $i32_i32_i32_=>_none (func (param i32 i32 i32)))
  (type $i32_=>_none (func (param i32)))
- (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $none_=>_none (func))
+ (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $i32_=>_i32 (func (param i32) (result i32)))
  (type $i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32)))
  (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
  (type $i32_i32_=>_f64 (func (param i32 i32) (result f64)))
  (type $i32_i32_f32_=>_none (func (param i32 i32 f32)))
+ (type $i32_i32_f64_=>_none (func (param i32 i32 f64)))
  (type $f32_f32_f32_=>_f32 (func (param f32 f32 f32) (result f32)))
  (type $f64_=>_f64 (func (param f64) (result f64)))
  (type $i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32)))
@@ -45,15 +46,19 @@
  (data (i32.const 1920044156) "\1c\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\08\00\00\00\00\00\00\00\00\f0?\19\aa\"6\d8\ff\ef?l\9a\ed\d8`\ff\ef?\"\a6\89\e9\99\fe\ef?\9c\82\e5i\83\fd\ef?\ac\c0\b5\\\1d\fc\ef?\d4\c5t\c5g\fa\ef?\a5\c3b\a8b\f8\ef?(\ad\85\n\0e\f6\ef?f*\a9\f1i\f3\ef?\f9\89^dv\f0\ef?\b9\b0\fci3\ed\ef?~\07\a0\n\a1\e9\ef?\eff*O\bf\e5\ef?r\01CA\8e\e1\ef?%KV\eb\0d\dd\ef?\f6\df\95X>\d8\ef?\c9g\f8\94\1f\d3\ef?\bdx9\ad\b1\cd\ef?~w\d9\ae\f4\c7\ef?\b2u\1d\a8\e8\c1\ef?\7f\0e\0f\a8\8d\bb\ef?$A|\be\e3\b4\ef?\abI\f7\fb\ea\ad\ef?\b6w\d6q\a3\a6\ef?_\0342\0d\9f\ef?6\e0\edO(\97\ef?T\8e\a5\de\f4\8e\ef?\8a\e9\bf\f2r\86\ef?\ae\f6d\a1\a2}\ef?\f6\ae\7f\00\84t\ef?\7f\c9\bd&\17k\ef?\e3\82\8f+\\a\ef?\f1b\'\'SW\ef?\82\00z2\fcL\ef?f\c3=gWB\ef?u\a4\ea\dfd7\ef?\c1\eb\b9\b7$,\ef?\da\ec\a5\n\97 \ef?D\c1i\f5\bb\14\ef?\fc\00\81\95\93\08\ef?.y\'\t\1e\fc\ee?\03\e1Xo[\ef\ee?\92\8c\d0\e7K\e2\ee?\fb\1d\t\93\ef\d4\ee?\9f4<\92F\c7\ee?\86\1ab\07Q\b9\ee?\dbo1\15\0f\ab\ee?\a5\d4\1e\df\80\9c\ee?\92\90\\\89\a6\8d\ee?\f98\da8\80~\ee?\feTD\13\0eo\ee?\e1\ff\03?P_\ee?|\89>\e3FO\ee?\e9\14\d5\'\f2>\ee?V5d5R.\ee?\04\89C5g\1d\ee?\80R\85Q1\0c\ee?\f9\0f\f6\b4\b0\fa\ed?\db\10\1c\8b\e5\e8\ed?\8c\t7\00\d0\d6\ed?g\a5?Ap\c4\ed?\e1\16\e7{\c6\b1\ed?\ef\a5\96\de\d2\9e\ed?\9a<o\98\95\8b\ed?\c6\f1H\d9\0ex\ed?C\92\b2\d1>d\ed?\ff\'\f1\b2%P\ed?\8d\7f\ff\ae\c3;\ed?\d2\ab\8d\f8\18\'\ed?\fe\87\00\c3%\12\ed?\b67qB\ea\fc\ec?\92\a5\ac\abf\e7\ec?\c2\ff24\9b\d1\ec?\0c37\12\88\bb\ec?\00d\9e|-\a5\ec?sf\ff\aa\8b\8e\ec?H3\a2\d5\a2w\ec?u\\\7f5s`\ec?Y\7f?\04\fdH\ec?Y\b5:|@1\ec?\c9\02x\d8=\19\ec?\"\c4\acT\f5\00\ec?\87\19<-g\e8\eb?\99P6\9f\93\cf\eb?\9fLX\e8z\b6\eb?\fa\ec\nG\1d\9d\eb?\f8qb\faz\83\eb?\f1\df\1dB\94i\eb?\c5`\a6^iO\eb?\ae\a3\0e\91\fa4\eb?l;\12\1bH\1a\eb?\d3\fa\14?R\ff\ea?\aaO\"@\19\e4\ea?\fb\9b\eca\9d\c8\ea?\b1\8d\cc\e8\de\ac\ea?\a9t\c0\19\de\90\ea?\1a\97k:\9bt\ea?l\84\15\91\16X\ea?sf\a9dP;\ea?\0fQ\b5\fcH\1e\ea??\90i\a1\00\01\ea?\9c\f4\97\9bw\e3\e9?@\1e\b34\ae\c5\e9?%\c6\cd\b6\a4\a7\e9?\ea\05\9al[\89\e9?\1a\9eh\a1\d2j\e9?\da:(\a1\nL\e9?\1a\b7d\b8\03-\e9?:^F4\be\0d\e9?\',\91b:\ee\e8?\fa\0b\a4\91x\ce\e8?\17\15x\10y\ae\e8?\c5\c6\9f.<\8e\e8?LBF<\c2m\e8?\a0\83.\8a\0bM\e8?\82\98\b2i\18,\e8?7\d6\c2,\e9\n\e8?\c5\0d\e5%~\e9\e7?\b7\be3\a8\d7\c7\e7?yH]\07\f6\a5\e7?=\1a\a3\97\d9\83\e7?u\e1\d8\ad\82a\e7?\de\b6c\9f\f1>\e7?*J9\c2&\1c\e7?7\0c\dfl\"\f9\e6?\e9Wi\f6\e4\d5\e6?\9d\99z\b6n\b2\e6?<uB\05\c0\8e\e6?\ee\ea|;\d9j\e6?pzq\b2\baF\e6?\0eE\f2\c3d\"\e6?J.[\ca\d7\fd\e5?!\fb\90 \14\d9\e5?\0bp\00\"\1a\b4\e5?\99m\9d*\ea\8e\e5?\ce\0b\e2\96\84i\e5?&\b4\cd\c3\e9C\e5?T:\e4\0e\1a\1e\e5?\b2\f3,\d6\15\f8\e4?k\cd1x\dd\d1\e4?ja\feSq\ab\e4?\f7\t\1f\c9\d1\84\e4?\1d\f4\9f7\ff]\e4?\d30\0c\00\fa6\e4?\e5\c4l\83\c2\0f\e4?\a6\b7G#Y\e8\e3?l \9fA\be\c0\e3?\d32\f0@\f2\98\e3?\d7I2\84\f5p\e3?\b2\f1\d5n\c8H\e3?\9a\f0\c3dk \e3?FN\\\ca\de\f7\e2?VZu\04#\cf\e2?\8f\b1Zx8\a6\e2?\f7A\cc\8b\1f}\e2?\c8M\fd\a4\d8S\e2?Pm\93*d*\e2?\ab\8f\a5\83\c2\00\e2?d\fa\ba\17\f4\d6\e1?\08H\caN\f9\ac\e1?\97e8\91\d2\82\e1?\ec\8e\d7G\80X\e1?\0fJ\e6\db\02.\e1?\82a\0e\b7Z\03\e1?z\ddcC\88\d8\e0?\12\fcc\eb\8b\ad\e0?\82(\f4\19f\82\e0?C\f1`:\17W\e0?>\fd\\\b8\9f+\e0?\f5\ff\ff\ff\ff\ff\df?\9eY\8b\fbp\a8\df?;R\19=\93P\df?\'\fb*\9fg\f8\de?\fb\0c\03\fd\ee\9f\de?L\c6\a32*G\de?\8a\c8\cc\1c\1a\ee\dd?\11\f3\f8\98\bf\94\dd?^<\\\85\1b;\dd?\82\89\e1\c0.\e1\dc?\c4\83(+\fa\86\dc?\8dl\83\a4~,\dc?\89\ef\f4\0d\bd\d1\db? \f3-I\b6v\db?8g\8b8k\1b\db?A\12\14\bf\dc\bf\da?\b1\\v\c0\0bd\da?\cb\1a\06!\f9\07\da?\d3T\ba\c5\a5\ab\d9?\ac\0d+\94\12O\d9?\e3\07\8fr@\f2\d8?5\89\b9G0\95\d8?\86\1c\18\fb\e27\d8?cR\b0tY\da\d7?\04\80\1d\9d\94|\d7?\d9|\8e]\95\1e\d7?\ab^\c3\9f\\\c0\d6?S4\0bN\eba\d6?\0d\bfASB\03\d6?m*\cd\9ab\a4\d5?\fb\c2\9b\10ME\d5?\81\ab!\a1\02\e6\d4?\03\91V9\84\86\d4?}]\b3\c6\d2&\d4?O\e9/7\ef\c6\d3?\81\ab@y\daf\d3?\bch\d4{\95\06\d3?\'\e1Q.!\a6\d2?\n}\95\80~E\d2?U\f8\eeb\ae\e4\d1?\03\0d\1f\c6\b1\83\d1?k\1cU\9b\89\"\d1?y\d7,\d46\c1\d0?\d5\e5\abb\ba_\d0?\1f\18\7fr*\fc\cf?y\a1t\95\908\cf?DA\a3\14\a9t\ce?\cb\e36\d7u\b0\cd?\99\cc\17\c5\f8\eb\cc?-\d9\e5\c63\'\cc?\db\c1\f3\c5(b\cb?\f7XB\ac\d9\9c\ca?L\c8{dH\d7\c9?\f0\cc\ee\d9v\11\c9?z\f1\89\f8fK\c8?\b4\c6\d6\ac\1a\85\c7?\be\1a\f5\e3\93\be\c6?\cb.\96\8b\d4\f7\c5?f\eb\f7\91\de0\c5?c\13\e0\e5\b3i\c4?wu\97vV\a2\c3?\94\1c\e53\c8\da\c2?\fe~\t\0e\0b\13\c2?>\ac\b9\f5 K\c1?\e9y\1a\dc\0b\83\c0?\b8^we\9bu\bf?\c5`&\d7\d0\e4\bd?\d1M\f0\f1\bbS\bc?iW<\9b`\c2\ba?~\dc \b9\c20\b9?\\\b7Y2\e6\9e\b7?\t\8a>\ee\ce\0c\b6?\1f\t\b9\d4\80z\b4?;E;\ce\ff\e7\b2?\18\f3\b5\c3OU\b1?\e2d\1d=\e9\84\af?|\a7,\91\e4^\ac?\d39\feW\998\a9?\1b\1a\a6f\0f\12\a6?\c1>\d4\92N\eb\a2?[5\82e\bd\88\9f?r@4:\8f:\99?\10\86\dcQ\"\ec\92?\9e\e3i\b6\0c;\89?[\cf\b1\15,;y?\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 1920046236) "\1c\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\08\00\00\00\00\00\00\00\00\f0?^\e5\8f\c97\fa\ef?F\f8.\c2i\f4\ef?\f6\f5\1d\de\95\ee\ef?\cb\e0y\11\bc\e8\ef?\c5n;P\dc\e2\ef?*u6\8e\f6\dc\ef?\1fQ\19\bf\n\d7\ef?OMl\d6\18\d1\ef?Z\04\91\c7 \cb\ef?)\c0\c1\85\"\c5\ef?\e6\d5\10\04\1e\bf\ef?\ae\feg5\13\b9\ef?\c2\ac\87\0c\02\b3\ef?A]\06|\ea\ac\ef?:\e6Ov\cc\a6\ef?\12\c1\a4\ed\a7\a0\ef? Q\19\d4|\9a\ef?b&\95\1bK\94\ef?9<\d2\b5\12\8e\ef?\0b4\\\94\d3\87\ef?\ba\8b\8f\a8\8d\81\ef?\ce\cf\98\e3@{\ef?,\c9s6\edt\ef?\\\a6\ea\91\92n\ef?\12 \95\e60h\ef?\0e\99\d7$\c8a\ef?\069\e2<X[\ef?\9b\02\b0\1e\e1T\ef?\18\e4\05\babN\ef?\03\c3q\fe\dcG\ef?&\82I\dbOA\ef?\16\02\aa?\bb:\ef?\n\1cv\1a\1f4\ef?\bf\96UZ{-\ef?e\15\b4\ed\cf&\ef?Y\00\c0\c2\1c \ef?xgi\c7a\19\ef?\f1\dd`\e9\9e\12\ef?eO\16\16\d4\0b\ef?\0d\ce\b7:\01\05\ef?\e3Y0D&\fe\ee?]\a0&\1fC\f7\ee?\ca\b4\fb\b7W\f0\ee?\eb\c0\c9\fac\e9\ee?\8f\adb\d3g\e2\ee?(\c3N-c\db\ee?\e0A\cb\f3U\d4\ee?\19\f1\c8\11@\cd\ee?\t\a6\eaq!\c6\ee?5\c1\83\fe\f9\be\ee?\86\a2\96\a1\c9\b7\ee?\a6\13\d3D\90\b0\ee?r\a8\94\d1M\a9\ee?\1f\15\e10\02\a2\ee?\d9yfK\ad\9a\ee?r\a3y\tO\93\ee?\e8@\14S\e7\8b\ee?T\0d\d3\0fv\84\ee?\03\ee\f3&\fb|\ee?,\04T\7fvu\ee?,\b2m\ff\e7m\ee?\95\93V\8dOf\ee?\e5g\bd\0e\ad^\ee?Z\ef\e7h\00W\ee?\7f\b9\b0\80IO\ee?\f9\e4\84:\88G\ee?%\d0az\bc?\ee?\02\ba\d2#\e67\ee?\edR\ee\19\050\ee?\a9<T?\19(\ee?\1dy*v\" \ee?T\c7\1a\a0 \18\ee?\07\eeO\9e\13\10\ee?/\f3rQ\fb\07\ee?\fa?\a8\99\d7\ff\ed?m\b0\8cV\a8\f7\ed?\"\8e2gm\ef\ed?Mu\1e\aa&\e7\ed?d#D\fd\d3\de\ed?\a1.\03>u\d6\ed?\88\a5#I\n\ce\ed?\b4\95\d2\fa\92\c5\ed?\03y\9e.\0f\bd\ed?)\88s\bf~\b4\ed?\f5\f1\97\87\e1\ab\ed?\06\f6\a7`7\a3\ed?3\e2\91#\80\9a\ed?p\f1\91\a8\bb\91\ed?\"\0b.\c7\e9\88\ed?\c5a1V\n\80\ed?\b4\ef\a7+\1dw\ed?\ce\d0\d9\1c\"n\ed?\bawF\fe\18e\ed?h\bd\9f\a3\01\\\ed?k\c9\c4\df\dbR\ed?\b9\d1\bc\84\a7I\ed?D\b0\b1cd@\ed?\dfL\eaL\127\ed?\aa\d9\c4\0f\b1-\ed?t\e0\b0z@$\ed?\07\1f)[\c0\1a\ed?\b70\ad}0\11\ed?\01\03\bb\ad\90\07\ed?A\13\c8\b5\e0\fd\ec?Rs:_ \f4\ec?\cc\92arO\ea\ec?o\can\b6m\e0\ec?e\a7m\f1z\d6\ec?\87\f3;\e8v\cc\ec?\1ex\81^a\c2\ec?\14x\a7\16:\b8\ec?\b5\de\cf\d1\00\ae\ec?\bb\1f\ccO\b5\a3\ec?p\c5\13OW\99\ec?[\a9\ba\8c\e6\8e\ec?\d0\d3f\c4b\84\ec?\96\feE\b0\cby\ec?\af\b6\02\t!o\ec?\cd\18\b9\85bd\ec?L$\eb\db\8fY\ec?\c7\9ft\bf\a8N\ec?\7f\8a~\e2\acC\ec?W\15r\f5\9b8\ec?\fc\1d\eb\a6u-\ec?i&\aa\a39\"\ec?\d3\c2\85\96\e7\16\ec?\83w[(\7f\0b\ec?\00\00\00\00\00\00\ec?F\f8.\c2i\f4\eb?\cb\e0y\11\bc\e8\eb?)u6\8e\f6\dc\eb?OMl\d6\18\d1\eb?(\c0\c1\85\"\c5\eb?\ae\feg5\13\b9\eb?A]\06|\ea\ac\eb?\12\c1\a4\ed\a7\a0\eb?d&\95\1bK\94\eb?\0b4\\\94\d3\87\eb?\ce\cf\98\e3@{\eb?\\\a6\ea\91\92n\eb?\0e\99\d7$\c8a\eb?\9b\02\b0\1e\e1T\eb?\03\c3q\fe\dcG\eb?\16\02\aa?\bb:\eb?\bf\96UZ{-\eb?Y\00\c0\c2\1c \eb?\f2\dd`\e9\9e\12\eb?\0f\ce\b7:\01\05\eb?]\a0&\1fC\f7\ea?\eb\c0\c9\fac\e9\ea?*\c3N-c\db\ea?\19\f1\c8\11@\cd\ea?5\c1\83\fe\f9\be\ea?\a6\13\d3D\90\b0\ea?\1f\15\e10\02\a2\ea?q\a3y\tO\93\ea?U\0d\d3\0fv\84\ea?-\04T\7fvu\ea?\94\93V\8dOf\ea?Z\ef\e7h\00W\ea?\f9\e4\84:\88G\ea?\01\ba\d2#\e67\ea?\a9<T?\19(\ea?T\c7\1a\a0 \18\ea?0\f3rQ\fb\07\ea?l\b0\8cV\a8\f7\e9?Mu\1e\aa&\e7\e9?\a1.\03>u\d6\e9?\b5\95\d2\fa\92\c5\e9?*\88s\bf~\b4\e9?\05\f6\a7`7\a3\e9?p\f1\91\a8\bb\91\e9?\c5a1V\n\80\e9?\ce\d0\d9\1c\"n\e9?h\bd\9f\a3\01\\\e9?\b8\d1\bc\84\a7I\e9?\dfL\eaL\127\e9?s\e0\b0z@$\e9?\b70\ad}0\11\e9?@\13\c8\b5\e0\fd\e8?\cc\92arO\ea\e8?e\a7m\f1z\d6\e8?\1dx\81^a\c2\e8?\b4\de\cf\d1\00\ae\e8?q\c5\13OW\99\e8?\cf\d3f\c4b\84\e8?\ae\b6\02\t!o\e8?M$\eb\db\8fY\e8?~\8a~\e2\acC\e8?\fb\1d\eb\a6u-\e8?\d2\c2\85\96\e7\16\e8?\00\00\00\00\00\00\e8?\cb\e0y\11\bc\e8\e7?NMl\d6\18\d1\e7?\ae\feg5\13\b9\e7?\13\c1\a4\ed\a7\a0\e7?\0b4\\\94\d3\87\e7?[\a6\ea\91\92n\e7?\9b\02\b0\1e\e1T\e7?\17\02\aa?\bb:\e7?Z\00\c0\c2\1c \e7?\0f\ce\b7:\01\05\e7?\eb\c0\c9\fac\e9\e6?\19\f1\c8\11@\cd\e6?\a6\13\d3D\90\b0\e6?q\a3y\tO\93\e6?-\04T\7fvu\e6?Z\ef\e7h\00W\e6?\02\ba\d2#\e67\e6?U\c7\1a\a0 \18\e6?m\b0\8cV\a8\f7\e5?\a1.\03>u\d6\e5?*\88s\bf~\b4\e5?q\f1\91\a8\bb\91\e5?\ce\d0\d9\1c\"n\e5?\b9\d1\bc\84\a7I\e5?s\e0\b0z@$\e5?@\13\c8\b5\e0\fd\e4?e\a7m\f1z\d6\e4?\b4\de\cf\d1\00\ae\e4?\cf\d3f\c4b\84\e4?L$\eb\db\8fY\e4?\fb\1d\eb\a6u-\e4?\00\00\00\00\00\00\e4?NMl\d6\18\d1\e3?\13\c1\a4\ed\a7\a0\e3?[\a6\ea\91\92n\e3?\16\02\aa?\bb:\e3?\0e\ce\b7:\01\05\e3?\19\f1\c8\11@\cd\e2?r\a3y\tO\93\e2?Z\ef\e7h\00W\e2?U\c7\1a\a0 \18\e2?\a1.\03>u\d6\e1?q\f1\91\a8\bb\91\e1?\b9\d1\bc\84\a7I\e1?@\13\c8\b5\e0\fd\e0?\b4\de\cf\d1\00\ae\e0?L$\eb\db\8fY\e0?\00\00\00\00\00\00\e0?&\82I\dbOA\df?,\04T\7fvu\de?3\e2\91#\80\9a\dd?\b5\de\cf\d1\00\ae\dc?A]\06|\ea\ac\db?q\a3y\tO\93\da?h\bd\9f\a3\01\\\d9?\00\00\00\00\00\00\d8?-\04T\7fvu\d6?\b4\de\cf\d1\00\ae\d4?r\a3y\tO\93\d2?\00\00\00\00\00\00\d0?h\bd\9f\a3\01\\\c9?\00\00\00\00\00\00\c0?\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 1920048316) "\1c\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\c0?h\bd\9f\a3\01\\\c9?\00\00\00\00\00\00\d0?r\a3y\tO\93\d2?\b4\de\cf\d1\00\ae\d4?-\04T\7fvu\d6?\00\00\00\00\00\00\d8?h\bd\9f\a3\01\\\d9?q\a3y\tO\93\da?A]\06|\ea\ac\db?\b5\de\cf\d1\00\ae\dc?3\e2\91#\80\9a\dd?,\04T\7fvu\de?&\82I\dbOA\df?\00\00\00\00\00\00\e0?L$\eb\db\8fY\e0?\b4\de\cf\d1\00\ae\e0?@\13\c8\b5\e0\fd\e0?\b9\d1\bc\84\a7I\e1?q\f1\91\a8\bb\91\e1?\a1.\03>u\d6\e1?U\c7\1a\a0 \18\e2?Z\ef\e7h\00W\e2?r\a3y\tO\93\e2?\19\f1\c8\11@\cd\e2?\0e\ce\b7:\01\05\e3?\16\02\aa?\bb:\e3?[\a6\ea\91\92n\e3?\13\c1\a4\ed\a7\a0\e3?NMl\d6\18\d1\e3?\00\00\00\00\00\00\e4?\fb\1d\eb\a6u-\e4?L$\eb\db\8fY\e4?\cf\d3f\c4b\84\e4?\b4\de\cf\d1\00\ae\e4?e\a7m\f1z\d6\e4?@\13\c8\b5\e0\fd\e4?s\e0\b0z@$\e5?\b9\d1\bc\84\a7I\e5?\ce\d0\d9\1c\"n\e5?q\f1\91\a8\bb\91\e5?*\88s\bf~\b4\e5?\a1.\03>u\d6\e5?m\b0\8cV\a8\f7\e5?U\c7\1a\a0 \18\e6?\02\ba\d2#\e67\e6?Z\ef\e7h\00W\e6?-\04T\7fvu\e6?q\a3y\tO\93\e6?\a6\13\d3D\90\b0\e6?\19\f1\c8\11@\cd\e6?\eb\c0\c9\fac\e9\e6?\0f\ce\b7:\01\05\e7?Z\00\c0\c2\1c \e7?\17\02\aa?\bb:\e7?\9b\02\b0\1e\e1T\e7?[\a6\ea\91\92n\e7?\0b4\\\94\d3\87\e7?\13\c1\a4\ed\a7\a0\e7?\ae\feg5\13\b9\e7?NMl\d6\18\d1\e7?\cb\e0y\11\bc\e8\e7?\00\00\00\00\00\00\e8?\d2\c2\85\96\e7\16\e8?\fb\1d\eb\a6u-\e8?~\8a~\e2\acC\e8?M$\eb\db\8fY\e8?\ae\b6\02\t!o\e8?\cf\d3f\c4b\84\e8?q\c5\13OW\99\e8?\b4\de\cf\d1\00\ae\e8?\1dx\81^a\c2\e8?e\a7m\f1z\d6\e8?\cc\92arO\ea\e8?@\13\c8\b5\e0\fd\e8?\b70\ad}0\11\e9?s\e0\b0z@$\e9?\dfL\eaL\127\e9?\b8\d1\bc\84\a7I\e9?h\bd\9f\a3\01\\\e9?\ce\d0\d9\1c\"n\e9?\c5a1V\n\80\e9?p\f1\91\a8\bb\91\e9?\05\f6\a7`7\a3\e9?*\88s\bf~\b4\e9?\b5\95\d2\fa\92\c5\e9?\a1.\03>u\d6\e9?Mu\1e\aa&\e7\e9?l\b0\8cV\a8\f7\e9?0\f3rQ\fb\07\ea?T\c7\1a\a0 \18\ea?\a9<T?\19(\ea?\01\ba\d2#\e67\ea?\f9\e4\84:\88G\ea?Z\ef\e7h\00W\ea?\94\93V\8dOf\ea?-\04T\7fvu\ea?U\0d\d3\0fv\84\ea?q\a3y\tO\93\ea?\1f\15\e10\02\a2\ea?\a6\13\d3D\90\b0\ea?5\c1\83\fe\f9\be\ea?\19\f1\c8\11@\cd\ea?*\c3N-c\db\ea?\eb\c0\c9\fac\e9\ea?]\a0&\1fC\f7\ea?\0f\ce\b7:\01\05\eb?\f2\dd`\e9\9e\12\eb?Y\00\c0\c2\1c \eb?\bf\96UZ{-\eb?\16\02\aa?\bb:\eb?\03\c3q\fe\dcG\eb?\9b\02\b0\1e\e1T\eb?\0e\99\d7$\c8a\eb?\\\a6\ea\91\92n\eb?\ce\cf\98\e3@{\eb?\0b4\\\94\d3\87\eb?d&\95\1bK\94\eb?\12\c1\a4\ed\a7\a0\eb?A]\06|\ea\ac\eb?\ae\feg5\13\b9\eb?(\c0\c1\85\"\c5\eb?OMl\d6\18\d1\eb?)u6\8e\f6\dc\eb?\cb\e0y\11\bc\e8\eb?F\f8.\c2i\f4\eb?\00\00\00\00\00\00\ec?\83w[(\7f\0b\ec?\d3\c2\85\96\e7\16\ec?i&\aa\a39\"\ec?\fc\1d\eb\a6u-\ec?W\15r\f5\9b8\ec?\7f\8a~\e2\acC\ec?\c7\9ft\bf\a8N\ec?L$\eb\db\8fY\ec?\cd\18\b9\85bd\ec?\af\b6\02\t!o\ec?\96\feE\b0\cby\ec?\d0\d3f\c4b\84\ec?[\a9\ba\8c\e6\8e\ec?p\c5\13OW\99\ec?\bb\1f\ccO\b5\a3\ec?\b5\de\cf\d1\00\ae\ec?\14x\a7\16:\b8\ec?\1ex\81^a\c2\ec?\87\f3;\e8v\cc\ec?e\a7m\f1z\d6\ec?o\can\b6m\e0\ec?\cc\92arO\ea\ec?Rs:_ \f4\ec?A\13\c8\b5\e0\fd\ec?\01\03\bb\ad\90\07\ed?\b70\ad}0\11\ed?\07\1f)[\c0\1a\ed?t\e0\b0z@$\ed?\aa\d9\c4\0f\b1-\ed?\dfL\eaL\127\ed?D\b0\b1cd@\ed?\b9\d1\bc\84\a7I\ed?k\c9\c4\df\dbR\ed?h\bd\9f\a3\01\\\ed?\bawF\fe\18e\ed?\ce\d0\d9\1c\"n\ed?\b4\ef\a7+\1dw\ed?\c5a1V\n\80\ed?\"\0b.\c7\e9\88\ed?p\f1\91\a8\bb\91\ed?3\e2\91#\80\9a\ed?\06\f6\a7`7\a3\ed?\f5\f1\97\87\e1\ab\ed?)\88s\bf~\b4\ed?\03y\9e.\0f\bd\ed?\b4\95\d2\fa\92\c5\ed?\88\a5#I\n\ce\ed?\a1.\03>u\d6\ed?d#D\fd\d3\de\ed?Mu\1e\aa&\e7\ed?\"\8e2gm\ef\ed?m\b0\8cV\a8\f7\ed?\fa?\a8\99\d7\ff\ed?/\f3rQ\fb\07\ee?\07\eeO\9e\13\10\ee?T\c7\1a\a0 \18\ee?\1dy*v\" \ee?\a9<T?\19(\ee?\edR\ee\19\050\ee?\02\ba\d2#\e67\ee?%\d0az\bc?\ee?\f9\e4\84:\88G\ee?\7f\b9\b0\80IO\ee?Z\ef\e7h\00W\ee?\e5g\bd\0e\ad^\ee?\95\93V\8dOf\ee?,\b2m\ff\e7m\ee?,\04T\7fvu\ee?\03\ee\f3&\fb|\ee?T\0d\d3\0fv\84\ee?\e8@\14S\e7\8b\ee?r\a3y\tO\93\ee?\d9yfK\ad\9a\ee?\1f\15\e10\02\a2\ee?r\a8\94\d1M\a9\ee?\a6\13\d3D\90\b0\ee?\86\a2\96\a1\c9\b7\ee?5\c1\83\fe\f9\be\ee?\t\a6\eaq!\c6\ee?\19\f1\c8\11@\cd\ee?\e0A\cb\f3U\d4\ee?(\c3N-c\db\ee?\8f\adb\d3g\e2\ee?\eb\c0\c9\fac\e9\ee?\ca\b4\fb\b7W\f0\ee?]\a0&\1fC\f7\ee?\e3Y0D&\fe\ee?\0d\ce\b7:\01\05\ef?eO\16\16\d4\0b\ef?\f1\dd`\e9\9e\12\ef?xgi\c7a\19\ef?Y\00\c0\c2\1c \ef?e\15\b4\ed\cf&\ef?\bf\96UZ{-\ef?\n\1cv\1a\1f4\ef?\16\02\aa?\bb:\ef?&\82I\dbOA\ef?\03\c3q\fe\dcG\ef?\18\e4\05\babN\ef?\9b\02\b0\1e\e1T\ef?\069\e2<X[\ef?\0e\99\d7$\c8a\ef?\12 \95\e60h\ef?\\\a6\ea\91\92n\ef?,\c9s6\edt\ef?\ce\cf\98\e3@{\ef?\ba\8b\8f\a8\8d\81\ef?\0b4\\\94\d3\87\ef?9<\d2\b5\12\8e\ef?b&\95\1bK\94\ef? Q\19\d4|\9a\ef?\12\c1\a4\ed\a7\a0\ef?:\e6Ov\cc\a6\ef?A]\06|\ea\ac\ef?\c2\ac\87\0c\02\b3\ef?\ae\feg5\13\b9\ef?\e6\d5\10\04\1e\bf\ef?)\c0\c1\85\"\c5\ef?Z\04\91\c7 \cb\ef?OMl\d6\18\d1\ef?\1fQ\19\bf\n\d7\ef?*u6\8e\f6\dc\ef?\c5n;P\dc\e2\ef?\cb\e0y\11\bc\e8\ef?\f6\f5\1d\de\95\ee\ef?F\f8.\c2i\f4\ef?^\e5\8f\c97\fa\ef?\00\00\00\00\00\00\f0?\00\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1920050396) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\1a\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00\00\00")
- (data (i32.const 1920050444) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00$\00\00\00~\00l\00i\00b\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1920050512) "\00\00\00\00\00\a0\f6?\00\00\00\00\00\00\00\00\00\c8\b9\f2\82,\d6\bf\80V7($\b4\fa<\00\00\00\00\00\80\f6?\00\00\00\00\00\00\00\00\00\08X\bf\bd\d1\d5\bf \f7\e0\d8\08\a5\1c\bd\00\00\00\00\00`\f6?\00\00\00\00\00\00\00\00\00XE\17wv\d5\bfmP\b6\d5\a4b#\bd\00\00\00\00\00@\f6?\00\00\00\00\00\00\00\00\00\f8-\87\ad\1a\d5\bf\d5g\b0\9e\e4\84\e6\bc\00\00\00\00\00 \f6?\00\00\00\00\00\00\00\00\00xw\95_\be\d4\bf\e0>)\93i\1b\04\bd\00\00\00\00\00\00\f6?\00\00\00\00\00\00\00\00\00`\1c\c2\8ba\d4\bf\cc\84LH/\d8\13=\00\00\00\00\00\e0\f5?\00\00\00\00\00\00\00\00\00\a8\86\860\04\d4\bf:\0b\82\ed\f3B\dc<\00\00\00\00\00\c0\f5?\00\00\00\00\00\00\00\00\00HiUL\a6\d3\bf`\94Q\86\c6\b1 =\00\00\00\00\00\a0\f5?\00\00\00\00\00\00\00\00\00\80\98\9a\ddG\d3\bf\92\80\c5\d4MY%=\00\00\00\00\00\80\f5?\00\00\00\00\00\00\00\00\00 \e1\ba\e2\e8\d2\bf\d8+\b7\99\1e{&=\00\00\00\00\00`\f5?\00\00\00\00\00\00\00\00\00\88\de\13Z\89\d2\bf?\b0\cf\b6\14\ca\15=\00\00\00\00\00`\f5?\00\00\00\00\00\00\00\00\00\88\de\13Z\89\d2\bf?\b0\cf\b6\14\ca\15=\00\00\00\00\00@\f5?\00\00\00\00\00\00\00\00\00x\cf\fbA)\d2\bfv\daS($Z\16\bd\00\00\00\00\00 \f5?\00\00\00\00\00\00\00\00\00\98i\c1\98\c8\d1\bf\04T\e7h\bc\af\1f\bd\00\00\00\00\00\00\f5?\00\00\00\00\00\00\00\00\00\a8\ab\ab\\g\d1\bf\f0\a8\823\c6\1f\1f=\00\00\00\00\00\e0\f4?\00\00\00\00\00\00\00\00\00H\ae\f9\8b\05\d1\bffZ\05\fd\c4\a8&\bd\00\00\00\00\00\c0\f4?\00\00\00\00\00\00\00\00\00\90s\e2$\a3\d0\bf\0e\03\f4~\eek\0c\bd\00\00\00\00\00\a0\f4?\00\00\00\00\00\00\00\00\00\d0\b4\94%@\d0\bf\7f-\f4\9e\b86\f0\bc\00\00\00\00\00\a0\f4?\00\00\00\00\00\00\00\00\00\d0\b4\94%@\d0\bf\7f-\f4\9e\b86\f0\bc\00\00\00\00\00\80\f4?\00\00\00\00\00\00\00\00\00@^m\18\b9\cf\bf\87<\99\ab*W\0d=\00\00\00\00\00`\f4?\00\00\00\00\00\00\00\00\00`\dc\cb\ad\f0\ce\bf$\af\86\9c\b7&+=\00\00\00\00\00@\f4?\00\00\00\00\00\00\00\00\00\f0*n\07\'\ce\bf\10\ff?TO/\17\bd\00\00\00\00\00 \f4?\00\00\00\00\00\00\00\00\00\c0Ok!\\\cd\bf\1bh\ca\bb\91\ba!=\00\00\00\00\00\00\f4?\00\00\00\00\00\00\00\00\00\a0\9a\c7\f7\8f\cc\bf4\84\9fhOy\'=\00\00\00\00\00\00\f4?\00\00\00\00\00\00\00\00\00\a0\9a\c7\f7\8f\cc\bf4\84\9fhOy\'=\00\00\00\00\00\e0\f3?\00\00\00\00\00\00\00\00\00\90-t\86\c2\cb\bf\8f\b7\8b1\b0N\19=\00\00\00\00\00\c0\f3?\00\00\00\00\00\00\00\00\00\c0\80N\c9\f3\ca\bff\90\cd?cN\ba<\00\00\00\00\00\a0\f3?\00\00\00\00\00\00\00\00\00\b0\e2\1f\bc#\ca\bf\ea\c1F\dcd\8c%\bd\00\00\00\00\00\a0\f3?\00\00\00\00\00\00\00\00\00\b0\e2\1f\bc#\ca\bf\ea\c1F\dcd\8c%\bd\00\00\00\00\00\80\f3?\00\00\00\00\00\00\00\00\00P\f4\9cZR\c9\bf\e3\d4\c1\04\d9\d1*\bd\00\00\00\00\00`\f3?\00\00\00\00\00\00\00\00\00\d0 e\a0\7f\c8\bf\t\fa\db\7f\bf\bd+=\00\00\00\00\00@\f3?\00\00\00\00\00\00\00\00\00\e0\10\02\89\ab\c7\bfXJSr\90\db+=\00\00\00\00\00@\f3?\00\00\00\00\00\00\00\00\00\e0\10\02\89\ab\c7\bfXJSr\90\db+=\00\00\00\00\00 \f3?\00\00\00\00\00\00\00\00\00\d0\19\e7\0f\d6\c6\bff\e2\b2\a3j\e4\10\bd\00\00\00\00\00\00\f3?\00\00\00\00\00\00\00\00\00\90\a7p0\ff\c5\bf9P\10\9fC\9e\1e\bd\00\00\00\00\00\00\f3?\00\00\00\00\00\00\00\00\00\90\a7p0\ff\c5\bf9P\10\9fC\9e\1e\bd\00\00\00\00\00\e0\f2?\00\00\00\00\00\00\00\00\00\b0\a1\e3\e5&\c5\bf\8f[\07\90\8b\de \bd\00\00\00\00\00\c0\f2?\00\00\00\00\00\00\00\00\00\80\cbl+M\c4\bf<x5a\c1\0c\17=\00\00\00\00\00\c0\f2?\00\00\00\00\00\00\00\00\00\80\cbl+M\c4\bf<x5a\c1\0c\17=\00\00\00\00\00\a0\f2?\00\00\00\00\00\00\00\00\00\90\1e \fcq\c3\bf:T\'M\86x\f1<\00\00\00\00\00\80\f2?\00\00\00\00\00\00\00\00\00\f0\1f\f8R\95\c2\bf\08\c4q\170\8d$\bd\00\00\00\00\00`\f2?\00\00\00\00\00\00\00\00\00`/\d5*\b7\c1\bf\96\a3\11\18\a4\80.\bd\00\00\00\00\00`\f2?\00\00\00\00\00\00\00\00\00`/\d5*\b7\c1\bf\96\a3\11\18\a4\80.\bd\00\00\00\00\00@\f2?\00\00\00\00\00\00\00\00\00\90\d0|~\d7\c0\bf\f4[\e8\88\96i\n=\00\00\00\00\00@\f2?\00\00\00\00\00\00\00\00\00\90\d0|~\d7\c0\bf\f4[\e8\88\96i\n=\00\00\00\00\00 \f2?\00\00\00\00\00\00\00\00\00\e0\db1\91\ec\bf\bf\f23\a3\\Tu%\bd\00\00\00\00\00\00\f2?\00\00\00\00\00\00\00\00\00\00+n\07\'\be\bf<\00\f0*,4*=\00\00\00\00\00\00\f2?\00\00\00\00\00\00\00\00\00\00+n\07\'\be\bf<\00\f0*,4*=\00\00\00\00\00\e0\f1?\00\00\00\00\00\00\00\00\00\c0[\8fT^\bc\bf\06\be_XW\0c\1d\bd\00\00\00\00\00\c0\f1?\00\00\00\00\00\00\00\00\00\e0J:m\92\ba\bf\c8\aa[\e859%=\00\00\00\00\00\c0\f1?\00\00\00\00\00\00\00\00\00\e0J:m\92\ba\bf\c8\aa[\e859%=\00\00\00\00\00\a0\f1?\00\00\00\00\00\00\00\00\00\a01\d6E\c3\b8\bfhV/M)|\13=\00\00\00\00\00\a0\f1?\00\00\00\00\00\00\00\00\00\a01\d6E\c3\b8\bfhV/M)|\13=\00\00\00\00\00\80\f1?\00\00\00\00\00\00\00\00\00`\e5\8a\d2\f0\b6\bf\das3\c97\97&\bd\00\00\00\00\00`\f1?\00\00\00\00\00\00\00\00\00 \06?\07\1b\b5\bfW^\c6a[\02\1f=\00\00\00\00\00`\f1?\00\00\00\00\00\00\00\00\00 \06?\07\1b\b5\bfW^\c6a[\02\1f=\00\00\00\00\00@\f1?\00\00\00\00\00\00\00\00\00\e0\1b\96\d7A\b3\bf\df\13\f9\cc\da^,=\00\00\00\00\00@\f1?\00\00\00\00\00\00\00\00\00\e0\1b\96\d7A\b3\bf\df\13\f9\cc\da^,=\00\00\00\00\00 \f1?\00\00\00\00\00\00\00\00\00\80\a3\ee6e\b1\bf\t\a3\8fv^|\14=\00\00\00\00\00\00\f1?\00\00\00\00\00\00\00\00\00\80\11\c00\n\af\bf\91\8e6\83\9eY-=\00\00\00\00\00\00\f1?\00\00\00\00\00\00\00\00\00\80\11\c00\n\af\bf\91\8e6\83\9eY-=\00\00\00\00\00\e0\f0?\00\00\00\00\00\00\00\00\00\80\19q\ddB\ab\bfLp\d6\e5z\82\1c=\00\00\00\00\00\e0\f0?\00\00\00\00\00\00\00\00\00\80\19q\ddB\ab\bfLp\d6\e5z\82\1c=\00\00\00\00\00\c0\f0?\00\00\00\00\00\00\00\00\00\c02\f6Xt\a7\bf\ee\a1\f24F\fc,\bd\00\00\00\00\00\c0\f0?\00\00\00\00\00\00\00\00\00\c02\f6Xt\a7\bf\ee\a1\f24F\fc,\bd\00\00\00\00\00\a0\f0?\00\00\00\00\00\00\00\00\00\c0\fe\b9\87\9e\a3\bf\aa\fe&\f5\b7\02\f5<\00\00\00\00\00\a0\f0?\00\00\00\00\00\00\00\00\00\c0\fe\b9\87\9e\a3\bf\aa\fe&\f5\b7\02\f5<\00\00\00\00\00\80\f0?\00\00\00\00\00\00\00\00\00\00x\0e\9b\82\9f\bf\e4\t~|&\80)\bd\00\00\00\00\00\80\f0?\00\00\00\00\00\00\00\00\00\00x\0e\9b\82\9f\bf\e4\t~|&\80)\bd\00\00\00\00\00`\f0?\00\00\00\00\00\00\00\00\00\80\d5\07\1b\b9\97\bf9\a6\fa\93T\8d(\bd\00\00\00\00\00@\f0?\00\00\00\00\00\00\00\00\00\00\fc\b0\a8\c0\8f\bf\9c\a6\d3\f6|\1e\df\bc\00\00\00\00\00@\f0?\00\00\00\00\00\00\00\00\00\00\fc\b0\a8\c0\8f\bf\9c\a6\d3\f6|\1e\df\bc\00\00\00\00\00 \f0?\00\00\00\00\00\00\00\00\00\00\10k*\e0\7f\bf\e4@\da\0d?\e2\19\bd\00\00\00\00\00 \f0?\00\00\00\00\00\00\00\00\00\00\10k*\e0\7f\bf\e4@\da\0d?\e2\19\bd\00\00\00\00\00\00\f0?\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\f0?\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\c0\ef?\00\00\00\00\00\00\00\00\00\00\89u\15\10\80?\e8+\9d\99k\c7\10\bd\00\00\00\00\00\80\ef?\00\00\00\00\00\00\00\00\00\80\93XV \90?\d2\f7\e2\06[\dc#\bd\00\00\00\00\00@\ef?\00\00\00\00\00\00\00\00\00\00\c9(%I\98?4\0cZ2\ba\a0*\bd\00\00\00\00\00\00\ef?\00\00\00\00\00\00\00\00\00@\e7\89]A\a0?S\d7\f1\\\c0\11\01=\00\00\00\00\00\c0\ee?\00\00\00\00\00\00\00\00\00\00.\d4\aef\a4?(\fd\bdus\16,\bd\00\00\00\00\00\80\ee?\00\00\00\00\00\00\00\00\00\c0\9f\14\aa\94\a8?}&Z\d0\95y\19\bd\00\00\00\00\00@\ee?\00\00\00\00\00\00\00\00\00\c0\dd\cds\cb\ac?\07(\d8G\f2h\1a\bd\00\00\00\00\00 \ee?\00\00\00\00\00\00\00\00\00\c0\06\c01\ea\ae?{;\c9O>\11\0e\bd\00\00\00\00\00\e0\ed?\00\00\00\00\00\00\00\00\00`F\d1;\97\b1?\9b\9e\0dV]2%\bd\00\00\00\00\00\a0\ed?\00\00\00\00\00\00\00\00\00\e0\d1\a7\f5\bd\b3?\d7N\db\a5^\c8,=\00\00\00\00\00`\ed?\00\00\00\00\00\00\00\00\00\a0\97MZ\e9\b5?\1e\1d]<\06i,\bd\00\00\00\00\00@\ed?\00\00\00\00\00\00\00\00\00\c0\ea\n\d3\00\b7?2\ed\9d\a9\8d\1e\ec<\00\00\00\00\00\00\ed?\00\00\00\00\00\00\00\00\00@Y]^3\b9?\daG\bd:\\\11#=\00\00\00\00\00\c0\ec?\00\00\00\00\00\00\00\00\00`\ad\8d\c8j\bb?\e5h\f7+\80\90\13\bd\00\00\00\00\00\a0\ec?\00\00\00\00\00\00\00\00\00@\bc\01X\88\bc?\d3\acZ\c6\d1F&=\00\00\00\00\00`\ec?\00\00\00\00\00\00\00\00\00 \n\839\c7\be?\e0E\e6\afh\c0-\bd\00\00\00\00\00@\ec?\00\00\00\00\00\00\00\00\00\e0\db9\91\e8\bf?\fd\n\a1O\d64%\bd\00\00\00\00\00\00\ec?\00\00\00\00\00\00\00\00\00\e0\'\82\8e\17\c1?\f2\07-\cex\ef!=\00\00\00\00\00\e0\eb?\00\00\00\00\00\00\00\00\00\f0#~+\aa\c1?4\998D\8e\a7,=\00\00\00\00\00\a0\eb?\00\00\00\00\00\00\00\00\00\80\86\0ca\d1\c2?\a1\b4\81\cbl\9d\03=\00\00\00\00\00\80\eb?\00\00\00\00\00\00\00\00\00\90\15\b0\fce\c3?\89rK#\a8/\c6<\00\00\00\00\00@\eb?\00\00\00\00\00\00\00\00\00\b03\83=\91\c4?x\b6\fdTy\83%=\00\00\00\00\00 \eb?\00\00\00\00\00\00\00\00\00\b0\a1\e4\e5\'\c5?\c7}i\e5\e83&=\00\00\00\00\00\e0\ea?\00\00\00\00\00\00\00\00\00\10\8c\beNW\c6?x.<,\8b\cf\19=\00\00\00\00\00\c0\ea?\00\00\00\00\00\00\00\00\00pu\8b\12\f0\c6?\e1!\9c\e5\8d\11%\bd\00\00\00\00\00\a0\ea?\00\00\00\00\00\00\00\00\00PD\85\8d\89\c7?\05C\91p\10f\1c\bd\00\00\00\00\00`\ea?\00\00\00\00\00\00\00\00\00\009\eb\af\be\c8?\d1,\e9\aaT=\07\bd\00\00\00\00\00@\ea?\00\00\00\00\00\00\00\00\00\00\f7\dcZZ\c9?o\ff\a0X(\f2\07=\00\00\00\00\00\00\ea?\00\00\00\00\00\00\00\00\00\e0\8a<\ed\93\ca?i!VPCr(\bd\00\00\00\00\00\e0\e9?\00\00\00\00\00\00\00\00\00\d0[W\d81\cb?\aa\e1\acN\8d5\0c\bd\00\00\00\00\00\c0\e9?\00\00\00\00\00\00\00\00\00\e0;8\87\d0\cb?\b6\12TY\c4K-\bd\00\00\00\00\00\a0\e9?\00\00\00\00\00\00\00\00\00\10\f0\c6\fbo\cc?\d2+\96\c5r\ec\f1\bc\00\00\00\00\00`\e9?\00\00\00\00\00\00\00\00\00\90\d4\b0=\b1\cd?5\b0\15\f7*\ff*\bd\00\00\00\00\00@\e9?\00\00\00\00\00\00\00\00\00\10\e7\ff\0eS\ce?0\f4A`\'\12\c2<\00\00\00\00\00 \e9?\00\00\00\00\00\00\00\00\00\00\dd\e4\ad\f5\ce?\11\8e\bbe\15!\ca\bc\00\00\00\00\00\00\e9?\00\00\00\00\00\00\00\00\00\b0\b3l\1c\99\cf?0\df\0c\ca\ec\cb\1b=\00\00\00\00\00\c0\e8?\00\00\00\00\00\00\00\00\00XM`8q\d0?\91N\ed\16\db\9c\f8<\00\00\00\00\00\a0\e8?\00\00\00\00\00\00\00\00\00`ag-\c4\d0?\e9\ea<\16\8b\18\'=\00\00\00\00\00\80\e8?\00\00\00\00\00\00\00\00\00\e8\'\82\8e\17\d1?\1c\f0\a5c\0e!,\bd\00\00\00\00\00`\e8?\00\00\00\00\00\00\00\00\00\f8\ac\cb\\k\d1?\81\16\a5\f7\cd\9a+=\00\00\00\00\00@\e8?\00\00\00\00\00\00\00\00\00hZc\99\bf\d1?\b7\bdGQ\ed\a6,=\00\00\00\00\00 \e8?\00\00\00\00\00\00\00\00\00\b8\0emE\14\d2?\ea\baF\ba\de\87\n=\00\00\00\00\00\e0\e7?\00\00\00\00\00\00\00\00\00\90\dc|\f0\be\d2?\f4\04PJ\fa\9c*=\00\00\00\00\00\c0\e7?\00\00\00\00\00\00\00\00\00`\d3\e1\f1\14\d3?\b8<!\d3z\e2(\bd\00\00\00\00\00\a0\e7?\00\00\00\00\00\00\00\00\00\10\bevgk\d3?\c8w\f1\b0\cdn\11=\00\00\00\00\00\80\e7?\00\00\00\00\00\00\00\00\0003wR\c2\d3?\\\bd\06\b6T;\18=\00\00\00\00\00`\e7?\00\00\00\00\00\00\00\00\00\e8\d5#\b4\19\d4?\9d\e0\90\ec6\e4\08=\00\00\00\00\00@\e7?\00\00\00\00\00\00\00\00\00\c8q\c2\8dq\d4?u\d6g\t\ce\'/\bd\00\00\00\00\00 \e7?\00\00\00\00\00\00\00\00\000\17\9e\e0\c9\d4?\a4\d8\n\1b\89 .\bd\00\00\00\00\00\00\e7?\00\00\00\00\00\00\00\00\00\a08\07\ae\"\d5?Y\c7d\81p\be.=\00\00\00\00\00\e0\e6?\00\00\00\00\00\00\00\00\00\d0\c8S\f7{\d5?\ef@]\ee\ed\ad\1f=\00\00\00\00\00\c0\e6?\00\00\00\00\00\00\00\00\00`Y\df\bd\d5\d5?\dce\a4\08*\0b\n\bd")
- (data (i32.const 1920054608) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\f0?n\bf\88\1aO;\9b<53\fb\a9=\f6\ef?]\dc\d8\9c\13`q\bca\80w>\9a\ec\ef?\d1f\87\10z^\90\bc\85\7fn\e8\15\e3\ef?\13\f6g5R\d2\8c<t\85\15\d3\b0\d9\ef?\fa\8e\f9#\80\ce\8b\bc\de\f6\dd)k\d0\ef?a\c8\e6aN\f7`<\c8\9bu\18E\c7\ef?\99\d33[\e4\a3\90<\83\f3\c6\ca>\be\ef?m{\83]\a6\9a\97<\0f\89\f9lX\b5\ef?\fc\ef\fd\92\1a\b5\8e<\f7Gr+\92\ac\ef?\d1\9c/p=\be><\a2\d1\d32\ec\a3\ef?\0bn\90\894\03j\bc\1b\d3\fe\aff\9b\ef?\0e\bd/*RV\95\bcQ[\12\d0\01\93\ef?U\eaN\8c\ef\80P\bc\cc1l\c0\bd\8a\ef?\16\f4\d5\b9#\c9\91\bc\e0-\a9\ae\9a\82\ef?\afU\\\e9\e3\d3\80<Q\8e\a5\c8\98z\ef?H\93\a5\ea\15\1b\80\bc{Q}<\b8r\ef?=2\deU\f0\1f\8f\bc\ea\8d\8c8\f9j\ef?\bfS\13?\8c\89\8b<u\cbo\eb[c\ef?&\eb\11v\9c\d9\96\bc\d4\\\04\84\e0[\ef?`/:>\f7\ec\9a<\aa\b9h1\87T\ef?\9d8\86\cb\82\e7\8f\bc\1d\d9\fc\"PM\ef?\8d\c3\a6DAo\8a<\d6\8cb\88;F\ef?}\04\e4\b0\05z\80<\96\dc}\91I?\ef?\94\a8\a8\e3\fd\8e\96<8bunz8\ef?}Ht\f2\18^\87<?\a6\b2O\ce1\ef?\f2\e7\1f\98+G\80<\dd|\e2eE+\ef?^\08q?{\b8\96\bc\81c\f5\e1\df$\ef?1\ab\tm\e1\f7\82<\e1\de\1f\f5\9d\1e\ef?\fa\bfo\1a\9b!=\bc\90\d9\da\d0\7f\18\ef?\b4\n\0cr\827\8b<\0b\03\e4\a6\85\12\ef?\8f\cb\ce\89\92\14n<V/>\a9\af\0c\ef?\b6\ab\b0MuM\83<\15\b71\n\fe\06\ef?Lt\ac\e2\01B\86<1\d8L\fcp\01\ef?J\f8\d3]9\dd\8f<\ff\16d\b2\08\fc\ee?\04[\8e;\80\a3\86\bc\f1\9f\92_\c5\f6\ee?hPK\cc\edJ\92\bc\cb\a9:7\a7\f1\ee?\8e-Q\1b\f8\07\99\bcf\d8\05m\ae\ec\ee?\d26\94>\e8\d1q\bc\f7\9f\e54\db\e7\ee?\15\1b\ce\b3\19\19\99\bc\e5\a8\13\c3-\e3\ee?mL*\a7H\9f\85<\"4\12L\a6\de\ee?\8ai(z`\12\93\bc\1c\80\ac\04E\da\ee?[\89\17H\8f\a7X\bc*.\f7!\n\d6\ee?\1b\9aIg\9b,|\bc\97\a8P\d9\f5\d1\ee?\11\ac\c2`\edcC<-\89a`\08\ce\ee?\efd\06;\tf\96<W\00\1d\edA\ca\ee?y\03\a1\da\e1\ccn<\d0<\c1\b5\a2\c6\ee?0\12\0f?\8e\ff\93<\de\d3\d7\f0*\c3\ee?\b0\afz\bb\ce\90v<\'*6\d5\da\bf\ee?w\e0T\eb\bd\1d\93<\0d\dd\fd\99\b2\bc\ee?\8e\a3q\004\94\8f\bc\a7,\9dv\b2\b9\ee?I\a3\93\dc\cc\de\87\bcBf\cf\a2\da\b6\ee?_8\0f\bd\c6\dex\bc\82O\9dV+\b4\ee?\f6\\{\ecF\12\86\bc\0f\92]\ca\a4\b1\ee?\8e\d7\fd\18\055\93<\da\'\b56G\af\ee?\05\9b\8a/\b7\98{<\fd\c7\97\d4\12\ad\ee?\tT\1c\e2\e1c\90<)TH\dd\07\ab\ee?\ea\c6\19P\85\c74<\b7FY\8a&\a9\ee?5\c0d+\e62\94<H!\ad\15o\a7\ee?\9fv\99aJ\e4\8c\bc\t\dcv\b9\e1\a5\ee?\a8M\ef;\c53\8c\bc\85U:\b0~\a4\ee?\ae\e9+\89xS\84\bc \c3\cc4F\a3\ee?XXVx\dd\ce\93\bc%\"U\828\a2\ee?d\19~\80\aa\10W<s\a9L\d4U\a1\ee?(\"^\bf\ef\b3\93\bc\cd;\7ff\9e\a0\ee?\82\b94\87\ad\12j\bc\bf\da\0bu\12\a0\ee?\ee\a9m\b8\efgc\bc/\1ae<\b2\9f\ee?Q\88\e0T=\dc\80\bc\84\94Q\f9}\9f\ee?\cf>Z~d\1fx\bct_\ec\e8u\9f\ee?\b0}\8b\c0J\ee\86\bct\81\a5H\9a\9f\ee?\8a\e6U\1e2\19\86\bc\c9gBV\eb\9f\ee?\d3\d4\t^\cb\9c\90<?]\deOi\a0\ee?\1d\a5M\b9\dc2{\bc\87\01\ebs\14\a1\ee?k\c0gT\fd\ec\94<2\c10\01\ed\a1\ee?Ul\d6\ab\e1\ebe<bN\cf6\f3\a2\ee?B\cf\b3/\c5\a1\88\bc\12\1a>T\'\a4\ee?47;\f1\b6i\93\bc\13\ceL\99\89\a5\ee?\1e\ff\19:\84^\80\bc\ad\c7#F\1a\a7\ee?nWr\d8P\d4\94\bc\ed\92D\9b\d9\a8\ee?\00\8a\0e[g\ad\90<\99f\8a\d9\c7\aa\ee?\b4\ea\f0\c1/\b7\8d<\db\a0*B\e5\ac\ee?\ff\e7\c5\9c`\b6e\bc\8cD\b5\162\af\ee?D_\f3Y\83\f6{<6w\15\99\ae\b1\ee?\83=\1e\a7\1f\t\93\bc\c6\ff\91\0b[\b4\ee?)\1el\8b\b8\a9]\bc\e5\c5\cd\b07\b7\ee?Y\b9\90|\f9#l\bc\0fR\c8\cbD\ba\ee?\aa\f9\f4\"CC\92\bcPN\de\9f\82\bd\ee?K\8ef\d7l\ca\85\bc\ba\07\cap\f1\c0\ee?\'\ce\91+\fc\afq<\90\f0\a3\82\91\c4\ee?\bbs\n\e15\d2m<##\e3\19c\c8\ee?c\"b\"\04\c5\87\bce\e5]{f\cc\ee?\d51\e2\e3\86\1c\8b<3-J\ec\9b\d0\ee?\15\bb\bc\d3\d1\bb\91\bc]%>\b2\03\d5\ee?\d21\ee\9c1\cc\90<X\b30\13\9e\d9\ee?\b3Zsn\84i\84<\bf\fdyUk\de\ee?\b4\9d\8e\97\cd\df\82\bcz\f3\d3\bfk\e3\ee?\873\cb\92w\1a\8c<\ad\d3Z\99\9f\e8\ee?\fa\d9\d1J\8f{\90\bcf\b6\8d)\07\ee\ee?\ba\ae\dcV\d9\c3U\bc\fb\15O\b8\a2\f3\ee?@\f6\a6=\0e\a4\90\bc:Y\e5\8dr\f9\ee?4\93\ad8\f4\d6h\bcG^\fb\f2v\ff\ee?5\8aXk\e2\ee\91\bcJ\06\a10\b0\05\ef?\cd\dd_\n\d7\fft<\d2\c1K\90\1e\0c\ef?\ac\98\92\fa\fb\bd\91\bc\t\1e\d7[\c2\12\ef?\b3\0c\af0\aens<\9cR\85\dd\9b\19\ef?\94\fd\9f\\2\e3\8e<z\d0\ff_\ab \ef?\acY\t\d1\8f\e0\84<K\d1W.\f1\'\ef?g\1aN8\af\cdc<\b5\e7\06\94m/\ef?h\19\92l,kg<i\90\ef\dc 7\ef?\d2\b5\cc\83\18\8a\80\bc\fa\c3]U\0b?\ef?o\fa\ff?]\ad\8f\bc|\89\07J-G\ef?I\a9u8\ae\0d\90\bc\f2\89\0d\08\87O\ef?\a7\07=\a6\85\a3t<\87\a4\fb\dc\18X\ef?\0f\"@ \9e\91\82\bc\98\83\c9\16\e3`\ef?\ac\92\c1\d5PZ\8e<\852\db\03\e6i\ef?Kk\01\acY:\84<`\b4\01\f3!s\ef?\1f>\b4\07!\d5\82\bc_\9b{3\97|\ef?\c9\0dG;\b9*\89\bc)\a1\f5\14F\86\ef?\d3\88:`\04\b6t<\f6?\8b\e7.\90\ef?qr\9dQ\ec\c5\83<\83L\c7\fbQ\9a\ef?\f0\91\d3\8f\12\f7\8f\bc\da\90\a4\a2\af\a4\ef?}t#\e2\98\ae\8d\bc\f1g\8e-H\af\ef?\08 \aaA\bc\c3\8e<\'Za\ee\1b\ba\ef?2\eb\a9\c3\94+\84<\97\bak7+\c5\ef?\ee\85\d11\a9d\8a<@En[v\d0\ef?\ed\e3;\e4\ba7\8e\bc\14\be\9c\ad\fd\db\ef?\9d\cd\91M;\89w<\d8\90\9e\81\c1\e7\ef?\89\cc`A\c1\05S<\f1q\8f+\c2\f3\ef?")
- (data (i32.const 1920056668) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00*\00\00\00O\00b\00j\00e\00c\00t\00 \00a\00l\00r\00e\00a\00d\00y\00 \00p\00i\00n\00n\00e\00d\00\00\00")
- (data (i32.const 1920056736) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1920056764) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d\00\00\00\00\00")
- (data (i32.const 1920056832) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1920056864) "\08\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00$\01\00\00\00\00\00\00\01\19\00\00\02\00\00\00\02\1a\00\00\00\00\00\00\02\t\00\00\00\00\00\00A\00\00\00\02\00\00\00")
+ (data (i32.const 1920050396) "\1c\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\08\00\00\00\00\00\00\00\00\e0?\18rG\89\b0K\e0?\f6\a1\96tZ\97\e0?<e\89$\f7\e2\e0?T\b4\e3\fc\7f.\e1?v\9b%c\eey\e1?\dd\04\1f\bf;\c5\e1?=O\83{a\10\e2?\93\a3|\06Y[\e2?m\fd>\d2\1b\a6\e2?\d6\d8\9aU\a3\f0\e2?\ty\8f\0c\e9:\e3?%\bb\dcx\e6\84\e3?(h\94\"\95\ce\e3?u\f9\aa\98\ee\17\e4?@\c3\87q\ec`\e4?Jx\94K\88\a9\e4?T\fa\cb\cd\bb\f1\e4?\e0jH\a8\809\e5?\c4o\d0\94\d0\80\e5?7\9fcW\a5\c7\e5?#\07\c6\be\f8\0d\e6?l\c3\n\a5\c4S\e6?.\97\1d\f0\02\99\e6?\ca|K\92\ad\dd\e6?\f3 \ca\8a\be!\e7?\c6<>\e6/e\e7?B\c3@\bf\fb\a7\e7?j\d6\e2>\1c\ea\e7?\a4x0\9d\8b+\e8?\c0\ee\b1!Dl\e8?y\c7\eb#@\ac\e8?6}\dd\0bz\eb\e8?\e8\a6~R\ec)\e9?/\ad:\82\91g\e9?\de\f8j7d\a4\e9?:\90\cf _\e0\e9?n\18\06\00}\1b\ea?\ba0\ff\a9\b8U\ea?/\1dr\07\0d\8f\ea?\d2\b6N\15u\c7\ea?*\97-\e5\eb\fe\ea?|u\be\9dl5\eb?\fa\ab4{\f2j\eb?t\db\b1\cfx\9f\eb?B\a4\ae\03\fb\d2\eb?!ka\96t\05\ec?,!#\1e\e16\ec?\03\06\d2H<g\ec?\94[2\dc\81\96\ec?\fb\02M\b6\ad\c4\ec?T\fa\cb\cd\bb\f1\ec??\b3T2\a8\1d\ed?Z:\e0\0coH\ed?\db\'\11\a0\0cr\ed?\ddQ\87H}\9a\ed?\0291}\bd\c1\ed?R(\9b\cf\c9\e7\ed?j\01<\ec\9e\0c\ee?@\ae\bf\9a90\ee?\062O\be\96R\ee?\ceR\d6U\b3s\ee?\ed\d5F|\8c\93\ee?%I\d9h\1f\b2\ee?\faRKoi\cf\ee?\c8\84\1b\00h\eb\ee?B\a9\c2\a8\18\06\ef?v\8a\ea\13y\1f\ef?\80*\a2\t\877\ef?Rj\8fo@N\ef?P\1a\1eI\a3c\ef?\81p\ac\b7\adw\ef?\a1\e0\b4\fa]\8a\ef?:R\f5o\b2\9b\ef?x\b1\93\93\a9\ab\ef?z\d7?\00B\ba\ef?(\c7Roz\c7\ef?\da;\eb\b8Q\d3\ef?>\87\07\d4\c6\dd\ef?^\bc\9c\d6\d8\e6\ef?\91%\ab\f5\86\ee\ef?\be\03P\85\d0\f4\ef?2\95\d4\f8\b4\f9\ef?\eab\ba\e23\fd\ef?\10\d3\c4\f4L\ff\ef?\00\00\00\00\00\00\f0?\10\d3\c4\f4L\ff\ef?\eab\ba\e23\fd\ef?2\95\d4\f8\b4\f9\ef?\be\03P\85\d0\f4\ef?\92%\ab\f5\86\ee\ef?^\bc\9c\d6\d8\e6\ef?>\87\07\d4\c6\dd\ef?\da;\eb\b8Q\d3\ef?(\c7Roz\c7\ef?z\d7?\00B\ba\ef?x\b1\93\93\a9\ab\ef?:R\f5o\b2\9b\ef?\a1\e0\b4\fa]\8a\ef?\81p\ac\b7\adw\ef?P\1a\1eI\a3c\ef?Sj\8fo@N\ef?\80*\a2\t\877\ef?v\8a\ea\13y\1f\ef?B\a9\c2\a8\18\06\ef?\c9\84\1b\00h\eb\ee?\faRKoi\cf\ee?$I\d9h\1f\b2\ee?\ee\d5F|\8c\93\ee?\ceR\d6U\b3s\ee?\042O\be\96R\ee?@\ae\bf\9a90\ee?j\01<\ec\9e\0c\ee?S(\9b\cf\c9\e7\ed?\0291}\bd\c1\ed?\dcQ\87H}\9a\ed?\db\'\11\a0\0cr\ed?Z:\e0\0coH\ed?@\b3T2\a8\1d\ed?T\fa\cb\cd\bb\f1\ec?\fc\02M\b6\ad\c4\ec?\94[2\dc\81\96\ec?\04\06\d2H<g\ec?,!#\1e\e16\ec?\"ka\96t\05\ec?D\a4\ae\03\fb\d2\eb?t\db\b1\cfx\9f\eb?\fa\ab4{\f2j\eb?}u\be\9dl5\eb?+\97-\e5\eb\fe\ea?\d2\b6N\15u\c7\ea?0\1dr\07\0d\8f\ea?\ba0\ff\a9\b8U\ea?n\18\06\00}\1b\ea?:\90\cf _\e0\e9?\de\f8j7d\a4\e9?0\ad:\82\91g\e9?\e8\a6~R\ec)\e9?7}\dd\0bz\eb\e8?z\c7\eb#@\ac\e8?\c0\ee\b1!Dl\e8?\a4x0\9d\8b+\e8?j\d6\e2>\1c\ea\e7?B\c3@\bf\fb\a7\e7?\c9<>\e6/e\e7?\f6 \ca\8a\be!\e7?\cd|K\92\ad\dd\e6?0\97\1d\f0\02\99\e6?l\c3\n\a5\c4S\e6?\"\07\c6\be\f8\0d\e6?7\9fcW\a5\c7\e5?\c4o\d0\94\d0\80\e5?\e1jH\a8\809\e5?T\fa\cb\cd\bb\f1\e4?Jx\94K\88\a9\e4?A\c3\87q\ec`\e4?t\f9\aa\98\ee\17\e4?(h\94\"\95\ce\e3?%\bb\dcx\e6\84\e3?\ty\8f\0c\e9:\e3?\d7\d8\9aU\a3\f0\e2?m\fd>\d2\1b\a6\e2?\94\a3|\06Y[\e2?@O\83{a\10\e2?\dc\04\1f\bf;\c5\e1?u\9b%c\eey\e1?S\b4\e3\fc\7f.\e1?<e\89$\f7\e2\e0?\f6\a1\96tZ\97\e0?\19rG\89\b0K\e0?\01\00\00\00\00\00\e0?\d1\1bq\ed\9eh\df?\12\bc\d2\16K\d1\de?\875\ed\b6\11:\de?X\978\06\00\a3\dd?\14\c9\b49#\0c\dd?E\f6\c1\81\88u\dc?\86a\f9\08=\df\db?\db\b8\06\f3MI\db?(\05\82[\c8\b3\da?UN\caT\b9\1e\da?\f0\0d\e1\e6-\8a\d9?\b8\89F\0e3\f6\d8?\b3/\d7\ba\d5b\d8?\1a\0d\aa\ce\"\d0\d7?\84y\f0\1c\'>\d7?r\0f\d7h\ef\ac\d6?]\0bhd\88\1c\d6?@*o\af\fe\8c\d5?z _\d6^\fe\d4?\94\c18Q\b5p\d4?\be\f1s\82\0e\e4\d3?*y\ea\b5vX\d3?\a8\d1\c4\1f\fa\cd\d2?p\06i\db\a4D\d2?\1e\bek\ea\82\bc\d1?p\86\833\a05\d1?|y~\81\08\b0\d0?*S:\82\c7+\d0?l\1d>\8b\d1Q\cf?\00E8y\efN\ce?\1a\e2Pp\ffN\cd?(\0b\8a\d0\17R\cc?`d\05\b6NX\cb?FK\15\f7\b9a\ca?\8e\1cT\"on\c9?\1c\bf\c1|\83~\c8?L\9e\e7\ff\0b\92\c7?\1e=\03X\1d\a9\c6?J\8b7\e2\cb\c3\c5?\c0$\c5\aa+\e2\c4?^\a3IkP\04\c4?\n*\06\89M*\c3?\16P-\136T\c2?,\928\c1\1c\82\c1?\f6nE\f1\13\b4\c0?\f4\a6\f4L[\d4\bf?\a0\f6\e6\0e\f7H\be?\e8\cfo\b9\1d\c6\bc?h#m\1e\f1K\bb?\18\e8\97M\92\da\b9?d-\a0\91!r\b8?\f8eZm\be\12\b7?4-\fe\98\87\bc\b5?0\c1v\ff\9ao\b4? q\c5\bb\15,\b3?\f87v\16\14\f2\b1?t\bd&\83\b1\c1\b0?P\e9?<\116\af?\10\1c\05Tf\fc\ac?\a0\df\0c\1b\94\d6\aa?0\d3\9a\a2\ca\c4\a8? \a1\92;8\c7\a6?\c8mkr\t\de\a4?P\d0J\0bi\t\a3?\90\b3G\fe\7fI\a1?\d0\d7\aa\e7\ea<\9f?P\b1\ae\82\dd\10\9c?\10\b0\ba\cb\1e\0f\99?\b0\b5\12\0e\f27\96?\10\b6<\dc\96\8b\93?\e0\efq\nI\n\91?\e0\d7\c7R\81h\8d?\c0q\ab\02d\13\89?@\a2\13\1b\9b\15\85?\c0!\n\f0\7fo\81?\00l\9cV\c8B|?\80\13b\8a#Wv?@a<\fc\95\1cq?\00\a3Cc)\'i?\00o\daT\nya?\00\85\f8_\f5^V?\008\ab\ad\1c,I?\00\b4\e8,\ea`6?\00\f0\9dega\16?\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1920052476) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\1a\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00\00\00")
+ (data (i32.const 1920052524) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00$\00\00\00~\00l\00i\00b\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1920052588) "\1c\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\08\00\00\00\00\00\00\00\00\00\00\b7\b2\a5\f4\ea\e3C?\83\06\10\b5\d3\e0c?7\13b\8a#Wv?\fb\a3\0f\8ez\d4\83?\a5\e0\dfO\8d\ed\8e?\a5\b5\12\0e\f27\96?\87o\c7\ab\8c)\9e?\fd\1a\86<S\a3\a3?\1c\d3\9a\a2\ca\c4\a8?\ddT*\1e\fcu\ae?\0d\80\88\f7\aeY\b2?--\fe\98\87\bc\b5?=\e7\c8$ma\b9?r\ab\1f\be\1bF\bd?\f7nE\f1\13\b4\c0?r\15{\f5\7f\e2\c2?O\e8;\d2\f6,\c5?G\9e\e7\ff\0b\92\c7?dcGkB\10\ca?\dfokb\0d\a6\cc?n\1d>\8b\d1Q\cf?\b6\9b\99\f1\f2\08\d1?aL\bacJr\d2?\ba\f1s\82\0e\e4\d3?\82\1e\b2wY]\d5?{A\b5\bf@\dd\d6?\af/\d7\ba\d5b\d8?\9f\83\ddA&\ed\d9?@\a0}<={\db?\14\c9\b49#\0c\dd?\\\9e\95\t\df\9e\de?\d0\b1\15,;\19\e0?<e\89$\f7\e2\e0?w\c5\b3\t&\ac\e1?\b0\ee\d2\ceJt\e2?\ty\8f\0c\e9:\e3?\04\e3ON\85\ff\e3?.\1a\f5^\a5\c1\e4?\c4o\d0\94\d0\80\e5?\f9\c1\a3\1c\90<\e6?\e4;}Co\f4\e6?@\c3@\bf\fb\a7\e7?\0c\fe\b1\f5\c5V\e8?\d9\c7\d2Aa\00\e9?\de\f8j7d\a4\e9?\00\85\8f\e4hB\ea?\0b8\00\11\0d\da\ea?\f8\ab4{\f2j\eb?\e9\86\f2\12\bf\f4\eb?\19\96H1\1dw\ec?S\fa\cb\cd\bb\f1\ec?\02N\f6\b0Nd\ed?\82v\85\a3\8e\ce\ed?@\ae\bf\9a90\ee?\03D\80\e1\12\89\ee?s\8b\f3=\e3\d8\ee?v\8a\ea\13y\1f\ef?B\0d\b1\83\a8\\\ef?l\f6R\85K\90\ef?x\d7?\00B\ba\ef?\91 >\dfq\da\ef?\b7\80\a1 \c7\f0\ef?\eab\ba\e23\fd\ef?5\cdvl\b0\ff\ef?\fcD/2;\f8\ef?]\bc\9c\d6\d8\e6\ef?\1a\f0\f6\'\94\cb\ef?A\00=\19~\a6\ef?\81p\ac\b7\adw\ef?}\1cm\1c@?\ef?\ff\07{ZX\fd\ee?%I\d9h\1f\b2\ee?\8d\99\1b\t\c4]\ee?\16bV\aaz\00\ee?\dcQ\87H}\9a\ed?<\c2\8aH\0b,\ed?\12O\b4Pi\b5\ec?+!#\1e\e16\ec?\c1p\ecV\c1\b0\eb?>\bd8Y]#\eb?1\1dr\07\0d\8f\ea?\d7\db\a3\91,\f4\e9?\cbX-<\1cS\e9?{\c7\eb#@\ac\e8?\01\00\00\00\00\00\e8?\19\0fW\e1\c6N\e7?.\97\1d\f0\02\99\e6?\03`G\'%\df\e5?A\a4U\0e\a1!\e5?B\c3\87q\ec`\e4?\95\f9\a2\18\7f\9d\e3?[\a3~|\d2\d7\e2?@O\83{a\10\e2?\91\90K\0d\a8G\e1?\d6\08\96\f5\"~\e0?\d3\1bq\ed\9eh\df?\a0A\89\07V\d5\dd?\e43\1b\e5eC\dc?%\05\82[\c8\b3\da?\89\0f\83\ceu\'\d9?D\94\e9\95d\9f\d7?[\0bhd\88\1c\d6?\adP\1e\b0\d1\9f\d4?\98\d5\"\1d-*\d3?\1e\bek\ea\82\bc\d1?\dcVsa\b6W\d0?\f0<\e3\91J\f9\cd?cd\05\b6NX\cb?M\9a\1f~\1b\ce\c8?\11e\9c\0fE\\\c6?S\a3IkP\04\c4?\a0k\8d{\b2\c7\c1?\e0\9d5Y\9eO\bf?j#m\1e\f1K\bb?\9b\bb*\0d\dc\86\b7?\8e\14\ac\03\b7\02\b4?w\bd&\83\b1\c1\b0?\07\cc\04\a8\a2\8b\ab?U\03\04\88\e2!\a6?z\b3G\fe\7fI\a1?\df\01\c0\0f\fc\n\9a?h n\cf\06\b1\92?\b4q\ab\02d\13\89?P\9e\05PCc~?\d5(E\f1\ab\0bo?\c6\84\f8_\f5^V?K\'\eb\d3\b0\e4#?l&\eb\d3\b0\e4#?s\84\f8_\f5^V?\10(E\f1\ab\0bo?\c6\9d\05PCc~?\96q\ab\02d\13\89?W n\cf\06\b1\92?\c8\01\c0\0f\fc\n\9a?m\b3G\fe\7fI\a1?F\03\04\88\e2!\a6?\f8\cb\04\a8\a2\8b\ab?^\bd&\83\b1\c1\b0?s\14\ac\03\b7\02\b4?\a2\bb*\0d\dc\86\b7?q#m\1e\f1K\bb?\d5\9d5Y\9eO\bf?\9ak\8d{\b2\c7\c1?M\a3IkP\04\c4?\0be\9c\0fE\\\c6?:\9a\1f~\1b\ce\c8?Nd\05\b6NX\cb?\f5<\e3\91J\f9\cd?\e0Vsa\b6W\d0?\1a\bek\ea\82\bc\d1?\94\d5\"\1d-*\d3?\a8P\1e\b0\d1\9f\d4?V\0bhd\88\1c\d6?B\94\e9\95d\9f\d7?\84\0f\83\ceu\'\d9?\'\05\82[\c8\b3\da?\e63\1b\e5eC\dc?\9dA\89\07V\d5\dd?\cd\1bq\ed\9eh\df?\d3\08\96\f5\"~\e0?\90\90K\0d\a8G\e1?:O\83{a\10\e2?P\a3~|\d2\d7\e2?\93\f9\a2\18\7f\9d\e3?@\c3\87q\ec`\e4??\a4U\0e\a1!\e5?\ff_G\'%\df\e5?*\97\1d\f0\02\99\e6?\17\0fW\e1\c6N\e7?\fd\ff\ff\ff\ff\ff\e7?v\c7\eb#@\ac\e8?\cdX-<\1cS\e9?\d9\db\a3\91,\f4\e9?1\1dr\07\0d\8f\ea?>\bd8Y]#\eb?\c1p\ecV\c1\b0\eb?+!#\1e\e16\ec?\12O\b4Pi\b5\ec?<\c2\8aH\0b,\ed?\dcQ\87H}\9a\ed?\16bV\aaz\00\ee?\8a\99\1b\t\c4]\ee?#I\d9h\1f\b2\ee?\fd\07{ZX\fd\ee?{\1cm\1c@?\ef?\7fp\ac\b7\adw\ef??\00=\19~\a6\ef?\1a\f0\f6\'\94\cb\ef?]\bc\9c\d6\d8\e6\ef?\fcD/2;\f8\ef?5\cdvl\b0\ff\ef?\eab\ba\e23\fd\ef?\b7\80\a1 \c7\f0\ef?\91 >\dfq\da\ef?z\d7?\00B\ba\ef?l\f6R\85K\90\ef?B\0d\b1\83\a8\\\ef?v\8a\ea\13y\1f\ef?s\8b\f3=\e3\d8\ee?\03D\80\e1\12\89\ee?@\ae\bf\9a90\ee?\84v\85\a3\8e\ce\ed?\04N\f6\b0Nd\ed?U\fa\cb\cd\bb\f1\ec?\1b\96H1\1dw\ec?\e9\86\f2\12\bf\f4\eb?\fc\ab4{\f2j\eb?\0f8\00\11\0d\da\ea?\03\85\8f\e4hB\ea?\e1\f8j7d\a4\e9?\de\c7\d2Aa\00\e9?\0c\fe\b1\f5\c5V\e8?@\c3@\bf\fb\a7\e7?\e4;}Co\f4\e6?\fb\c1\a3\1c\90<\e6?\c6o\d0\94\d0\80\e5?0\1a\f5^\a5\c1\e4?\05\e3ON\85\ff\e3?\0cy\8f\0c\e9:\e3?\aa\ee\d2\ceJt\e2?t\c5\b3\t&\ac\e1?9e\89$\f7\e2\e0?\cd\b1\15,;\19\e0?l\9e\95\t\df\9e\de?\"\c9\b49#\0c\dd?P\a0}<={\db?\b3\83\ddA&\ed\d9?\b1/\d7\ba\d5b\d8?\7fA\b5\bf@\dd\d6?\87\1e\b2wY]\d5?\c1\f1s\82\0e\e4\d3?gL\bacJr\d2?\be\9b\99\f1\f2\08\d1?\7f\1d>\8b\d1Q\cf?\f2okb\0d\a6\cc?]cGkB\10\ca?C\9e\e7\ff\0b\92\c7?O\e8;\d2\f6,\c5?r\15{\f5\7f\e2\c2?\fanE\f1\13\b4\c0?z\ab\1f\be\1bF\bd?G\e7\c8$ma\b9?9-\fe\98\87\bc\b5?\1a\80\88\f7\aeY\b2?\fbT*\1e\fcu\ae?=\d3\9a\a2\ca\c4\a8?\1c\1b\86<S\a3\a3?\c9o\c7\ab\8c)\9e?\e2\b5\12\0e\f27\96?\13\e1\dfO\8d\ed\8e?[\a4\0f\8ez\d4\83?<\13b\8a#Wv?\9b\06\10\b5\d3\e0c?\07\b3\a5\f4\ea\e3C?\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1920054668) "\1c\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\08\00\00\00\00\00\00\00\00\d0?\ad8\ed\eb\ca\96\d0?\ce\a8\9b\07\90-\d1?\0b\e8\05\83I\c4\d1?BL\99\8e\f1Z\d2?\15Co[\82\f1\d2?\de\a4\86\1b\f6\87\d3?\c5\fe\fc\01G\1e\d4?\c8\d1GCo\b4\d4?\88\c4m\15iJ\d5?\92\c5?\b0.\e0\d5?\0c\1c\92M\bau\d6?vdu)\06\0b\d7?bwo\82\0c\a0\d7?\ea7\b4\99\c74\d8?\b2G^\b31\c9\d8?D\9e\a7\16E]\d9?\9e\01\"\0e\fc\f0\d9?\c5]\ef\e7P\84\da?&\f9\f9\f5=\17\db?\aa\83,\8e\bd\a9\db?B\fe\a9\n\ca;\dc?\d9x\05\ca]\cd\dc?n\a4y/s^\dd?D7 \a3\04\ef\dd?\fe )\92\0c\7f\de?\82\8c\11o\85\0e\df?\90\ad\da\b1i\9d\df?\f3+ \ec\d9\15\e0?\ea\ae\f72\af\\\e0?\1b\da]\f21\a3\e0?\d6,kr_\e9\e0?\85\7f\81\fe4/\e1?p\b7f\e5\aft\e1?\14Y_y\cd\b9\e1?\ec\f7H\10\8b\fe\e1?\c8\82\b4\03\e6B\e2?\96k\00\b1\db\86\e2?\a3\a9ryi\ca\e2?T\95R\c2\8c\0d\e3?V\9c\02\f5BP\e3?P\cd\19\7f\89\92\e3?\06:}\d2]\d4\e3?\t/ye\bd\15\e4?\f2?\da\b2\a5V\e4?+\'\06:\14\97\e4?Zx\14\7f\06\d7\e4?w$\e7\nz\16\e5?\96\ceBklU\e5?\82\f0\e62\db\93\e5?\'\ce\a5\f9\c3\d1\e5?\f06|\\$\0f\e6?(\14\a9\fd\f9K\e6?v\c3\c4\84B\88\e6?\8b<\d8\9e\fb\c3\e6?\1f\01t\fe\"\ff\e6?`\d6\c6[\b69\e7?\eaF\b4t\b3s\e7?o\ec\ea\0c\18\ad\e7?0\80\fa\ed\e1\e5\e7?w\b1i\e7\0e\1e\e8?)\c1\cb\ce\9cU\e8?\a6\e1\d5\7f\89\8c\e8?.Zt\dc\d2\c2\e8?\d9l\df\ccv\f8\e8?\82\fe\af?s-\e9?\b0\ff\f3)\c6a\e9?\c9\95B\87m\95\e9?\c3\03\d0Yg\c8\e9?\94Q\81\aa\b1\fa\e9?\92\b1\ff\88J,\ea?\0f\a3\cb\0b0]\ea?p\d1OP`\8d\ea?\t\af\f3z\d9\bc\ea?\fc\ca-\b7\99\eb\ea?r\e1\957\9f\19\eb?p\a5\f65\e8F\eb?\afC_\f3rs\eb?\a2\9d4\b8=\9f\eb?*<B\d4F\ca\eb?:\f9\ca\9e\8c\f4\eb?\cc_\99v\0d\1e\ec?\7f\c1\0f\c2\c7F\ec?N\018\ef\b9n\ec?\ae\12\d3s\e2\95\ec?\9e,h\cd?\bc\ec?\df\afS\81\d0\e1\ec?\f7\bf\d5\1c\93\06\ed?D\8e 5\86*\ed?\b4Vfg\a8M\ed?x\0d\e7X\f8o\ed?E\bd\fd\b6t\91\ed?\96\95-7\1c\b2\ed?e\a8.\97\ed\d1\ed?\ecV\fa\9c\e7\f0\ed?\e8l\d7\16\t\0f\ee?\f4\e9e\dbP,\ee?tx\aa\c9\bdH\ee?\ad\91\19\c9Nd\ee?\a0N\a2\c9\02\7f\ee?,\e5\b8\c3\d8\98\ee?\1e\d1`\b8\cf\b1\ee?\ce\a86\b1\e6\c9\ee?\c9\9cy\c0\1c\e1\ee?d\a2\14\01q\f7\ee?\97H\a7\96\e2\0c\ef?\n7\8e\adp!\ef?\d2V\ebz\1a5\ef?\a1\a4\ad<\dfG\ef?#\ac\989\beY\ef?\'\acK\c1\b6j\ef?bcH,\c8z\ef?\84\85\f9\db\f1\89\ef?Y\d8\b8:3\98\ef?\bf\f8\d4\bb\8b\a5\ef?4\c7\96\db\fa\b1\ef?\d1{F\1f\80\bd\ef?qa0\15\1b\c8\ef?\de7\a9T\cb\d1\ef?\dc<\12~\90\da\ef?\dc\db\dc:j\e2\ef?G\04\8e=X\e9\ef?,&\c1AZ\ef\ef?B\d5*\0cp\f4\ef?\1e\12\9bj\99\f8\ef?\869\ff3\d6\fb\ef?\ca\99cH&\fe\ef?$\ae\f4\90\89\ff\ef?$\ae\f4\90\89\ff\ef?\ca\99cH&\fe\ef?\869\ff3\d6\fb\ef?\1e\12\9bj\99\f8\ef?B\d5*\0cp\f4\ef?,&\c1AZ\ef\ef?G\04\8e=X\e9\ef?\dc\db\dc:j\e2\ef?\dc<\12~\90\da\ef?\de7\a9T\cb\d1\ef?qa0\15\1b\c8\ef?\d1{F\1f\80\bd\ef?4\c7\96\db\fa\b1\ef?\bf\f8\d4\bb\8b\a5\ef?Y\d8\b8:3\98\ef?\84\85\f9\db\f1\89\ef?bcH,\c8z\ef?\'\acK\c1\b6j\ef?#\ac\989\beY\ef?\a1\a4\ad<\dfG\ef?\d2V\ebz\1a5\ef?\n7\8e\adp!\ef?\97H\a7\96\e2\0c\ef?d\a2\14\01q\f7\ee?\c9\9cy\c0\1c\e1\ee?\ce\a86\b1\e6\c9\ee?\1e\d1`\b8\cf\b1\ee?,\e5\b8\c3\d8\98\ee?\a0N\a2\c9\02\7f\ee?\ad\91\19\c9Nd\ee?tx\aa\c9\bdH\ee?\f4\e9e\dbP,\ee?\e8l\d7\16\t\0f\ee?\ecV\fa\9c\e7\f0\ed?e\a8.\97\ed\d1\ed?\96\95-7\1c\b2\ed?E\bd\fd\b6t\91\ed?x\0d\e7X\f8o\ed?\b4Vfg\a8M\ed?D\8e 5\86*\ed?\f7\bf\d5\1c\93\06\ed?\df\afS\81\d0\e1\ec?\9e,h\cd?\bc\ec?\ae\12\d3s\e2\95\ec?N\018\ef\b9n\ec?\7f\c1\0f\c2\c7F\ec?\cc_\99v\0d\1e\ec?:\f9\ca\9e\8c\f4\eb?*<B\d4F\ca\eb?\a2\9d4\b8=\9f\eb?\afC_\f3rs\eb?p\a5\f65\e8F\eb?r\e1\957\9f\19\eb?\fc\ca-\b7\99\eb\ea?\t\af\f3z\d9\bc\ea?p\d1OP`\8d\ea?\0f\a3\cb\0b0]\ea?\92\b1\ff\88J,\ea?\94Q\81\aa\b1\fa\e9?\c3\03\d0Yg\c8\e9?\c9\95B\87m\95\e9?\b0\ff\f3)\c6a\e9?\82\fe\af?s-\e9?\d9l\df\ccv\f8\e8?.Zt\dc\d2\c2\e8?\a6\e1\d5\7f\89\8c\e8?)\c1\cb\ce\9cU\e8?w\b1i\e7\0e\1e\e8?0\80\fa\ed\e1\e5\e7?o\ec\ea\0c\18\ad\e7?\eaF\b4t\b3s\e7?`\d6\c6[\b69\e7?\1f\01t\fe\"\ff\e6?\8b<\d8\9e\fb\c3\e6?v\c3\c4\84B\88\e6?(\14\a9\fd\f9K\e6?\f06|\\$\0f\e6?\'\ce\a5\f9\c3\d1\e5?\82\f0\e62\db\93\e5?\96\ceBklU\e5?w$\e7\nz\16\e5?Zx\14\7f\06\d7\e4?+\'\06:\14\97\e4?\f2?\da\b2\a5V\e4?\t/ye\bd\15\e4?\06:}\d2]\d4\e3?P\cd\19\7f\89\92\e3?V\9c\02\f5BP\e3?T\95R\c2\8c\0d\e3?\a3\a9ryi\ca\e2?\96k\00\b1\db\86\e2?\c8\82\b4\03\e6B\e2?\ec\f7H\10\8b\fe\e1?\14Y_y\cd\b9\e1?p\b7f\e5\aft\e1?\85\7f\81\fe4/\e1?\d6,kr_\e9\e0?\1b\da]\f21\a3\e0?\ea\ae\f72\af\\\e0?\f3+ \ec\d9\15\e0?\90\ad\da\b1i\9d\df?\82\8c\11o\85\0e\df?\fe )\92\0c\7f\de?D7 \a3\04\ef\dd?n\a4y/s^\dd?\d9x\05\ca]\cd\dc?B\fe\a9\n\ca;\dc?\aa\83,\8e\bd\a9\db?&\f9\f9\f5=\17\db?\c5]\ef\e7P\84\da?\9e\01\"\0e\fc\f0\d9?D\9e\a7\16E]\d9?\b2G^\b31\c9\d8?\ea7\b4\99\c74\d8?bwo\82\0c\a0\d7?vdu)\06\0b\d7?\0c\1c\92M\bau\d6?\92\c5?\b0.\e0\d5?\88\c4m\15iJ\d5?\c8\d1GCo\b4\d4?\c5\fe\fc\01G\1e\d4?\de\a4\86\1b\f6\87\d3?\15Co[\82\f1\d2?BL\99\8e\f1Z\d2?\0b\e8\05\83I\c4\d1?\ce\a8\9b\07\90-\d1?\ad8\ed\eb\ca\96\d0?\00\00\00\00\00\00\d0?\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1920056748) "\1c\08\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\08\00\00\00\00\00\00\00\00\e0?\8f\bd\f9\a3C2\e0?\9a\8d\deW\85d\e0?\ae\a2\ac+\c3\96\e0?\c1n\88/\fb\c8\e0?\07\c1\cfs+\fb\e0?\9f\e1,\tR-\e1?B\aa\a9\00m_\e1?C\9b\c2kz\91\e1?-\ecy\\x\c3\e1?1\97j\e5d\f5\e1?\af^\db\19>\'\e2?\'\cc\d1\0d\02Y\e2?\cb\'%\d6\ae\8a\e2?\f9g\91\88B\bc\e2?\e6\17\ca;\bb\ed\e2?\c14\8d\07\17\1f\e3?\8a\00\b6\04TP\e3?\ec\c9OMp\81\e3?b\a8\a8\fci\b2\e3?\e3+d/?\e3\e3?l\ff\8d\03\ee\13\e4?\9e}\ac\98tD\e4?\cf6\d3\0f\d1t\e4?\c1g\b5\8b\01\a5\e4?T`\b80\04\d5\e4?\80\d9\05%\d7\04\e5?\da9\9e\90x4\e5?\f7\c7j\9d\e6c\e5?\f2\c9Ow\1f\93\e5?h\91>L!\c2\e5?:sGL\ea\f0\e5?Y\aa\ab\a9x\1f\e6?\f6$\ef\98\caM\e6?b;\eaP\de{\e6?\f2O\db\n\b2\a9\e6?0Wx\02D\d7\e6?\baG\00v\92\04\e7?\17qL\a6\9b1\e7?\e2\b8\e1\d6]^\e7?\8f\bd\01N\d7\8a\e7?5\de\bbT\06\b7\e7?\ae&\fe6\e9\e2\e7?\\\1f\a6C~\0e\e8?\f6\7f\91\cc\c39\e8?\c8\c4\ae&\b8d\e8?\91\a5\0d\aaY\8f\e8?\a4m\ef\b1\a6\b9\e8?d4\d7\9c\9d\e3\e8?\ac\f5\99\cc<\0d\e9?p\89n\a6\826\e9?\f5y\fd\92m_\e9?\1a\b8p\fe\fb\87\e9?\fa,\83X,\b0\e9?\\(\90\14\fd\d7\e9?j\ab\a2\a9l\ff\e9?\eb\8e\84\92y&\ea?\9c\84\cdM\"M\ea?\f4\f2\f1]es\ea?\cb\aaQIA\99\ea?PvF\9a\b4\be\ea?\c6\802\df\bd\e3\ea?o\96\8e\aa[\08\eb?\1f<\f8\92\8c,\eb?\e6\9d?3OP\eb?WTu*\a2s\eb?\cb\ff\f7\1b\84\96\eb?0\b9\81\af\f3\b8\eb?\d8W5\91\ef\da\eb?\b8\8b\abqv\fc\eb?\b7\cb\ff\05\87\1d\ec?`\17\dd\07 >\ec?\a0\8b\8a5@^\ec?\06\ca\f7Q\e6}\ec?\fe1\c9$\11\9d\ec?\a1\ebcz\bf\bb\ec?\a0\c3\f9#\f0\d9\ec?\ca\d7\94\f7\a1\f7\ec?\c1\13#\d0\d3\14\ed?q}\81\8d\841\ed?\d2P\87\14\b3M\ed?\88\ea\10O^i\ed?\00\81\n,\85\84\ed?\89\abz\9f&\9f\ed?\1f\b7\8c\a2A\b9\ed?i\c8\9a3\d5\d2\ed?\94\ca7V\e0\eb\ed?\a4*9\13b\04\ee?\d8^\c0xY\1c\ee?\ce9D\9a\c53\ee?\fa\08\9a\90\a5J\ee?.~\fey\f8`\ee?\bac\1ez\bdv\ee?\ee\1a\1f\ba\f3\8b\ee?\9d\e4\a6h\9a\a0\ee?F\f3\e4\b9\b0\b4\ee?\a3F\99\e75\c8\ee?NP\1c1)\db\ee?\1eaf\db\89\ed\ee?\16\df\161W\ff\ee?rC{\82\90\10\ef?\bf\e0\95%5!\ef?\89p$vD1\ef?\86h\a6\d5\bd@\ef?\ee\16c\ab\a0O\ef?\ba\85od\ec]\ef?\b2$\b4s\a0k\ef?\e19\f2Q\bcx\ef?l\18\c9}?\85\ef?l\1d\bb{)\91\ef?\c4r2\d6y\9c\ef?\96\97\85\1d0\a7\ef?X\ae\fb\e7K\b1\ef?<\90\d0\d1\cc\ba\ef?\d4\a58}\b2\c3\ef?\ce\84d\92\fc\cb\ef?\8cR\84\bf\aa\d3\ef?\a0\eb\ca\b8\bc\da\ef?\ea\cfp82\e1\ef?>\d3\b6\fe\n\e7\ef?\92\92\e8\d1F\ec\ef?\84\ad^~\e5\f0\ef?\1d\c4\80\d6\e6\f4\ef?\d68\c7\b2J\f8\ef?\bf\b6\bc\f1\10\fb\ef?\ae{\ffw9\fd\ef?\86fB0\c4\fe\ef?n\c9M\0b\b1\ff\ef?n\c9M\0b\b1\ff\ef?\86fB0\c4\fe\ef?\ae{\ffw9\fd\ef?\bf\b6\bc\f1\10\fb\ef?\d68\c7\b2J\f8\ef?\1d\c4\80\d6\e6\f4\ef?\84\ad^~\e5\f0\ef?\92\92\e8\d1F\ec\ef?>\d3\b6\fe\n\e7\ef?\ea\cfp82\e1\ef?\a0\eb\ca\b8\bc\da\ef?\8cR\84\bf\aa\d3\ef?\ce\84d\92\fc\cb\ef?\d4\a58}\b2\c3\ef?<\90\d0\d1\cc\ba\ef?X\ae\fb\e7K\b1\ef?\96\97\85\1d0\a7\ef?\c4r2\d6y\9c\ef?l\1d\bb{)\91\ef?l\18\c9}?\85\ef?\e19\f2Q\bcx\ef?\b2$\b4s\a0k\ef?\ba\85od\ec]\ef?\ee\16c\ab\a0O\ef?\86h\a6\d5\bd@\ef?\89p$vD1\ef?\bf\e0\95%5!\ef?rC{\82\90\10\ef?\16\df\161W\ff\ee?\1eaf\db\89\ed\ee?NP\1c1)\db\ee?\a3F\99\e75\c8\ee?F\f3\e4\b9\b0\b4\ee?\9d\e4\a6h\9a\a0\ee?\ee\1a\1f\ba\f3\8b\ee?\bac\1ez\bdv\ee?.~\fey\f8`\ee?\fa\08\9a\90\a5J\ee?\ce9D\9a\c53\ee?\d8^\c0xY\1c\ee?\a4*9\13b\04\ee?\94\ca7V\e0\eb\ed?i\c8\9a3\d5\d2\ed?\1f\b7\8c\a2A\b9\ed?\89\abz\9f&\9f\ed?\00\81\n,\85\84\ed?\88\ea\10O^i\ed?\d2P\87\14\b3M\ed?q}\81\8d\841\ed?\c1\13#\d0\d3\14\ed?\ca\d7\94\f7\a1\f7\ec?\a0\c3\f9#\f0\d9\ec?\a1\ebcz\bf\bb\ec?\fe1\c9$\11\9d\ec?\06\ca\f7Q\e6}\ec?\a0\8b\8a5@^\ec?`\17\dd\07 >\ec?\b7\cb\ff\05\87\1d\ec?\b8\8b\abqv\fc\eb?\d8W5\91\ef\da\eb?0\b9\81\af\f3\b8\eb?\cb\ff\f7\1b\84\96\eb?WTu*\a2s\eb?\e6\9d?3OP\eb?\1f<\f8\92\8c,\eb?o\96\8e\aa[\08\eb?\c6\802\df\bd\e3\ea?PvF\9a\b4\be\ea?\cb\aaQIA\99\ea?\f4\f2\f1]es\ea?\9c\84\cdM\"M\ea?\eb\8e\84\92y&\ea?j\ab\a2\a9l\ff\e9?\\(\90\14\fd\d7\e9?\fa,\83X,\b0\e9?\1a\b8p\fe\fb\87\e9?\f5y\fd\92m_\e9?p\89n\a6\826\e9?\ac\f5\99\cc<\0d\e9?d4\d7\9c\9d\e3\e8?\a4m\ef\b1\a6\b9\e8?\91\a5\0d\aaY\8f\e8?\c8\c4\ae&\b8d\e8?\f6\7f\91\cc\c39\e8?\\\1f\a6C~\0e\e8?\ae&\fe6\e9\e2\e7?5\de\bbT\06\b7\e7?\8f\bd\01N\d7\8a\e7?\e2\b8\e1\d6]^\e7?\17qL\a6\9b1\e7?\baG\00v\92\04\e7?0Wx\02D\d7\e6?\f2O\db\n\b2\a9\e6?b;\eaP\de{\e6?\f6$\ef\98\caM\e6?Y\aa\ab\a9x\1f\e6?:sGL\ea\f0\e5?h\91>L!\c2\e5?\f2\c9Ow\1f\93\e5?\f7\c7j\9d\e6c\e5?\da9\9e\90x4\e5?\80\d9\05%\d7\04\e5?T`\b80\04\d5\e4?\c1g\b5\8b\01\a5\e4?\cf6\d3\0f\d1t\e4?\9e}\ac\98tD\e4?l\ff\8d\03\ee\13\e4?\e3+d/?\e3\e3?b\a8\a8\fci\b2\e3?\ec\c9OMp\81\e3?\8a\00\b6\04TP\e3?\c14\8d\07\17\1f\e3?\e6\17\ca;\bb\ed\e2?\f9g\91\88B\bc\e2?\cb\'%\d6\ae\8a\e2?\'\cc\d1\0d\02Y\e2?\af^\db\19>\'\e2?1\97j\e5d\f5\e1?-\ecy\\x\c3\e1?C\9b\c2kz\91\e1?B\aa\a9\00m_\e1?\9f\e1,\tR-\e1?\07\c1\cfs+\fb\e0?\c1n\88/\fb\c8\e0?\ae\a2\ac+\c3\96\e0?\9a\8d\deW\85d\e0?\8f\bd\f9\a3C2\e0?\00\00\00\00\00\00\e0?\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1920058832) "\00\00\00\00\00\a0\f6?\00\00\00\00\00\00\00\00\00\c8\b9\f2\82,\d6\bf\80V7($\b4\fa<\00\00\00\00\00\80\f6?\00\00\00\00\00\00\00\00\00\08X\bf\bd\d1\d5\bf \f7\e0\d8\08\a5\1c\bd\00\00\00\00\00`\f6?\00\00\00\00\00\00\00\00\00XE\17wv\d5\bfmP\b6\d5\a4b#\bd\00\00\00\00\00@\f6?\00\00\00\00\00\00\00\00\00\f8-\87\ad\1a\d5\bf\d5g\b0\9e\e4\84\e6\bc\00\00\00\00\00 \f6?\00\00\00\00\00\00\00\00\00xw\95_\be\d4\bf\e0>)\93i\1b\04\bd\00\00\00\00\00\00\f6?\00\00\00\00\00\00\00\00\00`\1c\c2\8ba\d4\bf\cc\84LH/\d8\13=\00\00\00\00\00\e0\f5?\00\00\00\00\00\00\00\00\00\a8\86\860\04\d4\bf:\0b\82\ed\f3B\dc<\00\00\00\00\00\c0\f5?\00\00\00\00\00\00\00\00\00HiUL\a6\d3\bf`\94Q\86\c6\b1 =\00\00\00\00\00\a0\f5?\00\00\00\00\00\00\00\00\00\80\98\9a\ddG\d3\bf\92\80\c5\d4MY%=\00\00\00\00\00\80\f5?\00\00\00\00\00\00\00\00\00 \e1\ba\e2\e8\d2\bf\d8+\b7\99\1e{&=\00\00\00\00\00`\f5?\00\00\00\00\00\00\00\00\00\88\de\13Z\89\d2\bf?\b0\cf\b6\14\ca\15=\00\00\00\00\00`\f5?\00\00\00\00\00\00\00\00\00\88\de\13Z\89\d2\bf?\b0\cf\b6\14\ca\15=\00\00\00\00\00@\f5?\00\00\00\00\00\00\00\00\00x\cf\fbA)\d2\bfv\daS($Z\16\bd\00\00\00\00\00 \f5?\00\00\00\00\00\00\00\00\00\98i\c1\98\c8\d1\bf\04T\e7h\bc\af\1f\bd\00\00\00\00\00\00\f5?\00\00\00\00\00\00\00\00\00\a8\ab\ab\\g\d1\bf\f0\a8\823\c6\1f\1f=\00\00\00\00\00\e0\f4?\00\00\00\00\00\00\00\00\00H\ae\f9\8b\05\d1\bffZ\05\fd\c4\a8&\bd\00\00\00\00\00\c0\f4?\00\00\00\00\00\00\00\00\00\90s\e2$\a3\d0\bf\0e\03\f4~\eek\0c\bd\00\00\00\00\00\a0\f4?\00\00\00\00\00\00\00\00\00\d0\b4\94%@\d0\bf\7f-\f4\9e\b86\f0\bc\00\00\00\00\00\a0\f4?\00\00\00\00\00\00\00\00\00\d0\b4\94%@\d0\bf\7f-\f4\9e\b86\f0\bc\00\00\00\00\00\80\f4?\00\00\00\00\00\00\00\00\00@^m\18\b9\cf\bf\87<\99\ab*W\0d=\00\00\00\00\00`\f4?\00\00\00\00\00\00\00\00\00`\dc\cb\ad\f0\ce\bf$\af\86\9c\b7&+=\00\00\00\00\00@\f4?\00\00\00\00\00\00\00\00\00\f0*n\07\'\ce\bf\10\ff?TO/\17\bd\00\00\00\00\00 \f4?\00\00\00\00\00\00\00\00\00\c0Ok!\\\cd\bf\1bh\ca\bb\91\ba!=\00\00\00\00\00\00\f4?\00\00\00\00\00\00\00\00\00\a0\9a\c7\f7\8f\cc\bf4\84\9fhOy\'=\00\00\00\00\00\00\f4?\00\00\00\00\00\00\00\00\00\a0\9a\c7\f7\8f\cc\bf4\84\9fhOy\'=\00\00\00\00\00\e0\f3?\00\00\00\00\00\00\00\00\00\90-t\86\c2\cb\bf\8f\b7\8b1\b0N\19=\00\00\00\00\00\c0\f3?\00\00\00\00\00\00\00\00\00\c0\80N\c9\f3\ca\bff\90\cd?cN\ba<\00\00\00\00\00\a0\f3?\00\00\00\00\00\00\00\00\00\b0\e2\1f\bc#\ca\bf\ea\c1F\dcd\8c%\bd\00\00\00\00\00\a0\f3?\00\00\00\00\00\00\00\00\00\b0\e2\1f\bc#\ca\bf\ea\c1F\dcd\8c%\bd\00\00\00\00\00\80\f3?\00\00\00\00\00\00\00\00\00P\f4\9cZR\c9\bf\e3\d4\c1\04\d9\d1*\bd\00\00\00\00\00`\f3?\00\00\00\00\00\00\00\00\00\d0 e\a0\7f\c8\bf\t\fa\db\7f\bf\bd+=\00\00\00\00\00@\f3?\00\00\00\00\00\00\00\00\00\e0\10\02\89\ab\c7\bfXJSr\90\db+=\00\00\00\00\00@\f3?\00\00\00\00\00\00\00\00\00\e0\10\02\89\ab\c7\bfXJSr\90\db+=\00\00\00\00\00 \f3?\00\00\00\00\00\00\00\00\00\d0\19\e7\0f\d6\c6\bff\e2\b2\a3j\e4\10\bd\00\00\00\00\00\00\f3?\00\00\00\00\00\00\00\00\00\90\a7p0\ff\c5\bf9P\10\9fC\9e\1e\bd\00\00\00\00\00\00\f3?\00\00\00\00\00\00\00\00\00\90\a7p0\ff\c5\bf9P\10\9fC\9e\1e\bd\00\00\00\00\00\e0\f2?\00\00\00\00\00\00\00\00\00\b0\a1\e3\e5&\c5\bf\8f[\07\90\8b\de \bd\00\00\00\00\00\c0\f2?\00\00\00\00\00\00\00\00\00\80\cbl+M\c4\bf<x5a\c1\0c\17=\00\00\00\00\00\c0\f2?\00\00\00\00\00\00\00\00\00\80\cbl+M\c4\bf<x5a\c1\0c\17=\00\00\00\00\00\a0\f2?\00\00\00\00\00\00\00\00\00\90\1e \fcq\c3\bf:T\'M\86x\f1<\00\00\00\00\00\80\f2?\00\00\00\00\00\00\00\00\00\f0\1f\f8R\95\c2\bf\08\c4q\170\8d$\bd\00\00\00\00\00`\f2?\00\00\00\00\00\00\00\00\00`/\d5*\b7\c1\bf\96\a3\11\18\a4\80.\bd\00\00\00\00\00`\f2?\00\00\00\00\00\00\00\00\00`/\d5*\b7\c1\bf\96\a3\11\18\a4\80.\bd\00\00\00\00\00@\f2?\00\00\00\00\00\00\00\00\00\90\d0|~\d7\c0\bf\f4[\e8\88\96i\n=\00\00\00\00\00@\f2?\00\00\00\00\00\00\00\00\00\90\d0|~\d7\c0\bf\f4[\e8\88\96i\n=\00\00\00\00\00 \f2?\00\00\00\00\00\00\00\00\00\e0\db1\91\ec\bf\bf\f23\a3\\Tu%\bd\00\00\00\00\00\00\f2?\00\00\00\00\00\00\00\00\00\00+n\07\'\be\bf<\00\f0*,4*=\00\00\00\00\00\00\f2?\00\00\00\00\00\00\00\00\00\00+n\07\'\be\bf<\00\f0*,4*=\00\00\00\00\00\e0\f1?\00\00\00\00\00\00\00\00\00\c0[\8fT^\bc\bf\06\be_XW\0c\1d\bd\00\00\00\00\00\c0\f1?\00\00\00\00\00\00\00\00\00\e0J:m\92\ba\bf\c8\aa[\e859%=\00\00\00\00\00\c0\f1?\00\00\00\00\00\00\00\00\00\e0J:m\92\ba\bf\c8\aa[\e859%=\00\00\00\00\00\a0\f1?\00\00\00\00\00\00\00\00\00\a01\d6E\c3\b8\bfhV/M)|\13=\00\00\00\00\00\a0\f1?\00\00\00\00\00\00\00\00\00\a01\d6E\c3\b8\bfhV/M)|\13=\00\00\00\00\00\80\f1?\00\00\00\00\00\00\00\00\00`\e5\8a\d2\f0\b6\bf\das3\c97\97&\bd\00\00\00\00\00`\f1?\00\00\00\00\00\00\00\00\00 \06?\07\1b\b5\bfW^\c6a[\02\1f=\00\00\00\00\00`\f1?\00\00\00\00\00\00\00\00\00 \06?\07\1b\b5\bfW^\c6a[\02\1f=\00\00\00\00\00@\f1?\00\00\00\00\00\00\00\00\00\e0\1b\96\d7A\b3\bf\df\13\f9\cc\da^,=\00\00\00\00\00@\f1?\00\00\00\00\00\00\00\00\00\e0\1b\96\d7A\b3\bf\df\13\f9\cc\da^,=\00\00\00\00\00 \f1?\00\00\00\00\00\00\00\00\00\80\a3\ee6e\b1\bf\t\a3\8fv^|\14=\00\00\00\00\00\00\f1?\00\00\00\00\00\00\00\00\00\80\11\c00\n\af\bf\91\8e6\83\9eY-=\00\00\00\00\00\00\f1?\00\00\00\00\00\00\00\00\00\80\11\c00\n\af\bf\91\8e6\83\9eY-=\00\00\00\00\00\e0\f0?\00\00\00\00\00\00\00\00\00\80\19q\ddB\ab\bfLp\d6\e5z\82\1c=\00\00\00\00\00\e0\f0?\00\00\00\00\00\00\00\00\00\80\19q\ddB\ab\bfLp\d6\e5z\82\1c=\00\00\00\00\00\c0\f0?\00\00\00\00\00\00\00\00\00\c02\f6Xt\a7\bf\ee\a1\f24F\fc,\bd\00\00\00\00\00\c0\f0?\00\00\00\00\00\00\00\00\00\c02\f6Xt\a7\bf\ee\a1\f24F\fc,\bd\00\00\00\00\00\a0\f0?\00\00\00\00\00\00\00\00\00\c0\fe\b9\87\9e\a3\bf\aa\fe&\f5\b7\02\f5<\00\00\00\00\00\a0\f0?\00\00\00\00\00\00\00\00\00\c0\fe\b9\87\9e\a3\bf\aa\fe&\f5\b7\02\f5<\00\00\00\00\00\80\f0?\00\00\00\00\00\00\00\00\00\00x\0e\9b\82\9f\bf\e4\t~|&\80)\bd\00\00\00\00\00\80\f0?\00\00\00\00\00\00\00\00\00\00x\0e\9b\82\9f\bf\e4\t~|&\80)\bd\00\00\00\00\00`\f0?\00\00\00\00\00\00\00\00\00\80\d5\07\1b\b9\97\bf9\a6\fa\93T\8d(\bd\00\00\00\00\00@\f0?\00\00\00\00\00\00\00\00\00\00\fc\b0\a8\c0\8f\bf\9c\a6\d3\f6|\1e\df\bc\00\00\00\00\00@\f0?\00\00\00\00\00\00\00\00\00\00\fc\b0\a8\c0\8f\bf\9c\a6\d3\f6|\1e\df\bc\00\00\00\00\00 \f0?\00\00\00\00\00\00\00\00\00\00\10k*\e0\7f\bf\e4@\da\0d?\e2\19\bd\00\00\00\00\00 \f0?\00\00\00\00\00\00\00\00\00\00\10k*\e0\7f\bf\e4@\da\0d?\e2\19\bd\00\00\00\00\00\00\f0?\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\f0?\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\c0\ef?\00\00\00\00\00\00\00\00\00\00\89u\15\10\80?\e8+\9d\99k\c7\10\bd\00\00\00\00\00\80\ef?\00\00\00\00\00\00\00\00\00\80\93XV \90?\d2\f7\e2\06[\dc#\bd\00\00\00\00\00@\ef?\00\00\00\00\00\00\00\00\00\00\c9(%I\98?4\0cZ2\ba\a0*\bd\00\00\00\00\00\00\ef?\00\00\00\00\00\00\00\00\00@\e7\89]A\a0?S\d7\f1\\\c0\11\01=\00\00\00\00\00\c0\ee?\00\00\00\00\00\00\00\00\00\00.\d4\aef\a4?(\fd\bdus\16,\bd\00\00\00\00\00\80\ee?\00\00\00\00\00\00\00\00\00\c0\9f\14\aa\94\a8?}&Z\d0\95y\19\bd\00\00\00\00\00@\ee?\00\00\00\00\00\00\00\00\00\c0\dd\cds\cb\ac?\07(\d8G\f2h\1a\bd\00\00\00\00\00 \ee?\00\00\00\00\00\00\00\00\00\c0\06\c01\ea\ae?{;\c9O>\11\0e\bd\00\00\00\00\00\e0\ed?\00\00\00\00\00\00\00\00\00`F\d1;\97\b1?\9b\9e\0dV]2%\bd\00\00\00\00\00\a0\ed?\00\00\00\00\00\00\00\00\00\e0\d1\a7\f5\bd\b3?\d7N\db\a5^\c8,=\00\00\00\00\00`\ed?\00\00\00\00\00\00\00\00\00\a0\97MZ\e9\b5?\1e\1d]<\06i,\bd\00\00\00\00\00@\ed?\00\00\00\00\00\00\00\00\00\c0\ea\n\d3\00\b7?2\ed\9d\a9\8d\1e\ec<\00\00\00\00\00\00\ed?\00\00\00\00\00\00\00\00\00@Y]^3\b9?\daG\bd:\\\11#=\00\00\00\00\00\c0\ec?\00\00\00\00\00\00\00\00\00`\ad\8d\c8j\bb?\e5h\f7+\80\90\13\bd\00\00\00\00\00\a0\ec?\00\00\00\00\00\00\00\00\00@\bc\01X\88\bc?\d3\acZ\c6\d1F&=\00\00\00\00\00`\ec?\00\00\00\00\00\00\00\00\00 \n\839\c7\be?\e0E\e6\afh\c0-\bd\00\00\00\00\00@\ec?\00\00\00\00\00\00\00\00\00\e0\db9\91\e8\bf?\fd\n\a1O\d64%\bd\00\00\00\00\00\00\ec?\00\00\00\00\00\00\00\00\00\e0\'\82\8e\17\c1?\f2\07-\cex\ef!=\00\00\00\00\00\e0\eb?\00\00\00\00\00\00\00\00\00\f0#~+\aa\c1?4\998D\8e\a7,=\00\00\00\00\00\a0\eb?\00\00\00\00\00\00\00\00\00\80\86\0ca\d1\c2?\a1\b4\81\cbl\9d\03=\00\00\00\00\00\80\eb?\00\00\00\00\00\00\00\00\00\90\15\b0\fce\c3?\89rK#\a8/\c6<\00\00\00\00\00@\eb?\00\00\00\00\00\00\00\00\00\b03\83=\91\c4?x\b6\fdTy\83%=\00\00\00\00\00 \eb?\00\00\00\00\00\00\00\00\00\b0\a1\e4\e5\'\c5?\c7}i\e5\e83&=\00\00\00\00\00\e0\ea?\00\00\00\00\00\00\00\00\00\10\8c\beNW\c6?x.<,\8b\cf\19=\00\00\00\00\00\c0\ea?\00\00\00\00\00\00\00\00\00pu\8b\12\f0\c6?\e1!\9c\e5\8d\11%\bd\00\00\00\00\00\a0\ea?\00\00\00\00\00\00\00\00\00PD\85\8d\89\c7?\05C\91p\10f\1c\bd\00\00\00\00\00`\ea?\00\00\00\00\00\00\00\00\00\009\eb\af\be\c8?\d1,\e9\aaT=\07\bd\00\00\00\00\00@\ea?\00\00\00\00\00\00\00\00\00\00\f7\dcZZ\c9?o\ff\a0X(\f2\07=\00\00\00\00\00\00\ea?\00\00\00\00\00\00\00\00\00\e0\8a<\ed\93\ca?i!VPCr(\bd\00\00\00\00\00\e0\e9?\00\00\00\00\00\00\00\00\00\d0[W\d81\cb?\aa\e1\acN\8d5\0c\bd\00\00\00\00\00\c0\e9?\00\00\00\00\00\00\00\00\00\e0;8\87\d0\cb?\b6\12TY\c4K-\bd\00\00\00\00\00\a0\e9?\00\00\00\00\00\00\00\00\00\10\f0\c6\fbo\cc?\d2+\96\c5r\ec\f1\bc\00\00\00\00\00`\e9?\00\00\00\00\00\00\00\00\00\90\d4\b0=\b1\cd?5\b0\15\f7*\ff*\bd\00\00\00\00\00@\e9?\00\00\00\00\00\00\00\00\00\10\e7\ff\0eS\ce?0\f4A`\'\12\c2<\00\00\00\00\00 \e9?\00\00\00\00\00\00\00\00\00\00\dd\e4\ad\f5\ce?\11\8e\bbe\15!\ca\bc\00\00\00\00\00\00\e9?\00\00\00\00\00\00\00\00\00\b0\b3l\1c\99\cf?0\df\0c\ca\ec\cb\1b=\00\00\00\00\00\c0\e8?\00\00\00\00\00\00\00\00\00XM`8q\d0?\91N\ed\16\db\9c\f8<\00\00\00\00\00\a0\e8?\00\00\00\00\00\00\00\00\00`ag-\c4\d0?\e9\ea<\16\8b\18\'=\00\00\00\00\00\80\e8?\00\00\00\00\00\00\00\00\00\e8\'\82\8e\17\d1?\1c\f0\a5c\0e!,\bd\00\00\00\00\00`\e8?\00\00\00\00\00\00\00\00\00\f8\ac\cb\\k\d1?\81\16\a5\f7\cd\9a+=\00\00\00\00\00@\e8?\00\00\00\00\00\00\00\00\00hZc\99\bf\d1?\b7\bdGQ\ed\a6,=\00\00\00\00\00 \e8?\00\00\00\00\00\00\00\00\00\b8\0emE\14\d2?\ea\baF\ba\de\87\n=\00\00\00\00\00\e0\e7?\00\00\00\00\00\00\00\00\00\90\dc|\f0\be\d2?\f4\04PJ\fa\9c*=\00\00\00\00\00\c0\e7?\00\00\00\00\00\00\00\00\00`\d3\e1\f1\14\d3?\b8<!\d3z\e2(\bd\00\00\00\00\00\a0\e7?\00\00\00\00\00\00\00\00\00\10\bevgk\d3?\c8w\f1\b0\cdn\11=\00\00\00\00\00\80\e7?\00\00\00\00\00\00\00\00\0003wR\c2\d3?\\\bd\06\b6T;\18=\00\00\00\00\00`\e7?\00\00\00\00\00\00\00\00\00\e8\d5#\b4\19\d4?\9d\e0\90\ec6\e4\08=\00\00\00\00\00@\e7?\00\00\00\00\00\00\00\00\00\c8q\c2\8dq\d4?u\d6g\t\ce\'/\bd\00\00\00\00\00 \e7?\00\00\00\00\00\00\00\00\000\17\9e\e0\c9\d4?\a4\d8\n\1b\89 .\bd\00\00\00\00\00\00\e7?\00\00\00\00\00\00\00\00\00\a08\07\ae\"\d5?Y\c7d\81p\be.=\00\00\00\00\00\e0\e6?\00\00\00\00\00\00\00\00\00\d0\c8S\f7{\d5?\ef@]\ee\ed\ad\1f=\00\00\00\00\00\c0\e6?\00\00\00\00\00\00\00\00\00`Y\df\bd\d5\d5?\dce\a4\08*\0b\n\bd")
+ (data (i32.const 1920062928) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\f0?n\bf\88\1aO;\9b<53\fb\a9=\f6\ef?]\dc\d8\9c\13`q\bca\80w>\9a\ec\ef?\d1f\87\10z^\90\bc\85\7fn\e8\15\e3\ef?\13\f6g5R\d2\8c<t\85\15\d3\b0\d9\ef?\fa\8e\f9#\80\ce\8b\bc\de\f6\dd)k\d0\ef?a\c8\e6aN\f7`<\c8\9bu\18E\c7\ef?\99\d33[\e4\a3\90<\83\f3\c6\ca>\be\ef?m{\83]\a6\9a\97<\0f\89\f9lX\b5\ef?\fc\ef\fd\92\1a\b5\8e<\f7Gr+\92\ac\ef?\d1\9c/p=\be><\a2\d1\d32\ec\a3\ef?\0bn\90\894\03j\bc\1b\d3\fe\aff\9b\ef?\0e\bd/*RV\95\bcQ[\12\d0\01\93\ef?U\eaN\8c\ef\80P\bc\cc1l\c0\bd\8a\ef?\16\f4\d5\b9#\c9\91\bc\e0-\a9\ae\9a\82\ef?\afU\\\e9\e3\d3\80<Q\8e\a5\c8\98z\ef?H\93\a5\ea\15\1b\80\bc{Q}<\b8r\ef?=2\deU\f0\1f\8f\bc\ea\8d\8c8\f9j\ef?\bfS\13?\8c\89\8b<u\cbo\eb[c\ef?&\eb\11v\9c\d9\96\bc\d4\\\04\84\e0[\ef?`/:>\f7\ec\9a<\aa\b9h1\87T\ef?\9d8\86\cb\82\e7\8f\bc\1d\d9\fc\"PM\ef?\8d\c3\a6DAo\8a<\d6\8cb\88;F\ef?}\04\e4\b0\05z\80<\96\dc}\91I?\ef?\94\a8\a8\e3\fd\8e\96<8bunz8\ef?}Ht\f2\18^\87<?\a6\b2O\ce1\ef?\f2\e7\1f\98+G\80<\dd|\e2eE+\ef?^\08q?{\b8\96\bc\81c\f5\e1\df$\ef?1\ab\tm\e1\f7\82<\e1\de\1f\f5\9d\1e\ef?\fa\bfo\1a\9b!=\bc\90\d9\da\d0\7f\18\ef?\b4\n\0cr\827\8b<\0b\03\e4\a6\85\12\ef?\8f\cb\ce\89\92\14n<V/>\a9\af\0c\ef?\b6\ab\b0MuM\83<\15\b71\n\fe\06\ef?Lt\ac\e2\01B\86<1\d8L\fcp\01\ef?J\f8\d3]9\dd\8f<\ff\16d\b2\08\fc\ee?\04[\8e;\80\a3\86\bc\f1\9f\92_\c5\f6\ee?hPK\cc\edJ\92\bc\cb\a9:7\a7\f1\ee?\8e-Q\1b\f8\07\99\bcf\d8\05m\ae\ec\ee?\d26\94>\e8\d1q\bc\f7\9f\e54\db\e7\ee?\15\1b\ce\b3\19\19\99\bc\e5\a8\13\c3-\e3\ee?mL*\a7H\9f\85<\"4\12L\a6\de\ee?\8ai(z`\12\93\bc\1c\80\ac\04E\da\ee?[\89\17H\8f\a7X\bc*.\f7!\n\d6\ee?\1b\9aIg\9b,|\bc\97\a8P\d9\f5\d1\ee?\11\ac\c2`\edcC<-\89a`\08\ce\ee?\efd\06;\tf\96<W\00\1d\edA\ca\ee?y\03\a1\da\e1\ccn<\d0<\c1\b5\a2\c6\ee?0\12\0f?\8e\ff\93<\de\d3\d7\f0*\c3\ee?\b0\afz\bb\ce\90v<\'*6\d5\da\bf\ee?w\e0T\eb\bd\1d\93<\0d\dd\fd\99\b2\bc\ee?\8e\a3q\004\94\8f\bc\a7,\9dv\b2\b9\ee?I\a3\93\dc\cc\de\87\bcBf\cf\a2\da\b6\ee?_8\0f\bd\c6\dex\bc\82O\9dV+\b4\ee?\f6\\{\ecF\12\86\bc\0f\92]\ca\a4\b1\ee?\8e\d7\fd\18\055\93<\da\'\b56G\af\ee?\05\9b\8a/\b7\98{<\fd\c7\97\d4\12\ad\ee?\tT\1c\e2\e1c\90<)TH\dd\07\ab\ee?\ea\c6\19P\85\c74<\b7FY\8a&\a9\ee?5\c0d+\e62\94<H!\ad\15o\a7\ee?\9fv\99aJ\e4\8c\bc\t\dcv\b9\e1\a5\ee?\a8M\ef;\c53\8c\bc\85U:\b0~\a4\ee?\ae\e9+\89xS\84\bc \c3\cc4F\a3\ee?XXVx\dd\ce\93\bc%\"U\828\a2\ee?d\19~\80\aa\10W<s\a9L\d4U\a1\ee?(\"^\bf\ef\b3\93\bc\cd;\7ff\9e\a0\ee?\82\b94\87\ad\12j\bc\bf\da\0bu\12\a0\ee?\ee\a9m\b8\efgc\bc/\1ae<\b2\9f\ee?Q\88\e0T=\dc\80\bc\84\94Q\f9}\9f\ee?\cf>Z~d\1fx\bct_\ec\e8u\9f\ee?\b0}\8b\c0J\ee\86\bct\81\a5H\9a\9f\ee?\8a\e6U\1e2\19\86\bc\c9gBV\eb\9f\ee?\d3\d4\t^\cb\9c\90<?]\deOi\a0\ee?\1d\a5M\b9\dc2{\bc\87\01\ebs\14\a1\ee?k\c0gT\fd\ec\94<2\c10\01\ed\a1\ee?Ul\d6\ab\e1\ebe<bN\cf6\f3\a2\ee?B\cf\b3/\c5\a1\88\bc\12\1a>T\'\a4\ee?47;\f1\b6i\93\bc\13\ceL\99\89\a5\ee?\1e\ff\19:\84^\80\bc\ad\c7#F\1a\a7\ee?nWr\d8P\d4\94\bc\ed\92D\9b\d9\a8\ee?\00\8a\0e[g\ad\90<\99f\8a\d9\c7\aa\ee?\b4\ea\f0\c1/\b7\8d<\db\a0*B\e5\ac\ee?\ff\e7\c5\9c`\b6e\bc\8cD\b5\162\af\ee?D_\f3Y\83\f6{<6w\15\99\ae\b1\ee?\83=\1e\a7\1f\t\93\bc\c6\ff\91\0b[\b4\ee?)\1el\8b\b8\a9]\bc\e5\c5\cd\b07\b7\ee?Y\b9\90|\f9#l\bc\0fR\c8\cbD\ba\ee?\aa\f9\f4\"CC\92\bcPN\de\9f\82\bd\ee?K\8ef\d7l\ca\85\bc\ba\07\cap\f1\c0\ee?\'\ce\91+\fc\afq<\90\f0\a3\82\91\c4\ee?\bbs\n\e15\d2m<##\e3\19c\c8\ee?c\"b\"\04\c5\87\bce\e5]{f\cc\ee?\d51\e2\e3\86\1c\8b<3-J\ec\9b\d0\ee?\15\bb\bc\d3\d1\bb\91\bc]%>\b2\03\d5\ee?\d21\ee\9c1\cc\90<X\b30\13\9e\d9\ee?\b3Zsn\84i\84<\bf\fdyUk\de\ee?\b4\9d\8e\97\cd\df\82\bcz\f3\d3\bfk\e3\ee?\873\cb\92w\1a\8c<\ad\d3Z\99\9f\e8\ee?\fa\d9\d1J\8f{\90\bcf\b6\8d)\07\ee\ee?\ba\ae\dcV\d9\c3U\bc\fb\15O\b8\a2\f3\ee?@\f6\a6=\0e\a4\90\bc:Y\e5\8dr\f9\ee?4\93\ad8\f4\d6h\bcG^\fb\f2v\ff\ee?5\8aXk\e2\ee\91\bcJ\06\a10\b0\05\ef?\cd\dd_\n\d7\fft<\d2\c1K\90\1e\0c\ef?\ac\98\92\fa\fb\bd\91\bc\t\1e\d7[\c2\12\ef?\b3\0c\af0\aens<\9cR\85\dd\9b\19\ef?\94\fd\9f\\2\e3\8e<z\d0\ff_\ab \ef?\acY\t\d1\8f\e0\84<K\d1W.\f1\'\ef?g\1aN8\af\cdc<\b5\e7\06\94m/\ef?h\19\92l,kg<i\90\ef\dc 7\ef?\d2\b5\cc\83\18\8a\80\bc\fa\c3]U\0b?\ef?o\fa\ff?]\ad\8f\bc|\89\07J-G\ef?I\a9u8\ae\0d\90\bc\f2\89\0d\08\87O\ef?\a7\07=\a6\85\a3t<\87\a4\fb\dc\18X\ef?\0f\"@ \9e\91\82\bc\98\83\c9\16\e3`\ef?\ac\92\c1\d5PZ\8e<\852\db\03\e6i\ef?Kk\01\acY:\84<`\b4\01\f3!s\ef?\1f>\b4\07!\d5\82\bc_\9b{3\97|\ef?\c9\0dG;\b9*\89\bc)\a1\f5\14F\86\ef?\d3\88:`\04\b6t<\f6?\8b\e7.\90\ef?qr\9dQ\ec\c5\83<\83L\c7\fbQ\9a\ef?\f0\91\d3\8f\12\f7\8f\bc\da\90\a4\a2\af\a4\ef?}t#\e2\98\ae\8d\bc\f1g\8e-H\af\ef?\08 \aaA\bc\c3\8e<\'Za\ee\1b\ba\ef?2\eb\a9\c3\94+\84<\97\bak7+\c5\ef?\ee\85\d11\a9d\8a<@En[v\d0\ef?\ed\e3;\e4\ba7\8e\bc\14\be\9c\ad\fd\db\ef?\9d\cd\91M;\89w<\d8\90\9e\81\c1\e7\ef?\89\cc`A\c1\05S<\f1q\8f+\c2\f3\ef?")
+ (data (i32.const 1920064988) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00*\00\00\00O\00b\00j\00e\00c\00t\00 \00a\00l\00r\00e\00a\00d\00y\00 \00p\00i\00n\00n\00e\00d\00\00\00")
+ (data (i32.const 1920065056) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1920065084) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d\00\00\00\00\00")
+ (data (i32.const 1920065152) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1920065184) "\t\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00$\01\00\00\00\00\00\00\01\19\00\00\02\00\00\00$\1a\00\00\00\00\00\00\02\1a\00\00\00\00\00\00\02\t\00\00\00\00\00\00A\00\00\00\02\00\00\00")
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
  (global $assembly/index/viewLength (mut i32) (i32.const 0))
  (global $assembly/index/channelLength (mut i32) (i32.const 0))
@@ -90,10 +95,15 @@
  (global $assembly/index/curveSinDown (mut i32) (i32.const 0))
  (global $assembly/index/curveLogDown0 (mut i32) (i32.const 0))
  (global $assembly/index/curveLogUp0 (mut i32) (i32.const 0))
+ (global $assembly/index/curveSinFull_f64 (mut i32) (i32.const 0))
+ (global $assembly/index/curveSinUpMid_f64 (mut i32) (i32.const 0))
+ (global $assembly/index/curve_camel (mut i32) (i32.const 0))
+ (global $assembly/index/curveSinFull_25 (mut i32) (i32.const 0))
+ (global $assembly/index/curveSinFull_5 (mut i32) (i32.const 0))
  (global $~lib/util/math/log_tail (mut f64) (f64.const 0))
  (global $~lib/rt/tcms/pinSpace (mut i32) (i32.const 0))
  (global $~lib/rt/tcms/toSpace (mut i32) (i32.const 0))
- (global $~lib/rt/__rtti_base i32 (i32.const 1920056864))
+ (global $~lib/rt/__rtti_base i32 (i32.const 1920065184))
  (export "initData" (func $assembly/index/initData))
  (export "process" (func $assembly/index/process))
  (export "calculateClips" (func $assembly/index/calculateClips))
@@ -125,10 +135,11 @@
   local.tee $2
   i32.const 256
   i32.lt_u
-  if (result i32)
+  if
    local.get $2
    i32.const 4
    i32.shr_u
+   local.set $4
   else
    i32.const 31
    local.get $2
@@ -137,22 +148,23 @@
    i32.const 1073741820
    i32.lt_u
    select
-   local.tee $3
+   local.tee $2
    i32.clz
    i32.sub
-   local.tee $2
-   i32.const 7
-   i32.sub
-   local.set $4
-   local.get $3
+   local.set $3
    local.get $2
+   local.get $3
    i32.const 4
    i32.sub
    i32.shr_u
    i32.const 16
    i32.xor
+   local.set $4
+   local.get $3
+   i32.const 7
+   i32.sub
+   local.set $3
   end
-  local.set $3
   local.get $1
   i32.load offset=8
   local.set $2
@@ -170,42 +182,42 @@
    local.get $5
    i32.store offset=4
   end
-  local.get $1
-  local.get $0
-  local.get $3
   local.get $4
+  local.get $3
   i32.const 4
   i32.shl
   i32.add
   i32.const 2
   i32.shl
+  local.get $0
   i32.add
   i32.load offset=96
+  local.get $1
   i32.eq
   if
-   local.get $0
-   local.get $3
    local.get $4
+   local.get $3
    i32.const 4
    i32.shl
    i32.add
    i32.const 2
    i32.shl
+   local.get $0
    i32.add
    local.get $2
    i32.store offset=96
    local.get $2
    i32.eqz
    if
-    local.get $0
-    local.get $4
+    local.get $3
     i32.const 2
     i32.shl
+    local.get $0
     i32.add
     local.tee $2
     i32.load offset=4
     i32.const -2
-    local.get $3
+    local.get $4
     i32.rotl
     i32.and
     local.set $1
@@ -219,7 +231,7 @@
      local.get $0
      i32.load
      i32.const -2
-     local.get $4
+     local.get $3
      i32.rotl
      i32.and
      i32.store
@@ -235,12 +247,12 @@
   (local $6 i32)
   local.get $1
   i32.load
+  local.tee $4
   local.set $3
   local.get $1
   i32.const 4
   i32.add
-  local.get $1
-  i32.load
+  local.get $4
   i32.const -4
   i32.and
   i32.add
@@ -310,7 +322,6 @@
   i32.sub
   local.get $1
   i32.store
-  local.get $0
   local.get $3
   i32.const -4
   i32.and
@@ -351,6 +362,7 @@
   i32.add
   i32.const 2
   i32.shl
+  local.get $0
   i32.add
   i32.load offset=96
   local.set $4
@@ -366,7 +378,6 @@
    local.get $1
    i32.store offset=4
   end
-  local.get $0
   local.get $3
   local.get $5
   i32.const 4
@@ -374,6 +385,7 @@
   i32.add
   i32.const 2
   i32.shl
+  local.get $0
   i32.add
   local.get $1
   i32.store offset=96
@@ -385,10 +397,10 @@
   i32.shl
   i32.or
   i32.store
-  local.get $0
   local.get $5
   i32.const 2
   i32.shl
+  local.get $0
   i32.add
   local.tee $0
   local.get $0
@@ -492,10 +504,10 @@
   if
    unreachable
   end
-  i32.const 1920056944
+  i32.const 1920065264
   i32.const 0
   i32.store
-  i32.const 1920058512
+  i32.const 1920066832
   i32.const 0
   i32.store
   loop $for-loop|0
@@ -506,7 +518,7 @@
     local.get $1
     i32.const 2
     i32.shl
-    i32.const 1920056944
+    i32.const 1920065264
     i32.add
     i32.const 0
     i32.store offset=4
@@ -524,7 +536,7 @@
       i32.add
       i32.const 2
       i32.shl
-      i32.const 1920056944
+      i32.const 1920065264
       i32.add
       i32.const 0
       i32.store offset=96
@@ -542,13 +554,13 @@
     br $for-loop|0
    end
   end
-  i32.const 1920056944
-  i32.const 1920058516
+  i32.const 1920065264
+  i32.const 1920066836
   memory.size
   i32.const 16
   i32.shl
   call $~lib/rt/tlsf/addMemory
-  i32.const 1920056944
+  i32.const 1920065264
   global.set $~lib/rt/tlsf/ROOT
  )
  (func $~lib/rt/tlsf/searchBlock (param $0 i32) (param $1 i32) (result i32)
@@ -566,13 +578,13 @@
    i32.const 536870910
    i32.lt_u
    if
-    local.get $1
     i32.const 1
     i32.const 27
     local.get $1
     i32.clz
     i32.sub
     i32.shl
+    local.get $1
     i32.add
     i32.const 1
     i32.sub
@@ -595,10 +607,10 @@
    i32.sub
    local.set $2
   end
-  local.get $0
   local.get $2
   i32.const 2
   i32.shl
+  local.get $0
   i32.add
   i32.load offset=4
   i32.const -1
@@ -607,7 +619,6 @@
   i32.and
   local.tee $1
   if (result i32)
-   local.get $0
    local.get $1
    i32.ctz
    local.get $2
@@ -616,6 +627,7 @@
    i32.add
    i32.const 2
    i32.shl
+   local.get $0
    i32.add
    i32.load offset=96
   else
@@ -629,22 +641,22 @@
    i32.and
    local.tee $1
    if (result i32)
-    local.get $0
     local.get $1
     i32.ctz
     local.tee $1
-    i32.const 4
-    i32.shl
-    local.get $0
-    local.get $1
     i32.const 2
     i32.shl
+    local.get $0
     i32.add
     i32.load offset=4
     i32.ctz
+    local.get $1
+    i32.const 4
+    i32.shl
     i32.add
     i32.const 2
     i32.shl
+    local.get $0
     i32.add
     i32.load offset=96
    else
@@ -672,15 +684,16 @@
   local.get $0
   i32.const 16
   i32.add
-  local.set $2
+  local.set $3
   global.get $~lib/rt/tlsf/ROOT
   i32.eqz
   if
    call $~lib/rt/tlsf/initialize
   end
   global.get $~lib/rt/tlsf/ROOT
-  local.set $3
-  local.get $2
+  local.tee $5
+  local.set $2
+  local.get $3
   i32.const 1073741820
   i32.gt_u
   if
@@ -691,15 +704,14 @@
    call $~lib/builtins/abort
    unreachable
   end
-  local.get $3
-  local.tee $4
   local.get $2
+  local.get $3
   i32.const 12
   i32.le_u
   if (result i32)
    i32.const 12
   else
-   local.get $2
+   local.get $3
    i32.const 19
    i32.add
    i32.const -16
@@ -712,11 +724,12 @@
   local.tee $2
   i32.eqz
   if
+   memory.size
+   local.tee $4
    local.get $3
    i32.const 536870910
    i32.lt_u
    if (result i32)
-    local.get $3
     i32.const 1
     i32.const 27
     local.get $3
@@ -725,19 +738,19 @@
     i32.shl
     i32.const 1
     i32.sub
+    local.get $3
     i32.add
    else
     local.get $3
    end
    i32.const 4
-   memory.size
-   local.tee $2
+   local.get $5
+   i32.load offset=1568
+   local.get $4
    i32.const 16
    i32.shl
    i32.const 4
    i32.sub
-   local.get $4
-   i32.load offset=1568
    i32.ne
    i32.shl
    i32.add
@@ -747,18 +760,16 @@
    i32.and
    i32.const 16
    i32.shr_u
-   local.set $5
+   local.tee $2
    local.get $2
-   local.get $5
-   local.get $2
-   local.get $5
-   i32.gt_s
+   local.get $4
+   i32.lt_s
    select
    memory.grow
    i32.const 0
    i32.lt_s
    if
-    local.get $5
+    local.get $2
     memory.grow
     i32.const 0
     i32.lt_s
@@ -766,15 +777,15 @@
      unreachable
     end
    end
+   local.get $5
    local.get $4
-   local.get $2
    i32.const 16
    i32.shl
    memory.size
    i32.const 16
    i32.shl
    call $~lib/rt/tlsf/addMemory
-   local.get $4
+   local.get $5
    local.get $3
    call $~lib/rt/tlsf/searchBlock
    local.set $2
@@ -782,12 +793,12 @@
   local.get $2
   i32.load
   drop
-  local.get $4
+  local.get $5
   local.get $2
   call $~lib/rt/tlsf/removeBlock
   local.get $2
   i32.load
-  local.tee $5
+  local.tee $4
   i32.const -4
   i32.and
   local.get $3
@@ -797,10 +808,10 @@
   i32.ge_u
   if
    local.get $2
-   local.get $3
-   local.get $5
+   local.get $4
    i32.const 2
    i32.and
+   local.get $3
    i32.or
    i32.store
    local.get $3
@@ -815,30 +826,25 @@
    i32.const 1
    i32.or
    i32.store
-   local.get $4
+   local.get $5
    local.get $3
    call $~lib/rt/tlsf/insertBlock
   else
    local.get $2
-   local.get $5
+   local.get $4
    i32.const -2
    i32.and
    i32.store
    local.get $2
    i32.const 4
    i32.add
+   local.get $2
+   i32.load
+   i32.const -4
+   i32.and
+   i32.add
    local.tee $3
-   local.get $2
-   i32.load
-   i32.const -4
-   i32.and
-   i32.add
    local.get $3
-   local.get $2
-   i32.load
-   i32.const -4
-   i32.and
-   i32.add
    i32.load
    i32.const -3
    i32.and
@@ -851,26 +857,26 @@
   local.get $0
   i32.store offset=16
   global.get $~lib/rt/tcms/fromSpace
-  local.tee $1
+  local.tee $0
   i32.load offset=8
-  local.set $0
+  local.set $1
   local.get $2
-  local.get $1
   global.get $~lib/rt/tcms/white
+  local.get $0
   i32.or
   i32.store offset=4
   local.get $2
-  local.get $0
+  local.get $1
   i32.store offset=8
-  local.get $0
-  local.get $2
-  local.get $0
+  local.get $1
+  local.get $1
   i32.load offset=4
   i32.const 3
   i32.and
+  local.get $2
   i32.or
   i32.store offset=4
-  local.get $1
+  local.get $0
   local.get $2
   i32.store offset=8
   global.get $~lib/rt/tcms/total
@@ -1080,11 +1086,11 @@
   local.get $0
   i32.const 0
   i32.store offset=8
-  local.get $1
   i32.const 1073741820
   local.get $2
   i32.shr_u
-  i32.gt_u
+  local.get $1
+  i32.lt_u
   if
    i32.const 1920000032
    i32.const 1920000368
@@ -1113,7247 +1119,7 @@
   i32.store offset=8
   local.get $0
  )
- (func $~lib/staticarray/StaticArray<u32>#__set (param $0 i32) (param $1 i32) (param $2 i32)
-  local.get $1
-  local.get $0
-  i32.const 20
-  i32.sub
-  i32.load offset=16
-  i32.const 2
-  i32.shr_u
-  i32.ge_u
-  if
-   i32.const 1920000432
-   i32.const 1920000080
-   i32.const 128
-   i32.const 41
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $0
-  local.get $1
-  i32.const 2
-  i32.shl
-  i32.add
-  local.get $2
-  i32.store
- )
- (func $~lib/util/memory/memcpy (param $0 i32) (param $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  i32.const 2048
-  local.set $4
-  loop $while-continue|0
-   local.get $1
-   i32.const 3
-   i32.and
-   i32.const 0
-   local.get $4
-   select
-   if
-    local.get $0
-    local.tee $2
-    i32.const 1
-    i32.add
-    local.set $0
-    local.get $1
-    local.tee $3
-    i32.const 1
-    i32.add
-    local.set $1
-    local.get $2
-    local.get $3
-    i32.load8_u
-    i32.store8
-    local.get $4
-    i32.const 1
-    i32.sub
-    local.set $4
-    br $while-continue|0
-   end
-  end
-  local.get $0
-  i32.const 3
-  i32.and
-  i32.eqz
-  if
-   loop $while-continue|1
-    local.get $4
-    i32.const 16
-    i32.ge_u
-    if
-     local.get $0
-     local.get $1
-     i32.load
-     i32.store
-     local.get $0
-     i32.const 4
-     i32.add
-     local.get $1
-     i32.const 4
-     i32.add
-     i32.load
-     i32.store
-     local.get $0
-     i32.const 8
-     i32.add
-     local.get $1
-     i32.const 8
-     i32.add
-     i32.load
-     i32.store
-     local.get $0
-     i32.const 12
-     i32.add
-     local.get $1
-     i32.const 12
-     i32.add
-     i32.load
-     i32.store
-     local.get $1
-     i32.const 16
-     i32.add
-     local.set $1
-     local.get $0
-     i32.const 16
-     i32.add
-     local.set $0
-     local.get $4
-     i32.const 16
-     i32.sub
-     local.set $4
-     br $while-continue|1
-    end
-   end
-   local.get $4
-   i32.const 8
-   i32.and
-   if
-    local.get $0
-    local.get $1
-    i32.load
-    i32.store
-    local.get $0
-    i32.const 4
-    i32.add
-    local.get $1
-    i32.const 4
-    i32.add
-    i32.load
-    i32.store
-    local.get $1
-    i32.const 8
-    i32.add
-    local.set $1
-    local.get $0
-    i32.const 8
-    i32.add
-    local.set $0
-   end
-   local.get $4
-   i32.const 4
-   i32.and
-   if
-    local.get $0
-    local.get $1
-    i32.load
-    i32.store
-    local.get $1
-    i32.const 4
-    i32.add
-    local.set $1
-    local.get $0
-    i32.const 4
-    i32.add
-    local.set $0
-   end
-   local.get $4
-   i32.const 2
-   i32.and
-   if
-    local.get $0
-    local.get $1
-    i32.load16_u
-    i32.store16
-    local.get $1
-    i32.const 2
-    i32.add
-    local.set $1
-    local.get $0
-    i32.const 2
-    i32.add
-    local.set $0
-   end
-   local.get $4
-   i32.const 1
-   i32.and
-   if
-    local.get $0
-    local.get $1
-    i32.load8_u
-    i32.store8
-   end
-   return
-  end
-  local.get $4
-  i32.const 32
-  i32.ge_u
-  if
-   block $break|2
-    block $case2|2
-     block $case1|2
-      block $case0|2
-       local.get $0
-       i32.const 3
-       i32.and
-       i32.const 1
-       i32.sub
-       br_table $case0|2 $case1|2 $case2|2 $break|2
-      end
-      local.get $1
-      i32.load
-      local.set $5
-      local.get $0
-      local.get $1
-      i32.load8_u
-      i32.store8
-      local.get $0
-      i32.const 1
-      i32.add
-      local.tee $0
-      local.get $1
-      i32.const 1
-      i32.add
-      local.tee $1
-      i32.load8_u
-      i32.store8
-      local.get $0
-      i32.const 1
-      i32.add
-      local.tee $2
-      i32.const 1
-      i32.add
-      local.set $0
-      local.get $1
-      i32.const 1
-      i32.add
-      local.tee $3
-      i32.const 1
-      i32.add
-      local.set $1
-      local.get $2
-      local.get $3
-      i32.load8_u
-      i32.store8
-      local.get $4
-      i32.const 3
-      i32.sub
-      local.set $4
-      loop $while-continue|3
-       local.get $4
-       i32.const 17
-       i32.ge_u
-       if
-        local.get $0
-        local.get $1
-        i32.const 1
-        i32.add
-        i32.load
-        local.tee $2
-        i32.const 8
-        i32.shl
-        local.get $5
-        i32.const 24
-        i32.shr_u
-        i32.or
-        i32.store
-        local.get $0
-        i32.const 4
-        i32.add
-        local.get $2
-        i32.const 24
-        i32.shr_u
-        local.get $1
-        i32.const 5
-        i32.add
-        i32.load
-        local.tee $2
-        i32.const 8
-        i32.shl
-        i32.or
-        i32.store
-        local.get $0
-        i32.const 8
-        i32.add
-        local.get $2
-        i32.const 24
-        i32.shr_u
-        local.get $1
-        i32.const 9
-        i32.add
-        i32.load
-        local.tee $2
-        i32.const 8
-        i32.shl
-        i32.or
-        i32.store
-        local.get $0
-        i32.const 12
-        i32.add
-        local.get $1
-        i32.const 13
-        i32.add
-        i32.load
-        local.tee $5
-        i32.const 8
-        i32.shl
-        local.get $2
-        i32.const 24
-        i32.shr_u
-        i32.or
-        i32.store
-        local.get $1
-        i32.const 16
-        i32.add
-        local.set $1
-        local.get $0
-        i32.const 16
-        i32.add
-        local.set $0
-        local.get $4
-        i32.const 16
-        i32.sub
-        local.set $4
-        br $while-continue|3
-       end
-      end
-      br $break|2
-     end
-     local.get $1
-     i32.load
-     local.set $5
-     local.get $0
-     local.get $1
-     i32.load8_u
-     i32.store8
-     local.get $0
-     i32.const 1
-     i32.add
-     local.tee $2
-     i32.const 1
-     i32.add
-     local.set $0
-     local.get $1
-     i32.const 1
-     i32.add
-     local.tee $3
-     i32.const 1
-     i32.add
-     local.set $1
-     local.get $2
-     local.get $3
-     i32.load8_u
-     i32.store8
-     local.get $4
-     i32.const 2
-     i32.sub
-     local.set $4
-     loop $while-continue|4
-      local.get $4
-      i32.const 18
-      i32.ge_u
-      if
-       local.get $0
-       local.get $1
-       i32.const 2
-       i32.add
-       i32.load
-       local.tee $2
-       i32.const 16
-       i32.shl
-       local.get $5
-       i32.const 16
-       i32.shr_u
-       i32.or
-       i32.store
-       local.get $0
-       i32.const 4
-       i32.add
-       local.get $2
-       i32.const 16
-       i32.shr_u
-       local.get $1
-       i32.const 6
-       i32.add
-       i32.load
-       local.tee $2
-       i32.const 16
-       i32.shl
-       i32.or
-       i32.store
-       local.get $0
-       i32.const 8
-       i32.add
-       local.get $2
-       i32.const 16
-       i32.shr_u
-       local.get $1
-       i32.const 10
-       i32.add
-       i32.load
-       local.tee $2
-       i32.const 16
-       i32.shl
-       i32.or
-       i32.store
-       local.get $0
-       i32.const 12
-       i32.add
-       local.get $1
-       i32.const 14
-       i32.add
-       i32.load
-       local.tee $5
-       i32.const 16
-       i32.shl
-       local.get $2
-       i32.const 16
-       i32.shr_u
-       i32.or
-       i32.store
-       local.get $1
-       i32.const 16
-       i32.add
-       local.set $1
-       local.get $0
-       i32.const 16
-       i32.add
-       local.set $0
-       local.get $4
-       i32.const 16
-       i32.sub
-       local.set $4
-       br $while-continue|4
-      end
-     end
-     br $break|2
-    end
-    local.get $1
-    i32.load
-    local.set $5
-    local.get $0
-    local.tee $2
-    i32.const 1
-    i32.add
-    local.set $0
-    local.get $1
-    local.tee $3
-    i32.const 1
-    i32.add
-    local.set $1
-    local.get $2
-    local.get $3
-    i32.load8_u
-    i32.store8
-    local.get $4
-    i32.const 1
-    i32.sub
-    local.set $4
-    loop $while-continue|5
-     local.get $4
-     i32.const 19
-     i32.ge_u
-     if
-      local.get $0
-      local.get $1
-      i32.const 3
-      i32.add
-      i32.load
-      local.tee $2
-      i32.const 24
-      i32.shl
-      local.get $5
-      i32.const 8
-      i32.shr_u
-      i32.or
-      i32.store
-      local.get $0
-      i32.const 4
-      i32.add
-      local.get $2
-      i32.const 8
-      i32.shr_u
-      local.get $1
-      i32.const 7
-      i32.add
-      i32.load
-      local.tee $2
-      i32.const 24
-      i32.shl
-      i32.or
-      i32.store
-      local.get $0
-      i32.const 8
-      i32.add
-      local.get $2
-      i32.const 8
-      i32.shr_u
-      local.get $1
-      i32.const 11
-      i32.add
-      i32.load
-      local.tee $2
-      i32.const 24
-      i32.shl
-      i32.or
-      i32.store
-      local.get $0
-      i32.const 12
-      i32.add
-      local.get $1
-      i32.const 15
-      i32.add
-      i32.load
-      local.tee $5
-      i32.const 24
-      i32.shl
-      local.get $2
-      i32.const 8
-      i32.shr_u
-      i32.or
-      i32.store
-      local.get $1
-      i32.const 16
-      i32.add
-      local.set $1
-      local.get $0
-      i32.const 16
-      i32.add
-      local.set $0
-      local.get $4
-      i32.const 16
-      i32.sub
-      local.set $4
-      br $while-continue|5
-     end
-    end
-   end
-  end
-  local.get $4
-  i32.const 16
-  i32.and
-  if
-   local.get $0
-   local.get $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $2
-   i32.const 1
-   i32.add
-   local.set $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $3
-   i32.const 1
-   i32.add
-   local.set $1
-   local.get $2
-   local.get $3
-   i32.load8_u
-   i32.store8
-  end
-  local.get $4
-  i32.const 8
-  i32.and
-  if
-   local.get $0
-   local.get $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $2
-   i32.const 1
-   i32.add
-   local.set $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $3
-   i32.const 1
-   i32.add
-   local.set $1
-   local.get $2
-   local.get $3
-   i32.load8_u
-   i32.store8
-  end
-  local.get $4
-  i32.const 4
-  i32.and
-  if
-   local.get $0
-   local.get $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $2
-   i32.const 1
-   i32.add
-   local.set $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $3
-   i32.const 1
-   i32.add
-   local.set $1
-   local.get $2
-   local.get $3
-   i32.load8_u
-   i32.store8
-  end
-  local.get $4
-  i32.const 2
-  i32.and
-  if
-   local.get $0
-   local.get $1
-   i32.load8_u
-   i32.store8
-   local.get $0
-   i32.const 1
-   i32.add
-   local.tee $2
-   i32.const 1
-   i32.add
-   local.set $0
-   local.get $1
-   i32.const 1
-   i32.add
-   local.tee $3
-   i32.const 1
-   i32.add
-   local.set $1
-   local.get $2
-   local.get $3
-   i32.load8_u
-   i32.store8
-  end
-  local.get $4
-  i32.const 1
-  i32.and
-  if
-   local.get $0
-   local.get $1
-   i32.load8_u
-   i32.store8
-  end
- )
- (func $~lib/rt/__newArray (param $0 i32) (result i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  i32.const 2048
-  i32.const 0
-  call $~lib/rt/tcms/__new
-  local.set $4
-  local.get $0
-  if
-   block $~lib/util/memory/memmove|inlined.0
-    i32.const 2048
-    local.set $5
-    local.get $0
-    local.tee $1
-    local.get $4
-    local.tee $0
-    i32.eq
-    br_if $~lib/util/memory/memmove|inlined.0
-    local.get $1
-    local.get $0
-    i32.sub
-    i32.const 2048
-    i32.sub
-    i32.const -4096
-    i32.le_u
-    if
-     local.get $0
-     local.get $1
-     call $~lib/util/memory/memcpy
-     br $~lib/util/memory/memmove|inlined.0
-    end
-    local.get $0
-    local.get $1
-    i32.lt_u
-    if
-     local.get $1
-     i32.const 7
-     i32.and
-     local.get $0
-     i32.const 7
-     i32.and
-     i32.eq
-     if
-      loop $while-continue|0
-       local.get $0
-       i32.const 7
-       i32.and
-       if
-        local.get $5
-        i32.eqz
-        br_if $~lib/util/memory/memmove|inlined.0
-        local.get $5
-        i32.const 1
-        i32.sub
-        local.set $5
-        local.get $0
-        local.tee $3
-        i32.const 1
-        i32.add
-        local.set $0
-        local.get $1
-        local.tee $2
-        i32.const 1
-        i32.add
-        local.set $1
-        local.get $3
-        local.get $2
-        i32.load8_u
-        i32.store8
-        br $while-continue|0
-       end
-      end
-      loop $while-continue|1
-       local.get $5
-       i32.const 8
-       i32.ge_u
-       if
-        local.get $0
-        local.get $1
-        i64.load
-        i64.store
-        local.get $5
-        i32.const 8
-        i32.sub
-        local.set $5
-        local.get $0
-        i32.const 8
-        i32.add
-        local.set $0
-        local.get $1
-        i32.const 8
-        i32.add
-        local.set $1
-        br $while-continue|1
-       end
-      end
-     end
-     loop $while-continue|2
-      local.get $5
-      if
-       local.get $0
-       local.tee $3
-       i32.const 1
-       i32.add
-       local.set $0
-       local.get $1
-       local.tee $2
-       i32.const 1
-       i32.add
-       local.set $1
-       local.get $3
-       local.get $2
-       i32.load8_u
-       i32.store8
-       local.get $5
-       i32.const 1
-       i32.sub
-       local.set $5
-       br $while-continue|2
-      end
-     end
-    else
-     local.get $1
-     i32.const 7
-     i32.and
-     local.get $0
-     i32.const 7
-     i32.and
-     i32.eq
-     if
-      loop $while-continue|3
-       local.get $0
-       local.get $5
-       i32.add
-       i32.const 7
-       i32.and
-       if
-        local.get $5
-        i32.eqz
-        br_if $~lib/util/memory/memmove|inlined.0
-        local.get $0
-        local.get $5
-        i32.const 1
-        i32.sub
-        local.tee $5
-        i32.add
-        local.get $1
-        local.get $5
-        i32.add
-        i32.load8_u
-        i32.store8
-        br $while-continue|3
-       end
-      end
-      loop $while-continue|4
-       local.get $5
-       i32.const 8
-       i32.ge_u
-       if
-        local.get $0
-        local.get $5
-        i32.const 8
-        i32.sub
-        local.tee $5
-        i32.add
-        local.get $1
-        local.get $5
-        i32.add
-        i64.load
-        i64.store
-        br $while-continue|4
-       end
-      end
-     end
-     loop $while-continue|5
-      local.get $5
-      if
-       local.get $0
-       local.get $5
-       i32.const 1
-       i32.sub
-       local.tee $5
-       i32.add
-       local.get $1
-       local.get $5
-       i32.add
-       i32.load8_u
-       i32.store8
-       br $while-continue|5
-      end
-     end
-    end
-   end
-  end
-  i32.const 16
-  i32.const 5
-  call $~lib/rt/tcms/__new
-  local.tee $0
-  local.get $4
-  i32.store
-  local.get $0
-  local.get $4
-  i32.store offset=4
-  local.get $0
-  i32.const 2048
-  i32.store offset=8
-  local.get $0
-  i32.const 256
-  i32.store offset=12
-  local.get $0
- )
- (func $~lib/array/Array<f64>#__get (param $0 i32) (param $1 i32) (result f64)
-  local.get $1
-  local.get $0
-  i32.load offset=12
-  i32.ge_u
-  if
-   i32.const 1920000432
-   i32.const 1920050416
-   i32.const 106
-   i32.const 42
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $0
-  i32.load offset=4
-  local.get $1
-  i32.const 3
-  i32.shl
-  i32.add
-  f64.load
- )
- (func $~lib/typedarray/Float32Array#__set (param $0 i32) (param $1 i32) (param $2 f32)
-  local.get $1
-  local.get $0
-  i32.load offset=8
-  i32.const 2
-  i32.shr_u
-  i32.ge_u
-  if
-   i32.const 1920000432
-   i32.const 1920050464
-   i32.const 1295
-   i32.const 64
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $0
-  i32.load offset=4
-  local.get $1
-  i32.const 2
-  i32.shl
-  i32.add
-  local.get $2
-  f32.store
- )
- (func $assembly/index/initData (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (local $6 i32)
-  (local $7 i32)
-  (local $8 i32)
-  (local $9 i32)
-  (local $10 i32)
-  (local $11 i32)
-  (local $12 i32)
-  (local $13 i32)
-  (local $14 i32)
-  (local $15 i32)
-  (local $16 i32)
-  (local $17 i32)
-  (local $18 i32)
-  (local $19 i32)
-  (local $20 i32)
-  (local $21 i32)
-  (local $22 i32)
-  (local $23 i32)
-  (local $24 i32)
-  local.get $0
-  global.set $assembly/index/width
-  local.get $1
-  global.set $assembly/index/height
-  global.get $assembly/index/width
-  global.get $assembly/index/height
-  i32.mul
-  global.set $assembly/index/channelLength
-  global.get $assembly/index/channelLength
-  i32.const 2
-  i32.shl
-  global.set $assembly/index/viewLength
-  loop $for-loop|0
-   local.get $2
-   local.get $3
-   i32.gt_u
-   if
-    global.get $assembly/index/viewOffsets
-    local.get $3
-    local.get $4
-    call $~lib/staticarray/StaticArray<u32>#__set
-    local.get $4
-    global.get $assembly/index/viewLength
-    i32.add
-    local.set $4
-    local.get $3
-    i32.const 1
-    i32.add
-    local.set $3
-    br $for-loop|0
-   end
-  end
-  i32.const 0
-  local.set $3
-  loop $for-loop|1
-   local.get $2
-   local.get $3
-   i32.gt_u
-   if
-    global.get $assembly/index/countOffsets
-    local.get $3
-    local.get $4
-    call $~lib/staticarray/StaticArray<u32>#__set
-    local.get $4
-    i32.const 3072
-    i32.add
-    local.set $4
-    local.get $3
-    i32.const 1
-    i32.add
-    local.set $3
-    br $for-loop|1
-   end
-  end
-  i32.const 0
-  local.set $3
-  loop $for-loop|2
-   local.get $2
-   local.get $3
-   i32.gt_u
-   if
-    global.get $assembly/index/displayCountOffsets
-    local.get $3
-    local.get $4
-    call $~lib/staticarray/StaticArray<u32>#__set
-    local.get $4
-    i32.const 768
-    i32.add
-    local.set $4
-    local.get $3
-    i32.const 1
-    i32.add
-    local.set $3
-    br $for-loop|2
-   end
-  end
-  i32.const 1920000496
-  call $~lib/rt/__newArray
-  local.set $0
-  i32.const 1920002576
-  call $~lib/rt/__newArray
-  local.set $1
-  i32.const 1920004656
-  call $~lib/rt/__newArray
-  local.set $2
-  i32.const 1920006736
-  call $~lib/rt/__newArray
-  local.set $4
-  i32.const 1920008816
-  call $~lib/rt/__newArray
-  local.set $5
-  i32.const 1920010896
-  call $~lib/rt/__newArray
-  local.set $6
-  i32.const 1920012976
-  call $~lib/rt/__newArray
-  local.set $7
-  i32.const 1920015056
-  call $~lib/rt/__newArray
-  local.set $8
-  i32.const 1920017136
-  call $~lib/rt/__newArray
-  local.set $9
-  i32.const 1920019216
-  call $~lib/rt/__newArray
-  local.set $10
-  i32.const 1920021296
-  call $~lib/rt/__newArray
-  local.set $11
-  i32.const 1920023376
-  call $~lib/rt/__newArray
-  local.set $12
-  i32.const 1920025456
-  call $~lib/rt/__newArray
-  local.set $13
-  i32.const 1920027536
-  call $~lib/rt/__newArray
-  local.set $14
-  i32.const 1920029616
-  call $~lib/rt/__newArray
-  local.set $15
-  i32.const 1920031696
-  call $~lib/rt/__newArray
-  local.set $16
-  i32.const 1920033776
-  call $~lib/rt/__newArray
-  local.set $17
-  i32.const 1920035856
-  call $~lib/rt/__newArray
-  local.set $18
-  i32.const 1920037936
-  call $~lib/rt/__newArray
-  local.set $19
-  i32.const 1920040016
-  call $~lib/rt/__newArray
-  local.set $20
-  i32.const 1920042096
-  call $~lib/rt/__newArray
-  local.set $21
-  i32.const 1920044176
-  call $~lib/rt/__newArray
-  local.set $22
-  i32.const 1920046256
-  call $~lib/rt/__newArray
-  local.set $23
-  i32.const 1920048336
-  call $~lib/rt/__newArray
-  local.set $24
-  i32.const 0
-  local.set $3
-  loop $for-loop|3
-   local.get $3
-   i32.const 256
-   i32.lt_s
-   if
-    global.get $assembly/index/pyramidRoof
-    local.get $3
-    local.get $0
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineUp
-    local.get $3
-    local.get $1
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDown
-    local.get $3
-    local.get $2
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineUpFromPoint1
-    local.get $3
-    local.get $4
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDownToPoint1
-    local.get $3
-    local.get $5
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineUpFromPoint2
-    local.get $3
-    local.get $6
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDownToPoint2
-    local.get $3
-    local.get $7
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDownToPoint5
-    local.get $3
-    local.get $9
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDownToPoint75
-    local.get $3
-    local.get $8
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveExpUp
-    local.get $3
-    local.get $10
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveExpDown
-    local.get $3
-    local.get $11
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveCircleBigUp
-    local.get $3
-    local.get $12
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveCircleBigDown
-    local.get $3
-    local.get $13
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveRootMidUp
-    local.get $3
-    local.get $14
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveRootMidDown
-    local.get $3
-    local.get $15
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveGrayUp
-    local.get $3
-    local.get $16
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveGrayDown
-    local.get $3
-    local.get $17
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinFull
-    local.get $3
-    local.get $18
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinFull32
-    local.get $3
-    local.get $19
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinFull224
-    local.get $3
-    local.get $20
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinUp
-    local.get $3
-    local.get $21
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinDown
-    local.get $3
-    local.get $22
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveLogDown0
-    local.get $3
-    local.get $23
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveLogUp0
-    local.get $3
-    local.get $24
-    local.get $3
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    local.get $3
-    i32.const 1
-    i32.add
-    local.set $3
-    br $for-loop|3
-   end
-  end
- )
- (func $~lib/typedarray/Uint8ClampedArray#__set (param $0 i32) (param $1 i32) (param $2 i32)
-  local.get $1
-  local.get $0
-  i32.load offset=8
-  i32.ge_u
-  if
-   i32.const 1920000432
-   i32.const 1920050464
-   i32.const 315
-   i32.const 45
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $1
-  local.get $0
-  i32.load offset=4
-  i32.add
-  local.get $2
-  i32.const 255
-  local.get $2
-  i32.sub
-  i32.const 31
-  i32.shr_s
-  i32.or
-  local.get $2
-  i32.const 31
-  i32.shr_s
-  i32.const -1
-  i32.xor
-  i32.and
-  i32.store8
- )
- (func $~lib/staticarray/StaticArray<u32>#__get (param $0 i32) (param $1 i32) (result i32)
-  local.get $1
-  local.get $0
-  i32.const 20
-  i32.sub
-  i32.load offset=16
-  i32.const 2
-  i32.shr_u
-  i32.ge_u
-  if
-   i32.const 1920000432
-   i32.const 1920000080
-   i32.const 113
-   i32.const 41
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $0
-  local.get $1
-  i32.const 2
-  i32.shl
-  i32.add
-  i32.load
- )
- (func $~lib/typedarray/Uint8ClampedArray#__get (param $0 i32) (param $1 i32) (result i32)
-  local.get $1
-  local.get $0
-  i32.load offset=8
-  i32.ge_u
-  if
-   i32.const 1920000432
-   i32.const 1920050464
-   i32.const 304
-   i32.const 45
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $1
-  local.get $0
-  i32.load offset=4
-  i32.add
-  i32.load8_u
- )
- (func $assembly/index/percentileStretch (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (local $6 i32)
-  (local $7 i32)
-  (local $8 f32)
-  (local $9 f32)
-  (local $10 i32)
-  (local $11 i32)
-  (local $12 f32)
-  (local $13 i32)
-  (local $14 i32)
-  (local $15 f32)
-  (local $16 f32)
-  (local $17 f32)
-  i32.const 12
-  i32.const 7
-  call $~lib/rt/tcms/__new
-  i32.const 6
-  i32.const 0
-  call $~lib/arraybuffer/ArrayBufferView#constructor
-  local.tee $5
-  i32.const 1
-  i32.const 255
-  call $~lib/typedarray/Uint8ClampedArray#__set
-  local.get $5
-  i32.const 3
-  i32.const 255
-  call $~lib/typedarray/Uint8ClampedArray#__set
-  local.get $5
-  i32.const 5
-  i32.const 255
-  call $~lib/typedarray/Uint8ClampedArray#__set
-  local.get $2
-  i32.const 0
-  i32.ge_s
-  if
-   global.get $assembly/index/countOffsets
-   i32.const 0
-   call $~lib/staticarray/StaticArray<u32>#__get
-   local.set $6
-   loop $for-loop|0
-    local.get $7
-    i32.const 3
-    i32.lt_s
-    if
-     local.get $1
-     local.get $6
-     i32.load
-     i32.add
-     local.set $13
-     local.get $1
-     local.get $6
-     i32.const 1020
-     i32.add
-     i32.load
-     i32.add
-     local.set $14
-     i32.const 0
-     local.set $10
-     i32.const 0
-     local.set $11
-     i32.const 0
-     local.set $3
-     i32.const 255
-     local.set $4
-     i32.const 0
-     local.set $2
-     loop $for-loop|2
-      local.get $2
-      i32.const 255
-      i32.le_s
-      if
-       local.get $10
-       local.get $6
-       local.get $2
-       i32.const 2
-       i32.shl
-       i32.add
-       i32.load
-       i32.add
-       local.tee $10
-       local.get $13
-       i32.le_u
-       if
-        local.get $2
-        local.tee $3
-        i32.const 1
-        i32.add
-        local.set $2
-        br $for-loop|2
-       end
-      end
-     end
-     i32.const 255
-     local.set $2
-     loop $for-loop|4
-      local.get $2
-      i32.const 0
-      i32.ge_s
-      if
-       local.get $11
-       local.get $6
-       local.get $2
-       i32.const 2
-       i32.shl
-       i32.add
-       i32.load
-       i32.add
-       local.tee $11
-       local.get $14
-       i32.le_u
-       if
-        local.get $2
-        local.tee $4
-        i32.const 1
-        i32.sub
-        local.set $2
-        br $for-loop|4
-       end
-      end
-     end
-     local.get $5
-     local.get $7
-     i32.const 1
-     i32.shl
-     local.tee $2
-     local.get $3
-     i32.const 255
-     i32.and
-     call $~lib/typedarray/Uint8ClampedArray#__set
-     local.get $5
-     local.get $2
-     i32.const 1
-     i32.add
-     local.get $4
-     i32.const 255
-     i32.and
-     call $~lib/typedarray/Uint8ClampedArray#__set
-     local.get $6
-     i32.const 1024
-     i32.add
-     local.set $6
-     local.get $7
-     i32.const 1
-     i32.add
-     local.set $7
-     br $for-loop|0
-    end
-   end
-  end
-  local.get $0
-  if
-   local.get $5
-   i32.const 0
-   call $~lib/typedarray/Uint8ClampedArray#__get
-   local.tee $0
-   local.get $5
-   i32.const 2
-   call $~lib/typedarray/Uint8ClampedArray#__get
-   i32.gt_u
-   if
-    local.get $5
-    i32.const 2
-    call $~lib/typedarray/Uint8ClampedArray#__get
-    local.set $0
-   end
-   local.get $5
-   i32.const 0
-   local.get $5
-   i32.const 4
-   call $~lib/typedarray/Uint8ClampedArray#__get
-   local.get $0
-   i32.lt_u
-   if
-    local.get $5
-    i32.const 4
-    call $~lib/typedarray/Uint8ClampedArray#__get
-    local.set $0
-   end
-   local.get $0
-   call $~lib/typedarray/Uint8ClampedArray#__set
-   local.get $5
-   i32.const 2
-   local.get $0
-   call $~lib/typedarray/Uint8ClampedArray#__set
-   local.get $5
-   i32.const 4
-   local.get $0
-   call $~lib/typedarray/Uint8ClampedArray#__set
-   local.get $5
-   i32.const 1
-   call $~lib/typedarray/Uint8ClampedArray#__get
-   local.tee $0
-   local.get $5
-   i32.const 3
-   call $~lib/typedarray/Uint8ClampedArray#__get
-   i32.lt_u
-   if
-    local.get $5
-    i32.const 3
-    call $~lib/typedarray/Uint8ClampedArray#__get
-    local.set $0
-   end
-   local.get $5
-   i32.const 1
-   local.get $5
-   i32.const 5
-   call $~lib/typedarray/Uint8ClampedArray#__get
-   local.get $0
-   i32.gt_u
-   if
-    local.get $5
-    i32.const 5
-    call $~lib/typedarray/Uint8ClampedArray#__get
-    local.set $0
-   end
-   local.get $0
-   call $~lib/typedarray/Uint8ClampedArray#__set
-   local.get $5
-   i32.const 3
-   local.get $0
-   call $~lib/typedarray/Uint8ClampedArray#__set
-   local.get $5
-   i32.const 5
-   local.get $0
-   call $~lib/typedarray/Uint8ClampedArray#__set
-  end
-  f32.const 1
-  local.get $5
-  i32.load offset=4
-  i32.const 1
-  i32.add
-  i32.load8_u
-  local.get $5
-  i32.load offset=4
-  i32.load8_u
-  i32.sub
-  f32.convert_i32_u
-  f32.div
-  f32.const 255
-  f32.mul
-  local.set $15
-  f32.const 1
-  local.get $5
-  i32.load offset=4
-  i32.const 3
-  i32.add
-  i32.load8_u
-  local.get $5
-  i32.load offset=4
-  i32.const 2
-  i32.add
-  i32.load8_u
-  i32.sub
-  f32.convert_i32_u
-  f32.div
-  f32.const 255
-  f32.mul
-  local.set $16
-  f32.const 1
-  local.get $5
-  i32.load offset=4
-  i32.const 5
-  i32.add
-  i32.load8_u
-  local.get $5
-  i32.load offset=4
-  i32.const 4
-  i32.add
-  i32.load8_u
-  i32.sub
-  f32.convert_i32_u
-  f32.div
-  f32.const 255
-  f32.mul
-  local.set $17
-  global.get $assembly/index/viewOffsets
-  i32.const 1
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $2
-  local.get $5
-  i32.load offset=4
-  i32.load8_u
-  local.set $3
-  local.get $5
-  i32.load offset=4
-  i32.const 2
-  i32.add
-  i32.load8_u
-  local.set $4
-  local.get $5
-  i32.load offset=4
-  i32.const 4
-  i32.add
-  i32.load8_u
-  local.set $5
-  i32.const 0
-  local.set $0
-  loop $for-loop|5
-   local.get $0
-   global.get $assembly/index/viewLength
-   i32.lt_s
-   if
-    local.get $0
-    i32.const 1
-    i32.add
-    i32.load8_u
-    local.get $4
-    i32.sub
-    f32.convert_i32_s
-    local.get $16
-    f32.mul
-    local.set $8
-    local.get $0
-    i32.const 2
-    i32.add
-    i32.load8_u
-    local.get $5
-    i32.sub
-    f32.convert_i32_s
-    local.get $17
-    f32.mul
-    local.set $9
-    local.get $0
-    local.get $2
-    i32.add
-    local.tee $1
-    local.get $0
-    i32.load8_u
-    local.get $3
-    i32.sub
-    f32.convert_i32_s
-    local.get $15
-    f32.mul
-    local.tee $12
-    f32.const 255
-    f32.gt
-    if (result f32)
-     f32.const 255
-    else
-     f32.const 0
-     local.get $12
-     local.get $12
-     f32.const 0
-     f32.lt
-     select
-    end
-    i32.trunc_f32_u
-    i32.store8
-    local.get $1
-    i32.const 1
-    i32.add
-    f32.const 255
-    f32.const 0
-    local.get $8
-    local.get $8
-    f32.const 0
-    f32.lt
-    select
-    local.get $8
-    f32.const 255
-    f32.gt
-    select
-    i32.trunc_f32_u
-    i32.store8
-    local.get $1
-    i32.const 2
-    i32.add
-    f32.const 255
-    f32.const 0
-    local.get $9
-    local.get $9
-    f32.const 0
-    f32.lt
-    select
-    local.get $9
-    f32.const 255
-    f32.gt
-    select
-    i32.trunc_f32_u
-    i32.store8
-    local.get $0
-    i32.const 4
-    i32.add
-    local.set $0
-    br $for-loop|5
-   end
-  end
- )
- (func $assembly/index/calculateCounts (param $0 i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  global.get $assembly/index/countOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.tee $1
-  i32.const 3072
-  i32.add
-  local.set $2
-  loop $for-loop|0
-   local.get $1
-   local.get $2
-   i32.lt_u
-   if
-    local.get $1
-    i32.const 0
-    i32.store
-    local.get $1
-    i32.const 4
-    i32.add
-    local.set $1
-    br $for-loop|0
-   end
-  end
-  global.get $assembly/index/viewOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $1
-  global.get $assembly/index/countOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $3
-  local.get $1
-  global.get $assembly/index/viewLength
-  i32.add
-  local.set $2
-  loop $for-loop|00
-   local.get $1
-   local.get $2
-   i32.lt_u
-   if
-    local.get $3
-    local.get $1
-    i32.const 1
-    i32.add
-    i32.load8_u
-    i32.const 2
-    i32.shl
-    i32.add
-    i32.const 1024
-    i32.add
-    local.set $4
-    local.get $3
-    local.get $1
-    i32.const 2
-    i32.add
-    i32.load8_u
-    i32.const 2
-    i32.shl
-    i32.add
-    i32.const 2048
-    i32.add
-    local.set $5
-    local.get $3
-    local.get $1
-    i32.load8_u
-    i32.const 2
-    i32.shl
-    i32.add
-    local.tee $0
-    local.get $0
-    i32.load
-    i32.const 1
-    i32.add
-    i32.store
-    local.get $4
-    local.get $4
-    i32.load
-    i32.const 1
-    i32.add
-    i32.store
-    local.get $5
-    local.get $5
-    i32.load
-    i32.const 1
-    i32.add
-    i32.store
-    local.get $1
-    i32.const 4
-    i32.add
-    local.set $1
-    br $for-loop|00
-   end
-  end
- )
- (func $assembly/index/calculateDisplayCounts (param $0 i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (local $6 i32)
-  (local $7 i32)
-  (local $8 i32)
-  (local $9 i32)
-  (local $10 f32)
-  (local $11 f32)
-  (local $12 f32)
-  (local $13 f32)
-  (local $14 f32)
-  (local $15 f32)
-  global.get $assembly/index/displayCountOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.tee $1
-  i32.const 768
-  i32.add
-  local.set $2
-  loop $for-loop|0
-   local.get $1
-   local.get $2
-   i32.lt_u
-   if
-    local.get $1
-    i32.const 0
-    i32.store8
-    local.get $1
-    i32.const 1
-    i32.add
-    local.set $1
-    br $for-loop|0
-   end
-  end
-  global.get $assembly/index/countOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $1
-  global.get $assembly/index/displayCountOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $5
-  local.get $1
-  i32.const 1024
-  i32.add
-  local.set $7
-  local.get $1
-  local.set $0
-  loop $for-loop|00
-   local.get $0
-   local.get $7
-   i32.lt_u
-   if
-    local.get $0
-    i32.const 1024
-    i32.add
-    i32.load
-    local.set $8
-    local.get $0
-    i32.const 2048
-    i32.add
-    i32.load
-    local.set $9
-    local.get $0
-    i32.load
-    local.tee $2
-    local.get $3
-    i32.gt_s
-    if
-     local.get $2
-     local.set $3
-    end
-    local.get $8
-    local.get $6
-    local.get $6
-    local.get $8
-    i32.lt_s
-    select
-    local.set $6
-    local.get $9
-    local.get $4
-    local.get $4
-    local.get $9
-    i32.lt_s
-    select
-    local.set $4
-    local.get $0
-    i32.const 4
-    i32.add
-    local.set $0
-    br $for-loop|00
-   end
-  end
-  f32.const 100
-  local.get $3
-  f32.convert_i32_s
-  f32.div
-  local.set $12
-  f32.const 100
-  local.get $6
-  f32.convert_i32_s
-  f32.div
-  local.set $13
-  f32.const 100
-  local.get $4
-  f32.convert_i32_s
-  f32.div
-  local.set $14
-  local.get $1
-  local.set $0
-  loop $for-loop|1
-   local.get $0
-   local.get $7
-   i32.lt_u
-   if
-    local.get $0
-    i32.load
-    f32.convert_i32_s
-    local.set $15
-    local.get $0
-    i32.const 2048
-    i32.add
-    i32.load
-    f32.convert_i32_s
-    local.set $10
-    local.get $0
-    i32.const 1024
-    i32.add
-    i32.load
-    f32.convert_i32_s
-    local.tee $11
-    f32.const 0
-    f32.gt
-    if (result i32)
-     local.get $12
-     local.get $15
-     f32.mul
-     i32.trunc_f32_s
-     local.tee $4
-     i32.const 1
-     i32.lt_s
-     if (result i32)
-      i32.const 1
-     else
-      i32.const 100
-      local.get $4
-      local.get $4
-      i32.const 100
-      i32.gt_s
-      select
-     end
-    else
-     i32.const 0
-    end
-    local.set $4
-    local.get $11
-    f32.const 0
-    f32.gt
-    if (result i32)
-     local.get $13
-     local.get $11
-     f32.mul
-     i32.trunc_f32_s
-     local.tee $2
-     i32.const 1
-     i32.lt_s
-     if (result i32)
-      i32.const 1
-     else
-      i32.const 100
-      local.get $2
-      local.get $2
-      i32.const 100
-      i32.gt_s
-      select
-     end
-    else
-     i32.const 0
-    end
-    local.set $2
-    local.get $10
-    f32.const 0
-    f32.gt
-    if (result i32)
-     local.get $14
-     local.get $10
-     f32.mul
-     i32.trunc_f32_s
-     local.tee $1
-     i32.const 1
-     i32.lt_s
-     if (result i32)
-      i32.const 1
-     else
-      i32.const 100
-      local.get $1
-      local.get $1
-      i32.const 100
-      i32.gt_s
-      select
-     end
-    else
-     i32.const 0
-    end
-    local.set $1
-    local.get $5
-    local.get $4
-    i32.store8
-    local.get $5
-    i32.const 256
-    i32.add
-    local.get $2
-    i32.store8
-    local.get $5
-    i32.const 512
-    i32.add
-    local.get $1
-    i32.store8
-    local.get $0
-    i32.const 4
-    i32.add
-    local.set $0
-    local.get $5
-    i32.const 1
-    i32.add
-    local.set $5
-    br $for-loop|1
-   end
-  end
- )
- (func $assembly/index/copyData (param $0 i32) (param $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  global.get $assembly/index/viewOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $3
-  global.get $assembly/index/countOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  drop
-  global.get $assembly/index/displayCountOffsets
-  local.get $0
-  call $~lib/staticarray/StaticArray<u32>#__get
-  drop
-  global.get $assembly/index/viewOffsets
-  local.get $1
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $0
-  global.get $assembly/index/countOffsets
-  local.get $1
-  call $~lib/staticarray/StaticArray<u32>#__get
-  drop
-  global.get $assembly/index/displayCountOffsets
-  local.get $1
-  call $~lib/staticarray/StaticArray<u32>#__get
-  drop
-  loop $for-loop|0
-   local.get $2
-   global.get $assembly/index/viewLength
-   i32.lt_s
-   if
-    local.get $0
-    local.get $2
-    i32.add
-    local.get $2
-    local.get $3
-    i32.add
-    i32.load8_u
-    i32.store8
-    local.get $2
-    i32.const 1
-    i32.add
-    local.set $2
-    br $for-loop|0
-   end
-  end
- )
- (func $assembly/index/lerp (param $0 f32) (param $1 f32) (param $2 f32) (result f32)
-  local.get $0
-  f32.const 1
-  local.get $2
-  f32.sub
-  f32.mul
-  local.get $1
-  local.get $2
-  f32.mul
-  f32.add
- )
- (func $assembly/index/colorBalance (param $0 i32) (param $1 i32)
-  (local $2 i32)
-  (local $3 f32)
-  (local $4 i32)
-  (local $5 f32)
-  (local $6 f32)
-  (local $7 i32)
-  (local $8 i32)
-  (local $9 i32)
-  (local $10 i32)
-  (local $11 f32)
-  (local $12 f32)
-  (local $13 f32)
-  global.get $assembly/index/viewOffsets
-  i32.const 1
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $9
-  global.get $assembly/index/viewOffsets
-  i32.const 2
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $10
-  loop $for-loop|0
-   local.get $7
-   global.get $assembly/index/viewLength
-   i32.lt_s
-   if
-    local.get $7
-    local.get $9
-    i32.add
-    local.tee $4
-    i32.load8_u
-    local.set $2
-    local.get $4
-    i32.const 2
-    i32.add
-    i32.load8_u
-    local.tee $8
-    local.get $2
-    local.get $4
-    i32.const 1
-    i32.add
-    i32.load8_u
-    local.tee $4
-    i32.add
-    i32.add
-    f32.convert_i32_s
-    f32.const 0.3333333432674408
-    f32.mul
-    i32.trunc_f32_s
-    drop
-    local.get $0
-    local.get $2
-    i32.add
-    f32.convert_i32_s
-    local.set $11
-    local.get $1
-    local.get $4
-    i32.add
-    f32.convert_i32_s
-    local.set $12
-    local.get $8
-    local.get $0
-    i32.sub
-    f32.convert_i32_s
-    local.set $13
-    local.get $0
-    i32.const 0
-    i32.ge_s
-    if (result f32)
-     global.get $assembly/index/curveSinDown
-     i32.load offset=4
-     local.get $2
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $3
-     global.get $assembly/index/curveSinUp
-     i32.load offset=4
-     local.get $8
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-    else
-     global.get $assembly/index/curveSinUp
-     i32.load offset=4
-     local.get $2
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $3
-     global.get $assembly/index/curveSinDown
-     i32.load offset=4
-     local.get $8
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-    end
-    local.set $5
-    local.get $4
-    f32.convert_i32_s
-    f32.const 1
-    local.get $1
-    i32.const 0
-    i32.ge_s
-    if (result i32)
-     global.get $assembly/index/curveSinDown
-     i32.load offset=4
-     local.get $4
-     i32.const 2
-     i32.shl
-     i32.add
-    else
-     global.get $assembly/index/curveSinUp
-     i32.load offset=4
-     local.get $4
-     i32.const 2
-     i32.shl
-     i32.add
-    end
-    f32.load
-    local.tee $6
-    f32.sub
-    f32.mul
-    local.get $12
-    local.get $6
-    f32.mul
-    f32.add
-    local.set $6
-    local.get $8
-    f32.convert_i32_s
-    f32.const 1
-    local.get $5
-    f32.sub
-    f32.mul
-    local.get $13
-    local.get $5
-    f32.mul
-    f32.add
-    local.set $5
-    local.get $2
-    f32.convert_i32_s
-    f32.const 1
-    local.get $3
-    f32.sub
-    f32.mul
-    local.get $11
-    local.get $3
-    f32.mul
-    f32.add
-    local.tee $3
-    f32.const 255
-    f32.gt
-    if (result f32)
-     f32.const 255
-    else
-     f32.const 0
-     local.get $3
-     local.get $3
-     f32.const 0
-     f32.lt
-     select
-    end
-    local.set $3
-    local.get $7
-    local.get $10
-    i32.add
-    local.tee $2
-    local.get $3
-    i32.trunc_f32_u
-    i32.store8
-    local.get $2
-    i32.const 1
-    i32.add
-    f32.const 255
-    f32.const 0
-    local.get $6
-    local.get $6
-    f32.const 0
-    f32.lt
-    select
-    local.get $6
-    f32.const 255
-    f32.gt
-    select
-    i32.trunc_f32_u
-    i32.store8
-    local.get $2
-    i32.const 2
-    i32.add
-    f32.const 255
-    f32.const 0
-    local.get $5
-    local.get $5
-    f32.const 0
-    f32.lt
-    select
-    local.get $5
-    f32.const 255
-    f32.gt
-    select
-    i32.trunc_f32_u
-    i32.store8
-    local.get $7
-    i32.const 4
-    i32.add
-    local.set $7
-    br $for-loop|0
-   end
-  end
- )
- (func $~lib/math/NativeMath.pow (param $0 f64) (result f64)
-  (local $1 i32)
-  (local $2 f64)
-  (local $3 f64)
-  (local $4 i64)
-  (local $5 f64)
-  (local $6 i64)
-  (local $7 f64)
-  (local $8 f64)
-  (local $9 f64)
-  (local $10 f64)
-  (local $11 f64)
-  (local $12 f64)
-  (local $13 i32)
-  local.get $0
-  f64.abs
-  f64.const 2
-  f64.le
-  if
-   local.get $0
-   f64.const 2
-   f64.eq
-   if
-    f64.const 4
-    return
-   end
-   local.get $0
-   f64.const 0.5
-   f64.eq
-   if
-    f64.const 1.4142135623730951
-    return
-   end
-   local.get $0
-   f64.const -1
-   f64.eq
-   if
-    f64.const 0.5
-    return
-   end
-   local.get $0
-   f64.const 1
-   f64.eq
-   if
-    f64.const 2
-    return
-   end
-   local.get $0
-   f64.const 0
-   f64.eq
-   if
-    f64.const 1
-    return
-   end
-  end
-  block $~lib/util/math/pow_lut|inlined.0 (result f64)
-   local.get $0
-   local.tee $2
-   i64.reinterpret_f64
-   local.tee $4
-   i64.const 52
-   i64.shr_u
-   local.tee $6
-   i64.const 2047
-   i64.and
-   i64.const 958
-   i64.sub
-   i64.const 128
-   i64.ge_u
-   if
-    local.get $4
-    i64.const 1
-    i64.shl
-    i64.const 1
-    i64.sub
-    i64.const -9007199254740993
-    i64.ge_u
-    if
-     f64.const 1
-     local.get $4
-     i64.const 1
-     i64.shl
-     i64.eqz
-     br_if $~lib/util/math/pow_lut|inlined.0
-     drop
-     local.get $2
-     f64.const 2
-     f64.add
-     local.get $4
-     i64.const 1
-     i64.shl
-     i64.const -9007199254740992
-     i64.gt_u
-     br_if $~lib/util/math/pow_lut|inlined.0
-     drop
-     f64.const 0
-     local.get $4
-     i64.const 63
-     i64.shr_u
-     i64.eqz
-     i32.eqz
-     br_if $~lib/util/math/pow_lut|inlined.0
-     drop
-     local.get $2
-     local.get $2
-     f64.mul
-     br $~lib/util/math/pow_lut|inlined.0
-    end
-    local.get $6
-    i64.const 2047
-    i64.and
-    i64.const 958
-    i64.sub
-    i64.const 128
-    i64.ge_u
-    if
-     f64.const 1
-     local.get $6
-     i64.const 2047
-     i64.and
-     i64.const 958
-     i64.lt_u
-     br_if $~lib/util/math/pow_lut|inlined.0
-     drop
-     f64.const inf
-     f64.const 0
-     local.get $6
-     i64.const 2048
-     i64.lt_u
-     select
-     br $~lib/util/math/pow_lut|inlined.0
-    end
-   end
-   i32.const 1920052928
-   f64.load
-   f64.const 0.6931471805598903
-   f64.add
-   local.tee $8
-   i32.const 1920052912
-   f64.load
-   local.tee $0
-   f64.const 1
-   f64.sub
-   local.tee $3
-   local.get $0
-   f64.const 0
-   f64.mul
-   local.tee $9
-   f64.add
-   local.tee $0
-   f64.add
-   local.tee $7
-   local.get $3
-   local.get $3
-   f64.const -0.5
-   f64.mul
-   local.tee $10
-   f64.mul
-   local.tee $11
-   f64.add
-   local.set $3
-   local.get $0
-   local.get $0
-   f64.const -0.5
-   f64.mul
-   local.tee $12
-   f64.mul
-   local.set $5
-   local.get $3
-   local.get $3
-   i32.const 1920052936
-   f64.load
-   f64.const 5.497923018708371e-14
-   f64.add
-   local.get $8
-   local.get $7
-   f64.sub
-   local.get $0
-   f64.add
-   f64.add
-   local.get $9
-   local.get $12
-   local.get $10
-   f64.add
-   f64.mul
-   f64.add
-   local.get $7
-   local.get $3
-   f64.sub
-   local.get $11
-   f64.add
-   f64.add
-   local.get $0
-   local.get $5
-   f64.mul
-   local.get $0
-   f64.const 0.5000000000000007
-   f64.mul
-   f64.const -0.6666666666666679
-   f64.add
-   local.get $5
-   local.get $0
-   f64.const -0.6666666663487739
-   f64.mul
-   f64.const 0.7999999995323976
-   f64.add
-   local.get $5
-   local.get $0
-   f64.const 1.0000415263675542
-   f64.mul
-   f64.const -1.142909628459501
-   f64.add
-   f64.mul
-   f64.add
-   f64.mul
-   f64.add
-   f64.mul
-   f64.add
-   local.tee $3
-   f64.add
-   local.tee $0
-   f64.sub
-   local.get $3
-   f64.add
-   global.set $~lib/util/math/log_tail
-   block $~lib/util/math/exp_inline|inlined.0 (result f64)
-    local.get $2
-    local.get $4
-    i64.const -134217728
-    i64.and
-    f64.reinterpret_i64
-    local.tee $5
-    f64.sub
-    local.get $0
-    i64.reinterpret_f64
-    i64.const -134217728
-    i64.and
-    f64.reinterpret_i64
-    local.tee $3
-    f64.mul
-    local.get $2
-    local.get $0
-    local.get $3
-    f64.sub
-    global.get $~lib/util/math/log_tail
-    f64.add
-    f64.mul
-    f64.add
-    local.set $7
-    local.get $5
-    local.get $3
-    f64.mul
-    local.tee $2
-    i64.reinterpret_f64
-    local.tee $4
-    i64.const 52
-    i64.shr_u
-    i32.wrap_i64
-    i32.const 2047
-    i32.and
-    local.tee $1
-    i32.const 969
-    i32.sub
-    i32.const 63
-    i32.ge_u
-    if
-     f64.const 1
-     local.get $1
-     i32.const 969
-     i32.sub
-     i32.const -2147483648
-     i32.ge_u
-     br_if $~lib/util/math/exp_inline|inlined.0
-     drop
-     f64.const 0
-     f64.const inf
-     local.get $4
-     i64.const 63
-     i64.shr_u
-     i32.wrap_i64
-     select
-     local.get $1
-     i32.const 1033
-     i32.ge_u
-     br_if $~lib/util/math/exp_inline|inlined.0
-     drop
-     i32.const 0
-     local.set $1
-    end
-    local.get $2
-    f64.const 184.6649652337873
-    f64.mul
-    f64.const 6755399441055744
-    f64.add
-    local.tee $0
-    i64.reinterpret_f64
-    local.tee $6
-    i64.const 127
-    i64.and
-    i64.const 1
-    i64.shl
-    i32.wrap_i64
-    i32.const 3
-    i32.shl
-    i32.const 1920054608
-    i32.add
-    local.tee $13
-    i64.load offset=8
-    local.get $6
-    i64.const 45
-    i64.shl
-    i64.add
-    local.set $4
-    local.get $2
-    local.get $0
-    f64.const 6755399441055744
-    f64.sub
-    local.tee $0
-    f64.const -0.005415212348111709
-    f64.mul
-    f64.add
-    local.get $0
-    f64.const -1.2864023111638346e-14
-    f64.mul
-    f64.add
-    local.get $7
-    f64.add
-    local.tee $0
-    local.get $0
-    f64.mul
-    local.set $2
-    local.get $13
-    f64.load
-    local.get $0
-    f64.add
-    local.get $2
-    local.get $0
-    f64.const 0.16666666666665886
-    f64.mul
-    f64.const 0.49999999999996786
-    f64.add
-    f64.mul
-    f64.add
-    local.get $2
-    local.get $2
-    f64.mul
-    local.get $0
-    f64.const 0.008333335853059549
-    f64.mul
-    f64.const 0.0416666808410674
-    f64.add
-    f64.mul
-    f64.add
-    local.set $2
-    local.get $1
-    i32.eqz
-    if
-     block $~lib/util/math/specialcase|inlined.0 (result f64)
-      local.get $6
-      i64.const 2147483648
-      i64.and
-      i64.eqz
-      if
-       local.get $4
-       i64.const 4544132024016830464
-       i64.sub
-       f64.reinterpret_i64
-       local.tee $0
-       local.get $0
-       local.get $2
-       f64.mul
-       f64.add
-       f64.const 5486124068793688683255936e279
-       f64.mul
-       br $~lib/util/math/specialcase|inlined.0
-      end
-      local.get $4
-      i64.const 4602678819172646912
-      i64.add
-      local.tee $4
-      f64.reinterpret_i64
-      local.tee $3
-      local.get $3
-      local.get $2
-      f64.mul
-      f64.add
-      local.tee $0
-      f64.abs
-      f64.const 1
-      f64.lt
-      if (result f64)
-       f64.const 1
-       local.get $0
-       f64.copysign
-       local.tee $5
-       local.get $0
-       f64.add
-       local.tee $7
-       local.get $5
-       local.get $7
-       f64.sub
-       local.get $0
-       f64.add
-       local.get $3
-       local.get $0
-       f64.sub
-       local.get $3
-       local.get $2
-       f64.mul
-       f64.add
-       f64.add
-       f64.add
-       local.get $5
-       f64.sub
-       local.tee $0
-       f64.const 0
-       f64.eq
-       if (result f64)
-        local.get $4
-        i64.const -9223372036854775808
-        i64.and
-        f64.reinterpret_i64
-       else
-        local.get $0
-       end
-      else
-       local.get $0
-      end
-      f64.const 2.2250738585072014e-308
-      f64.mul
-     end
-     br $~lib/util/math/exp_inline|inlined.0
-    end
-    local.get $4
-    f64.reinterpret_i64
-    local.tee $0
-    local.get $0
-    local.get $2
-    f64.mul
-    f64.add
-   end
-  end
- )
- (func $assembly/index/lightAdjustment (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (local $6 i32)
-  (local $7 f32)
-  (local $8 i32)
-  (local $9 f32)
-  (local $10 f32)
-  (local $11 f32)
-  (local $12 i32)
-  (local $13 i32)
-  (local $14 f32)
-  (local $15 f32)
-  (local $16 f64)
-  (local $17 f32)
-  (local $18 f32)
-  (local $19 i32)
-  (local $20 i32)
-  (local $21 f32)
-  (local $22 i32)
-  global.get $assembly/index/viewOffsets
-  i32.const 2
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $19
-  global.get $assembly/index/viewOffsets
-  i32.const 3
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $20
-  local.get $0
-  i32.const 0
-  i32.gt_s
-  if
-   local.get $0
-   f64.convert_i32_s
-   f64.const 1.5
-   f64.mul
-   i32.trunc_f64_s
-   drop
-  end
-  f32.const 1
-  i32.const 255
-  local.get $1
-  i32.sub
-  f32.convert_i32_s
-  f32.div
-  f32.const 255
-  f32.mul
-  local.tee $15
-  local.set $21
-  local.get $0
-  f32.convert_i32_s
-  local.tee $7
-  f64.promote_f32
-  f64.const 0.01
-  f64.mul
-  f64.const 3
-  f64.mul
-  call $~lib/math/NativeMath.pow
-  drop
-  local.get $7
-  f32.const 100
-  f32.div
-  f32.const 5
-  f32.mul
-  f64.promote_f32
-  call $~lib/math/NativeMath.pow
-  drop
-  i32.const 12
-  i32.const 4
-  call $~lib/rt/tcms/__new
-  i32.const 256
-  i32.const 2
-  call $~lib/arraybuffer/ArrayBufferView#constructor
-  local.set $12
-  f32.const 1
-  local.set $7
-  loop $for-loop|0
-   local.get $3
-   i32.const 256
-   i32.lt_s
-   if
-    local.get $12
-    local.get $3
-    local.get $7
-    call $~lib/typedarray/Float32Array#__set
-    local.get $7
-    f32.const 0.9960784316062927
-    f32.add
-    local.set $7
-    local.get $3
-    i32.const 1
-    i32.add
-    local.set $3
-    br $for-loop|0
-   end
-  end
-  loop $for-loop|1
-   local.get $13
-   global.get $assembly/index/viewLength
-   i32.lt_s
-   if
-    local.get $13
-    local.get $19
-    i32.add
-    local.tee $4
-    i32.const 2
-    i32.add
-    i32.load8_u
-    local.tee $3
-    local.get $4
-    i32.load8_u
-    local.tee $5
-    local.get $4
-    i32.const 1
-    i32.add
-    i32.load8_u
-    local.tee $4
-    i32.add
-    i32.add
-    f32.convert_i32_s
-    f32.const 0.3333333432674408
-    f32.mul
-    i32.trunc_f32_s
-    local.set $8
-    local.get $5
-    f64.convert_i32_s
-    local.get $0
-    f64.convert_i32_s
-    f64.const 0.5
-    f64.mul
-    local.tee $16
-    f64.add
-    f32.demote_f64
-    local.set $11
-    local.get $3
-    f32.convert_i32_s
-    local.set $14
-    local.get $0
-    i32.const 0
-    i32.gt_s
-    if (result f32)
-     local.get $8
-     i32.const 2
-     i32.shl
-     local.tee $8
-     global.get $assembly/index/curveSinFull
-     local.tee $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     local.set $7
-     local.get $8
-     local.get $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     local.set $9
-     local.get $8
-     local.get $6
-     i32.load offset=4
-     i32.add
-     f32.load
-    else
-     global.get $assembly/index/curveSinFull
-     local.tee $6
-     i32.load offset=4
-     local.get $5
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $7
-     local.get $6
-     i32.load offset=4
-     local.get $3
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $9
-     local.get $6
-     i32.load offset=4
-     local.get $4
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-    end
-    local.set $10
-    i32.const 0
-    i32.const 255
-    local.get $14
-    f32.const 1
-    local.get $9
-    f32.sub
-    f32.mul
-    local.get $3
-    f64.convert_i32_s
-    local.get $16
-    f64.add
-    f32.demote_f64
-    local.get $9
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.tee $3
-    local.get $3
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $3
-    i32.const 0
-    i32.lt_s
-    select
-    local.tee $3
-    i32.const 0
-    i32.const 255
-    local.get $5
-    f32.convert_i32_s
-    f32.const 1
-    local.get $7
-    f32.sub
-    f32.mul
-    local.get $11
-    local.get $7
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.tee $5
-    local.get $5
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $5
-    i32.const 0
-    i32.lt_s
-    select
-    local.tee $5
-    i32.const 0
-    i32.const 255
-    local.get $4
-    f32.convert_i32_s
-    f32.const 1
-    local.get $10
-    f32.sub
-    f32.mul
-    local.get $4
-    f64.convert_i32_s
-    local.get $16
-    f64.add
-    f32.demote_f64
-    local.get $10
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.tee $4
-    local.get $4
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $4
-    i32.const 0
-    i32.lt_s
-    select
-    local.tee $4
-    i32.add
-    i32.add
-    f32.convert_i32_s
-    f32.const 0.3333333432674408
-    f32.mul
-    i32.trunc_f32_s
-    local.set $8
-    local.get $2
-    f32.convert_i32_s
-    f32.const 0.05000000074505806
-    f32.mul
-    f32.const 1
-    f32.add
-    local.set $9
-    local.get $2
-    i32.const 0
-    i32.gt_s
-    if (result f32)
-     f32.const 1
-     local.get $8
-     i32.const 2
-     i32.shl
-     local.tee $8
-     global.get $assembly/index/curveLogUp0
-     local.tee $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     f32.sub
-     local.set $7
-     f32.const 1
-     local.get $8
-     local.get $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     f32.sub
-     local.set $10
-     f32.const 1
-     local.get $8
-     local.get $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     f32.sub
-     local.set $11
-     local.get $5
-     f32.convert_i32_s
-     local.get $9
-     f32.mul
-     local.get $2
-     f32.convert_i32_s
-     f32.const 0.5
-     f32.mul
-     local.tee $14
-     f32.add
-     local.set $17
-     local.get $4
-     f32.convert_i32_s
-     local.get $9
-     f32.mul
-     local.get $14
-     f32.add
-     local.set $18
-     local.get $3
-     f32.convert_i32_s
-     local.get $9
-     f32.mul
-     local.get $14
-     f32.add
-    else
-     f32.const 1
-     local.get $5
-     i32.const 2
-     i32.shl
-     local.tee $8
-     global.get $assembly/index/curveLogUp0
-     local.tee $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     f32.sub
-     local.set $7
-     f32.const 1
-     local.get $4
-     i32.const 2
-     i32.shl
-     local.tee $22
-     local.get $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     f32.sub
-     local.set $10
-     f32.const 1
-     local.get $6
-     i32.load offset=4
-     local.get $3
-     i32.const 2
-     i32.shl
-     local.tee $6
-     i32.add
-     f32.load
-     f32.sub
-     local.set $11
-     local.get $8
-     local.get $12
-     i32.load offset=4
-     i32.add
-     f32.load
-     local.get $9
-     f32.mul
-     f32.const 1
-     f32.sub
-     f32.const 254
-     f32.div
-     f32.const 255
-     f32.mul
-     f32.const 0
-     f32.add
-     local.set $17
-     local.get $22
-     local.get $12
-     i32.load offset=4
-     i32.add
-     f32.load
-     local.get $9
-     f32.mul
-     f32.const 1
-     f32.sub
-     f32.const 254
-     f32.div
-     f32.const 255
-     f32.mul
-     f32.const 0
-     f32.add
-     local.set $18
-     local.get $6
-     local.get $12
-     i32.load offset=4
-     i32.add
-     f32.load
-     local.get $9
-     f32.mul
-     f32.const 1
-     f32.sub
-     f32.const 254
-     f32.div
-     f32.const 255
-     f32.mul
-     f32.const 0
-     f32.add
-    end
-    local.set $9
-    i32.const 0
-    i32.const 255
-    local.get $3
-    f32.convert_i32_s
-    f32.const 1
-    local.get $11
-    f32.sub
-    f32.mul
-    local.get $9
-    local.get $11
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.tee $3
-    local.get $3
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $3
-    i32.const 0
-    i32.lt_s
-    select
-    local.tee $3
-    i32.const 0
-    i32.const 255
-    local.get $5
-    f32.convert_i32_s
-    f32.const 1
-    local.get $7
-    f32.sub
-    f32.mul
-    local.get $17
-    local.get $7
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.tee $5
-    local.get $5
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $5
-    i32.const 0
-    i32.lt_s
-    select
-    local.tee $5
-    i32.const 0
-    i32.const 255
-    local.get $4
-    f32.convert_i32_s
-    f32.const 1
-    local.get $10
-    f32.sub
-    f32.mul
-    local.get $18
-    local.get $10
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.tee $4
-    local.get $4
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $4
-    i32.const 0
-    i32.lt_s
-    select
-    local.tee $4
-    i32.add
-    i32.add
-    f32.convert_i32_s
-    f32.const 0.3333333432674408
-    f32.mul
-    i32.trunc_f32_s
-    drop
-    local.get $5
-    local.get $3
-    local.get $3
-    local.get $5
-    i32.lt_s
-    select
-    local.get $4
-    local.get $3
-    local.get $3
-    local.get $4
-    i32.lt_s
-    select
-    local.get $4
-    local.get $5
-    i32.lt_s
-    select
-    local.set $8
-    local.get $4
-    f32.convert_i32_s
-    local.tee $11
-    f32.const 1
-    local.get $1
-    i32.const 0
-    i32.gt_s
-    if (result f32)
-     f32.const 1
-     local.get $8
-     i32.const 2
-     i32.shl
-     local.tee $8
-     global.get $assembly/index/curveExpDown
-     local.tee $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     f32.sub
-     local.set $7
-     f32.const 1
-     local.get $8
-     local.get $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     f32.sub
-     local.set $9
-     f32.const 1
-     local.get $8
-     local.get $6
-     i32.load offset=4
-     i32.add
-     f32.load
-     f32.sub
-    else
-     f32.const 1
-     global.get $assembly/index/curveExpUp
-     local.tee $6
-     i32.load offset=4
-     local.get $5
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     f32.sub
-     local.set $7
-     f32.const 1
-     local.get $6
-     i32.load offset=4
-     local.get $3
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     f32.sub
-     local.set $9
-     f32.const 1
-     local.get $6
-     i32.load offset=4
-     local.get $4
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     f32.sub
-    end
-    local.tee $10
-    f32.sub
-    f32.mul
-    local.get $11
-    local.get $21
-    f32.mul
-    local.get $10
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.set $4
-    local.get $3
-    f32.convert_i32_s
-    local.tee $10
-    f32.const 1
-    local.get $9
-    f32.sub
-    f32.mul
-    local.get $10
-    local.get $15
-    f32.mul
-    local.get $9
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.set $3
-    local.get $13
-    local.get $20
-    i32.add
-    local.tee $6
-    i32.const 0
-    i32.const 255
-    local.get $5
-    f32.convert_i32_s
-    local.tee $10
-    f32.const 1
-    local.get $7
-    f32.sub
-    f32.mul
-    local.get $10
-    local.get $15
-    f32.mul
-    local.get $7
-    f32.mul
-    f32.add
-    i32.trunc_f32_s
-    local.tee $5
-    local.get $5
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $5
-    i32.const 0
-    i32.lt_s
-    select
-    i32.store8
-    local.get $6
-    i32.const 1
-    i32.add
-    i32.const 0
-    i32.const 255
-    local.get $4
-    local.get $4
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $4
-    i32.const 0
-    i32.lt_s
-    select
-    i32.store8
-    local.get $6
-    i32.const 2
-    i32.add
-    i32.const 0
-    i32.const 255
-    local.get $3
-    local.get $3
-    i32.const 255
-    i32.gt_s
-    select
-    local.get $3
-    i32.const 0
-    i32.lt_s
-    select
-    i32.store8
-    local.get $13
-    i32.const 4
-    i32.add
-    local.set $13
-    br $for-loop|1
-   end
-  end
- )
- (func $assembly/index/process (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (param $6 i32) (param $7 i32) (param $8 i32) (param $9 i32) (param $10 i32)
-  local.get $0
-  if
-   local.get $3
-   local.get $4
-   local.get $5
-   call $assembly/index/percentileStretch
-   i32.const 1
-   call $assembly/index/calculateCounts
-   i32.const 1
-   call $assembly/index/calculateDisplayCounts
-   local.get $1
-   i32.eqz
-   if
-    i32.const 1
-    i32.const 2
-    call $assembly/index/copyData
-   end
-  end
-  local.get $1
-  if
-   local.get $6
-   local.get $7
-   call $assembly/index/colorBalance
-   i32.const 2
-   call $assembly/index/calculateCounts
-   i32.const 2
-   call $assembly/index/calculateDisplayCounts
-  end
-  local.get $2
-  if
-   local.get $8
-   local.get $9
-   local.get $10
-   call $assembly/index/lightAdjustment
-   i32.const 3
-   call $assembly/index/calculateCounts
-   i32.const 3
-   call $assembly/index/calculateDisplayCounts
-  end
- )
- (func $assembly/index/calculateClips (param $0 i32) (param $1 i32)
-  nop
- )
- (func $assembly/index/grayWorld (param $0 i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 f32)
-  (local $4 f32)
-  (local $5 f32)
-  (local $6 f32)
-  (local $7 f32)
-  (local $8 f32)
-  (local $9 f32)
-  (local $10 i32)
-  (local $11 i32)
-  (local $12 i32)
-  (local $13 f32)
-  (local $14 f32)
-  (local $15 i32)
-  (local $16 f32)
-  global.get $assembly/index/viewOffsets
-  i32.const 1
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.tee $1
-  global.get $assembly/index/viewLength
-  i32.add
-  local.set $15
-  local.get $1
-  local.set $2
-  loop $for-loop|0
-   local.get $2
-   local.get $15
-   i32.lt_u
-   if
-    local.get $16
-    local.get $2
-    i32.load8_u
-    f32.convert_i32_u
-    f32.add
-    local.set $16
-    local.get $14
-    local.get $2
-    i32.const 1
-    i32.add
-    i32.load8_u
-    f32.convert_i32_u
-    f32.add
-    local.set $14
-    local.get $13
-    local.get $2
-    i32.const 2
-    i32.add
-    i32.load8_u
-    f32.convert_i32_u
-    f32.add
-    local.set $13
-    local.get $2
-    i32.const 4
-    i32.add
-    local.set $2
-    br $for-loop|0
-   end
-  end
-  f32.const 128
-  local.get $16
-  global.get $assembly/index/channelLength
-  f32.convert_i32_s
-  local.tee $16
-  f32.div
-  i32.trunc_f32_u
-  f32.convert_i32_u
-  f32.div
-  local.set $6
-  f32.const 128
-  local.get $14
-  local.get $16
-  f32.div
-  i32.trunc_f32_u
-  f32.convert_i32_u
-  f32.div
-  local.set $5
-  f32.const 128
-  local.get $13
-  local.get $16
-  f32.div
-  i32.trunc_f32_u
-  f32.convert_i32_u
-  f32.div
-  local.set $4
-  local.get $0
-  f32.convert_i32_s
-  f32.const 0.10000000149011612
-  f32.mul
-  local.set $9
-  global.get $assembly/index/viewOffsets
-  i32.const 2
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $0
-  loop $for-loop|1
-   local.get $12
-   global.get $assembly/index/viewLength
-   i32.lt_s
-   if
-    local.get $1
-    local.get $12
-    i32.add
-    local.tee $2
-    i32.load8_u
-    local.set $11
-    local.get $2
-    i32.const 1
-    i32.add
-    i32.load8_u
-    local.set $10
-    local.get $2
-    i32.const 2
-    i32.add
-    i32.load8_u
-    local.set $15
-    local.get $6
-    f32.const 1
-    f32.gt
-    if (result i32)
-     global.get $assembly/index/curveExpDown
-     i32.load offset=4
-     local.get $11
-     i32.const 2
-     i32.shl
-     i32.add
-    else
-     global.get $assembly/index/curveGrayDown
-     i32.load offset=4
-     local.get $11
-     i32.const 2
-     i32.shl
-     i32.add
-    end
-    f32.load
-    local.set $16
-    local.get $5
-    f32.const 1
-    f32.gt
-    if (result i32)
-     global.get $assembly/index/curveExpDown
-     i32.load offset=4
-     local.get $10
-     i32.const 2
-     i32.shl
-     i32.add
-    else
-     global.get $assembly/index/curveGrayDown
-     i32.load offset=4
-     local.get $10
-     i32.const 2
-     i32.shl
-     i32.add
-    end
-    f32.load
-    local.set $14
-    local.get $4
-    f32.const 1
-    f32.gt
-    if (result i32)
-     global.get $assembly/index/curveExpDown
-     i32.load offset=4
-     local.get $15
-     i32.const 2
-     i32.shl
-     i32.add
-    else
-     global.get $assembly/index/curveGrayDown
-     i32.load offset=4
-     local.get $15
-     i32.const 2
-     i32.shl
-     i32.add
-    end
-    f32.load
-    local.set $13
-    local.get $5
-    local.get $10
-    f32.convert_i32_s
-    f32.mul
-    local.set $8
-    local.get $4
-    local.get $15
-    f32.convert_i32_s
-    f32.mul
-    local.set $7
-    local.get $0
-    local.get $12
-    i32.add
-    local.tee $2
-    local.get $11
-    f32.convert_i32_s
-    f32.const 1
-    local.get $9
-    local.get $16
-    f32.mul
-    local.tee $16
-    f32.sub
-    f32.mul
-    local.get $6
-    local.get $11
-    f32.convert_i32_s
-    f32.mul
-    local.tee $3
-    f32.const 255
-    f32.gt
-    if (result f32)
-     f32.const 255
-    else
-     f32.const 0
-     local.get $3
-     local.get $3
-     f32.const 0
-     f32.lt
-     select
-    end
-    local.get $16
-    f32.mul
-    f32.add
-    i32.trunc_f32_u
-    i32.store8
-    local.get $2
-    i32.const 1
-    i32.add
-    local.get $10
-    f32.convert_i32_s
-    f32.const 1
-    local.get $9
-    local.get $14
-    f32.mul
-    local.tee $16
-    f32.sub
-    f32.mul
-    f32.const 255
-    f32.const 0
-    local.get $8
-    local.get $8
-    f32.const 0
-    f32.lt
-    select
-    local.get $8
-    f32.const 255
-    f32.gt
-    select
-    local.get $16
-    f32.mul
-    f32.add
-    i32.trunc_f32_u
-    i32.store8
-    local.get $2
-    i32.const 2
-    i32.add
-    local.get $15
-    f32.convert_i32_s
-    f32.const 1
-    local.get $9
-    local.get $13
-    f32.mul
-    local.tee $16
-    f32.sub
-    f32.mul
-    f32.const 255
-    f32.const 0
-    local.get $7
-    local.get $7
-    f32.const 0
-    f32.lt
-    select
-    local.get $7
-    f32.const 255
-    f32.gt
-    select
-    local.get $16
-    f32.mul
-    f32.add
-    i32.trunc_f32_u
-    i32.store8
-    local.get $12
-    i32.const 4
-    i32.add
-    local.set $12
-    br $for-loop|1
-   end
-  end
- )
- (func $assembly/index/centerShift (param $0 i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (local $6 i32)
-  (local $7 i32)
-  (local $8 f32)
-  (local $9 f32)
-  (local $10 f32)
-  (local $11 f32)
-  (local $12 f32)
-  (local $13 f32)
-  (local $14 i32)
-  (local $15 i32)
-  local.get $0
-  i32.eqz
-  if
-   i32.const 2
-   i32.const 3
-   call $assembly/index/copyData
-   return
-  end
-  global.get $assembly/index/viewOffsets
-  i32.const 2
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.tee $14
-  global.get $assembly/index/viewLength
-  i32.add
-  local.set $15
-  i32.const 127
-  local.get $0
-  i32.sub
-  local.set $4
-  i32.const 12
-  i32.const 4
-  call $~lib/rt/tcms/__new
-  i32.const 256
-  i32.const 2
-  call $~lib/arraybuffer/ArrayBufferView#constructor
-  local.set $6
-  loop $for-loop|0
-   local.get $1
-   local.get $4
-   i32.le_s
-   if
-    local.get $6
-    local.get $1
-    local.get $1
-    f32.convert_i32_s
-    local.get $4
-    f32.convert_i32_s
-    f32.div
-    call $~lib/typedarray/Float32Array#__set
-    local.get $1
-    i32.const 1
-    i32.add
-    local.set $1
-    br $for-loop|0
-   end
-  end
-  local.get $4
-  i32.const 1
-  i32.add
-  local.set $1
-  loop $for-loop|1
-   local.get $1
-   i32.const 256
-   i32.lt_s
-   if
-    local.get $6
-    local.get $1
-    local.get $1
-    f32.convert_i32_s
-    f32.const 255
-    f32.sub
-    local.get $4
-    f32.convert_i32_s
-    f32.const 1
-    f32.add
-    f32.const 255
-    f32.sub
-    f32.div
-    call $~lib/typedarray/Float32Array#__set
-    local.get $1
-    i32.const 1
-    i32.add
-    local.set $1
-    br $for-loop|1
-   end
-  end
-  i32.const 0
-  local.set $1
-  loop $for-loop|2
-   local.get $1
-   i32.const 256
-   i32.lt_s
-   if
-    local.get $1
-    i32.const 1
-    i32.add
-    local.set $1
-    br $for-loop|2
-   end
-  end
-  loop $for-loop|4
-   local.get $7
-   global.get $assembly/index/viewLength
-   i32.lt_s
-   if
-    local.get $7
-    local.get $14
-    i32.add
-    local.tee $4
-    i32.const 2
-    i32.add
-    i32.load8_u
-    local.tee $3
-    local.get $4
-    i32.load8_u
-    local.tee $1
-    local.get $4
-    i32.const 1
-    i32.add
-    i32.load8_u
-    local.tee $5
-    i32.add
-    i32.add
-    f32.convert_i32_s
-    f32.const 0.3333333432674408
-    f32.mul
-    i32.trunc_f32_s
-    drop
-    local.get $1
-    i32.extend16_s
-    local.get $5
-    i32.extend16_s
-    i32.lt_s
-    if (result i32)
-     local.get $3
-     local.get $5
-     local.get $5
-     i32.extend16_s
-     local.get $3
-     i32.extend16_s
-     i32.lt_s
-     select
-    else
-     local.get $3
-     local.get $1
-     local.get $1
-     i32.extend16_s
-     local.get $3
-     i32.extend16_s
-     i32.lt_s
-     select
-    end
-    local.set $4
-    local.get $0
-    local.get $5
-    i32.extend16_s
-    i32.add
-    f32.convert_i32_s
-    local.set $8
-    local.get $0
-    local.get $3
-    i32.extend16_s
-    i32.add
-    f32.convert_i32_s
-    local.set $9
-    local.get $1
-    local.tee $2
-    i32.extend16_s
-    local.get $5
-    i32.extend16_s
-    i32.gt_s
-    if (result i32)
-     local.get $3
-     local.get $5
-     local.get $5
-     i32.extend16_s
-     local.get $3
-     i32.extend16_s
-     i32.gt_s
-     select
-    else
-     local.get $3
-     local.get $2
-     local.get $2
-     i32.extend16_s
-     local.get $3
-     i32.extend16_s
-     i32.gt_s
-     select
-    end
-    local.get $4
-    local.get $0
-    i32.const 0
-    i32.lt_s
-    select
-    i32.extend16_s
-    i32.const 2
-    i32.shl
-    local.tee $1
-    local.get $6
-    i32.load offset=4
-    i32.add
-    f32.load
-    local.set $10
-    local.get $1
-    local.get $6
-    i32.load offset=4
-    i32.add
-    f32.load
-    local.set $11
-    local.get $1
-    local.get $6
-    i32.load offset=4
-    i32.add
-    f32.load
-    local.set $12
-    local.get $7
-    local.get $15
-    i32.add
-    local.tee $1
-    local.get $2
-    f32.convert_i32_s
-    f32.const 1
-    local.get $10
-    f32.sub
-    f32.mul
-    local.get $0
-    local.get $2
-    i32.extend16_s
-    i32.add
-    f32.convert_i32_s
-    local.tee $13
-    f32.const 255
-    f32.gt
-    if (result f32)
-     f32.const 255
-    else
-     f32.const 0
-     local.get $13
-     local.get $13
-     f32.const 0
-     f32.lt
-     select
-    end
-    local.get $10
-    f32.mul
-    f32.add
-    i32.trunc_f32_u
-    i32.store8
-    local.get $1
-    i32.const 1
-    i32.add
-    local.get $5
-    f32.convert_i32_s
-    f32.const 1
-    local.get $11
-    f32.sub
-    f32.mul
-    f32.const 255
-    f32.const 0
-    local.get $8
-    local.get $8
-    f32.const 0
-    f32.lt
-    select
-    local.get $8
-    f32.const 255
-    f32.gt
-    select
-    local.get $11
-    f32.mul
-    f32.add
-    i32.trunc_f32_u
-    i32.store8
-    local.get $1
-    i32.const 2
-    i32.add
-    local.get $3
-    f32.convert_i32_s
-    f32.const 1
-    local.get $12
-    f32.sub
-    f32.mul
-    f32.const 255
-    f32.const 0
-    local.get $9
-    local.get $9
-    f32.const 0
-    f32.lt
-    select
-    local.get $9
-    f32.const 255
-    f32.gt
-    select
-    local.get $12
-    f32.mul
-    f32.add
-    i32.trunc_f32_u
-    i32.store8
-    local.get $7
-    i32.const 4
-    i32.add
-    local.set $7
-    br $for-loop|4
-   end
-  end
- )
- (func $assembly/index/lightColorful (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
-  (local $4 f32)
-  (local $5 i32)
-  (local $6 f32)
-  (local $7 f32)
-  (local $8 f32)
-  (local $9 i32)
-  (local $10 i32)
-  (local $11 i32)
-  (local $12 f32)
-  (local $13 f32)
-  (local $14 f32)
-  (local $15 f64)
-  (local $16 i32)
-  (local $17 i32)
-  (local $18 f32)
-  (local $19 f32)
-  global.get $assembly/index/viewOffsets
-  i32.const 2
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $16
-  global.get $assembly/index/viewOffsets
-  i32.const 3
-  call $~lib/staticarray/StaticArray<u32>#__get
-  local.set $17
-  i32.const 255
-  local.set $1
-  local.get $0
-  i32.const 0
-  i32.gt_s
-  if (result i32)
-   i32.const 255
-   local.get $0
-   i32.sub
-   local.set $1
-   local.get $0
-   f64.convert_i32_s
-   f64.const 0.1
-   f64.mul
-   f64.neg
-   i32.trunc_f64_s
-  else
-   i32.const 0
-   local.get $0
-   i32.sub
-  end
-  local.set $9
-  local.get $0
-  f32.convert_i32_s
-  f32.const 100
-  f32.div
-  f32.const 5
-  f32.mul
-  local.set $18
-  f32.const 1
-  local.get $1
-  local.get $9
-  i32.sub
-  f32.convert_i32_s
-  f32.div
-  f32.const 255
-  f32.mul
-  local.tee $4
-  local.set $19
-  loop $for-loop|0
-   local.get $10
-   global.get $assembly/index/viewLength
-   i32.lt_s
-   if
-    local.get $10
-    local.get $16
-    i32.add
-    local.tee $1
-    i32.load8_u
-    local.set $3
-    local.get $1
-    i32.const 1
-    i32.add
-    i32.load8_u
-    local.set $2
-    local.get $1
-    i32.const 2
-    i32.add
-    i32.load8_u
-    local.tee $5
-    local.set $1
-    local.get $2
-    local.get $3
-    local.get $2
-    local.get $3
-    i32.gt_s
-    select
-    local.get $2
-    local.get $1
-    local.get $2
-    local.get $5
-    i32.gt_s
-    select
-    local.get $3
-    local.get $5
-    i32.gt_s
-    select
-    local.set $1
-    local.get $5
-    local.get $2
-    local.get $3
-    i32.add
-    i32.add
-    f32.convert_i32_s
-    f32.const 0.3333333432674408
-    f32.mul
-    i32.trunc_f32_s
-    local.set $11
-    local.get $0
-    i32.const 0
-    i32.gt_s
-    if (result f32)
-     global.get $assembly/index/lineDown
-     i32.load offset=4
-     local.get $1
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $12
-     global.get $assembly/index/lineDown
-     i32.load offset=4
-     local.get $1
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $13
-     global.get $assembly/index/lineDown
-     i32.load offset=4
-     local.get $1
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $14
-     local.get $3
-     local.get $9
-     i32.sub
-     f32.convert_i32_s
-     local.get $4
-     f32.mul
-     local.set $7
-     local.get $2
-     local.get $9
-     i32.sub
-     f32.convert_i32_s
-     local.get $19
-     f32.mul
-     local.set $6
-     local.get $5
-     local.get $9
-     i32.sub
-     f32.convert_i32_s
-     local.get $4
-     f32.mul
-    else
-     global.get $assembly/index/curveRootMidDown
-     i32.load offset=4
-     local.get $11
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $12
-     global.get $assembly/index/curveRootMidDown
-     i32.load offset=4
-     local.get $11
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $13
-     global.get $assembly/index/curveRootMidDown
-     i32.load offset=4
-     local.get $11
-     i32.const 2
-     i32.shl
-     i32.add
-     f32.load
-     local.set $14
-     local.get $3
-     f64.convert_i32_s
-     local.get $18
-     f64.promote_f32
-     local.tee $15
-     call $~lib/math/NativeMath.pow
-     f64.mul
-     f32.demote_f64
-     local.set $7
-     local.get $2
-     f64.convert_i32_s
-     local.get $15
-     call $~lib/math/NativeMath.pow
-     f64.mul
-     f32.demote_f64
-     local.set $6
-     local.get $5
-     f64.convert_i32_s
-     local.get $15
-     call $~lib/math/NativeMath.pow
-     f64.mul
-     f32.demote_f64
-    end
-    local.set $8
-    local.get $2
-    f32.convert_i32_s
-    f32.const 1
-    local.get $13
-    f32.sub
-    f32.mul
-    local.get $6
-    local.get $13
-    f32.mul
-    f32.add
-    local.set $6
-    local.get $5
-    f32.convert_i32_s
-    f32.const 1
-    local.get $14
-    f32.sub
-    f32.mul
-    local.get $8
-    local.get $14
-    f32.mul
-    f32.add
-    local.set $8
-    local.get $10
-    local.get $17
-    i32.add
-    local.tee $1
-    local.get $3
-    f32.convert_i32_s
-    f32.const 1
-    local.get $12
-    f32.sub
-    f32.mul
-    local.get $7
-    local.get $12
-    f32.mul
-    f32.add
-    local.tee $7
-    f32.const 255
-    f32.gt
-    if (result f32)
-     f32.const 255
-    else
-     f32.const 0
-     local.get $7
-     local.get $7
-     f32.const 0
-     f32.lt
-     select
-    end
-    i32.trunc_f32_u
-    i32.store8
-    local.get $1
-    i32.const 1
-    i32.add
-    f32.const 255
-    f32.const 0
-    local.get $6
-    local.get $6
-    f32.const 0
-    f32.lt
-    select
-    local.get $6
-    f32.const 255
-    f32.gt
-    select
-    i32.trunc_f32_u
-    i32.store8
-    local.get $1
-    i32.const 2
-    i32.add
-    f32.const 255
-    f32.const 0
-    local.get $8
-    local.get $8
-    f32.const 0
-    f32.lt
-    select
-    local.get $8
-    f32.const 255
-    f32.gt
-    select
-    i32.trunc_f32_u
-    i32.store8
-    local.get $10
-    i32.const 4
-    i32.add
-    local.set $10
-    br $for-loop|0
-   end
-  end
- )
- (func $~lib/rt/tcms/__pin (param $0 i32) (result i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  local.get $0
-  if
-   local.get $0
-   i32.const 20
-   i32.sub
-   local.tee $1
-   i32.load offset=4
-   i32.const 3
-   i32.and
-   i32.const 3
-   i32.eq
-   if
-    i32.const 1920056688
-    i32.const 1920000208
-    i32.const 181
-    i32.const 7
-    call $~lib/builtins/abort
-    unreachable
-   end
-   block $__inlined_func$~lib/rt/tcms/Object#unlink
-    local.get $1
-    i32.load offset=4
-    i32.const -4
-    i32.and
-    local.tee $2
-    i32.eqz
-    if
-     local.get $1
-     i32.load offset=8
-     drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink
-    end
-    local.get $2
-    local.get $1
-    i32.load offset=8
-    local.tee $3
-    i32.store offset=8
-    local.get $3
-    local.get $2
-    local.get $3
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.or
-    i32.store offset=4
-   end
-   global.get $~lib/rt/tcms/pinSpace
-   local.tee $3
-   i32.load offset=8
-   local.set $2
-   local.get $1
-   local.get $3
-   i32.const 3
-   i32.or
-   i32.store offset=4
-   local.get $1
-   local.get $2
-   i32.store offset=8
-   local.get $2
-   local.get $1
-   local.get $2
-   i32.load offset=4
-   i32.const 3
-   i32.and
-   i32.or
-   i32.store offset=4
-   local.get $3
-   local.get $1
-   i32.store offset=8
-  end
-  local.get $0
- )
- (func $~lib/rt/tcms/__unpin (param $0 i32)
-  (local $1 i32)
-  (local $2 i32)
-  local.get $0
-  i32.eqz
-  if
-   return
-  end
-  local.get $0
-  i32.const 20
-  i32.sub
-  local.tee $0
-  i32.load offset=4
-  i32.const 3
-  i32.and
-  i32.const 3
-  i32.ne
-  if
-   i32.const 1920056784
-   i32.const 1920000208
-   i32.const 195
-   i32.const 5
-   call $~lib/builtins/abort
-   unreachable
-  end
-  block $__inlined_func$~lib/rt/tcms/Object#unlink
-   local.get $0
-   i32.load offset=4
-   i32.const -4
-   i32.and
-   local.tee $1
-   i32.eqz
-   if
-    local.get $0
-    i32.load offset=8
-    drop
-    br $__inlined_func$~lib/rt/tcms/Object#unlink
-   end
-   local.get $1
-   local.get $0
-   i32.load offset=8
-   local.tee $2
-   i32.store offset=8
-   local.get $2
-   local.get $1
-   local.get $2
-   i32.load offset=4
-   i32.const 3
-   i32.and
-   i32.or
-   i32.store offset=4
-  end
-  global.get $~lib/rt/tcms/fromSpace
-  local.tee $2
-  i32.load offset=8
-  local.set $1
-  local.get $0
-  local.get $2
-  global.get $~lib/rt/tcms/white
-  i32.or
-  i32.store offset=4
-  local.get $0
-  local.get $1
-  i32.store offset=8
-  local.get $1
-  local.get $0
-  local.get $1
-  i32.load offset=4
-  i32.const 3
-  i32.and
-  i32.or
-  i32.store offset=4
-  local.get $2
-  local.get $0
-  i32.store offset=8
- )
- (func $~lib/rt/tcms/__collect
-  (local $0 i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (local $6 i32)
-  global.get $assembly/index/viewOffsets
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/countOffsets
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink1
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink1
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/displayCountOffsets
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink3
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink3
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/pyramidRoof
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink5
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink5
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/lineUp
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink7
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink7
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/lineDown
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink9
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink9
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/lineUpFromPoint1
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink11
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink11
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/lineDownToPoint1
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink13
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink13
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/lineUpFromPoint2
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink15
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink15
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/lineDownToPoint2
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink17
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink17
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/lineDownToPoint75
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink19
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink19
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/lineDownToPoint5
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink21
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink21
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveExpUp
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink23
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink23
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveExpDown
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink25
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink25
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveCircleBigUp
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink27
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink27
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveCircleBigDown
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink29
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink29
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveRootMidUp
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink31
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink31
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveRootMidDown
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink33
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink33
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveGrayUp
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink35
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink35
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveGrayDown
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink37
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink37
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveSinFull
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink39
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink39
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveSinFull32
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink41
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink41
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveSinFull224
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink43
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink43
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveSinUp
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink45
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink45
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveSinDown
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink47
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink47
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveLogDown0
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink49
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink49
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $assembly/index/curveLogUp0
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $2
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink51
-      local.get $2
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $2
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink51
-      end
-      local.get $1
-      local.get $2
-      i32.load offset=8
-      local.tee $0
-      i32.store offset=8
-      local.get $0
-      local.get $1
-      local.get $0
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $0
-     i32.load offset=8
-     local.set $1
-     local.get $2
-     local.get $0
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $2
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $2
-     i32.store offset=8
-    end
-   end
-  end
-  global.get $~lib/rt/tcms/white
-  i32.const 1920000416
-  i32.load
-  i32.const 3
-  i32.and
-  i32.eq
-  if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink53
-    i32.const 1920000416
-    i32.load
-    i32.const -4
-    i32.and
-    local.tee $1
-    i32.eqz
-    if
-     i32.const 1920000420
-     i32.load
-     drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink53
-    end
-    local.get $1
-    i32.const 1920000420
-    i32.load
-    local.tee $0
-    i32.store offset=8
-    local.get $0
-    local.get $1
-    local.get $0
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.or
-    i32.store offset=4
-   end
-   global.get $~lib/rt/tcms/toSpace
-   local.tee $0
-   i32.load offset=8
-   local.set $1
-   i32.const 1920000416
-   local.get $0
-   global.get $~lib/rt/tcms/white
-   i32.eqz
-   i32.or
-   i32.store
-   i32.const 1920000420
-   local.get $1
-   i32.store
-   local.get $1
-   local.get $1
-   i32.load offset=4
-   i32.const 3
-   i32.and
-   i32.const 1920000412
-   i32.or
-   i32.store offset=4
-   local.get $0
-   i32.const 1920000412
-   i32.store offset=8
-  end
-  global.get $~lib/rt/tcms/white
-  i32.const 1920000016
-  i32.load
-  i32.const 3
-  i32.and
-  i32.eq
-  if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink55
-    i32.const 1920000016
-    i32.load
-    i32.const -4
-    i32.and
-    local.tee $1
-    i32.eqz
-    if
-     i32.const 1920000020
-     i32.load
-     drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink55
-    end
-    local.get $1
-    i32.const 1920000020
-    i32.load
-    local.tee $0
-    i32.store offset=8
-    local.get $0
-    local.get $1
-    local.get $0
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.or
-    i32.store offset=4
-   end
-   global.get $~lib/rt/tcms/toSpace
-   local.tee $0
-   i32.load offset=8
-   local.set $1
-   i32.const 1920000016
-   local.get $0
-   global.get $~lib/rt/tcms/white
-   i32.eqz
-   i32.or
-   i32.store
-   i32.const 1920000020
-   local.get $1
-   i32.store
-   local.get $1
-   local.get $1
-   i32.load offset=4
-   i32.const 3
-   i32.and
-   i32.const 1920000012
-   i32.or
-   i32.store offset=4
-   local.get $0
-   i32.const 1920000012
-   i32.store offset=8
-  end
-  global.get $~lib/rt/tcms/white
-  i32.const 1920000128
-  i32.load
-  i32.const 3
-  i32.and
-  i32.eq
-  if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink57
-    i32.const 1920000128
-    i32.load
-    i32.const -4
-    i32.and
-    local.tee $1
-    i32.eqz
-    if
-     i32.const 1920000132
-     i32.load
-     drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink57
-    end
-    local.get $1
-    i32.const 1920000132
-    i32.load
-    local.tee $0
-    i32.store offset=8
-    local.get $0
-    local.get $1
-    local.get $0
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.or
-    i32.store offset=4
-   end
-   global.get $~lib/rt/tcms/toSpace
-   local.tee $0
-   i32.load offset=8
-   local.set $1
-   i32.const 1920000128
-   local.get $0
-   global.get $~lib/rt/tcms/white
-   i32.eqz
-   i32.or
-   i32.store
-   i32.const 1920000132
-   local.get $1
-   i32.store
-   local.get $1
-   local.get $1
-   i32.load offset=4
-   i32.const 3
-   i32.and
-   i32.const 1920000124
-   i32.or
-   i32.store offset=4
-   local.get $0
-   i32.const 1920000124
-   i32.store offset=8
-  end
-  global.get $~lib/rt/tcms/white
-  i32.const 1920056672
-  i32.load
-  i32.const 3
-  i32.and
-  i32.eq
-  if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink59
-    i32.const 1920056672
-    i32.load
-    i32.const -4
-    i32.and
-    local.tee $1
-    i32.eqz
-    if
-     i32.const 1920056676
-     i32.load
-     drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink59
-    end
-    local.get $1
-    i32.const 1920056676
-    i32.load
-    local.tee $0
-    i32.store offset=8
-    local.get $0
-    local.get $1
-    local.get $0
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.or
-    i32.store offset=4
-   end
-   global.get $~lib/rt/tcms/toSpace
-   local.tee $0
-   i32.load offset=8
-   local.set $1
-   i32.const 1920056672
-   local.get $0
-   global.get $~lib/rt/tcms/white
-   i32.eqz
-   i32.or
-   i32.store
-   i32.const 1920056676
-   local.get $1
-   i32.store
-   local.get $1
-   local.get $1
-   i32.load offset=4
-   i32.const 3
-   i32.and
-   i32.const 1920056668
-   i32.or
-   i32.store offset=4
-   local.get $0
-   i32.const 1920056668
-   i32.store offset=8
-  end
-  global.get $~lib/rt/tcms/white
-  i32.const 1920056768
-  i32.load
-  i32.const 3
-  i32.and
-  i32.eq
-  if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink61
-    i32.const 1920056768
-    i32.load
-    i32.const -4
-    i32.and
-    local.tee $1
-    i32.eqz
-    if
-     i32.const 1920056772
-     i32.load
-     drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink61
-    end
-    local.get $1
-    i32.const 1920056772
-    i32.load
-    local.tee $0
-    i32.store offset=8
-    local.get $0
-    local.get $1
-    local.get $0
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.or
-    i32.store offset=4
-   end
-   global.get $~lib/rt/tcms/toSpace
-   local.tee $0
-   i32.load offset=8
-   local.set $1
-   i32.const 1920056768
-   local.get $0
-   global.get $~lib/rt/tcms/white
-   i32.eqz
-   i32.or
-   i32.store
-   i32.const 1920056772
-   local.get $1
-   i32.store
-   local.get $1
-   local.get $1
-   i32.load offset=4
-   i32.const 3
-   i32.and
-   i32.const 1920056764
-   i32.or
-   i32.store offset=4
-   local.get $0
-   i32.const 1920056764
-   i32.store offset=8
-  end
-  global.get $~lib/rt/tcms/pinSpace
-  local.tee $0
-  i32.load offset=4
-  i32.const -4
-  i32.and
-  local.set $1
-  loop $while-continue|0
-   local.get $0
-   local.get $1
-   i32.ne
-   if
-    local.get $1
-    i32.load offset=4
-    drop
-    local.get $1
-    i32.const 20
-    i32.add
-    call $~lib/rt/__visit_members
-    local.get $1
-    i32.load offset=4
-    i32.const -4
-    i32.and
-    local.set $1
-    br $while-continue|0
-   end
-  end
-  global.get $~lib/rt/tcms/white
-  i32.eqz
-  global.get $~lib/rt/tcms/toSpace
-  local.tee $6
-  i32.load offset=4
-  i32.const -4
-  i32.and
-  local.set $1
-  loop $while-continue|1
-   local.get $1
-   local.get $6
-   i32.ne
-   if
-    local.get $1
-    i32.load offset=4
-    drop
-    local.get $1
-    i32.const 20
-    i32.add
-    call $~lib/rt/__visit_members
-    local.get $1
-    i32.load offset=4
-    i32.const -4
-    i32.and
-    local.set $1
-    br $while-continue|1
-   end
-  end
-  global.get $~lib/rt/tcms/fromSpace
-  local.tee $3
-  i32.load offset=4
-  i32.const -4
-  i32.and
-  local.set $1
-  loop $while-continue|2
-   local.get $1
-   local.get $3
-   i32.ne
-   if
-    local.get $1
-    i32.load offset=4
-    drop
-    local.get $1
-    i32.load offset=4
-    i32.const -4
-    i32.and
-    local.get $1
-    i32.const 1920056932
-    i32.lt_u
-    if
-     local.get $1
-     i32.const 0
-     i32.store offset=4
-     local.get $1
-     i32.const 0
-     i32.store offset=8
-    else
-     global.get $~lib/rt/tcms/total
-     local.get $1
-     i32.load
-     i32.const -4
-     i32.and
-     i32.const 4
-     i32.add
-     i32.sub
-     global.set $~lib/rt/tcms/total
-     local.get $1
-     i32.const 4
-     i32.add
-     local.tee $5
-     i32.const 1920056932
-     i32.ge_u
-     if
-      global.get $~lib/rt/tlsf/ROOT
-      i32.eqz
-      if
-       call $~lib/rt/tlsf/initialize
-      end
-      global.get $~lib/rt/tlsf/ROOT
-      local.get $5
-      i32.const 4
-      i32.sub
-      local.set $4
-      local.get $5
-      i32.const 15
-      i32.and
-      i32.const 1
-      local.get $5
-      select
-      i32.eqz
-      if
-       local.get $4
-       i32.load
-       drop
-      end
-      local.get $4
-      local.get $4
-      i32.load
-      i32.const 1
-      i32.or
-      i32.store
-      local.get $4
-      call $~lib/rt/tlsf/insertBlock
-     end
-    end
-    local.set $1
-    br $while-continue|2
-   end
-  end
-  local.get $3
-  local.get $3
-  i32.store offset=4
-  local.get $3
-  local.get $3
-  i32.store offset=8
-  local.get $6
-  global.set $~lib/rt/tcms/fromSpace
-  local.get $3
-  global.set $~lib/rt/tcms/toSpace
-  global.set $~lib/rt/tcms/white
- )
- (func $~lib/rt/__visit_members (param $0 i32)
-  (local $1 i32)
-  (local $2 i32)
-  block $folding-inner2
-   block $folding-inner1
-    block $invalid
-     block $~lib/staticarray/StaticArray<u32>
-      block $~lib/string/String
-       block $~lib/arraybuffer/ArrayBuffer
-        local.get $0
-        i32.const 8
-        i32.sub
-        i32.load
-        br_table $~lib/arraybuffer/ArrayBuffer $~lib/string/String $folding-inner2 $~lib/staticarray/StaticArray<u32> $folding-inner2 $folding-inner1 $folding-inner1 $folding-inner2 $invalid
-       end
-       return
-      end
-      return
-     end
-     return
-    end
-    unreachable
-   end
-   local.get $0
-   i32.load
-   local.tee $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $0
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink
-      local.get $0
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $0
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink
-      end
-      local.get $1
-      local.get $0
-      i32.load offset=8
-      local.tee $2
-      i32.store offset=8
-      local.get $2
-      local.get $1
-      local.get $2
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $2
-     i32.load offset=8
-     local.set $1
-     local.get $0
-     local.get $2
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $0
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $0
-     i32.store offset=8
-    end
-   end
-   return
-  end
-  local.get $0
-  i32.load
-  local.tee $0
-  if
-   local.get $0
-   if
-    global.get $~lib/rt/tcms/white
-    local.get $0
-    i32.const 20
-    i32.sub
-    local.tee $0
-    i32.load offset=4
-    i32.const 3
-    i32.and
-    i32.eq
-    if
-     block $__inlined_func$~lib/rt/tcms/Object#unlink1
-      local.get $0
-      i32.load offset=4
-      i32.const -4
-      i32.and
-      local.tee $1
-      i32.eqz
-      if
-       local.get $0
-       i32.load offset=8
-       drop
-       br $__inlined_func$~lib/rt/tcms/Object#unlink1
-      end
-      local.get $1
-      local.get $0
-      i32.load offset=8
-      local.tee $2
-      i32.store offset=8
-      local.get $2
-      local.get $1
-      local.get $2
-      i32.load offset=4
-      i32.const 3
-      i32.and
-      i32.or
-      i32.store offset=4
-     end
-     global.get $~lib/rt/tcms/toSpace
-     local.tee $2
-     i32.load offset=8
-     local.set $1
-     local.get $0
-     local.get $2
-     global.get $~lib/rt/tcms/white
-     i32.eqz
-     i32.or
-     i32.store offset=4
-     local.get $0
-     local.get $1
-     i32.store offset=8
-     local.get $1
-     local.get $0
-     local.get $1
-     i32.load offset=4
-     i32.const 3
-     i32.and
-     i32.or
-     i32.store offset=4
-     local.get $2
-     local.get $0
-     i32.store offset=8
-    end
-   end
-  end
- )
- (func $~start
+ (func $start:assembly/index
   (local $0 i32)
   i32.const 1920000324
   i32.const 1920000320
@@ -8555,21 +1321,7987 @@
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveLogUp0
-  i32.const 1920056740
-  i32.const 1920056736
+  i32.const 2048
+  i32.const 5
+  call $~lib/rt/tcms/__new
+  local.tee $0
+  i32.const 2048
+  call $~lib/memory/memory.fill
+  local.get $0
+  global.set $assembly/index/curveSinFull_f64
+  i32.const 2048
+  i32.const 5
+  call $~lib/rt/tcms/__new
+  local.tee $0
+  i32.const 2048
+  call $~lib/memory/memory.fill
+  local.get $0
+  global.set $assembly/index/curveSinUpMid_f64
+  i32.const 2048
+  i32.const 5
+  call $~lib/rt/tcms/__new
+  local.tee $0
+  i32.const 2048
+  call $~lib/memory/memory.fill
+  local.get $0
+  global.set $assembly/index/curve_camel
+  i32.const 2048
+  i32.const 5
+  call $~lib/rt/tcms/__new
+  local.tee $0
+  i32.const 2048
+  call $~lib/memory/memory.fill
+  local.get $0
+  global.set $assembly/index/curveSinFull_25
+  i32.const 2048
+  i32.const 5
+  call $~lib/rt/tcms/__new
+  local.tee $0
+  i32.const 2048
+  call $~lib/memory/memory.fill
+  local.get $0
+  global.set $assembly/index/curveSinFull_5
+ )
+ (func $~lib/staticarray/StaticArray<u32>#__set (param $0 i32) (param $1 i32) (param $2 i32)
+  local.get $0
+  i32.const 20
+  i32.sub
+  i32.load offset=16
+  i32.const 2
+  i32.shr_u
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1920000432
+   i32.const 1920000080
+   i32.const 130
+   i32.const 41
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $1
+  i32.const 2
+  i32.shl
+  local.get $0
+  i32.add
+  local.get $2
   i32.store
-  i32.const 1920056744
-  i32.const 1920056736
+ )
+ (func $~lib/util/memory/memcpy (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  i32.const 2048
+  local.set $4
+  loop $while-continue|0
+   local.get $1
+   i32.const 3
+   i32.and
+   i32.const 0
+   local.get $4
+   select
+   if
+    local.get $0
+    local.tee $2
+    i32.const 1
+    i32.add
+    local.set $0
+    local.get $1
+    local.tee $3
+    i32.const 1
+    i32.add
+    local.set $1
+    local.get $2
+    local.get $3
+    i32.load8_u
+    i32.store8
+    local.get $4
+    i32.const 1
+    i32.sub
+    local.set $4
+    br $while-continue|0
+   end
+  end
+  local.get $0
+  i32.const 3
+  i32.and
+  i32.eqz
+  if
+   loop $while-continue|1
+    local.get $4
+    i32.const 16
+    i32.ge_u
+    if
+     local.get $0
+     local.get $1
+     i32.load
+     i32.store
+     local.get $0
+     i32.const 4
+     i32.add
+     local.get $1
+     i32.const 4
+     i32.add
+     i32.load
+     i32.store
+     local.get $0
+     i32.const 8
+     i32.add
+     local.get $1
+     i32.const 8
+     i32.add
+     i32.load
+     i32.store
+     local.get $0
+     i32.const 12
+     i32.add
+     local.get $1
+     i32.const 12
+     i32.add
+     i32.load
+     i32.store
+     local.get $1
+     i32.const 16
+     i32.add
+     local.set $1
+     local.get $0
+     i32.const 16
+     i32.add
+     local.set $0
+     local.get $4
+     i32.const 16
+     i32.sub
+     local.set $4
+     br $while-continue|1
+    end
+   end
+   local.get $4
+   i32.const 8
+   i32.and
+   if
+    local.get $0
+    local.get $1
+    i32.load
+    i32.store
+    local.get $0
+    i32.const 4
+    i32.add
+    local.get $1
+    i32.const 4
+    i32.add
+    i32.load
+    i32.store
+    local.get $1
+    i32.const 8
+    i32.add
+    local.set $1
+    local.get $0
+    i32.const 8
+    i32.add
+    local.set $0
+   end
+   local.get $4
+   i32.const 4
+   i32.and
+   if
+    local.get $0
+    local.get $1
+    i32.load
+    i32.store
+    local.get $1
+    i32.const 4
+    i32.add
+    local.set $1
+    local.get $0
+    i32.const 4
+    i32.add
+    local.set $0
+   end
+   local.get $4
+   i32.const 2
+   i32.and
+   if
+    local.get $0
+    local.get $1
+    i32.load16_u
+    i32.store16
+    local.get $1
+    i32.const 2
+    i32.add
+    local.set $1
+    local.get $0
+    i32.const 2
+    i32.add
+    local.set $0
+   end
+   local.get $4
+   i32.const 1
+   i32.and
+   if
+    local.get $0
+    local.get $1
+    i32.load8_u
+    i32.store8
+   end
+   return
+  end
+  local.get $4
+  i32.const 32
+  i32.ge_u
+  if
+   block $break|2
+    block $case2|2
+     block $case1|2
+      block $case0|2
+       local.get $0
+       i32.const 3
+       i32.and
+       i32.const 1
+       i32.sub
+       br_table $case0|2 $case1|2 $case2|2 $break|2
+      end
+      local.get $1
+      i32.load
+      local.set $5
+      local.get $0
+      local.get $1
+      i32.load8_u
+      i32.store8
+      local.get $0
+      i32.const 1
+      i32.add
+      local.tee $0
+      i32.const 1
+      i32.add
+      local.set $2
+      local.get $1
+      i32.const 1
+      i32.add
+      local.tee $1
+      i32.const 1
+      i32.add
+      local.set $3
+      local.get $0
+      local.get $1
+      i32.load8_u
+      i32.store8
+      local.get $2
+      i32.const 1
+      i32.add
+      local.set $0
+      local.get $3
+      i32.const 1
+      i32.add
+      local.set $1
+      local.get $2
+      local.get $3
+      i32.load8_u
+      i32.store8
+      local.get $4
+      i32.const 3
+      i32.sub
+      local.set $4
+      loop $while-continue|3
+       local.get $4
+       i32.const 17
+       i32.ge_u
+       if
+        local.get $0
+        local.get $1
+        i32.const 1
+        i32.add
+        i32.load
+        local.tee $2
+        i32.const 8
+        i32.shl
+        local.get $5
+        i32.const 24
+        i32.shr_u
+        i32.or
+        i32.store
+        local.get $0
+        i32.const 4
+        i32.add
+        local.get $1
+        i32.const 5
+        i32.add
+        i32.load
+        local.tee $3
+        i32.const 8
+        i32.shl
+        local.get $2
+        i32.const 24
+        i32.shr_u
+        i32.or
+        i32.store
+        local.get $0
+        i32.const 8
+        i32.add
+        local.get $1
+        i32.const 9
+        i32.add
+        i32.load
+        local.tee $2
+        i32.const 8
+        i32.shl
+        local.get $3
+        i32.const 24
+        i32.shr_u
+        i32.or
+        i32.store
+        local.get $0
+        i32.const 12
+        i32.add
+        local.get $1
+        i32.const 13
+        i32.add
+        i32.load
+        local.tee $5
+        i32.const 8
+        i32.shl
+        local.get $2
+        i32.const 24
+        i32.shr_u
+        i32.or
+        i32.store
+        local.get $1
+        i32.const 16
+        i32.add
+        local.set $1
+        local.get $0
+        i32.const 16
+        i32.add
+        local.set $0
+        local.get $4
+        i32.const 16
+        i32.sub
+        local.set $4
+        br $while-continue|3
+       end
+      end
+      br $break|2
+     end
+     local.get $1
+     i32.load
+     local.set $5
+     local.get $0
+     local.get $1
+     i32.load8_u
+     i32.store8
+     local.get $0
+     i32.const 1
+     i32.add
+     local.tee $2
+     i32.const 1
+     i32.add
+     local.set $0
+     local.get $1
+     i32.const 1
+     i32.add
+     local.tee $3
+     i32.const 1
+     i32.add
+     local.set $1
+     local.get $2
+     local.get $3
+     i32.load8_u
+     i32.store8
+     local.get $4
+     i32.const 2
+     i32.sub
+     local.set $4
+     loop $while-continue|4
+      local.get $4
+      i32.const 18
+      i32.ge_u
+      if
+       local.get $0
+       local.get $1
+       i32.const 2
+       i32.add
+       i32.load
+       local.tee $2
+       i32.const 16
+       i32.shl
+       local.get $5
+       i32.const 16
+       i32.shr_u
+       i32.or
+       i32.store
+       local.get $0
+       i32.const 4
+       i32.add
+       local.get $1
+       i32.const 6
+       i32.add
+       i32.load
+       local.tee $3
+       i32.const 16
+       i32.shl
+       local.get $2
+       i32.const 16
+       i32.shr_u
+       i32.or
+       i32.store
+       local.get $0
+       i32.const 8
+       i32.add
+       local.get $1
+       i32.const 10
+       i32.add
+       i32.load
+       local.tee $2
+       i32.const 16
+       i32.shl
+       local.get $3
+       i32.const 16
+       i32.shr_u
+       i32.or
+       i32.store
+       local.get $0
+       i32.const 12
+       i32.add
+       local.get $1
+       i32.const 14
+       i32.add
+       i32.load
+       local.tee $5
+       i32.const 16
+       i32.shl
+       local.get $2
+       i32.const 16
+       i32.shr_u
+       i32.or
+       i32.store
+       local.get $1
+       i32.const 16
+       i32.add
+       local.set $1
+       local.get $0
+       i32.const 16
+       i32.add
+       local.set $0
+       local.get $4
+       i32.const 16
+       i32.sub
+       local.set $4
+       br $while-continue|4
+      end
+     end
+     br $break|2
+    end
+    local.get $1
+    i32.load
+    local.set $5
+    local.get $0
+    local.tee $2
+    i32.const 1
+    i32.add
+    local.set $0
+    local.get $1
+    local.tee $3
+    i32.const 1
+    i32.add
+    local.set $1
+    local.get $2
+    local.get $3
+    i32.load8_u
+    i32.store8
+    local.get $4
+    i32.const 1
+    i32.sub
+    local.set $4
+    loop $while-continue|5
+     local.get $4
+     i32.const 19
+     i32.ge_u
+     if
+      local.get $0
+      local.get $1
+      i32.const 3
+      i32.add
+      i32.load
+      local.tee $2
+      i32.const 24
+      i32.shl
+      local.get $5
+      i32.const 8
+      i32.shr_u
+      i32.or
+      i32.store
+      local.get $0
+      i32.const 4
+      i32.add
+      local.get $1
+      i32.const 7
+      i32.add
+      i32.load
+      local.tee $3
+      i32.const 24
+      i32.shl
+      local.get $2
+      i32.const 8
+      i32.shr_u
+      i32.or
+      i32.store
+      local.get $0
+      i32.const 8
+      i32.add
+      local.get $1
+      i32.const 11
+      i32.add
+      i32.load
+      local.tee $2
+      i32.const 24
+      i32.shl
+      local.get $3
+      i32.const 8
+      i32.shr_u
+      i32.or
+      i32.store
+      local.get $0
+      i32.const 12
+      i32.add
+      local.get $1
+      i32.const 15
+      i32.add
+      i32.load
+      local.tee $5
+      i32.const 24
+      i32.shl
+      local.get $2
+      i32.const 8
+      i32.shr_u
+      i32.or
+      i32.store
+      local.get $1
+      i32.const 16
+      i32.add
+      local.set $1
+      local.get $0
+      i32.const 16
+      i32.add
+      local.set $0
+      local.get $4
+      i32.const 16
+      i32.sub
+      local.set $4
+      br $while-continue|5
+     end
+    end
+   end
+  end
+  local.get $4
+  i32.const 16
+  i32.and
+  if
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+  end
+  local.get $4
+  i32.const 8
+  i32.and
+  if
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+  end
+  local.get $4
+  i32.const 4
+  i32.and
+  if
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+  end
+  local.get $4
+  i32.const 2
+  i32.and
+  if
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+   local.get $0
+   i32.const 1
+   i32.add
+   local.tee $2
+   i32.const 1
+   i32.add
+   local.set $0
+   local.get $1
+   i32.const 1
+   i32.add
+   local.tee $3
+   i32.const 1
+   i32.add
+   local.set $1
+   local.get $2
+   local.get $3
+   i32.load8_u
+   i32.store8
+  end
+  local.get $4
+  i32.const 1
+  i32.and
+  if
+   local.get $0
+   local.get $1
+   i32.load8_u
+   i32.store8
+  end
+ )
+ (func $~lib/rt/__newArray (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  i32.const 2048
+  i32.const 0
+  call $~lib/rt/tcms/__new
+  local.set $4
+  local.get $0
+  local.tee $1
+  if
+   block $~lib/util/memory/memmove|inlined.0
+    i32.const 2048
+    local.set $5
+    local.get $4
+    local.tee $0
+    local.get $1
+    i32.eq
+    br_if $~lib/util/memory/memmove|inlined.0
+    local.get $1
+    local.get $0
+    i32.sub
+    i32.const 2048
+    i32.sub
+    i32.const -4096
+    i32.le_u
+    if
+     local.get $0
+     local.get $1
+     call $~lib/util/memory/memcpy
+     br $~lib/util/memory/memmove|inlined.0
+    end
+    local.get $0
+    local.get $1
+    i32.lt_u
+    if
+     local.get $1
+     i32.const 7
+     i32.and
+     local.get $0
+     i32.const 7
+     i32.and
+     i32.eq
+     if
+      loop $while-continue|0
+       local.get $0
+       i32.const 7
+       i32.and
+       if
+        local.get $5
+        i32.eqz
+        br_if $~lib/util/memory/memmove|inlined.0
+        local.get $5
+        i32.const 1
+        i32.sub
+        local.set $5
+        local.get $0
+        local.tee $3
+        i32.const 1
+        i32.add
+        local.set $0
+        local.get $1
+        local.tee $2
+        i32.const 1
+        i32.add
+        local.set $1
+        local.get $3
+        local.get $2
+        i32.load8_u
+        i32.store8
+        br $while-continue|0
+       end
+      end
+      loop $while-continue|1
+       local.get $5
+       i32.const 8
+       i32.ge_u
+       if
+        local.get $0
+        local.get $1
+        i64.load
+        i64.store
+        local.get $5
+        i32.const 8
+        i32.sub
+        local.set $5
+        local.get $0
+        i32.const 8
+        i32.add
+        local.set $0
+        local.get $1
+        i32.const 8
+        i32.add
+        local.set $1
+        br $while-continue|1
+       end
+      end
+     end
+     loop $while-continue|2
+      local.get $5
+      if
+       local.get $0
+       local.tee $3
+       i32.const 1
+       i32.add
+       local.set $0
+       local.get $1
+       local.tee $2
+       i32.const 1
+       i32.add
+       local.set $1
+       local.get $3
+       local.get $2
+       i32.load8_u
+       i32.store8
+       local.get $5
+       i32.const 1
+       i32.sub
+       local.set $5
+       br $while-continue|2
+      end
+     end
+    else
+     local.get $1
+     i32.const 7
+     i32.and
+     local.get $0
+     i32.const 7
+     i32.and
+     i32.eq
+     if
+      loop $while-continue|3
+       local.get $0
+       local.get $5
+       i32.add
+       i32.const 7
+       i32.and
+       if
+        local.get $5
+        i32.eqz
+        br_if $~lib/util/memory/memmove|inlined.0
+        local.get $5
+        i32.const 1
+        i32.sub
+        local.tee $5
+        local.get $0
+        i32.add
+        local.get $1
+        local.get $5
+        i32.add
+        i32.load8_u
+        i32.store8
+        br $while-continue|3
+       end
+      end
+      loop $while-continue|4
+       local.get $5
+       i32.const 8
+       i32.ge_u
+       if
+        local.get $5
+        i32.const 8
+        i32.sub
+        local.tee $5
+        local.get $0
+        i32.add
+        local.get $1
+        local.get $5
+        i32.add
+        i64.load
+        i64.store
+        br $while-continue|4
+       end
+      end
+     end
+     loop $while-continue|5
+      local.get $5
+      if
+       local.get $5
+       i32.const 1
+       i32.sub
+       local.tee $5
+       local.get $0
+       i32.add
+       local.get $1
+       local.get $5
+       i32.add
+       i32.load8_u
+       i32.store8
+       br $while-continue|5
+      end
+     end
+    end
+   end
+  end
+  i32.const 16
+  i32.const 6
+  call $~lib/rt/tcms/__new
+  local.tee $0
+  local.get $4
+  local.tee $1
   i32.store
-  i32.const 1920056736
+  local.get $0
+  local.get $1
+  i32.store offset=4
+  local.get $0
+  i32.const 2048
+  i32.store offset=8
+  local.get $0
+  i32.const 256
+  i32.store offset=12
+  local.get $0
+ )
+ (func $~lib/array/Array<f64>#__get (param $0 i32) (param $1 i32) (result f64)
+  local.get $0
+  i32.load offset=12
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1920000432
+   i32.const 1920052496
+   i32.const 107
+   i32.const 42
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $0
+  i32.load offset=4
+  local.get $1
+  i32.const 3
+  i32.shl
+  i32.add
+  f64.load
+ )
+ (func $~lib/typedarray/Float32Array#__set (param $0 i32) (param $1 i32) (param $2 f32)
+  local.get $0
+  i32.load offset=8
+  i32.const 2
+  i32.shr_u
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1920000432
+   i32.const 1920052544
+   i32.const 1305
+   i32.const 64
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $0
+  i32.load offset=4
+  local.get $1
+  i32.const 2
+  i32.shl
+  i32.add
+  local.get $2
+  f32.store
+ )
+ (func $~lib/staticarray/StaticArray<f64>#__set (param $0 i32) (param $1 i32) (param $2 f64)
+  local.get $0
+  i32.const 20
+  i32.sub
+  i32.load offset=16
+  i32.const 3
+  i32.shr_u
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1920000432
+   i32.const 1920000080
+   i32.const 130
+   i32.const 41
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $1
+  i32.const 3
+  i32.shl
+  local.get $0
+  i32.add
+  local.get $2
+  f64.store
+ )
+ (func $assembly/index/initData (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 i32)
+  (local $9 i32)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 i32)
+  (local $13 i32)
+  (local $14 i32)
+  (local $15 i32)
+  (local $16 i32)
+  (local $17 i32)
+  (local $18 i32)
+  (local $19 i32)
+  (local $20 i32)
+  (local $21 i32)
+  (local $22 i32)
+  (local $23 i32)
+  (local $24 i32)
+  (local $25 i32)
+  local.get $0
+  global.set $assembly/index/width
+  local.get $1
+  global.set $assembly/index/height
+  global.get $assembly/index/width
+  global.get $assembly/index/height
+  i32.mul
+  global.set $assembly/index/channelLength
+  global.get $assembly/index/channelLength
+  i32.const 2
+  i32.shl
+  global.set $assembly/index/viewLength
+  loop $for-loop|0
+   local.get $2
+   local.get $3
+   i32.gt_u
+   if
+    global.get $assembly/index/viewOffsets
+    local.get $3
+    local.get $4
+    call $~lib/staticarray/StaticArray<u32>#__set
+    global.get $assembly/index/viewLength
+    local.get $4
+    i32.add
+    local.set $4
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|0
+   end
+  end
+  i32.const 0
+  local.set $3
+  loop $for-loop|1
+   local.get $2
+   local.get $3
+   i32.gt_u
+   if
+    global.get $assembly/index/countOffsets
+    local.get $3
+    local.get $4
+    call $~lib/staticarray/StaticArray<u32>#__set
+    local.get $4
+    i32.const 3072
+    i32.add
+    local.set $4
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|1
+   end
+  end
+  i32.const 0
+  local.set $3
+  loop $for-loop|2
+   local.get $2
+   local.get $3
+   i32.gt_u
+   if
+    global.get $assembly/index/displayCountOffsets
+    local.get $3
+    local.get $4
+    call $~lib/staticarray/StaticArray<u32>#__set
+    local.get $4
+    i32.const 768
+    i32.add
+    local.set $4
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|2
+   end
+  end
+  i32.const 1920000496
+  call $~lib/rt/__newArray
+  local.set $1
+  i32.const 1920002576
+  call $~lib/rt/__newArray
+  local.set $2
+  i32.const 1920004656
+  call $~lib/rt/__newArray
+  local.set $4
+  i32.const 1920006736
+  call $~lib/rt/__newArray
+  local.set $5
+  i32.const 1920008816
+  call $~lib/rt/__newArray
+  local.set $6
+  i32.const 1920010896
+  call $~lib/rt/__newArray
+  local.set $7
+  i32.const 1920012976
+  call $~lib/rt/__newArray
+  local.set $8
+  i32.const 1920015056
+  call $~lib/rt/__newArray
+  local.set $9
+  i32.const 1920017136
+  call $~lib/rt/__newArray
+  local.set $10
+  i32.const 1920019216
+  call $~lib/rt/__newArray
+  local.set $11
+  i32.const 1920021296
+  call $~lib/rt/__newArray
+  local.set $12
+  i32.const 1920023376
+  call $~lib/rt/__newArray
+  local.set $13
+  i32.const 1920025456
+  call $~lib/rt/__newArray
+  local.set $14
+  i32.const 1920027536
+  call $~lib/rt/__newArray
+  local.set $15
+  i32.const 1920029616
+  call $~lib/rt/__newArray
+  local.set $16
+  i32.const 1920031696
+  call $~lib/rt/__newArray
+  local.set $17
+  i32.const 1920033776
+  call $~lib/rt/__newArray
+  local.set $18
+  i32.const 1920035856
+  call $~lib/rt/__newArray
+  local.set $0
+  i32.const 1920037936
+  call $~lib/rt/__newArray
+  local.set $19
+  i32.const 1920040016
+  call $~lib/rt/__newArray
+  local.set $20
+  i32.const 1920042096
+  call $~lib/rt/__newArray
+  local.set $21
+  i32.const 1920044176
+  call $~lib/rt/__newArray
+  local.set $22
+  i32.const 1920046256
+  call $~lib/rt/__newArray
+  local.set $23
+  i32.const 1920048336
+  call $~lib/rt/__newArray
+  local.set $24
+  i32.const 1920050416
+  call $~lib/rt/__newArray
+  local.set $25
+  i32.const 0
+  local.set $3
+  loop $for-loop|3
+   local.get $3
+   i32.const 256
+   i32.lt_s
+   if
+    global.get $assembly/index/pyramidRoof
+    local.get $3
+    local.get $1
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineUp
+    local.get $3
+    local.get $2
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDown
+    local.get $3
+    local.get $4
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineUpFromPoint1
+    local.get $3
+    local.get $5
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDownToPoint1
+    local.get $3
+    local.get $6
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineUpFromPoint2
+    local.get $3
+    local.get $7
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDownToPoint2
+    local.get $3
+    local.get $8
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDownToPoint5
+    local.get $3
+    local.get $10
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDownToPoint75
+    local.get $3
+    local.get $9
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveExpUp
+    local.get $3
+    local.get $11
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveExpDown
+    local.get $3
+    local.get $12
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveCircleBigUp
+    local.get $3
+    local.get $13
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveCircleBigDown
+    local.get $3
+    local.get $14
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveRootMidUp
+    local.get $3
+    local.get $15
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveRootMidDown
+    local.get $3
+    local.get $16
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveGrayUp
+    local.get $3
+    local.get $17
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveGrayDown
+    local.get $3
+    local.get $18
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinFull
+    local.get $3
+    local.get $0
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinFull32
+    local.get $3
+    local.get $19
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinFull224
+    local.get $3
+    local.get $20
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinUp
+    local.get $3
+    local.get $21
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinDown
+    local.get $3
+    local.get $22
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveLogDown0
+    local.get $3
+    local.get $23
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveLogUp0
+    local.get $3
+    local.get $24
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinFull_f64
+    local.get $3
+    local.get $0
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curveSinUpMid_f64
+    local.get $3
+    local.get $25
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_camel
+    local.get $3
+    i32.const 1920052608
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curveSinFull_25
+    local.get $3
+    i32.const 1920054688
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curveSinFull_5
+    local.get $3
+    i32.const 1920056768
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|3
+   end
+  end
+ )
+ (func $~lib/typedarray/Uint8ClampedArray#__set (param $0 i32) (param $1 i32) (param $2 i32)
+  local.get $0
+  i32.load offset=8
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1920000432
+   i32.const 1920052544
+   i32.const 318
+   i32.const 45
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $1
+  local.get $0
+  i32.load offset=4
+  i32.add
+  local.get $2
+  i32.const 255
+  local.get $2
+  i32.sub
+  i32.const 31
+  i32.shr_s
+  i32.or
+  local.get $2
+  i32.const 31
+  i32.shr_s
+  i32.const -1
+  i32.xor
+  i32.and
+  i32.store8
+ )
+ (func $~lib/staticarray/StaticArray<u32>#__get (param $0 i32) (param $1 i32) (result i32)
+  local.get $0
+  i32.const 20
+  i32.sub
+  i32.load offset=16
+  i32.const 2
+  i32.shr_u
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1920000432
+   i32.const 1920000080
+   i32.const 115
+   i32.const 41
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $1
+  i32.const 2
+  i32.shl
+  local.get $0
+  i32.add
+  i32.load
+ )
+ (func $~lib/typedarray/Uint8ClampedArray#__get (param $0 i32) (param $1 i32) (result i32)
+  local.get $0
+  i32.load offset=8
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1920000432
+   i32.const 1920052544
+   i32.const 307
+   i32.const 45
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $1
+  local.get $0
+  i32.load offset=4
+  i32.add
+  i32.load8_u
+ )
+ (func $assembly/index/percentileStretch (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 f32)
+  (local $9 f32)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 f32)
+  (local $13 i32)
+  (local $14 i32)
+  (local $15 f32)
+  (local $16 f32)
+  (local $17 f32)
+  i32.const 12
+  i32.const 8
+  call $~lib/rt/tcms/__new
+  i32.const 6
+  i32.const 0
+  call $~lib/arraybuffer/ArrayBufferView#constructor
+  local.tee $5
+  i32.const 1
+  i32.const 255
+  call $~lib/typedarray/Uint8ClampedArray#__set
+  local.get $5
+  i32.const 3
+  i32.const 255
+  call $~lib/typedarray/Uint8ClampedArray#__set
+  local.get $5
+  i32.const 5
+  i32.const 255
+  call $~lib/typedarray/Uint8ClampedArray#__set
+  local.get $2
+  i32.const 0
+  i32.ge_s
+  if
+   global.get $assembly/index/countOffsets
+   i32.const 0
+   call $~lib/staticarray/StaticArray<u32>#__get
+   local.set $6
+   loop $for-loop|0
+    local.get $7
+    i32.const 3
+    i32.lt_s
+    if
+     local.get $6
+     i32.load
+     local.get $1
+     i32.add
+     local.set $13
+     local.get $6
+     i32.const 1020
+     i32.add
+     i32.load
+     local.get $1
+     i32.add
+     local.set $14
+     i32.const 0
+     local.set $10
+     i32.const 0
+     local.set $11
+     i32.const 0
+     local.set $3
+     i32.const 255
+     local.set $4
+     i32.const 0
+     local.set $2
+     loop $for-loop|2
+      local.get $2
+      i32.const 255
+      i32.le_s
+      if
+       local.get $13
+       local.get $2
+       i32.const 2
+       i32.shl
+       local.get $6
+       i32.add
+       i32.load
+       local.get $10
+       i32.add
+       local.tee $10
+       i32.ge_u
+       if
+        local.get $2
+        local.tee $3
+        i32.const 1
+        i32.add
+        local.set $2
+        br $for-loop|2
+       end
+      end
+     end
+     i32.const 255
+     local.set $2
+     loop $for-loop|4
+      local.get $2
+      i32.const 0
+      i32.ge_s
+      if
+       local.get $14
+       local.get $2
+       i32.const 2
+       i32.shl
+       local.get $6
+       i32.add
+       i32.load
+       local.get $11
+       i32.add
+       local.tee $11
+       i32.ge_u
+       if
+        local.get $2
+        local.tee $4
+        i32.const 1
+        i32.sub
+        local.set $2
+        br $for-loop|4
+       end
+      end
+     end
+     local.get $5
+     local.get $7
+     i32.const 1
+     i32.shl
+     local.tee $2
+     local.get $3
+     i32.const 255
+     i32.and
+     call $~lib/typedarray/Uint8ClampedArray#__set
+     local.get $5
+     local.get $2
+     i32.const 1
+     i32.add
+     local.get $4
+     i32.const 255
+     i32.and
+     call $~lib/typedarray/Uint8ClampedArray#__set
+     local.get $6
+     i32.const 1024
+     i32.add
+     local.set $6
+     local.get $7
+     i32.const 1
+     i32.add
+     local.set $7
+     br $for-loop|0
+    end
+   end
+  end
+  local.get $0
+  if
+   local.get $5
+   i32.const 0
+   call $~lib/typedarray/Uint8ClampedArray#__get
+   local.set $0
+   local.get $5
+   i32.const 2
+   call $~lib/typedarray/Uint8ClampedArray#__get
+   local.get $0
+   i32.lt_u
+   if
+    local.get $5
+    i32.const 2
+    call $~lib/typedarray/Uint8ClampedArray#__get
+    local.set $0
+   end
+   local.get $5
+   i32.const 0
+   local.get $5
+   i32.const 4
+   call $~lib/typedarray/Uint8ClampedArray#__get
+   local.get $0
+   i32.lt_u
+   if
+    local.get $5
+    i32.const 4
+    call $~lib/typedarray/Uint8ClampedArray#__get
+    local.set $0
+   end
+   local.get $0
+   call $~lib/typedarray/Uint8ClampedArray#__set
+   local.get $5
+   i32.const 2
+   local.get $0
+   call $~lib/typedarray/Uint8ClampedArray#__set
+   local.get $5
+   i32.const 4
+   local.get $0
+   call $~lib/typedarray/Uint8ClampedArray#__set
+   local.get $5
+   i32.const 1
+   call $~lib/typedarray/Uint8ClampedArray#__get
+   local.set $0
+   local.get $5
+   i32.const 3
+   call $~lib/typedarray/Uint8ClampedArray#__get
+   local.get $0
+   i32.gt_u
+   if
+    local.get $5
+    i32.const 3
+    call $~lib/typedarray/Uint8ClampedArray#__get
+    local.set $0
+   end
+   local.get $5
+   i32.const 1
+   local.get $5
+   i32.const 5
+   call $~lib/typedarray/Uint8ClampedArray#__get
+   local.get $0
+   i32.gt_u
+   if
+    local.get $5
+    i32.const 5
+    call $~lib/typedarray/Uint8ClampedArray#__get
+    local.set $0
+   end
+   local.get $0
+   call $~lib/typedarray/Uint8ClampedArray#__set
+   local.get $5
+   i32.const 3
+   local.get $0
+   call $~lib/typedarray/Uint8ClampedArray#__set
+   local.get $5
+   i32.const 5
+   local.get $0
+   call $~lib/typedarray/Uint8ClampedArray#__set
+  end
+  f32.const 1
+  local.get $5
+  i32.load offset=4
+  local.tee $0
+  i32.const 1
+  i32.add
+  i32.load8_u
+  local.get $0
+  i32.load8_u
+  i32.sub
+  f32.convert_i32_u
+  f32.div
+  f32.const 255
+  f32.mul
+  local.set $15
+  f32.const 1
+  local.get $0
+  i32.const 3
+  i32.add
+  i32.load8_u
+  local.get $0
+  i32.const 2
+  i32.add
+  i32.load8_u
+  i32.sub
+  f32.convert_i32_u
+  f32.div
+  f32.const 255
+  f32.mul
+  local.set $16
+  f32.const 1
+  local.get $0
+  i32.const 5
+  i32.add
+  i32.load8_u
+  local.get $0
+  i32.const 4
+  i32.add
+  i32.load8_u
+  i32.sub
+  f32.convert_i32_u
+  f32.div
+  f32.const 255
+  f32.mul
+  local.set $17
+  global.get $assembly/index/viewOffsets
+  i32.const 1
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $2
+  local.get $5
+  i32.load offset=4
+  i32.load8_u
+  local.set $3
+  local.get $5
+  i32.load offset=4
+  i32.const 2
+  i32.add
+  i32.load8_u
+  local.set $4
+  local.get $5
+  i32.load offset=4
+  i32.const 4
+  i32.add
+  i32.load8_u
+  local.set $5
+  i32.const 0
+  local.set $0
+  loop $for-loop|5
+   global.get $assembly/index/viewLength
+   local.get $0
+   i32.gt_s
+   if
+    local.get $0
+    i32.const 1
+    i32.add
+    i32.load8_u
+    local.get $4
+    i32.sub
+    f32.convert_i32_s
+    local.get $16
+    f32.mul
+    local.set $8
+    local.get $0
+    i32.const 2
+    i32.add
+    i32.load8_u
+    local.get $5
+    i32.sub
+    f32.convert_i32_s
+    local.get $17
+    f32.mul
+    local.set $9
+    local.get $0
+    local.get $2
+    i32.add
+    local.tee $1
+    local.get $0
+    i32.load8_u
+    local.get $3
+    i32.sub
+    f32.convert_i32_s
+    local.get $15
+    f32.mul
+    local.tee $12
+    f32.const 255
+    f32.gt
+    if (result f32)
+     f32.const 255
+    else
+     f32.const 0
+     local.get $12
+     local.get $12
+     f32.const 0
+     f32.lt
+     select
+    end
+    i32.trunc_f32_u
+    i32.store8
+    local.get $1
+    i32.const 1
+    i32.add
+    f32.const 255
+    f32.const 0
+    local.get $8
+    local.get $8
+    f32.const 0
+    f32.lt
+    select
+    local.get $8
+    f32.const 255
+    f32.gt
+    select
+    i32.trunc_f32_u
+    i32.store8
+    local.get $1
+    i32.const 2
+    i32.add
+    f32.const 255
+    f32.const 0
+    local.get $9
+    local.get $9
+    f32.const 0
+    f32.lt
+    select
+    local.get $9
+    f32.const 255
+    f32.gt
+    select
+    i32.trunc_f32_u
+    i32.store8
+    local.get $0
+    i32.const 4
+    i32.add
+    local.set $0
+    br $for-loop|5
+   end
+  end
+ )
+ (func $assembly/index/calculateCounts (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  global.get $assembly/index/countOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.tee $1
+  i32.const 3072
+  i32.add
+  local.set $2
+  loop $for-loop|0
+   local.get $1
+   local.get $2
+   i32.lt_u
+   if
+    local.get $1
+    i32.const 0
+    i32.store
+    local.get $1
+    i32.const 4
+    i32.add
+    local.set $1
+    br $for-loop|0
+   end
+  end
+  global.get $assembly/index/viewOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $1
+  global.get $assembly/index/countOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $3
+  global.get $assembly/index/viewLength
+  local.get $1
+  i32.add
+  local.set $0
+  loop $for-loop|00
+   local.get $0
+   local.get $1
+   i32.gt_u
+   if
+    local.get $1
+    i32.const 1
+    i32.add
+    i32.load8_u
+    i32.const 2
+    i32.shl
+    local.get $3
+    i32.add
+    i32.const 1024
+    i32.add
+    local.set $4
+    local.get $1
+    i32.const 2
+    i32.add
+    i32.load8_u
+    i32.const 2
+    i32.shl
+    local.get $3
+    i32.add
+    i32.const 2048
+    i32.add
+    local.set $5
+    local.get $1
+    i32.load8_u
+    i32.const 2
+    i32.shl
+    local.get $3
+    i32.add
+    local.tee $2
+    local.get $2
+    i32.load
+    i32.const 1
+    i32.add
+    i32.store
+    local.get $4
+    local.get $4
+    i32.load
+    i32.const 1
+    i32.add
+    i32.store
+    local.get $5
+    local.get $5
+    i32.load
+    i32.const 1
+    i32.add
+    i32.store
+    local.get $1
+    i32.const 4
+    i32.add
+    local.set $1
+    br $for-loop|00
+   end
+  end
+ )
+ (func $assembly/index/calculateDisplayCounts (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 f32)
+  (local $5 f32)
+  (local $6 f32)
+  (local $7 f32)
+  (local $8 f32)
+  (local $9 f32)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 i32)
+  (local $13 i32)
+  (local $14 i32)
+  (local $15 i32)
+  global.get $assembly/index/displayCountOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.tee $1
+  i32.const 768
+  i32.add
+  local.set $13
+  loop $for-loop|0
+   local.get $1
+   local.get $13
+   i32.lt_u
+   if
+    local.get $1
+    i32.const 0
+    i32.store8
+    local.get $1
+    i32.const 1
+    i32.add
+    local.set $1
+    br $for-loop|0
+   end
+  end
+  global.get $assembly/index/countOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $1
+  global.get $assembly/index/displayCountOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $13
+  local.get $1
+  i32.const 1024
+  i32.add
+  local.set $12
+  local.get $1
+  local.set $0
+  loop $for-loop|00
+   local.get $0
+   local.get $12
+   i32.lt_u
+   if
+    local.get $0
+    i32.const 1024
+    i32.add
+    i32.load
+    local.set $11
+    local.get $0
+    i32.const 2048
+    i32.add
+    i32.load
+    local.set $10
+    local.get $0
+    i32.load
+    local.tee $2
+    local.get $3
+    i32.gt_s
+    if
+     local.get $2
+     local.set $3
+    end
+    local.get $11
+    local.get $15
+    local.get $11
+    local.get $15
+    i32.gt_s
+    select
+    local.set $15
+    local.get $10
+    local.get $14
+    local.get $10
+    local.get $14
+    i32.gt_s
+    select
+    local.set $14
+    local.get $0
+    i32.const 4
+    i32.add
+    local.set $0
+    br $for-loop|00
+   end
+  end
+  f32.const 100
+  local.get $3
+  f32.convert_i32_s
+  f32.div
+  local.set $7
+  f32.const 100
+  local.get $15
+  f32.convert_i32_s
+  f32.div
+  local.set $6
+  f32.const 100
+  local.get $14
+  f32.convert_i32_s
+  f32.div
+  local.set $5
+  local.get $1
+  local.set $0
+  loop $for-loop|1
+   local.get $0
+   local.get $12
+   i32.lt_u
+   if
+    local.get $0
+    i32.load
+    f32.convert_i32_s
+    local.set $4
+    local.get $0
+    i32.const 2048
+    i32.add
+    i32.load
+    f32.convert_i32_s
+    local.set $9
+    local.get $0
+    i32.const 1024
+    i32.add
+    i32.load
+    f32.convert_i32_s
+    local.tee $8
+    f32.const 0
+    f32.gt
+    if (result i32)
+     local.get $7
+     local.get $4
+     f32.mul
+     i32.trunc_f32_s
+     local.tee $15
+     i32.const 1
+     i32.lt_s
+     if (result i32)
+      i32.const 1
+     else
+      i32.const 100
+      local.get $15
+      local.get $15
+      i32.const 100
+      i32.gt_s
+      select
+     end
+    else
+     i32.const 0
+    end
+    local.set $15
+    local.get $8
+    f32.const 0
+    f32.gt
+    if (result i32)
+     local.get $6
+     local.get $8
+     f32.mul
+     i32.trunc_f32_s
+     local.tee $14
+     i32.const 1
+     i32.lt_s
+     if (result i32)
+      i32.const 1
+     else
+      i32.const 100
+      local.get $14
+      local.get $14
+      i32.const 100
+      i32.gt_s
+      select
+     end
+    else
+     i32.const 0
+    end
+    local.set $14
+    local.get $9
+    f32.const 0
+    f32.gt
+    if (result i32)
+     local.get $5
+     local.get $9
+     f32.mul
+     i32.trunc_f32_s
+     local.tee $1
+     i32.const 1
+     i32.lt_s
+     if (result i32)
+      i32.const 1
+     else
+      i32.const 100
+      local.get $1
+      local.get $1
+      i32.const 100
+      i32.gt_s
+      select
+     end
+    else
+     i32.const 0
+    end
+    local.set $1
+    local.get $13
+    local.get $15
+    i32.store8
+    local.get $13
+    i32.const 256
+    i32.add
+    local.get $14
+    i32.store8
+    local.get $13
+    i32.const 512
+    i32.add
+    local.get $1
+    i32.store8
+    local.get $0
+    i32.const 4
+    i32.add
+    local.set $0
+    local.get $13
+    i32.const 1
+    i32.add
+    local.set $13
+    br $for-loop|1
+   end
+  end
+ )
+ (func $assembly/index/copyData (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  global.get $assembly/index/viewOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $3
+  global.get $assembly/index/countOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  drop
+  global.get $assembly/index/displayCountOffsets
+  local.get $0
+  call $~lib/staticarray/StaticArray<u32>#__get
+  drop
+  global.get $assembly/index/viewOffsets
+  local.get $1
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $0
+  global.get $assembly/index/countOffsets
+  local.get $1
+  call $~lib/staticarray/StaticArray<u32>#__get
+  drop
+  global.get $assembly/index/displayCountOffsets
+  local.get $1
+  call $~lib/staticarray/StaticArray<u32>#__get
+  drop
+  loop $for-loop|0
+   global.get $assembly/index/viewLength
+   local.get $2
+   i32.gt_s
+   if
+    local.get $0
+    local.get $2
+    i32.add
+    local.get $2
+    local.get $3
+    i32.add
+    i32.load8_u
+    i32.store8
+    local.get $2
+    i32.const 1
+    i32.add
+    local.set $2
+    br $for-loop|0
+   end
+  end
+ )
+ (func $assembly/index/lerp (param $0 f32) (param $1 f32) (param $2 f32) (result f32)
+  local.get $0
+  f32.const 1
+  local.get $2
+  f32.sub
+  f32.mul
+  local.get $1
+  local.get $2
+  f32.mul
+  f32.add
+ )
+ (func $assembly/index/colorBalance (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 f32)
+  (local $5 f32)
+  (local $6 i32)
+  (local $7 f32)
+  (local $8 i32)
+  (local $9 i32)
+  (local $10 i32)
+  (local $11 f32)
+  (local $12 f32)
+  (local $13 f32)
+  global.get $assembly/index/viewOffsets
+  i32.const 1
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $9
+  global.get $assembly/index/viewOffsets
+  i32.const 2
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $10
+  loop $for-loop|0
+   global.get $assembly/index/viewLength
+   local.get $8
+   i32.gt_s
+   if
+    local.get $8
+    local.get $9
+    i32.add
+    local.tee $3
+    i32.load8_u
+    local.set $2
+    local.get $3
+    i32.const 1
+    i32.add
+    i32.load8_u
+    local.set $6
+    local.get $3
+    i32.const 2
+    i32.add
+    i32.load8_u
+    local.tee $3
+    local.get $2
+    local.get $6
+    i32.add
+    i32.add
+    f32.convert_i32_s
+    f32.const 0.3333333432674408
+    f32.mul
+    i32.trunc_f32_s
+    drop
+    local.get $0
+    local.get $2
+    i32.add
+    f32.convert_i32_s
+    local.set $11
+    local.get $1
+    local.get $6
+    i32.add
+    f32.convert_i32_s
+    local.set $12
+    local.get $3
+    local.get $0
+    i32.sub
+    f32.convert_i32_s
+    local.set $13
+    local.get $0
+    i32.const 0
+    i32.ge_s
+    if (result f32)
+     global.get $assembly/index/curveSinUp
+     i32.load offset=4
+     local.get $3
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     local.set $4
+     global.get $assembly/index/curveSinDown
+     i32.load offset=4
+     local.get $2
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+    else
+     global.get $assembly/index/curveSinDown
+     i32.load offset=4
+     local.get $3
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     local.set $4
+     global.get $assembly/index/curveSinUp
+     i32.load offset=4
+     local.get $2
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+    end
+    local.set $5
+    local.get $6
+    f32.convert_i32_s
+    f32.const 1
+    local.get $1
+    i32.const 0
+    i32.ge_s
+    if (result i32)
+     global.get $assembly/index/curveSinDown
+     i32.load offset=4
+     local.get $6
+     i32.const 2
+     i32.shl
+     i32.add
+    else
+     global.get $assembly/index/curveSinUp
+     i32.load offset=4
+     local.get $6
+     i32.const 2
+     i32.shl
+     i32.add
+    end
+    f32.load
+    local.tee $7
+    f32.sub
+    f32.mul
+    local.get $12
+    local.get $7
+    f32.mul
+    f32.add
+    local.set $7
+    local.get $3
+    f32.convert_i32_s
+    f32.const 1
+    local.get $4
+    f32.sub
+    f32.mul
+    local.get $13
+    local.get $4
+    f32.mul
+    f32.add
+    local.set $4
+    local.get $2
+    f32.convert_i32_s
+    f32.const 1
+    local.get $5
+    f32.sub
+    f32.mul
+    local.get $11
+    local.get $5
+    f32.mul
+    f32.add
+    local.tee $5
+    f32.const 255
+    f32.gt
+    if (result f32)
+     f32.const 255
+    else
+     f32.const 0
+     local.get $5
+     local.get $5
+     f32.const 0
+     f32.lt
+     select
+    end
+    local.set $5
+    local.get $8
+    local.get $10
+    i32.add
+    local.tee $2
+    local.get $5
+    i32.trunc_f32_u
+    i32.store8
+    local.get $2
+    i32.const 1
+    i32.add
+    f32.const 255
+    f32.const 0
+    local.get $7
+    local.get $7
+    f32.const 0
+    f32.lt
+    select
+    local.get $7
+    f32.const 255
+    f32.gt
+    select
+    i32.trunc_f32_u
+    i32.store8
+    local.get $2
+    i32.const 2
+    i32.add
+    f32.const 255
+    f32.const 0
+    local.get $4
+    local.get $4
+    f32.const 0
+    f32.lt
+    select
+    local.get $4
+    f32.const 255
+    f32.gt
+    select
+    i32.trunc_f32_u
+    i32.store8
+    local.get $8
+    i32.const 4
+    i32.add
+    local.set $8
+    br $for-loop|0
+   end
+  end
+ )
+ (func $~lib/math/NativeMath.pow (param $0 f64) (result f64)
+  (local $1 i32)
+  (local $2 f64)
+  (local $3 i64)
+  (local $4 f64)
+  (local $5 f64)
+  (local $6 f64)
+  (local $7 i64)
+  (local $8 f64)
+  (local $9 f64)
+  (local $10 f64)
+  (local $11 f64)
+  (local $12 f64)
+  (local $13 i32)
+  local.get $0
+  f64.abs
+  f64.const 2
+  f64.le
+  if
+   local.get $0
+   f64.const 2
+   f64.eq
+   if
+    f64.const 4
+    return
+   end
+   local.get $0
+   f64.const 0.5
+   f64.eq
+   if
+    f64.const 1.4142135623730951
+    return
+   end
+   local.get $0
+   f64.const -1
+   f64.eq
+   if
+    f64.const 0.5
+    return
+   end
+   local.get $0
+   f64.const 1
+   f64.eq
+   if
+    f64.const 2
+    return
+   end
+   local.get $0
+   f64.const 0
+   f64.eq
+   if
+    f64.const 1
+    return
+   end
+  end
+  block $~lib/util/math/pow_lut|inlined.0 (result f64)
+   local.get $0
+   local.tee $2
+   i64.reinterpret_f64
+   local.tee $3
+   i64.const 52
+   i64.shr_u
+   local.tee $7
+   i64.const 2047
+   i64.and
+   i64.const 958
+   i64.sub
+   i64.const 128
+   i64.ge_u
+   if
+    local.get $3
+    i64.const 1
+    i64.shl
+    i64.const 1
+    i64.sub
+    i64.const -9007199254740993
+    i64.ge_u
+    if
+     f64.const 1
+     local.get $3
+     i64.const 1
+     i64.shl
+     i64.eqz
+     br_if $~lib/util/math/pow_lut|inlined.0
+     drop
+     local.get $2
+     f64.const 2
+     f64.add
+     local.get $3
+     i64.const 1
+     i64.shl
+     i64.const -9007199254740992
+     i64.gt_u
+     br_if $~lib/util/math/pow_lut|inlined.0
+     drop
+     f64.const 0
+     local.get $3
+     i64.const 63
+     i64.shr_u
+     i64.eqz
+     i32.eqz
+     br_if $~lib/util/math/pow_lut|inlined.0
+     drop
+     local.get $2
+     local.get $2
+     f64.mul
+     br $~lib/util/math/pow_lut|inlined.0
+    end
+    local.get $7
+    i64.const 2047
+    i64.and
+    i64.const 958
+    i64.sub
+    i64.const 128
+    i64.ge_u
+    if
+     f64.const 1
+     local.get $7
+     i64.const 2047
+     i64.and
+     i64.const 958
+     i64.lt_u
+     br_if $~lib/util/math/pow_lut|inlined.0
+     drop
+     f64.const inf
+     f64.const 0
+     local.get $7
+     i64.const 2048
+     i64.lt_u
+     select
+     br $~lib/util/math/pow_lut|inlined.0
+    end
+   end
+   block $~lib/util/math/exp_inline|inlined.0 (result f64)
+    i32.const 1920061248
+    f64.load
+    f64.const 0.6931471805598903
+    f64.add
+    local.tee $8
+    i32.const 1920061232
+    f64.load
+    local.tee $0
+    f64.const 1
+    f64.sub
+    local.tee $5
+    local.get $0
+    f64.const 0
+    f64.mul
+    local.tee $9
+    f64.add
+    local.tee $0
+    f64.add
+    local.set $4
+    local.get $0
+    local.get $0
+    f64.const -0.5
+    f64.mul
+    local.tee $10
+    f64.mul
+    local.set $6
+    local.get $4
+    local.get $5
+    local.get $5
+    f64.const -0.5
+    f64.mul
+    local.tee $11
+    f64.mul
+    local.tee $12
+    f64.add
+    local.tee $5
+    local.get $5
+    i32.const 1920061256
+    f64.load
+    f64.const 5.497923018708371e-14
+    f64.add
+    local.get $8
+    local.get $4
+    f64.sub
+    local.get $0
+    f64.add
+    f64.add
+    local.get $9
+    local.get $10
+    local.get $11
+    f64.add
+    f64.mul
+    f64.add
+    local.get $4
+    local.get $5
+    f64.sub
+    local.get $12
+    f64.add
+    f64.add
+    local.get $0
+    local.get $6
+    f64.mul
+    local.get $0
+    f64.const 0.5000000000000007
+    f64.mul
+    f64.const -0.6666666666666679
+    f64.add
+    local.get $6
+    local.get $0
+    f64.const -0.6666666663487739
+    f64.mul
+    f64.const 0.7999999995323976
+    f64.add
+    local.get $6
+    local.get $0
+    f64.const 1.0000415263675542
+    f64.mul
+    f64.const -1.142909628459501
+    f64.add
+    f64.mul
+    f64.add
+    f64.mul
+    f64.add
+    f64.mul
+    f64.add
+    local.tee $4
+    f64.add
+    local.tee $0
+    f64.sub
+    local.get $4
+    f64.add
+    global.set $~lib/util/math/log_tail
+    local.get $3
+    i64.const -134217728
+    i64.and
+    f64.reinterpret_i64
+    local.tee $5
+    local.get $0
+    i64.reinterpret_f64
+    i64.const -134217728
+    i64.and
+    f64.reinterpret_i64
+    local.tee $6
+    f64.mul
+    local.set $4
+    local.get $2
+    local.get $5
+    f64.sub
+    local.get $6
+    f64.mul
+    local.get $2
+    local.get $0
+    local.get $6
+    f64.sub
+    global.get $~lib/util/math/log_tail
+    f64.add
+    f64.mul
+    f64.add
+    local.set $2
+    local.get $4
+    i64.reinterpret_f64
+    local.tee $3
+    i64.const 52
+    i64.shr_u
+    i32.wrap_i64
+    i32.const 2047
+    i32.and
+    local.tee $1
+    i32.const 969
+    i32.sub
+    i32.const 63
+    i32.ge_u
+    if
+     f64.const 1
+     local.get $1
+     i32.const 969
+     i32.sub
+     i32.const -2147483648
+     i32.ge_u
+     br_if $~lib/util/math/exp_inline|inlined.0
+     drop
+     f64.const 0
+     f64.const inf
+     local.get $3
+     i64.const 63
+     i64.shr_u
+     i32.wrap_i64
+     select
+     local.get $1
+     i32.const 1033
+     i32.ge_u
+     br_if $~lib/util/math/exp_inline|inlined.0
+     drop
+     i32.const 0
+     local.set $1
+    end
+    local.get $4
+    f64.const 184.6649652337873
+    f64.mul
+    f64.const 6755399441055744
+    f64.add
+    local.tee $0
+    i64.reinterpret_f64
+    local.tee $7
+    i64.const 127
+    i64.and
+    i64.const 1
+    i64.shl
+    i32.wrap_i64
+    i32.const 3
+    i32.shl
+    i32.const 1920062928
+    i32.add
+    local.tee $13
+    i64.load offset=8
+    local.get $7
+    i64.const 45
+    i64.shl
+    i64.add
+    local.set $3
+    local.get $4
+    local.get $0
+    f64.const 6755399441055744
+    f64.sub
+    local.tee $0
+    f64.const -0.005415212348111709
+    f64.mul
+    f64.add
+    local.get $0
+    f64.const -1.2864023111638346e-14
+    f64.mul
+    f64.add
+    local.get $2
+    f64.add
+    local.tee $0
+    local.get $0
+    f64.mul
+    local.set $2
+    local.get $13
+    f64.load
+    local.get $0
+    f64.add
+    local.get $2
+    local.get $0
+    f64.const 0.16666666666665886
+    f64.mul
+    f64.const 0.49999999999996786
+    f64.add
+    f64.mul
+    f64.add
+    local.get $2
+    local.get $2
+    f64.mul
+    local.get $0
+    f64.const 0.008333335853059549
+    f64.mul
+    f64.const 0.0416666808410674
+    f64.add
+    f64.mul
+    f64.add
+    local.set $0
+    local.get $1
+    i32.eqz
+    if
+     block $~lib/util/math/specialcase|inlined.0 (result f64)
+      local.get $7
+      i64.const 2147483648
+      i64.and
+      i64.eqz
+      if
+       local.get $3
+       i64.const 4544132024016830464
+       i64.sub
+       f64.reinterpret_i64
+       local.tee $2
+       local.get $2
+       local.get $0
+       f64.mul
+       f64.add
+       f64.const 5486124068793688683255936e279
+       f64.mul
+       br $~lib/util/math/specialcase|inlined.0
+      end
+      local.get $3
+      i64.const 4602678819172646912
+      i64.add
+      local.tee $3
+      f64.reinterpret_i64
+      local.tee $4
+      local.get $4
+      local.get $0
+      f64.mul
+      f64.add
+      local.tee $2
+      f64.abs
+      f64.const 1
+      f64.lt
+      if (result f64)
+       f64.const 1
+       local.get $2
+       f64.copysign
+       local.tee $6
+       local.get $2
+       f64.add
+       local.tee $5
+       local.get $6
+       local.get $5
+       f64.sub
+       local.get $2
+       f64.add
+       local.get $4
+       local.get $2
+       f64.sub
+       local.get $4
+       local.get $0
+       f64.mul
+       f64.add
+       f64.add
+       f64.add
+       local.get $6
+       f64.sub
+       local.tee $2
+       f64.const 0
+       f64.eq
+       if (result f64)
+        local.get $3
+        i64.const -9223372036854775808
+        i64.and
+        f64.reinterpret_i64
+       else
+        local.get $2
+       end
+      else
+       local.get $2
+      end
+      f64.const 2.2250738585072014e-308
+      f64.mul
+     end
+     br $~lib/util/math/exp_inline|inlined.0
+    end
+    local.get $3
+    f64.reinterpret_i64
+    local.tee $2
+    local.get $2
+    local.get $0
+    f64.mul
+    f64.add
+   end
+  end
+ )
+ (func $assembly/index/lightAdjustment (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 f64)
+  (local $5 f64)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 i32)
+  (local $9 i32)
+  (local $10 f32)
+  (local $11 i32)
+  (local $12 f64)
+  (local $13 f64)
+  (local $14 f64)
+  (local $15 f64)
+  (local $16 f64)
+  (local $17 f64)
+  (local $18 i32)
+  (local $19 i32)
+  (local $20 i32)
+  (local $21 f64)
+  global.get $assembly/index/viewOffsets
+  i32.const 2
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $7
+  global.get $assembly/index/viewOffsets
+  i32.const 3
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $6
+  local.get $0
+  f32.convert_i32_s
+  local.tee $10
+  f64.promote_f32
+  f64.const 0.01
+  f64.mul
+  f64.const 3
+  f64.mul
+  call $~lib/math/NativeMath.pow
+  drop
+  local.get $10
+  f32.const 100
+  f32.div
+  f32.const 5
+  f32.mul
+  f64.promote_f32
+  call $~lib/math/NativeMath.pow
+  drop
+  i32.const 12
+  i32.const 4
+  call $~lib/rt/tcms/__new
+  i32.const 256
+  i32.const 2
+  call $~lib/arraybuffer/ArrayBufferView#constructor
+  local.set $2
+  f32.const 1
+  local.set $10
+  loop $for-loop|0
+   local.get $20
+   i32.const 256
+   i32.lt_s
+   if
+    local.get $2
+    local.get $20
+    local.get $10
+    call $~lib/typedarray/Float32Array#__set
+    local.get $10
+    f32.const 0.9960784316062927
+    f32.add
+    local.set $10
+    local.get $20
+    i32.const 1
+    i32.add
+    local.set $20
+    br $for-loop|0
+   end
+  end
+  loop $for-loop|1
+   global.get $assembly/index/viewLength
+   local.get $9
+   i32.gt_s
+   if
+    local.get $7
+    local.get $9
+    i32.add
+    local.tee $2
+    i32.load8_u
+    local.tee $11
+    local.set $19
+    local.get $2
+    i32.const 1
+    i32.add
+    i32.load8_u
+    local.tee $20
+    local.set $18
+    local.get $2
+    i32.const 2
+    i32.add
+    i32.load8_u
+    local.tee $2
+    local.tee $3
+    local.get $18
+    local.get $19
+    i32.add
+    i32.add
+    f64.convert_i32_s
+    f64.const 0.3333333333333333
+    f64.mul
+    i32.trunc_f64_s
+    local.set $8
+    local.get $0
+    i32.const 0
+    i32.gt_s
+    if
+     global.get $assembly/index/curveSinDown
+     i32.load offset=4
+     local.get $8
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     f64.promote_f32
+     local.tee $5
+     local.set $17
+     local.get $20
+     f32.convert_i32_s
+     f64.promote_f32
+     local.get $0
+     f32.convert_i32_s
+     f64.promote_f32
+     local.tee $16
+     global.get $assembly/index/curveSinFull_25
+     local.tee $3
+     local.get $20
+     i32.const 3
+     i32.shl
+     i32.add
+     f64.load
+     f64.mul
+     f64.add
+     local.set $15
+     local.get $2
+     f32.convert_i32_s
+     f64.promote_f32
+     local.get $16
+     local.get $2
+     i32.const 3
+     i32.shl
+     local.get $3
+     i32.add
+     f64.load
+     f64.mul
+     f64.add
+     local.set $21
+     block $__inlined_func$assembly/index/lerp_clamped (result f64)
+      f64.const 255
+      local.get $11
+      f64.convert_i32_s
+      f64.const 1
+      local.get $5
+      local.tee $4
+      f64.sub
+      f64.mul
+      local.get $11
+      f32.convert_i32_s
+      f64.promote_f32
+      local.get $16
+      local.get $11
+      i32.const 3
+      i32.shl
+      local.get $3
+      i32.add
+      f64.load
+      f64.mul
+      f64.add
+      local.get $5
+      f64.mul
+      f64.add
+      local.tee $5
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped
+      drop
+      f64.const 0
+      local.get $5
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped
+      drop
+      local.get $5
+     end
+     i32.trunc_f64_s
+     local.set $19
+     block $__inlined_func$assembly/index/lerp_clamped4 (result f64)
+      f64.const 255
+      local.get $20
+      f64.convert_i32_s
+      f64.const 1
+      local.get $17
+      f64.sub
+      f64.mul
+      local.get $15
+      local.get $17
+      f64.mul
+      f64.add
+      local.tee $5
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped4
+      drop
+      f64.const 0
+      local.get $5
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped4
+      drop
+      local.get $5
+     end
+     i32.trunc_f64_s
+     local.set $18
+     block $__inlined_func$assembly/index/lerp_clamped5 (result f64)
+      f64.const 255
+      local.get $2
+      f64.convert_i32_s
+      f64.const 1
+      local.get $4
+      f64.sub
+      f64.mul
+      local.get $21
+      local.get $4
+      f64.mul
+      f64.add
+      local.tee $4
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped5
+      drop
+      f64.const 0
+      local.get $4
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped5
+      drop
+      local.get $4
+     end
+     i32.trunc_f64_s
+     local.set $3
+    end
+    local.get $0
+    i32.const 0
+    i32.lt_s
+    if
+     global.get $assembly/index/curveSinUp
+     i32.load offset=4
+     local.get $8
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     f64.promote_f32
+     local.tee $5
+     local.set $17
+     local.get $20
+     f32.convert_i32_s
+     f64.promote_f32
+     local.get $0
+     f32.convert_i32_s
+     f64.promote_f32
+     local.tee $16
+     global.get $assembly/index/curveSinFull_25
+     local.tee $3
+     local.get $20
+     i32.const 3
+     i32.shl
+     i32.add
+     f64.load
+     f64.mul
+     f64.add
+     local.set $15
+     local.get $2
+     f32.convert_i32_s
+     f64.promote_f32
+     local.get $16
+     local.get $2
+     i32.const 3
+     i32.shl
+     local.get $3
+     i32.add
+     f64.load
+     f64.mul
+     f64.add
+     local.set $21
+     block $__inlined_func$assembly/index/lerp_clamped12 (result f64)
+      f64.const 255
+      local.get $11
+      f64.convert_i32_s
+      f64.const 1
+      local.get $5
+      local.tee $4
+      f64.sub
+      f64.mul
+      local.get $11
+      f32.convert_i32_s
+      f64.promote_f32
+      local.get $16
+      local.get $11
+      i32.const 3
+      i32.shl
+      local.get $3
+      i32.add
+      f64.load
+      f64.mul
+      f64.add
+      local.get $5
+      f64.mul
+      f64.add
+      local.tee $5
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped12
+      drop
+      f64.const 0
+      local.get $5
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped12
+      drop
+      local.get $5
+     end
+     i32.trunc_f64_s
+     local.set $19
+     block $__inlined_func$assembly/index/lerp_clamped13 (result f64)
+      f64.const 255
+      local.get $20
+      f64.convert_i32_s
+      f64.const 1
+      local.get $17
+      f64.sub
+      f64.mul
+      local.get $15
+      local.get $17
+      f64.mul
+      f64.add
+      local.tee $5
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped13
+      drop
+      f64.const 0
+      local.get $5
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped13
+      drop
+      local.get $5
+     end
+     i32.trunc_f64_s
+     local.set $18
+     block $__inlined_func$assembly/index/lerp_clamped14 (result f64)
+      f64.const 255
+      local.get $2
+      f64.convert_i32_s
+      f64.const 1
+      local.get $4
+      f64.sub
+      f64.mul
+      local.get $21
+      local.get $4
+      f64.mul
+      f64.add
+      local.tee $4
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped14
+      drop
+      f64.const 0
+      local.get $4
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped14
+      drop
+      local.get $4
+     end
+     i32.trunc_f64_s
+     local.set $3
+    end
+    local.get $3
+    local.get $18
+    local.get $19
+    i32.add
+    i32.add
+    f64.convert_i32_s
+    f64.const 0.3333333333333333
+    f64.mul
+    i32.trunc_f64_s
+    local.set $20
+    global.get $assembly/index/curveSinFull
+    i32.load offset=4
+    local.tee $2
+    local.get $19
+    i32.const 2
+    i32.shl
+    i32.add
+    f32.load
+    f32.const 0.8999999761581421
+    f32.mul
+    f32.const 0.10000000149011612
+    f32.add
+    f64.promote_f32
+    local.set $14
+    local.get $2
+    local.get $18
+    i32.const 2
+    i32.shl
+    i32.add
+    f32.load
+    f32.const 0.8999999761581421
+    f32.mul
+    f32.const 0.10000000149011612
+    f32.add
+    f64.promote_f32
+    local.set $13
+    local.get $2
+    local.get $3
+    i32.const 2
+    i32.shl
+    i32.add
+    f32.load
+    f32.const 0.8999999761581421
+    f32.mul
+    f32.const 0.10000000149011612
+    f32.add
+    f64.promote_f32
+    local.set $12
+    local.get $1
+    i32.const 0
+    i32.gt_s
+    if
+     local.get $18
+     f64.convert_i32_s
+     local.tee $15
+     local.get $1
+     f64.convert_i32_s
+     global.get $assembly/index/lineDownToPoint1
+     i32.load offset=4
+     local.get $20
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     f64.promote_f32
+     f64.mul
+     local.tee $21
+     f64.add
+     local.set $5
+     local.get $3
+     f64.convert_i32_s
+     local.tee $17
+     local.get $21
+     f64.add
+     local.set $4
+     block $__inlined_func$assembly/index/lerp_clamped21 (result f64)
+      f64.const 255
+      local.get $19
+      f64.convert_i32_s
+      local.tee $16
+      f64.const 1
+      local.get $14
+      f64.sub
+      f64.mul
+      local.get $16
+      local.get $21
+      f64.add
+      local.get $14
+      f64.mul
+      f64.add
+      local.tee $21
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped21
+      drop
+      f64.const 0
+      local.get $21
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped21
+      drop
+      local.get $21
+     end
+     i32.trunc_f64_s
+     local.set $19
+     block $__inlined_func$assembly/index/lerp_clamped22 (result f64)
+      f64.const 255
+      local.get $15
+      f64.const 1
+      local.get $13
+      f64.sub
+      f64.mul
+      local.get $5
+      local.get $13
+      f64.mul
+      f64.add
+      local.tee $5
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped22
+      drop
+      f64.const 0
+      local.get $5
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped22
+      drop
+      local.get $5
+     end
+     i32.trunc_f64_s
+     local.set $18
+     block $__inlined_func$assembly/index/lerp_clamped23 (result f64)
+      f64.const 255
+      local.get $17
+      f64.const 1
+      local.get $12
+      f64.sub
+      f64.mul
+      local.get $4
+      local.get $12
+      f64.mul
+      f64.add
+      local.tee $4
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped23
+      drop
+      f64.const 0
+      local.get $4
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped23
+      drop
+      local.get $4
+     end
+     i32.trunc_f64_s
+     local.set $3
+    end
+    local.get $1
+    i32.const 0
+    i32.lt_s
+    if
+     local.get $18
+     f64.convert_i32_s
+     local.tee $15
+     local.get $1
+     f64.convert_i32_s
+     global.get $assembly/index/lineUpFromPoint1
+     i32.load offset=4
+     local.get $20
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     f64.promote_f32
+     f64.mul
+     local.tee $21
+     f64.add
+     local.set $5
+     local.get $3
+     f64.convert_i32_s
+     local.tee $17
+     local.get $21
+     f64.add
+     local.set $4
+     block $__inlined_func$assembly/index/lerp_clamped27 (result f64)
+      f64.const 255
+      local.get $19
+      f64.convert_i32_s
+      local.tee $16
+      f64.const 1
+      local.get $14
+      f64.sub
+      f64.mul
+      local.get $16
+      local.get $21
+      f64.add
+      local.get $14
+      f64.mul
+      f64.add
+      local.tee $21
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped27
+      drop
+      f64.const 0
+      local.get $21
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped27
+      drop
+      local.get $21
+     end
+     i32.trunc_f64_s
+     local.set $19
+     block $__inlined_func$assembly/index/lerp_clamped28 (result f64)
+      f64.const 255
+      local.get $15
+      f64.const 1
+      local.get $13
+      f64.sub
+      f64.mul
+      local.get $5
+      local.get $13
+      f64.mul
+      f64.add
+      local.tee $5
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped28
+      drop
+      f64.const 0
+      local.get $5
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped28
+      drop
+      local.get $5
+     end
+     i32.trunc_f64_s
+     local.set $18
+     block $__inlined_func$assembly/index/lerp_clamped29 (result f64)
+      f64.const 255
+      local.get $17
+      f64.const 1
+      local.get $12
+      f64.sub
+      f64.mul
+      local.get $4
+      local.get $12
+      f64.mul
+      f64.add
+      local.tee $4
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped29
+      drop
+      f64.const 0
+      local.get $4
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped29
+      drop
+      local.get $4
+     end
+     i32.trunc_f64_s
+     local.set $3
+    end
+    local.get $3
+    local.get $18
+    local.get $19
+    i32.add
+    i32.add
+    f32.convert_i32_s
+    f64.promote_f32
+    f64.const 0.3333333333333333
+    f64.mul
+    i32.trunc_f64_s
+    local.set $20
+    global.get $assembly/index/curveSinFull
+    i32.load offset=4
+    local.tee $2
+    local.get $19
+    i32.const 2
+    i32.shl
+    i32.add
+    f32.load
+    f32.const 0.8999999761581421
+    f32.mul
+    f32.const 0.10000000149011612
+    f32.add
+    f64.promote_f32
+    local.set $14
+    local.get $2
+    local.get $18
+    i32.const 2
+    i32.shl
+    i32.add
+    f32.load
+    f32.const 0.8999999761581421
+    f32.mul
+    f32.const 0.10000000149011612
+    f32.add
+    f64.promote_f32
+    local.set $13
+    local.get $2
+    local.get $3
+    i32.const 2
+    i32.shl
+    i32.add
+    f32.load
+    f32.const 0.8999999761581421
+    f32.mul
+    f32.const 0.10000000149011612
+    f32.add
+    f64.promote_f32
+    local.set $12
+    local.get $1
+    i32.const 0
+    i32.gt_s
+    if
+     local.get $18
+     f64.convert_i32_s
+     local.tee $15
+     i32.const 0
+     local.get $1
+     i32.sub
+     f64.convert_i32_s
+     global.get $assembly/index/lineUpFromPoint1
+     i32.load offset=4
+     local.get $20
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     f64.promote_f32
+     f64.mul
+     local.tee $21
+     f64.add
+     local.set $5
+     local.get $3
+     f64.convert_i32_s
+     local.tee $17
+     local.get $21
+     f64.add
+     local.set $4
+     block $__inlined_func$assembly/index/lerp_clamped36 (result f64)
+      f64.const 255
+      local.get $19
+      f64.convert_i32_s
+      local.tee $16
+      f64.const 1
+      local.get $14
+      f64.sub
+      f64.mul
+      local.get $16
+      local.get $21
+      f64.add
+      local.get $14
+      f64.mul
+      f64.add
+      local.tee $21
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped36
+      drop
+      f64.const 0
+      local.get $21
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped36
+      drop
+      local.get $21
+     end
+     i32.trunc_f64_s
+     local.set $19
+     block $__inlined_func$assembly/index/lerp_clamped37 (result f64)
+      f64.const 255
+      local.get $15
+      f64.const 1
+      local.get $13
+      f64.sub
+      f64.mul
+      local.get $5
+      local.get $13
+      f64.mul
+      f64.add
+      local.tee $5
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped37
+      drop
+      f64.const 0
+      local.get $5
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped37
+      drop
+      local.get $5
+     end
+     i32.trunc_f64_s
+     local.set $18
+     block $__inlined_func$assembly/index/lerp_clamped38 (result f64)
+      f64.const 255
+      local.get $17
+      f64.const 1
+      local.get $12
+      f64.sub
+      f64.mul
+      local.get $4
+      local.get $12
+      f64.mul
+      f64.add
+      local.tee $4
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped38
+      drop
+      f64.const 0
+      local.get $4
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped38
+      drop
+      local.get $4
+     end
+     i32.trunc_f64_s
+     local.set $3
+    end
+    local.get $1
+    i32.const 0
+    i32.lt_s
+    if
+     local.get $18
+     f64.convert_i32_s
+     local.tee $15
+     i32.const 0
+     local.get $1
+     i32.sub
+     f64.convert_i32_s
+     global.get $assembly/index/lineDownToPoint1
+     i32.load offset=4
+     local.get $20
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     f64.promote_f32
+     f64.mul
+     local.tee $21
+     f64.add
+     local.set $5
+     local.get $3
+     f64.convert_i32_s
+     local.tee $17
+     local.get $21
+     f64.add
+     local.set $4
+     block $__inlined_func$assembly/index/lerp_clamped42 (result f64)
+      f64.const 255
+      local.get $19
+      f64.convert_i32_s
+      local.tee $16
+      f64.const 1
+      local.get $14
+      f64.sub
+      f64.mul
+      local.get $16
+      local.get $21
+      f64.add
+      local.get $14
+      f64.mul
+      f64.add
+      local.tee $21
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped42
+      drop
+      f64.const 0
+      local.get $21
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped42
+      drop
+      local.get $21
+     end
+     i32.trunc_f64_s
+     local.set $19
+     block $__inlined_func$assembly/index/lerp_clamped43 (result f64)
+      f64.const 255
+      local.get $15
+      f64.const 1
+      local.get $13
+      f64.sub
+      f64.mul
+      local.get $5
+      local.get $13
+      f64.mul
+      f64.add
+      local.tee $5
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped43
+      drop
+      f64.const 0
+      local.get $5
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped43
+      drop
+      local.get $5
+     end
+     i32.trunc_f64_s
+     local.set $18
+     block $__inlined_func$assembly/index/lerp_clamped44 (result f64)
+      f64.const 255
+      local.get $17
+      f64.const 1
+      local.get $12
+      f64.sub
+      f64.mul
+      local.get $4
+      local.get $12
+      f64.mul
+      f64.add
+      local.tee $4
+      f64.const 255
+      f64.gt
+      br_if $__inlined_func$assembly/index/lerp_clamped44
+      drop
+      f64.const 0
+      local.get $4
+      f64.const 0
+      f64.lt
+      br_if $__inlined_func$assembly/index/lerp_clamped44
+      drop
+      local.get $4
+     end
+     i32.trunc_f64_s
+     local.set $3
+    end
+    local.get $6
+    local.get $9
+    i32.add
+    local.tee $2
+    local.get $19
+    i32.store8
+    local.get $2
+    i32.const 1
+    i32.add
+    local.get $18
+    i32.store8
+    local.get $2
+    i32.const 2
+    i32.add
+    local.get $3
+    i32.store8
+    local.get $9
+    i32.const 4
+    i32.add
+    local.set $9
+    br $for-loop|1
+   end
+  end
+ )
+ (func $assembly/index/process (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (param $6 i32) (param $7 i32) (param $8 i32) (param $9 i32) (param $10 i32)
+  local.get $0
+  if
+   local.get $3
+   local.get $4
+   local.get $5
+   call $assembly/index/percentileStretch
+   i32.const 1
+   call $assembly/index/calculateCounts
+   i32.const 1
+   call $assembly/index/calculateDisplayCounts
+   local.get $1
+   i32.eqz
+   if
+    i32.const 1
+    i32.const 2
+    call $assembly/index/copyData
+   end
+  end
+  local.get $1
+  if
+   local.get $6
+   local.get $7
+   call $assembly/index/colorBalance
+   i32.const 2
+   call $assembly/index/calculateCounts
+   i32.const 2
+   call $assembly/index/calculateDisplayCounts
+  end
+  local.get $2
+  if
+   local.get $8
+   local.get $9
+   local.get $10
+   call $assembly/index/lightAdjustment
+   i32.const 3
+   call $assembly/index/calculateCounts
+   i32.const 3
+   call $assembly/index/calculateDisplayCounts
+  end
+ )
+ (func $assembly/index/calculateClips (param $0 i32) (param $1 i32)
+  nop
+ )
+ (func $assembly/index/grayWorld (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 f32)
+  (local $4 i32)
+  (local $5 f32)
+  (local $6 f32)
+  (local $7 f32)
+  (local $8 i32)
+  (local $9 i32)
+  (local $10 i32)
+  (local $11 f32)
+  (local $12 f32)
+  (local $13 f32)
+  (local $14 f32)
+  (local $15 f32)
+  (local $16 f32)
+  global.get $assembly/index/viewOffsets
+  i32.const 1
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.tee $2
+  global.get $assembly/index/viewLength
+  i32.add
+  local.set $4
+  local.get $2
+  local.set $1
+  loop $for-loop|0
+   local.get $1
+   local.get $4
+   i32.lt_u
+   if
+    local.get $6
+    local.get $1
+    i32.load8_u
+    f32.convert_i32_u
+    f32.add
+    local.set $6
+    local.get $7
+    local.get $1
+    i32.const 1
+    i32.add
+    i32.load8_u
+    f32.convert_i32_u
+    f32.add
+    local.set $7
+    local.get $3
+    local.get $1
+    i32.const 2
+    i32.add
+    i32.load8_u
+    f32.convert_i32_u
+    f32.add
+    local.set $3
+    local.get $1
+    i32.const 4
+    i32.add
+    local.set $1
+    br $for-loop|0
+   end
+  end
+  f32.const 128
+  local.get $6
+  global.get $assembly/index/channelLength
+  f32.convert_i32_s
+  local.tee $5
+  f32.div
+  i32.trunc_f32_u
+  f32.convert_i32_u
+  f32.div
+  local.set $14
+  f32.const 128
+  local.get $7
+  local.get $5
+  f32.div
+  i32.trunc_f32_u
+  f32.convert_i32_u
+  f32.div
+  local.set $15
+  f32.const 128
+  local.get $3
+  local.get $5
+  f32.div
+  i32.trunc_f32_u
+  f32.convert_i32_u
+  f32.div
+  local.set $5
+  local.get $0
+  f32.convert_i32_s
+  f32.const 0.10000000149011612
+  f32.mul
+  local.set $11
+  global.get $assembly/index/viewOffsets
+  i32.const 2
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $0
+  loop $for-loop|1
+   global.get $assembly/index/viewLength
+   local.get $8
+   i32.gt_s
+   if
+    local.get $2
+    local.get $8
+    i32.add
+    local.tee $1
+    i32.load8_u
+    local.set $9
+    local.get $1
+    i32.const 1
+    i32.add
+    i32.load8_u
+    local.set $10
+    local.get $1
+    i32.const 2
+    i32.add
+    i32.load8_u
+    local.set $4
+    local.get $14
+    f32.const 1
+    f32.gt
+    if (result i32)
+     global.get $assembly/index/curveExpDown
+     i32.load offset=4
+     local.get $9
+     i32.const 2
+     i32.shl
+     i32.add
+    else
+     global.get $assembly/index/curveGrayDown
+     i32.load offset=4
+     local.get $9
+     i32.const 2
+     i32.shl
+     i32.add
+    end
+    f32.load
+    local.set $3
+    local.get $15
+    f32.const 1
+    f32.gt
+    if (result i32)
+     global.get $assembly/index/curveExpDown
+     i32.load offset=4
+     local.get $10
+     i32.const 2
+     i32.shl
+     i32.add
+    else
+     global.get $assembly/index/curveGrayDown
+     i32.load offset=4
+     local.get $10
+     i32.const 2
+     i32.shl
+     i32.add
+    end
+    f32.load
+    local.set $6
+    local.get $5
+    f32.const 1
+    f32.gt
+    if (result i32)
+     global.get $assembly/index/curveExpDown
+     i32.load offset=4
+     local.get $4
+     i32.const 2
+     i32.shl
+     i32.add
+    else
+     global.get $assembly/index/curveGrayDown
+     i32.load offset=4
+     local.get $4
+     i32.const 2
+     i32.shl
+     i32.add
+    end
+    f32.load
+    local.set $7
+    local.get $15
+    local.get $10
+    f32.convert_i32_s
+    f32.mul
+    local.set $12
+    local.get $5
+    local.get $4
+    f32.convert_i32_s
+    f32.mul
+    local.set $13
+    local.get $0
+    local.get $8
+    i32.add
+    local.tee $1
+    local.get $9
+    f32.convert_i32_s
+    local.tee $16
+    f32.const 1
+    local.get $11
+    local.get $3
+    f32.mul
+    local.tee $3
+    f32.sub
+    f32.mul
+    local.get $14
+    local.get $16
+    f32.mul
+    local.tee $16
+    f32.const 255
+    f32.gt
+    if (result f32)
+     f32.const 255
+    else
+     f32.const 0
+     local.get $16
+     local.get $16
+     f32.const 0
+     f32.lt
+     select
+    end
+    local.get $3
+    f32.mul
+    f32.add
+    i32.trunc_f32_u
+    i32.store8
+    local.get $1
+    i32.const 1
+    i32.add
+    local.get $10
+    f32.convert_i32_s
+    f32.const 1
+    local.get $11
+    local.get $6
+    f32.mul
+    local.tee $3
+    f32.sub
+    f32.mul
+    f32.const 255
+    f32.const 0
+    local.get $12
+    local.get $12
+    f32.const 0
+    f32.lt
+    select
+    local.get $12
+    f32.const 255
+    f32.gt
+    select
+    local.get $3
+    f32.mul
+    f32.add
+    i32.trunc_f32_u
+    i32.store8
+    local.get $1
+    i32.const 2
+    i32.add
+    local.get $4
+    f32.convert_i32_s
+    f32.const 1
+    local.get $11
+    local.get $7
+    f32.mul
+    local.tee $3
+    f32.sub
+    f32.mul
+    f32.const 255
+    f32.const 0
+    local.get $13
+    local.get $13
+    f32.const 0
+    f32.lt
+    select
+    local.get $13
+    f32.const 255
+    f32.gt
+    select
+    local.get $3
+    f32.mul
+    f32.add
+    i32.trunc_f32_u
+    i32.store8
+    local.get $8
+    i32.const 4
+    i32.add
+    local.set $8
+    br $for-loop|1
+   end
+  end
+ )
+ (func $assembly/index/centerShift (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 f32)
+  (local $5 f32)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 i32)
+  (local $9 f32)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 f32)
+  (local $13 i32)
+  local.get $0
+  i32.eqz
+  if
+   i32.const 2
+   i32.const 3
+   call $assembly/index/copyData
+   return
+  end
+  global.get $assembly/index/viewOffsets
+  i32.const 2
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.tee $8
+  global.get $assembly/index/viewLength
+  i32.add
+  local.set $7
+  i32.const 127
+  local.get $0
+  i32.sub
+  local.set $2
+  i32.const 12
+  i32.const 4
+  call $~lib/rt/tcms/__new
+  i32.const 256
+  i32.const 2
+  call $~lib/arraybuffer/ArrayBufferView#constructor
+  local.set $11
+  loop $for-loop|0
+   local.get $2
+   local.get $3
+   i32.ge_s
+   if
+    local.get $11
+    local.get $3
+    local.get $3
+    f32.convert_i32_s
+    local.get $2
+    f32.convert_i32_s
+    f32.div
+    call $~lib/typedarray/Float32Array#__set
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|0
+   end
+  end
+  local.get $2
+  i32.const 1
+  i32.add
+  local.set $3
+  loop $for-loop|1
+   local.get $3
+   i32.const 256
+   i32.lt_s
+   if
+    local.get $11
+    local.get $3
+    local.get $3
+    f32.convert_i32_s
+    f32.const 255
+    f32.sub
+    local.get $2
+    f32.convert_i32_s
+    f32.const 1
+    f32.add
+    f32.const 255
+    f32.sub
+    f32.div
+    call $~lib/typedarray/Float32Array#__set
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|1
+   end
+  end
+  i32.const 0
+  local.set $3
+  loop $for-loop|2
+   local.get $3
+   i32.const 256
+   i32.lt_s
+   if
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|2
+   end
+  end
+  loop $for-loop|4
+   global.get $assembly/index/viewLength
+   local.get $10
+   i32.gt_s
+   if
+    local.get $8
+    local.get $10
+    i32.add
+    local.tee $3
+    i32.load8_u
+    local.set $1
+    local.get $3
+    i32.const 2
+    i32.add
+    i32.load8_u
+    local.tee $13
+    local.get $1
+    local.get $3
+    i32.const 1
+    i32.add
+    i32.load8_u
+    local.tee $6
+    i32.add
+    i32.add
+    f32.convert_i32_s
+    f32.const 0.3333333432674408
+    f32.mul
+    i32.trunc_f32_s
+    drop
+    local.get $1
+    local.tee $3
+    i32.extend16_s
+    local.get $6
+    i32.extend16_s
+    i32.lt_s
+    if (result i32)
+     local.get $13
+     local.get $6
+     local.get $6
+     i32.extend16_s
+     local.get $13
+     i32.extend16_s
+     i32.lt_s
+     select
+    else
+     local.get $13
+     local.get $3
+     local.get $1
+     i32.extend16_s
+     local.get $13
+     i32.extend16_s
+     i32.lt_s
+     select
+    end
+    local.set $3
+    local.get $1
+    local.tee $2
+    i32.extend16_s
+    local.get $6
+    i32.extend16_s
+    i32.gt_s
+    if (result i32)
+     local.get $13
+     local.get $6
+     local.get $6
+     i32.extend16_s
+     local.get $13
+     i32.extend16_s
+     i32.gt_s
+     select
+    else
+     local.get $13
+     local.get $2
+     local.get $1
+     i32.extend16_s
+     local.get $13
+     i32.extend16_s
+     i32.gt_s
+     select
+    end
+    local.set $2
+    local.get $0
+    local.get $6
+    i32.extend16_s
+    i32.add
+    f32.convert_i32_s
+    local.set $5
+    local.get $6
+    f32.convert_i32_s
+    f32.const 1
+    local.get $11
+    i32.load offset=4
+    local.tee $6
+    local.get $2
+    local.get $3
+    local.get $0
+    i32.const 0
+    i32.lt_s
+    select
+    local.tee $3
+    i32.extend16_s
+    i32.const 2
+    i32.shl
+    i32.add
+    f32.load
+    local.tee $9
+    f32.sub
+    f32.mul
+    f32.const 255
+    f32.const 0
+    local.get $5
+    local.get $5
+    f32.const 0
+    f32.lt
+    select
+    local.get $5
+    f32.const 255
+    f32.gt
+    select
+    local.get $9
+    f32.mul
+    f32.add
+    local.set $9
+    local.get $13
+    f32.convert_i32_s
+    f32.const 1
+    local.get $3
+    i32.extend16_s
+    i32.const 2
+    i32.shl
+    local.get $6
+    i32.add
+    f32.load
+    local.tee $4
+    local.tee $5
+    f32.sub
+    f32.mul
+    f32.const 255
+    f32.const 0
+    local.get $0
+    local.get $13
+    i32.extend16_s
+    i32.add
+    f32.convert_i32_s
+    local.tee $12
+    local.get $12
+    f32.const 0
+    f32.lt
+    select
+    local.get $12
+    f32.const 255
+    f32.gt
+    select
+    local.get $5
+    f32.mul
+    f32.add
+    local.set $12
+    local.get $7
+    local.get $10
+    i32.add
+    local.tee $2
+    local.get $1
+    f32.convert_i32_s
+    f32.const 1
+    local.get $4
+    local.tee $5
+    f32.sub
+    f32.mul
+    local.get $0
+    local.get $1
+    i32.extend16_s
+    i32.add
+    f32.convert_i32_s
+    local.tee $4
+    f32.const 255
+    f32.gt
+    if (result f32)
+     f32.const 255
+    else
+     f32.const 0
+     local.get $4
+     local.get $4
+     f32.const 0
+     f32.lt
+     select
+    end
+    local.get $5
+    f32.mul
+    f32.add
+    i32.trunc_f32_u
+    i32.store8
+    local.get $2
+    i32.const 1
+    i32.add
+    local.get $9
+    i32.trunc_f32_u
+    i32.store8
+    local.get $2
+    i32.const 2
+    i32.add
+    local.get $12
+    i32.trunc_f32_u
+    i32.store8
+    local.get $10
+    i32.const 4
+    i32.add
+    local.set $10
+    br $for-loop|4
+   end
+  end
+ )
+ (func $assembly/index/lightColorful (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 f32)
+  (local $6 f32)
+  (local $7 f32)
+  (local $8 f32)
+  (local $9 f32)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 f32)
+  (local $13 f32)
+  (local $14 i32)
+  (local $15 i32)
+  (local $16 f32)
+  (local $17 i32)
+  (local $18 f32)
+  global.get $assembly/index/viewOffsets
+  i32.const 2
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $14
+  global.get $assembly/index/viewOffsets
+  i32.const 3
+  call $~lib/staticarray/StaticArray<u32>#__get
+  local.set $15
+  i32.const 255
+  local.set $1
+  local.get $0
+  i32.const 0
+  i32.gt_s
+  if (result i32)
+   i32.const 255
+   local.get $0
+   i32.sub
+   local.set $1
+   local.get $0
+   f64.convert_i32_s
+   f64.const 0.1
+   f64.mul
+   f64.neg
+   i32.trunc_f64_s
+  else
+   i32.const 0
+   local.get $0
+   i32.sub
+  end
+  local.set $10
+  local.get $0
+  f32.convert_i32_s
+  f32.const 100
+  f32.div
+  f32.const 5
+  f32.mul
+  local.set $12
+  f32.const 1
+  local.get $1
+  local.get $10
+  i32.sub
+  f32.convert_i32_s
+  f32.div
+  f32.const 255
+  f32.mul
+  local.tee $5
+  local.set $16
+  loop $for-loop|0
+   global.get $assembly/index/viewLength
+   local.get $11
+   i32.gt_s
+   if
+    local.get $11
+    local.get $14
+    i32.add
+    local.tee $1
+    i32.load8_u
+    local.set $3
+    local.get $1
+    i32.const 1
+    i32.add
+    i32.load8_u
+    local.set $2
+    local.get $3
+    local.get $1
+    i32.const 2
+    i32.add
+    i32.load8_u
+    local.tee $4
+    local.tee $1
+    i32.gt_s
+    if (result i32)
+     local.get $2
+     local.get $3
+     local.get $2
+     local.get $3
+     i32.gt_s
+     select
+    else
+     local.get $2
+     local.get $1
+     local.get $2
+     local.get $4
+     i32.gt_s
+     select
+    end
+    local.set $1
+    local.get $4
+    local.get $2
+    local.get $3
+    i32.add
+    i32.add
+    f32.convert_i32_s
+    f32.const 0.3333333432674408
+    f32.mul
+    i32.trunc_f32_s
+    local.set $17
+    local.get $2
+    f32.convert_i32_s
+    f32.const 1
+    local.get $0
+    i32.const 0
+    i32.gt_s
+    if (result f32)
+     global.get $assembly/index/lineDown
+     i32.load offset=4
+     local.get $1
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     local.tee $8
+     local.set $13
+     local.get $3
+     local.get $10
+     i32.sub
+     f32.convert_i32_s
+     local.get $5
+     f32.mul
+     local.set $9
+     local.get $2
+     local.get $10
+     i32.sub
+     f32.convert_i32_s
+     local.get $16
+     f32.mul
+     local.set $6
+     local.get $4
+     local.get $10
+     i32.sub
+     f32.convert_i32_s
+     local.get $5
+     f32.mul
+     local.set $7
+     local.get $8
+    else
+     global.get $assembly/index/curveRootMidDown
+     i32.load offset=4
+     local.get $17
+     i32.const 2
+     i32.shl
+     i32.add
+     f32.load
+     local.tee $8
+     local.set $13
+     local.get $3
+     f64.convert_i32_s
+     local.get $12
+     f64.promote_f32
+     call $~lib/math/NativeMath.pow
+     f64.mul
+     f32.demote_f64
+     local.set $9
+     local.get $2
+     f64.convert_i32_s
+     local.get $12
+     f64.promote_f32
+     call $~lib/math/NativeMath.pow
+     f64.mul
+     f32.demote_f64
+     local.set $6
+     local.get $4
+     f64.convert_i32_s
+     local.get $12
+     f64.promote_f32
+     call $~lib/math/NativeMath.pow
+     f64.mul
+     f32.demote_f64
+     local.set $7
+     local.get $8
+    end
+    local.tee $18
+    f32.sub
+    f32.mul
+    local.get $6
+    local.get $18
+    f32.mul
+    f32.add
+    local.set $6
+    local.get $4
+    f32.convert_i32_s
+    f32.const 1
+    local.get $8
+    f32.sub
+    f32.mul
+    local.get $7
+    local.get $8
+    f32.mul
+    f32.add
+    local.set $7
+    local.get $11
+    local.get $15
+    i32.add
+    local.tee $1
+    local.get $3
+    f32.convert_i32_s
+    f32.const 1
+    local.get $13
+    f32.sub
+    f32.mul
+    local.get $9
+    local.get $13
+    f32.mul
+    f32.add
+    local.tee $9
+    f32.const 255
+    f32.gt
+    if (result f32)
+     f32.const 255
+    else
+     f32.const 0
+     local.get $9
+     local.get $9
+     f32.const 0
+     f32.lt
+     select
+    end
+    i32.trunc_f32_u
+    i32.store8
+    local.get $1
+    i32.const 1
+    i32.add
+    f32.const 255
+    f32.const 0
+    local.get $6
+    local.get $6
+    f32.const 0
+    f32.lt
+    select
+    local.get $6
+    f32.const 255
+    f32.gt
+    select
+    i32.trunc_f32_u
+    i32.store8
+    local.get $1
+    i32.const 2
+    i32.add
+    f32.const 255
+    f32.const 0
+    local.get $7
+    local.get $7
+    f32.const 0
+    f32.lt
+    select
+    local.get $7
+    f32.const 255
+    f32.gt
+    select
+    i32.trunc_f32_u
+    i32.store8
+    local.get $11
+    i32.const 4
+    i32.add
+    local.set $11
+    br $for-loop|0
+   end
+  end
+ )
+ (func $~lib/rt/tcms/__pin (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  local.get $0
+  if
+   local.get $0
+   i32.const 20
+   i32.sub
+   local.tee $1
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   i32.const 3
+   i32.eq
+   if
+    i32.const 1920065008
+    i32.const 1920000208
+    i32.const 181
+    i32.const 7
+    call $~lib/builtins/abort
+    unreachable
+   end
+   block $__inlined_func$~lib/rt/tcms/Object#unlink
+    local.get $1
+    i32.load offset=4
+    i32.const -4
+    i32.and
+    local.tee $2
+    i32.eqz
+    if
+     local.get $1
+     i32.load offset=8
+     drop
+     br $__inlined_func$~lib/rt/tcms/Object#unlink
+    end
+    local.get $2
+    local.get $1
+    i32.load offset=8
+    local.tee $3
+    i32.store offset=8
+    local.get $3
+    local.get $3
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    local.get $2
+    i32.or
+    i32.store offset=4
+   end
+   global.get $~lib/rt/tcms/pinSpace
+   local.tee $3
+   i32.load offset=8
+   local.set $2
+   local.get $1
+   local.get $3
+   i32.const 3
+   i32.or
+   i32.store offset=4
+   local.get $1
+   local.get $2
+   i32.store offset=8
+   local.get $2
+   local.get $2
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   local.get $1
+   i32.or
+   i32.store offset=4
+   local.get $3
+   local.get $1
+   i32.store offset=8
+  end
+  local.get $0
+ )
+ (func $~lib/rt/tcms/__unpin (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  local.get $0
+  i32.eqz
+  if
+   return
+  end
+  local.get $0
+  i32.const 20
+  i32.sub
+  local.tee $0
+  i32.load offset=4
+  i32.const 3
+  i32.and
+  i32.const 3
+  i32.ne
+  if
+   i32.const 1920065104
+   i32.const 1920000208
+   i32.const 195
+   i32.const 5
+   call $~lib/builtins/abort
+   unreachable
+  end
+  block $__inlined_func$~lib/rt/tcms/Object#unlink
+   local.get $0
+   i32.load offset=4
+   i32.const -4
+   i32.and
+   local.tee $1
+   i32.eqz
+   if
+    local.get $0
+    i32.load offset=8
+    drop
+    br $__inlined_func$~lib/rt/tcms/Object#unlink
+   end
+   local.get $1
+   local.get $0
+   i32.load offset=8
+   local.tee $2
+   i32.store offset=8
+   local.get $2
+   local.get $2
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   local.get $1
+   i32.or
+   i32.store offset=4
+  end
+  global.get $~lib/rt/tcms/fromSpace
+  local.tee $2
+  i32.load offset=8
+  local.set $1
+  local.get $0
+  global.get $~lib/rt/tcms/white
+  local.get $2
+  i32.or
+  i32.store offset=4
+  local.get $0
+  local.get $1
+  i32.store offset=8
+  local.get $1
+  local.get $1
+  i32.load offset=4
+  i32.const 3
+  i32.and
+  local.get $0
+  i32.or
+  i32.store offset=4
+  local.get $2
+  local.get $0
+  i32.store offset=8
+ )
+ (func $~lib/rt/tcms/__collect
+  (local $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  global.get $assembly/index/viewOffsets
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/countOffsets
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink1
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink1
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/displayCountOffsets
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink3
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink3
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/pyramidRoof
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink5
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink5
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/lineUp
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink7
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink7
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/lineDown
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink9
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink9
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/lineUpFromPoint1
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink11
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink11
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/lineDownToPoint1
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink13
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink13
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/lineUpFromPoint2
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink15
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink15
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/lineDownToPoint2
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink17
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink17
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/lineDownToPoint75
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink19
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink19
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/lineDownToPoint5
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink21
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink21
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveExpUp
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink23
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink23
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveExpDown
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink25
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink25
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveCircleBigUp
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink27
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink27
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveCircleBigDown
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink29
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink29
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveRootMidUp
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink31
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink31
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveRootMidDown
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink33
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink33
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveGrayUp
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink35
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink35
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveGrayDown
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink37
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink37
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinFull
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink39
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink39
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinFull32
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink41
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink41
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinFull224
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink43
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink43
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinUp
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink45
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink45
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinDown
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink47
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink47
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveLogDown0
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink49
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink49
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveLogUp0
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink51
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink51
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinFull_f64
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink53
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink53
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinUpMid_f64
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink55
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink55
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curve_camel
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink57
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink57
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinFull_25
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink59
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink59
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $assembly/index/curveSinFull_5
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $2
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink61
+      local.get $2
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $2
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink61
+      end
+      local.get $1
+      local.get $2
+      i32.load offset=8
+      local.tee $0
+      i32.store offset=8
+      local.get $0
+      local.get $0
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $0
+     i32.load offset=8
+     local.set $1
+     local.get $2
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $2
+     i32.store offset=8
+    end
+   end
+  end
+  global.get $~lib/rt/tcms/white
+  i32.const 1920000416
+  i32.load
+  i32.const 3
+  i32.and
+  i32.eq
+  if
+   block $__inlined_func$~lib/rt/tcms/Object#unlink63
+    i32.const 1920000416
+    i32.load
+    i32.const -4
+    i32.and
+    local.tee $1
+    i32.eqz
+    if
+     i32.const 1920000420
+     i32.load
+     drop
+     br $__inlined_func$~lib/rt/tcms/Object#unlink63
+    end
+    local.get $1
+    i32.const 1920000420
+    i32.load
+    local.tee $0
+    i32.store offset=8
+    local.get $0
+    local.get $0
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    local.get $1
+    i32.or
+    i32.store offset=4
+   end
+   global.get $~lib/rt/tcms/toSpace
+   local.tee $0
+   i32.load offset=8
+   local.set $1
+   i32.const 1920000416
+   global.get $~lib/rt/tcms/white
+   i32.eqz
+   local.get $0
+   i32.or
+   i32.store
+   i32.const 1920000420
+   local.get $1
+   i32.store
+   local.get $1
+   local.get $1
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   i32.const 1920000412
+   i32.or
+   i32.store offset=4
+   local.get $0
+   i32.const 1920000412
+   i32.store offset=8
+  end
+  global.get $~lib/rt/tcms/white
+  i32.const 1920000016
+  i32.load
+  i32.const 3
+  i32.and
+  i32.eq
+  if
+   block $__inlined_func$~lib/rt/tcms/Object#unlink65
+    i32.const 1920000016
+    i32.load
+    i32.const -4
+    i32.and
+    local.tee $1
+    i32.eqz
+    if
+     i32.const 1920000020
+     i32.load
+     drop
+     br $__inlined_func$~lib/rt/tcms/Object#unlink65
+    end
+    local.get $1
+    i32.const 1920000020
+    i32.load
+    local.tee $0
+    i32.store offset=8
+    local.get $0
+    local.get $0
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    local.get $1
+    i32.or
+    i32.store offset=4
+   end
+   global.get $~lib/rt/tcms/toSpace
+   local.tee $0
+   i32.load offset=8
+   local.set $1
+   i32.const 1920000016
+   global.get $~lib/rt/tcms/white
+   i32.eqz
+   local.get $0
+   i32.or
+   i32.store
+   i32.const 1920000020
+   local.get $1
+   i32.store
+   local.get $1
+   local.get $1
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   i32.const 1920000012
+   i32.or
+   i32.store offset=4
+   local.get $0
+   i32.const 1920000012
+   i32.store offset=8
+  end
+  global.get $~lib/rt/tcms/white
+  i32.const 1920000128
+  i32.load
+  i32.const 3
+  i32.and
+  i32.eq
+  if
+   block $__inlined_func$~lib/rt/tcms/Object#unlink67
+    i32.const 1920000128
+    i32.load
+    i32.const -4
+    i32.and
+    local.tee $1
+    i32.eqz
+    if
+     i32.const 1920000132
+     i32.load
+     drop
+     br $__inlined_func$~lib/rt/tcms/Object#unlink67
+    end
+    local.get $1
+    i32.const 1920000132
+    i32.load
+    local.tee $0
+    i32.store offset=8
+    local.get $0
+    local.get $0
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    local.get $1
+    i32.or
+    i32.store offset=4
+   end
+   global.get $~lib/rt/tcms/toSpace
+   local.tee $0
+   i32.load offset=8
+   local.set $1
+   i32.const 1920000128
+   global.get $~lib/rt/tcms/white
+   i32.eqz
+   local.get $0
+   i32.or
+   i32.store
+   i32.const 1920000132
+   local.get $1
+   i32.store
+   local.get $1
+   local.get $1
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   i32.const 1920000124
+   i32.or
+   i32.store offset=4
+   local.get $0
+   i32.const 1920000124
+   i32.store offset=8
+  end
+  global.get $~lib/rt/tcms/white
+  i32.const 1920064992
+  i32.load
+  i32.const 3
+  i32.and
+  i32.eq
+  if
+   block $__inlined_func$~lib/rt/tcms/Object#unlink69
+    i32.const 1920064992
+    i32.load
+    i32.const -4
+    i32.and
+    local.tee $1
+    i32.eqz
+    if
+     i32.const 1920064996
+     i32.load
+     drop
+     br $__inlined_func$~lib/rt/tcms/Object#unlink69
+    end
+    local.get $1
+    i32.const 1920064996
+    i32.load
+    local.tee $0
+    i32.store offset=8
+    local.get $0
+    local.get $0
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    local.get $1
+    i32.or
+    i32.store offset=4
+   end
+   global.get $~lib/rt/tcms/toSpace
+   local.tee $0
+   i32.load offset=8
+   local.set $1
+   i32.const 1920064992
+   global.get $~lib/rt/tcms/white
+   i32.eqz
+   local.get $0
+   i32.or
+   i32.store
+   i32.const 1920064996
+   local.get $1
+   i32.store
+   local.get $1
+   local.get $1
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   i32.const 1920064988
+   i32.or
+   i32.store offset=4
+   local.get $0
+   i32.const 1920064988
+   i32.store offset=8
+  end
+  global.get $~lib/rt/tcms/white
+  i32.const 1920065088
+  i32.load
+  i32.const 3
+  i32.and
+  i32.eq
+  if
+   block $__inlined_func$~lib/rt/tcms/Object#unlink71
+    i32.const 1920065088
+    i32.load
+    i32.const -4
+    i32.and
+    local.tee $1
+    i32.eqz
+    if
+     i32.const 1920065092
+     i32.load
+     drop
+     br $__inlined_func$~lib/rt/tcms/Object#unlink71
+    end
+    local.get $1
+    i32.const 1920065092
+    i32.load
+    local.tee $0
+    i32.store offset=8
+    local.get $0
+    local.get $0
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    local.get $1
+    i32.or
+    i32.store offset=4
+   end
+   global.get $~lib/rt/tcms/toSpace
+   local.tee $0
+   i32.load offset=8
+   local.set $1
+   i32.const 1920065088
+   global.get $~lib/rt/tcms/white
+   i32.eqz
+   local.get $0
+   i32.or
+   i32.store
+   i32.const 1920065092
+   local.get $1
+   i32.store
+   local.get $1
+   local.get $1
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   i32.const 1920065084
+   i32.or
+   i32.store offset=4
+   local.get $0
+   i32.const 1920065084
+   i32.store offset=8
+  end
+  global.get $~lib/rt/tcms/pinSpace
+  local.tee $0
+  i32.load offset=4
+  i32.const -4
+  i32.and
+  local.set $1
+  loop $while-continue|0
+   local.get $0
+   local.get $1
+   i32.ne
+   if
+    local.get $1
+    i32.load offset=4
+    drop
+    local.get $1
+    i32.const 20
+    i32.add
+    call $~lib/rt/__visit_members
+    local.get $1
+    i32.load offset=4
+    i32.const -4
+    i32.and
+    local.set $1
+    br $while-continue|0
+   end
+  end
+  global.get $~lib/rt/tcms/white
+  i32.eqz
+  global.get $~lib/rt/tcms/toSpace
+  local.tee $6
+  i32.load offset=4
+  i32.const -4
+  i32.and
+  local.set $1
+  loop $while-continue|1
+   local.get $1
+   local.get $6
+   i32.ne
+   if
+    local.get $1
+    i32.load offset=4
+    drop
+    local.get $1
+    i32.const 20
+    i32.add
+    call $~lib/rt/__visit_members
+    local.get $1
+    i32.load offset=4
+    i32.const -4
+    i32.and
+    local.set $1
+    br $while-continue|1
+   end
+  end
+  global.get $~lib/rt/tcms/fromSpace
+  local.tee $3
+  i32.load offset=4
+  i32.const -4
+  i32.and
+  local.set $1
+  loop $while-continue|2
+   local.get $1
+   local.get $3
+   i32.ne
+   if
+    local.get $1
+    i32.load offset=4
+    i32.const -4
+    i32.and
+    local.get $1
+    i32.const 1920065260
+    i32.lt_u
+    if
+     local.get $1
+     i32.const 0
+     i32.store offset=4
+     local.get $1
+     i32.const 0
+     i32.store offset=8
+    else
+     global.get $~lib/rt/tcms/total
+     local.get $1
+     i32.load
+     i32.const -4
+     i32.and
+     i32.const 4
+     i32.add
+     i32.sub
+     global.set $~lib/rt/tcms/total
+     local.get $1
+     i32.const 4
+     i32.add
+     local.tee $5
+     i32.const 1920065260
+     i32.ge_u
+     if
+      global.get $~lib/rt/tlsf/ROOT
+      i32.eqz
+      if
+       call $~lib/rt/tlsf/initialize
+      end
+      global.get $~lib/rt/tlsf/ROOT
+      local.get $5
+      i32.const 4
+      i32.sub
+      local.set $4
+      local.get $5
+      i32.const 15
+      i32.and
+      i32.const 1
+      local.get $5
+      select
+      i32.eqz
+      if
+       local.get $4
+       i32.load
+       drop
+      end
+      local.get $4
+      local.get $4
+      i32.load
+      i32.const 1
+      i32.or
+      i32.store
+      local.get $4
+      call $~lib/rt/tlsf/insertBlock
+     end
+    end
+    local.set $1
+    br $while-continue|2
+   end
+  end
+  local.get $3
+  local.get $3
+  i32.store offset=4
+  local.get $3
+  local.get $3
+  i32.store offset=8
+  local.get $6
+  global.set $~lib/rt/tcms/fromSpace
+  local.get $3
+  global.set $~lib/rt/tcms/toSpace
+  global.set $~lib/rt/tcms/white
+ )
+ (func $~lib/rt/__visit_members (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  block $folding-inner1
+   block $folding-inner0
+    block $invalid
+     block $~lib/staticarray/StaticArray<f64>
+      block $~lib/staticarray/StaticArray<u32>
+       block $~lib/string/String
+        block $~lib/arraybuffer/ArrayBuffer
+         local.get $0
+         i32.const 8
+         i32.sub
+         i32.load
+         br_table $~lib/arraybuffer/ArrayBuffer $~lib/string/String $folding-inner0 $~lib/staticarray/StaticArray<u32> $folding-inner0 $~lib/staticarray/StaticArray<f64> $folding-inner1 $folding-inner1 $folding-inner0 $invalid
+        end
+        return
+       end
+       return
+      end
+      return
+     end
+     return
+    end
+    unreachable
+   end
+   local.get $0
+   i32.load
+   local.tee $0
+   if
+    local.get $0
+    if
+     global.get $~lib/rt/tcms/white
+     local.get $0
+     i32.const 20
+     i32.sub
+     local.tee $0
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     i32.eq
+     if
+      block $__inlined_func$~lib/rt/tcms/Object#unlink
+       local.get $0
+       i32.load offset=4
+       i32.const -4
+       i32.and
+       local.tee $1
+       i32.eqz
+       if
+        local.get $0
+        i32.load offset=8
+        drop
+        br $__inlined_func$~lib/rt/tcms/Object#unlink
+       end
+       local.get $1
+       local.get $0
+       i32.load offset=8
+       local.tee $2
+       i32.store offset=8
+       local.get $2
+       local.get $2
+       i32.load offset=4
+       i32.const 3
+       i32.and
+       local.get $1
+       i32.or
+       i32.store offset=4
+      end
+      global.get $~lib/rt/tcms/toSpace
+      local.tee $2
+      i32.load offset=8
+      local.set $1
+      local.get $0
+      global.get $~lib/rt/tcms/white
+      i32.eqz
+      local.get $2
+      i32.or
+      i32.store offset=4
+      local.get $0
+      local.get $1
+      i32.store offset=8
+      local.get $1
+      local.get $1
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $0
+      i32.or
+      i32.store offset=4
+      local.get $2
+      local.get $0
+      i32.store offset=8
+     end
+    end
+   end
+   return
+  end
+  local.get $0
+  i32.load
+  local.tee $0
+  if
+   global.get $~lib/rt/tcms/white
+   local.get $0
+   i32.const 20
+   i32.sub
+   local.tee $0
+   i32.load offset=4
+   i32.const 3
+   i32.and
+   i32.eq
+   if
+    block $__inlined_func$~lib/rt/tcms/Object#unlink3
+     local.get $0
+     i32.load offset=4
+     i32.const -4
+     i32.and
+     local.tee $1
+     i32.eqz
+     if
+      local.get $0
+      i32.load offset=8
+      drop
+      br $__inlined_func$~lib/rt/tcms/Object#unlink3
+     end
+     local.get $1
+     local.get $0
+     i32.load offset=8
+     local.tee $2
+     i32.store offset=8
+     local.get $2
+     local.get $2
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $1
+     i32.or
+     i32.store offset=4
+    end
+    global.get $~lib/rt/tcms/toSpace
+    local.tee $2
+    i32.load offset=8
+    local.set $1
+    local.get $0
+    global.get $~lib/rt/tcms/white
+    i32.eqz
+    local.get $2
+    i32.or
+    i32.store offset=4
+    local.get $0
+    local.get $1
+    i32.store offset=8
+    local.get $1
+    local.get $1
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    local.get $0
+    i32.or
+    i32.store offset=4
+    local.get $2
+    local.get $0
+    i32.store offset=8
+   end
+  end
+ )
+ (func $~start
+  call $start:assembly/index
+  i32.const 1920065060
+  i32.const 1920065056
+  i32.store
+  i32.const 1920065064
+  i32.const 1920065056
+  i32.store
+  i32.const 1920065056
   global.set $~lib/rt/tcms/pinSpace
-  i32.const 1920056836
-  i32.const 1920056832
+  i32.const 1920065156
+  i32.const 1920065152
   i32.store
-  i32.const 1920056840
-  i32.const 1920056832
+  i32.const 1920065160
+  i32.const 1920065152
   i32.store
-  i32.const 1920056832
+  i32.const 1920065152
   global.set $~lib/rt/tcms/toSpace
  )
 )
