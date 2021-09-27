@@ -698,13 +698,11 @@ export default {
         }
         return zeroes
       }
-      const curveExpUp = (exp = 2, flipX = false, flipY = false) => {
+      const curveGamma = (exp = 1) => {
         const factors = zeroArray()
-        const radius = 1
-        const xFactor = 1 / 255
-        for (let i = 0, x = 0; i <= 255; i++, x += xFactor) {
-          const y = Math.sqrt(Math.pow(radius, exp) - Math.pow(x, exp))
-          factors[flipX ? (255 - i) : i] = flipY ? y : 1 - y
+        for (let i = 0; i <= 255; i++) {
+          const y = 255 * Math.pow((i / 255), exp) * 1 / 255
+          factors[i] = y.toFixed(25)
         }
         return factors
       }
@@ -840,9 +838,11 @@ export default {
       }
       // util.exportArray(data)
       this.curvesHistograms = [
-        curveSinFull(0),
-        curveSinFull(0.25),
-        curveSinFull(0.5)
+        curveGamma(0.25),
+        curveGamma(0.50),
+        curveGamma(1.00),
+        curveGamma(1.50),
+        curveGamma(2.00)
       ]
     },
     drawCurves () {
