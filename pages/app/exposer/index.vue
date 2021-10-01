@@ -706,23 +706,30 @@ export default {
         }
         return factors
       }
-      const curveRootUpMid = (from, to) => {
+      const curveShadow = (flipX = false) => {
         const factors = zeroArray(256)
-        const radius = 1
-        const xFactor = 1 / 255
-        for (let i = 0, x = -1; i <= 255; i++, x += xFactor) {
-          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = y / 2 + 0.5
+        for (let i = 0; i < 256; i++) {
+          const xNorm = i / 255
+          let y = Math.sin(Math.pow(xNorm, 2) * Math.PI)
+          y = Math.pow(y, 2)
+          factors[flipX ? 255 - i : i] = y.toFixed(25)
         }
         return factors
       }
-      const curveRootDownMid = (from, to) => {
+      const curveSinRoot = () => {
         const factors = zeroArray(256)
-        const radius = 1
-        const xFactor = 1 / 255
-        for (let i = 255, x = -1; i >= 0; i--, x += xFactor) {
-          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = y / 2 + 0.5
+        for (let i = 0; i < 256; i++) {
+          let y = Math.sin(i / 255 * Math.PI)
+          y = Math.pow(y, 2)
+          factors[i] = y.toFixed(25)
+        }
+        return factors
+      }
+      const curveTo255 = () => {
+        const factors = zeroArray(256)
+        for (let i = 1; i < 256; i++) {
+          const y = 255 / (i)
+          factors[i] = y / 1
         }
         return factors
       }
@@ -758,25 +765,6 @@ export default {
         for (let i = 0; i < 256; i++) {
           const y = Math.pow(Math.sin((i) / 255 * Math.PI * 2), 2).toFixed(25)
           factors[i] = y
-        }
-        return factors
-      }
-      const blob = (center = 128, exponent = 4) => {
-        const factors = zeroArray(256)
-        const radius = 1
-        let xFactor = 1 / center
-        let x = -1
-        for (let i = 0; i <= center; i++) {
-          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = y
-          x += xFactor
-        }
-        xFactor = 1 / (255 - center)
-        x = -1
-        for (let i = 255; i >= center; i--) {
-          const y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = y
-          x += xFactor
         }
         return factors
       }
@@ -827,22 +815,9 @@ export default {
         }
         return factors
       }
-      const midUp = () => {
-        const factors = zeroArray(256)
-        let y = 0
-        for (let i = 0; i < 256; i++) {
-          y = Math.sin(i / 255 * Math.PI * 1.5) / 2 + 0.5
-          factors[i] = y
-        }
-        return factors
-      }
       // util.exportArray(data)
       this.curvesHistograms = [
-        curveGamma(0.25, true),
-        curveGamma(0.50, true),
-        curveGamma(1.00, true),
-        curveGamma(1.50, true),
-        curveGamma(2.00, true)
+        curveTo255()
       ]
     },
     drawCurves () {
