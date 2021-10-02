@@ -257,17 +257,17 @@ export function calculateClips (limit: i32, limitValue: i32):void {
   
 }
 
-export function percentileStretch (keepBalance: bool, limit: i32, limitValue: i32): void {
-  const clips = new Uint8ClampedArray(6)
+export function percentileStretch (keepBalance: bool, maxPixels: i32, limitValue: i32): void {
+  const clips = new StaticArray<u8>(6)
   clips[1] = 255
   clips[3] = 255
   clips[5] = 255
   
   if (limitValue >= 0) {
     let countOffset = countOffsets[0]
-    for (let chan = 0; chan < 3; chan++) {
-      const limitL: u32 = limit + load<u32>(countOffset)
-      const limitR: u32 = limit + load<u32>(countOffset + 255 * 4)
+    for (let channel = 0; channel < 3; channel++) {
+      const limitL: u32 = maxPixels + load<u32>(countOffset)
+      const limitR: u32 = maxPixels + load<u32>(countOffset + 255 * 4)
       let sumL: u32 = 0
       let sumR: u32 = 0
       let clipL: u8 = 0
@@ -288,8 +288,8 @@ export function percentileStretch (keepBalance: bool, limit: i32, limitValue: i3
           break
         }
       }
-      clips[0 + chan * 2] = clipL
-      clips[1 + chan * 2] = clipR
+      clips[0 + channel * 2] = clipL
+      clips[1 + channel * 2] = clipR
       countOffset += 256 * 4
     }
   }
@@ -340,13 +340,6 @@ export function percentileStretch (keepBalance: bool, limit: i32, limitValue: i3
     dst_g = load<u8>(i + 1) 
     dst_b = load<u8>(i + 2)
 
-    // avg = <i32> (divider * <f32>  (r + g + b))
-    // avg = getAverage(dst_r, dst_g, dst_b)
-
-    // curve_r = unchecked(curveSinFull_1[(avg)])
-    // curve_g = unchecked(curveSinFull_1[(avg)])
-    // curve_b = unchecked(curveSinFull_1[(avg)])
-
     temp_r = <f32> (dst_r - rclipL) * rfactor
     temp_g = <f32> (dst_g - gclipL) * gfactor
     temp_b = <f32> (dst_b - bclipL) * bfactor
@@ -358,52 +351,6 @@ export function percentileStretch (keepBalance: bool, limit: i32, limitValue: i3
     if (temp_b > 255) temp_b = 255
     if (temp_b < 0) temp_b = 0
 
-    // dst_r = <i32> temp_r
-    // dst_g = <i32> temp_g
-    // dst_b = <i32> temp_b
-    // dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-    // dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-    // dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-
-    // dstR = lerp(<f32> r, dstR, unchecked(curveSinFull[avg]))
-    // dstG = lerp(<f32> g, dstG, unchecked(curveSinFull[avg]))
-    // dstB = lerp(<f32> b, dstB, unchecked(curveSinFull[avg]))
-
-    // r = <i16>((r * (1.0 - rCurve)) + (r - rclipL) * rfactor * rCurve)
-    // g = <i16>((g * (1.0 - gCurve)) + (g - gclipL) * gfactor * gCurve)
-    // b = <i16>((b * (1.0 - bCurve)) + (b - bclipL) * bfactor * bCurve)
-
-    // r = (r > 255) ? 255 : (r < 0) ? 0 : r
-    // g = (g > 255) ? 255 : (g < 0) ? 0 : g
-    // b = (b > 255) ? 255 : (b < 0) ? 0 : b
-
-    // r = r < 0 ? 0 : r
-    // r = r > 255 ? 255 : r
-    // g = g < 0 ? 0 : g
-    // g = g > 255 ? 255 : g
-    // b = b < 0 ? 0 : b
-    // b = b > 255 ? 255 : b
-
-    // r = <i16>Math.min(Math.max(r, 0), 255)
-    // if (r > 255) {
-    //   r = 255
-    // } else if (r < 0) {
-    //   r = 0
-    // }
-    // if (g > 255) {
-    //   g = 255
-    // } else if (g < 0) {
-    //   g = 0
-    // }
-    // if (b > 255) {
-    //   b = 255
-    // } else if (b < 0) {
-    //   b = 0
-    // }
-    // store<u32>(i, 0b11111111000000000000000000000000 | 
-    //   (u32(b) << 16) | 
-    //   (u32(g) << 8) | 
-    //   u32(r))
     store<u8>(resultOffset + i, <u8> temp_r)
     store<u8>(resultOffset + i + 1, <u8> temp_g)
     store<u8>(resultOffset + i + 2, <u8> temp_b)
@@ -414,12 +361,12 @@ export function colorBalance (balanceR: i32, balanceG: i32): void {
   const originStartOffset = viewOffsets[1]
   const targetOffset = viewOffsets[2]
 
-  let r: i32 = 0
-  let g: i32 = 0
-  let b: i32 = 0
-  let dstR: f32 = 0
-  let dstG: f32 = 0
-  let dstB: f32 = 0
+  let dst_r: i32 = 0
+  let dst_g: i32 = 0
+  let dst_b: i32 = 0
+  let temp_r: f32 = 0
+  let temp_g: f32 = 0
+  let temp_b: f32 = 0
   let curveR: f32 = 0
   let curveG: f32 = 0
   let curveB: f32 = 0
@@ -428,53 +375,44 @@ export function colorBalance (balanceR: i32, balanceG: i32): void {
   const divider: f32 = 1 / 3
 
   for (let i = 0; i < viewLength; i += 4) {
-    r = load<u8>(originStartOffset + i)
-    g = load<u8>(originStartOffset + i + 1)
-    b = load<u8>(originStartOffset + i + 2)
+    dst_r = load<u8>(originStartOffset + i)
+    dst_g = load<u8>(originStartOffset + i + 1)
+    dst_b = load<u8>(originStartOffset + i + 2)
 
-    avg = <i32> (divider * <f32> (r + g + b))
+    avg = getAverage(dst_r, dst_g, dst_b)
 
-    dstR = <f32> (r + balanceR)
-    dstG = <f32> (g + balanceG)
-    dstB = <f32> (b - balanceR)
+    temp_r = <f32> (dst_r + balanceG)
+    temp_g = <f32> (dst_g + balanceR)
+    temp_b = <f32> (dst_b + 0)
 
-    if (balanceR >= 0) {
-      curveR = unchecked(curveSinDown[r])
-      curveB = unchecked(curveSinUp[b])
-    } else {
-      curveR = unchecked(curveSinUp[r])
-      curveB = unchecked(curveSinDown[b])
-    }
+    // if (balanceR >= 0) {
+    //   curveR = unchecked(curveSinDown[dst_r])
+    //   curveB = unchecked(curveSinUp[dst_b])
+    // } else {
+    //   curveR = unchecked(curveSinUp[dst_r])
+    //   curveB = unchecked(curveSinDown[dst_b])
+    // }
 
-    if (balanceG >= 0) {
-      curveG = unchecked(curveSinDown[g])      
-    } else {
-      curveG = unchecked(curveSinUp[g])
-    }
+    // if (balanceG >= 0) {
+    //   curveG = unchecked(curveSinDown[dst_g])
+    // } else {
+    //   curveG = unchecked(curveSinUp[dst_g])
+    // }
 
-    dstR = lerp(<f32> r, dstR, curveR)
-    dstG = lerp(<f32> g, dstG, curveG)
-    dstB = lerp(<f32> b, dstB, curveB)
+    // temp_r = lerp(<f32> dst_r, temp_r, curveR)
+    // temp_g = lerp(<f32> dst_g, temp_g, curveG)
+    // temp_b = lerp(<f32> dst_b, temp_b, curveB)
 
-    if (dstR > 255) {
-      dstR = 255
-    } else if (dstR < 0) {
-      dstR = 0
-    }
-    if (dstG > 255) {
-      dstG = 255
-    } else if (dstG < 0) {
-      dstG = 0
-    }
-    if (dstB > 255) {
-      dstB = 255
-    } else if (dstB < 0) {
-      dstB = 0
-    }
+    if (temp_r > 255) temp_r = 255
+    if (temp_r < 0) temp_r = 0
+    if (temp_g > 255) temp_g = 255
+    if (temp_g < 0) temp_g = 0
+    if (temp_b > 255) temp_b = 255
+    if (temp_b < 0) temp_b = 0
 
-    store<u8>(targetOffset + i, <u8> dstR)
-    store<u8>(targetOffset + i + 1, <u8> dstG)
-    store<u8>(targetOffset + i + 2, <u8> dstB)
+    store<u8>(targetOffset + i, <u8> temp_r)
+    store<u8>(targetOffset + i + 1, <u8> temp_g)
+    store<u8>(targetOffset + i + 2, <u8> temp_b)
   }
 }
 
