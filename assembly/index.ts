@@ -1,4 +1,5 @@
 // dstR = <f32> (<f32> (r - clipL) * rfactor + (<f32> midAmount * 0.25 * unchecked(curveSinDown[r])))
+// midR = <f32> (<f32> (r - clipL) * rfactor)
 let viewLength: i32
 let channelLength: i32
 let width: i32
@@ -15,7 +16,9 @@ let luma_strength_r: f64 = 0
 let luma_strength_g: f64 = 0
 let luma_strength_b: f64 = 0
 
-const exposure_cache = new StaticArray<StaticArray<i32>>(200)
+const exposure_cache = new StaticArray<StaticArray<i32>>(201)
+const shadow_cache = new StaticArray<StaticArray<i32>>(201)
+const light_cache = new StaticArray<StaticArray<i32>>(201)
 
 const pyramidRoof = new Float32Array(256)
 
@@ -205,6 +208,8 @@ export function initData (_width: i32, _height: i32, _totalViews: u32): void {
   }
 
   cacheExposure()
+  cacheShadow()
+  cacheLight()
 }
 
 export function process (runPercentileStretch: bool, runColorBalance: bool, runLight: bool, 
@@ -314,52 +319,51 @@ export function percentileStretch (keepBalance: bool, limit: i32, limitValue: i3
 
   const resultOffset = viewOffsets[1]
 
-  let r: i32 = 0
-  let g: i32 = 0
-  let b: i32 = 0
-  let rCurve: f32 = 1
-  let gCurve: f32 = 1
-  let bCurve: f32 = 1
+  let dst_r: i32 = 0
+  let dst_g: i32 = 0
+  let dst_b: i32 = 0
+  let curve_r: f64 = 1
+  let curve_g: f64 = 1
+  let curve_b: f64 = 1
   const rclipL = unchecked(clips[0])
   const gclipL = unchecked(clips[2])
   const bclipL = unchecked(clips[4])
-  let dstR: f32 = 0
-  let dstG: f32 = 0
-  let dstB: f32 = 0
+  let temp_r: f64 = 0
+  let temp_g: f64 = 0
+  let temp_b: f64 = 0
 
   let avg: i32 = 0
   const divider: f32 = 1 / 3
 
   for (let i = 0; i < viewLength; i += 4) {
-    r = load<u8>(i)
-    g = load<u8>(i + 1) 
-    b = load<u8>(i + 2)
+    dst_r = load<u8>(i)
+    dst_g = load<u8>(i + 1) 
+    dst_b = load<u8>(i + 2)
 
     // avg = <i32> (divider * <f32>  (r + g + b))
+    // avg = getAverage(dst_r, dst_g, dst_b)
 
-    // rCurve = unchecked(pyramidRoof[(r)])
-    // gCurve = unchecked(pyramidRoof[(g)])
-    // bCurve = unchecked(pyramidRoof[(b)])
+    // curve_r = unchecked(curveSinFull_1[(avg)])
+    // curve_g = unchecked(curveSinFull_1[(avg)])
+    // curve_b = unchecked(curveSinFull_1[(avg)])
 
-    dstR = <f32> (r - rclipL) * rfactor
-    dstG = <f32> (g - gclipL) * gfactor
-    dstB = <f32> (b - bclipL) * bfactor
+    temp_r = <f32> (dst_r - rclipL) * rfactor
+    temp_g = <f32> (dst_g - gclipL) * gfactor
+    temp_b = <f32> (dst_b - bclipL) * bfactor
 
-    if (dstR > 255) {
-      dstR = 255
-    } else if (dstR < 0) {
-      dstR = 0
-    }
-    if (dstG > 255) {
-      dstG = 255
-    } else if (dstG < 0) {
-      dstG = 0
-    }
-    if (dstB > 255) {
-      dstB = 255
-    } else if (dstB < 0) {
-      dstB = 0
-    }
+    if (temp_r > 255) temp_r = 255
+    if (temp_r < 0) temp_r = 0
+    if (temp_g > 255) temp_g = 255
+    if (temp_g < 0) temp_g = 0
+    if (temp_b > 255) temp_b = 255
+    if (temp_b < 0) temp_b = 0
+
+    // dst_r = <i32> temp_r
+    // dst_g = <i32> temp_g
+    // dst_b = <i32> temp_b
+    // dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
+    // dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
+    // dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
 
     // dstR = lerp(<f32> r, dstR, unchecked(curveSinFull[avg]))
     // dstG = lerp(<f32> g, dstG, unchecked(curveSinFull[avg]))
@@ -400,9 +404,9 @@ export function percentileStretch (keepBalance: bool, limit: i32, limitValue: i3
     //   (u32(b) << 16) | 
     //   (u32(g) << 8) | 
     //   u32(r))
-    store<u8>(resultOffset + i, <u8> dstR)
-    store<u8>(resultOffset + i + 1, <u8> dstG)
-    store<u8>(resultOffset + i + 2, <u8> dstB)
+    store<u8>(resultOffset + i, <u8> temp_r)
+    store<u8>(resultOffset + i + 1, <u8> temp_g)
+    store<u8>(resultOffset + i + 2, <u8> temp_b)
   }
 }
 
@@ -478,64 +482,6 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
   const originStartOffset = viewOffsets[2]
   const targetOffset = viewOffsets[3]
 
-  let clipL_mid: i32 = 0
-  let clipR_mid: i32 = 255
-  let clipL_shadow: i32 = 0
-  let clipR_shadow: i32 = 255
-  let clipL_light: i32 = 0
-  let clipR_light: i32 = 255
-
-  if (midAmount > 0) {
-    // clipR_mid = 255 - <i32> (midAmount * 1.5)
-    clipR_mid = 255 + (midAmount) * 10
-  } else {
-    // clipL_mid = 0
-    clipR_mid = 255 + -midAmount * 5
-  }
-  if (lightAmount > 0) {
-    clipL_light = <i32> -lightAmount
-    clipR_light = <i32> (255 + lightAmount)
-  } else {
-    clipL_light = <i32> -lightAmount
-    clipR_light = <i32> (255 + lightAmount)
-  }
-  if (shadowAmount > 0) {
-    clipL_shadow = 0
-    clipR_shadow = 255 - midAmount
-  } else {
-
-  }
-
-  const exp_stretch_strength_full_down: f64 = (1 / (255 + (Math.abs(midAmount) * 5)) * 255)
-  const exp_stretch_curve_down: f64 = 1 - unchecked(curveLogDown0[<i32> (Math.abs(midAmount) * 0.01 * 255)])
-  const exp_stretch_strength_down: f64 = lerp_f64(1, exp_stretch_strength_full_down, exp_stretch_curve_down)
-  
-  const exp_stretch_strength_full_up: f64 = (1 + 1 / (255 + (Math.abs(midAmount) * 5)) * 255)
-  const exp_stretch_curve_up: f64 = 1 - unchecked(curve_gamma_down_0_50[<i32> (Math.abs(midAmount) * 0.01 * 255)])
-  const exp_stretch_strength_up: f64 = lerp_f64(1, exp_stretch_strength_full_up, exp_stretch_curve_up)
-
-  const mid_normalized: f64 = <f64> Math.abs(midAmount) * 0.01
-
-  const spread_factor_mid: f64 = 1 / <f64> (clipR_mid - clipL_mid) * 255
-  const spread_factor_light: f32 = 1 / <f32> (clipR_light - clipL_light) * 255
-  const spread_factor_shadow: f32 = 1 / <f32> (clipR_shadow - clipL_shadow) * 255
-
-  const exp_minus: f64 = Math.pow(2, -Math.abs(midAmount) * 0.01 * 5)
-  const exp_plus: f64 = Math.pow(2, +Math.abs(midAmount) * 0.01 * 5)
-  
-  // const rgb2normalized = new Float32Array(256)
-  // const minVal: f32 = 1
-  // const maxVal: f32 = 255
-  // let normVal: f32 = minVal
-  // for (let i = 0; i < 256; i++) {
-  //   rgb2normalized[i] = normVal
-  //   normVal += (maxVal - minVal) / 255
-  // }
-
-  let luma_r: f64 = 0
-  let luma_g: f64 = 0
-  let luma_b: f64 = 0
-
   let temp_r: f64 = 0
   let temp_g: f64 = 0
   let temp_b: f64 = 0
@@ -548,269 +494,64 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
   let curve_b: f64 = 0
 
   let avg: i32 = 0
-
-  let lowest: i32 = 0
-  let middle: i32 = 0
-  let highest: i32 = 0
-
-  // avg = <i32> (r * 0.2126 + g * 0.7152 + b * 0.0722)
-  // midR = <f32> (<f32> (r - clipL) * rfactor)
-  const exp_amount_minus: i32 = 100 - <i32> Math.abs(midAmount)
-  const exp_amount_plus: i32 = <i32> Math.abs(midAmount) + 99
+  
+  const exp_index: i32 = 100 + midAmount
+  const shadow_index: i32 = 100 + shadowAmount
+  const light_index: i32 = 100 + lightAmount
 
   for (let i = 0; i < viewLength; i += 4) {
     dst_r = load<u8>(originStartOffset + i)
     dst_g = load<u8>(originStartOffset + i + 1)
     dst_b = load<u8>(originStartOffset + i + 2)
 
-    luma_r = dst_r * luma_strength_r
-    luma_g = dst_g * luma_strength_g
-    luma_b = dst_b * luma_strength_b
-
     // EXposure
-    avg = <i32> (luma_r + luma_g + luma_b)
-    // highest = highestRGB(dst_r, dst_g, dst_b)
-    // middle = middleRGB(dst_r, dst_g, dst_b)
-    // lowest = lowestRGB(dst_r, dst_g, dst_b)
-
-    if (midAmount > 0) {
-      
-      // temp_r = dst_r + midAmount
-      // temp_g = dst_g + midAmount
-      // temp_b = dst_b + midAmount
-      // dst_r = <i32> lerp_clamped(dst_r, temp_r, unchecked(curve_sin_mid_pow[dst_r]))
-      // dst_g = <i32> lerp_clamped(dst_g, temp_g, unchecked(curve_sin_mid_pow[dst_g]))
-      // dst_b = <i32> lerp_clamped(dst_b, temp_b, unchecked(curve_sin_mid_pow[dst_b]))
-
-      dst_r = unchecked(exposure_cache[exp_amount_plus][dst_r])
-      dst_g = unchecked(exposure_cache[exp_amount_plus][dst_g])
-      dst_b = unchecked(exposure_cache[exp_amount_plus][dst_b])
-    }
-    if (midAmount < 0) {
-      // curve_r = unchecked(lineDown[dst_r])
-      // curve_g = unchecked(lineDown[dst_g])
-      // curve_b = unchecked(lineDown[dst_b])
-
-      // temp_r = dst_r + <f64> midAmount * 1000
-      // temp_g = dst_g + <f64> midAmount * 1000
-      // temp_b = dst_b + <f64> midAmount * 1000
-
-      // if (temp_r < 0) temp_r = 0
-      // if (temp_g < 0) temp_g = 0
-      // if (temp_b < 0) temp_b = 0
-
-      // dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-      // dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-      // dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-
-      // let index_r: i32 = <i32> (<f64> dst_r * lerp_f64(1, 0.8, <f64> -midAmount * 0.01) + <f64> avg * lerp_f64(0, 0.2, <f64> -midAmount * 0.01))
-      // let index_g: i32 = <i32> (<f64> dst_g * lerp_f64(1, 0.8, <f64> -midAmount * 0.01) + <f64> avg * lerp_f64(0, 0.2, <f64> -midAmount * 0.01))
-      // let index_b: i32 = <i32> (<f64> dst_b * lerp_f64(1, 0.8, <f64> -midAmount * 0.01) + <f64> avg * lerp_f64(0, 0.2, <f64> -midAmount * 0.01))
-
-      dst_r = unchecked(exposure_cache[exp_amount_minus][dst_r])
-      dst_g = unchecked(exposure_cache[exp_amount_minus][dst_g])
-      dst_b = unchecked(exposure_cache[exp_amount_minus][dst_b]) 
-    }
-
+    dst_r = unchecked(exposure_cache[exp_index][dst_r])
+    dst_g = unchecked(exposure_cache[exp_index][dst_g])
+    dst_b = unchecked(exposure_cache[exp_index][dst_b])
     
     // Shadows
-    // avg = <i32> (divider * (dst_r + dst_g + dst_b))
-    avg = <i32> (dst_r * luma_strength_r + dst_g * luma_strength_g + dst_b * luma_strength_b)
-    // avg = averageCompressed(dst_r, dst_g, dst_b, divider)
-    // middle = middleRGB(dst_r, dst_g, dst_b)
     if (shadowAmount > 0) {
-      // const shadow_exp: f64 = Math.pow(2, shadowAmount * 0.05)
+      avg = getAverage(dst_r, dst_g, dst_b)
+
+      temp_r = unchecked(shadow_cache[shadow_index][dst_r])
+      temp_g = unchecked(shadow_cache[shadow_index][dst_g])
+      temp_b = unchecked(shadow_cache[shadow_index][dst_b])
+
       curve_r = unchecked(curve_gamma_down_2[avg])
       curve_g = unchecked(curve_gamma_down_2[avg])
       curve_b = unchecked(curve_gamma_down_2[avg])
-      // lfineUpFromPoint1
-      // temp_r = <f32> dst_r  + <f64> shadowAmount* lerp_f64(shadow_exp, 1, unchecked(curve_gamma_down_2[dst_r]))
-      // temp_g = <f32> dst_g  + <f64> shadowAmount* lerp_f64(shadow_exp, 1, unchecked(curve_gamma_down_2[dst_g]))
-      // temp_b = <f32> dst_b  + <f64> shadowAmount* lerp_f64(shadow_exp, 1, unchecked(curve_gamma_down_2[dst_b]))
-      temp_r = <f32> dst_r + <f64> shadowAmount  * (unchecked(curve_gamma_up_0_50[dst_r]) + 0.1)
-      temp_g = <f32> dst_g + <f64> shadowAmount  * (unchecked(curve_gamma_up_0_50[dst_g]) + 0.1)
-      temp_b = <f32> dst_b + <f64> shadowAmount  * (unchecked(curve_gamma_up_0_50[dst_b]) + 0.1)
-
-      // if (temp_r > 255)  temp_r = 255
-      // if (temp_g > 255)  temp_g = 255
-      // if (temp_b > 255)  temp_b = 255
 
       dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
       dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
       dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
     }
     if (shadowAmount < 0) {
-      curve_r = unchecked(curve_gamma_down_2[dst_r])
-      curve_g = unchecked(curve_gamma_down_2[dst_g])
-      curve_b = unchecked(curve_gamma_down_2[dst_b])
-      
-      temp_r = <f32> dst_r + <f32> shadowAmount * (unchecked(curve_gamma_up_0_50[dst_r]) + 0.1)
-      temp_g = <f32> dst_g + <f32> shadowAmount * (unchecked(curve_gamma_up_0_50[dst_g]) + 0.1)
-      temp_b = <f32> dst_b + <f32> shadowAmount * (unchecked(curve_gamma_up_0_50[dst_b]) + 0.1)
-
-      if (temp_r < 0)  temp_r = 0
-      if (temp_g < 0)  temp_g = 0
-      if (temp_b < 0)  temp_b = 0
-      
-      dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-      dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-      dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
+      dst_r = unchecked(shadow_cache[shadow_index][dst_r])
+      dst_g = unchecked(shadow_cache[shadow_index][dst_g])
+      dst_b = unchecked(shadow_cache[shadow_index][dst_b])
     }
 
     //  Lights
-    // avg = <i32> (divider * (dst_r + dst_g + dst_b))
-    avg = <i32> (dst_r * luma_strength_r + dst_g * luma_strength_g + dst_b * luma_strength_b)
-    // avg = averageCompressed(dst_r, dst_g, dst_b, divider)
-    // middle = middleRGB(dst_r, dst_g, dst_b)
     if (lightAmount > 0) {
-      curve_r = unchecked(curve_gamma_up_2[dst_r])
-      curve_g = unchecked(curve_gamma_up_2[dst_g])
-      curve_b = unchecked(curve_gamma_up_2[dst_b])
-      
-      temp_r = <f32> dst_r + <f64> lightAmount * (unchecked(curve_gamma_down_0_50[dst_r]) + 0.1)
-      temp_g = <f32> dst_g + <f64> lightAmount * (unchecked(curve_gamma_down_0_50[dst_g]) + 0.1)
-      temp_b = <f32> dst_b + <f64> lightAmount * (unchecked(curve_gamma_down_0_50[dst_b]) + 0.1)
-
-      if (temp_r > 255)  temp_r = 255
-      if (temp_g > 255)  temp_g = 255
-      if (temp_b > 255)  temp_b = 255
-
-      dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-      dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-      dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-      // curve_r = unchecked(curve_gamma_up_2[avg])
-      // curve_g = unchecked(curve_gamma_up_2[avg])
-      // curve_b = unchecked(curve_gamma_up_2[avg])
-      
-      // temp_r = <f32> dst_r + <f32> lightAmount * unchecked(curveSinFull_0[avg])
-      // temp_g = <f32> dst_g + <f32> lightAmount * unchecked(curveSinFull_0[avg])
-      // temp_b = <f32> dst_b + <f32> lightAmount * unchecked(curveSinFull_0[avg])
-      
-      // dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-      // dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-      // dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
+      dst_r = unchecked(light_cache[light_index][dst_r])
+      dst_g = unchecked(light_cache[light_index][dst_g])
+      dst_b = unchecked(light_cache[light_index][dst_b])
     }
     if (lightAmount < 0) {
-
+      avg = getAverage(dst_r, dst_g, dst_b)
       curve_r = unchecked(curve_gamma_up_2[avg])
       curve_g = unchecked(curve_gamma_up_2[avg])
       curve_b = unchecked(curve_gamma_up_2[avg])
       
-      temp_r = <f32> dst_r + <f64> lightAmount * (unchecked(curve_gamma_down_0_50[dst_r]) + 0.1)
-      temp_g = <f32> dst_g + <f64> lightAmount * (unchecked(curve_gamma_down_0_50[dst_g]) + 0.1)
-      temp_b = <f32> dst_b + <f64> lightAmount * (unchecked(curve_gamma_down_0_50[dst_b]) + 0.1)
-
-      // if (temp_r > 255)  temp_r = 255
-      // if (temp_g > 255)  temp_g = 255
-      // if (temp_b > 255)  temp_b = 255
+      temp_r = unchecked(light_cache[light_index][dst_r])
+      temp_g = unchecked(light_cache[light_index][dst_g])
+      temp_b = unchecked(light_cache[light_index][dst_b])
 
       dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
       dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
       dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-
-      // const exp_light_minus: f64 = Math.pow(2, <f64> lightAmount * 0.05)
-      // curve_r = unchecked(curveSinFull_5[dst_r])
-      // curve_g = unchecked(curveSinFull_5[dst_g])
-      // curve_b = unchecked(curveSinFull_5[dst_b])
-      // if (dst_r > 127) {
-      //   const inv_r: i32 = (255 - dst_r) 
-      //   temp_r = inv_r * exp_light_minus
-      //   temp_r = dst_r - (inv_r - temp_r)
-      // } 
-      // if (dst_g > 127) {
-      //   const inv_g: i32 = (255 - dst_g) 
-      //   temp_g = inv_g * exp_light_minus
-      //   temp_g = dst_g - (inv_g - temp_g)
-      // } 
-      // if (dst_b > 127) {
-      //   const inv_b: i32 = (255 - dst_b) 
-      //   temp_b = inv_b * exp_light_minus
-      //   temp_b = dst_b - (inv_b - temp_b)
-      // } 
-
-      // if (dst_r <= 127) {
-      //   temp_r = <f64> dst_r * exp_light_minus
-      // }
-      // if (dst_g <= 127) {
-      //   temp_g = <f64> dst_g * exp_light_minus
-      // }
-      // if (dst_b <= 127) {
-      //   temp_b = <f64> dst_b * exp_light_minus
-      // }
-
-      // dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-      // dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-      // dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-
-
-
-
-
-      // curve_r = unchecked(curveSinFull_25[dst_r])
-      // curve_g = unchecked(curveSinFull_25[dst_g])
-      // curve_b = unchecked(curveSinFull_25[dst_b])
-      
-      // temp_r = <f32> dst_r + <f32> lightAmount * unchecked(curve_gamma_up_2[avg]) // lfineUpFromPoint1
-      // temp_g = <f32> dst_g + <f32> lightAmount * unchecked(curve_gamma_up_2[avg])
-      // temp_b = <f32> dst_b + <f32> lightAmount * unchecked(curve_gamma_up_2[avg])
-
-      // dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-      // dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-      // dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
     }
 
-
-  //   // Melt
-  //   // lowest = lowestRGB(dst_r, dst_g, dst_b)
-  //   // highest = highestRGB(dst_r, dst_g, dst_b)  
-  //   avg = <i32> (divider * (dst_r + dst_g + dst_b))
-
-  //   curve_r = unchecked(curveSinFull[dst_r]) * 0.9 + 0.1
-  //   curve_g = unchecked(curveSinFull[dst_g]) * 0.9 + 0.1
-  //   curve_b = unchecked(curveSinFull[dst_b]) * 0.9 + 0.1
-  //   if (lightAmount > 0) {
-  //     temp_r = (<f64> dst_r + (<f64> lightAmount * (unchecked(lineDownToPoint1[avg]))))
-  //     temp_g = (<f64> dst_g + (<f64> lightAmount * (unchecked(lineDownToPoint1[avg]))))
-  //     temp_b = (<f64> dst_b + (<f64> lightAmount * (unchecked(lineDownToPoint1[avg]))))
-
-  //     dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-  //     dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-  //     dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-  //   } if (lightAmount < 0) {
-  //     temp_r = (<f64> dst_r + (<f64> lightAmount * (unchecked(lineUpFromPoint1[avg]))))
-  //     temp_g = (<f64> dst_g + (<f64> lightAmount * (unchecked(lineUpFromPoint1[avg]))))
-  //     temp_b = (<f64> dst_b + (<f64> lightAmount * (unchecked(lineUpFromPoint1[avg]))))
-
-  //     dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-  //     dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-  //     dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-  //   }
-
-  //  // Repeat
-  //  // lowest = lowestRGB(dstR, dstG, dstB)
-  //  // highest = highestRGB(dstR, dstG, dstB)
-  //  avg = <i32> (<f32> (dst_r + dst_g + dst_b) * divider)
-  //  curve_r = unchecked(curveSinFull[dst_r]) * 0.9 + 0.1
-  //  curve_g = unchecked(curveSinFull[dst_g]) * 0.9 + 0.1
-  //  curve_b = unchecked(curveSinFull[dst_b]) * 0.9 + 0.1
-  //  if (lightAmount > 0) {
-  //   temp_r = (<f64> dst_r + (<f64> -lightAmount * (unchecked(lineUpFromPoint1[avg]))))
-  //   temp_g = (<f64> dst_g + (<f64> -lightAmount * (unchecked(lineUpFromPoint1[avg]))))
-  //   temp_b = (<f64> dst_b + (<f64> -lightAmount * (unchecked(lineUpFromPoint1[avg]))))
-    
-  //   dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-  //   dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-  //   dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-  //  } if (lightAmount < 0) {
-  //   temp_r = (<f64> dst_r + (<f64> -lightAmount * (unchecked(lineDownToPoint1[avg]))))
-  //   temp_g = (<f64> dst_g + (<f64> -lightAmount * (unchecked(lineDownToPoint1[avg]))))
-  //   temp_b = (<f64> dst_b + (<f64> -lightAmount * (unchecked(lineDownToPoint1[avg]))))
-    
-  //   dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-  //   dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-  //   dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
-  //  }
-    
   //   // Saturation
   //   avg = <i32> (<f32> (dstR + dstG + dstB) * divider)
   //   lowest = lowestRGB(dstR, dstG, dstB)
@@ -1150,7 +891,7 @@ export function lightColorful (midAmount: i32, shadowAmount: i32, highlightAmoun
   }
 }
 
-export function lerp (a: f32, b: f32, f: f32): f32 {
+function lerp (a: f32, b: f32, f: f32): f32 {
   return  (a * (1.0 - f)) + (b * f)
 }
 function lerp_f64 (a: f64, b: f64, f: f64): f64 {
@@ -1177,8 +918,8 @@ function findPercentage (number: f32, a: f32, b: f32): f32 {
   return (number - a) / (b - a)
 }
 
-function averageCompressed (r: i32, g: i32, b: i32, divider: f64): i32 {
-  return <i32> ((r * 0.2126 + g * 0.7152 + b * 0.0722) * divider)
+function getAverage (r: i32, g: i32, b: i32): i32 {
+  return <i32> (r * luma_strength_r + g * luma_strength_g + b * luma_strength_b)
 }
 
 function lowestRGB(r: i32, g: i32, b: i32): i32 {
@@ -1223,10 +964,13 @@ function highestRGB(r: i32, g: i32, b: i32): i32 {
 }
 
 function cacheExposure(): void {
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 201; i++) {
     exposure_cache[i] = new StaticArray<i32>(256)
-    const exp_amount: i32 = -100 + (i >= 100 ? i + 1 : i)
-    // consoleLog(exp_amount)
+    const exp_amount: i32 = -100 + i
+    // i = 0    exp = -100
+    // i = 99   exp = -1
+    // I = 100  exp = 1
+    // I = 199  exp = 100
     const exp_plus: f64 = Math.pow(2, Math.abs(exp_amount) * 0.05)
     const exp_minus: f64 = Math.pow(2, -Math.abs(exp_amount) * 0.05)
 
@@ -1236,16 +980,15 @@ function cacheExposure(): void {
     const exp_stretch_curve_down: f64 = 1 - unchecked(curve_gamma_down_0_25[<i32> (Math.abs(exp_amount) * 2.55)])
     const exp_stretch_strength_down: f64 = lerp_f64(1, down_full, exp_stretch_curve_down)
 
-    for (let f = 0; f < 256; f++) {
-      let dst_p: i32 = f
+    for (let dst_p = 0; dst_p < 256; dst_p++) {
       let curve_p: f64 = 0
       let temp_p: f64 = dst_p
       // Exposure
-      if (i >= 100) {
+      if (exp_amount > 0) {
         curve_p = (1 - unchecked(curveLogUp0[dst_p]))
         temp_p = lerp_f64(<f64> dst_p, <f64> dst_p * exp_plus, curve_p)
         if (temp_p > 255) temp_p = 255
-      } else {
+      } else if (exp_amount < 0) {
         curve_p = unchecked(curve_gamma_down_0_25[<i32> (0.99 * dst_p)])
         temp_p = <f64> dst_p * lerp_f64(1, exp_minus, curve_p) 
         temp_p = lerp_f64(dst_p, temp_p, curve_p)
@@ -1254,7 +997,58 @@ function cacheExposure(): void {
   
       // Stretch
 
-      exposure_cache[i][f] = <i32> temp_p
+      exposure_cache[i][dst_p] = <i32> temp_p
+    }
+  }
+}
+
+function cacheShadow (): void {
+  for (let i = 0; i < 201; i++) {
+    shadow_cache[i] = new StaticArray<i32>(256)
+    const shadow_amount: i32 = -100 + i
+    for (let dst_p = 0; dst_p < 256; dst_p++) {
+      let temp_p: f64 = dst_p
+
+      if (shadow_amount > 0) {
+        temp_p = <f32> dst_p + <f64> shadow_amount * (unchecked(curve_gamma_up_0_50[dst_p]) + 0.1)
+        if (temp_p > 255)  temp_p = 255
+
+      } else if (shadow_amount < 0) {
+        const curve_r: f64 = unchecked(curve_gamma_down_2[dst_p])
+        temp_p = <f32> dst_p + <f32> shadow_amount * (unchecked(curve_gamma_up_0_50[dst_p]) + 0.1)
+
+        if (temp_p < 0)  temp_p = 0
+        
+        temp_p = <i32> lerp_clamped(dst_p, temp_p, curve_r)
+      }
+
+      shadow_cache[i][dst_p] = <i32> temp_p
+    }
+  }
+}
+
+function cacheLight (): void {
+  for (let i = 0; i < 201; i++) {
+    light_cache[i] = new StaticArray<i32>(256)
+    const light_amount: i32 = -100 + i
+    for (let dst_p = 0; dst_p < 256; dst_p++) {
+      let temp_p: f64 = dst_p
+
+      if (light_amount > 0) {
+        const curve_r = unchecked(curve_gamma_up_2[dst_p])
+        
+        temp_p = <f32> dst_p + <f64> light_amount * (unchecked(curve_gamma_down_0_50[dst_p]) + 0.1)
+  
+        if (temp_p > 255)  temp_p = 255
+  
+        temp_p = <i32> lerp_clamped(dst_p, temp_p, curve_r)
+      } else if (light_amount < 0) {
+        temp_p = <f32> dst_p + <f64> light_amount * (unchecked(curve_gamma_down_0_50[dst_p]) + 0.1)
+
+        // if (temp_p > 255)  temp_p = 255
+      }
+
+      light_cache[i][dst_p] = <i32> temp_p
     }
   }
 }

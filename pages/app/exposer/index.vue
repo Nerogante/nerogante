@@ -364,7 +364,7 @@ export default {
       },
       controls: [
         [
-          { limit: 0, keepBalance: false }
+          { limit: 0, keepBalance: true }
         ],
         [
           { strength: 0 }, { strength: 0 }
@@ -375,7 +375,7 @@ export default {
       ],
       lastControls: [
         [
-          { limit: 0, keepBalance: false }
+          { limit: 0, keepBalance: true }
         ],
         [
           { strength: 0 }, { strength: 0 }
@@ -418,7 +418,7 @@ export default {
       }
     },
     clipDefault () {
-      return this.controls[0][0].limit === 0 && !this.controls[0][0].keepBalance
+      return (this.controls[0][0].limit === 0)
     },
     tempDefault () {
       return this.controls[1][0].strength === 0 && this.controls[1][1].strength === 0
@@ -552,6 +552,7 @@ export default {
         this.debugMemory()
 
         this.updateHistograms(0)
+        this.adjustmentTabs = 0
         this.imageLoaded = true
       }
     },
@@ -632,7 +633,7 @@ export default {
       const controls = this.controls[index]
       if (index === 0) {
         controls[0].limit = 0
-        controls[0].keepBalance = false
+        controls[0].keepBalance = true
       } else if (index === 1) {
         controls.forEach((element) => {
           element.strength = 0
