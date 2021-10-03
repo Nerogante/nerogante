@@ -12,7 +12,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "asbuild:untouched": "asc assembly/index.ts --target debug",
     "asbuild:optimized": "asc assembly/index.ts --target release",
-    "asbuild": "npm run asbuild:optimized -- --importMemory --memoryBase=1920000000 -O3 --noAssert --runtime minimal --exportRuntime",
+    "asbuild": "npm run asbuild:optimized -- -O3 --noAssert --runtime minimal --exportRuntime",
     "test": "node tests"
   },
   "dependencies": {

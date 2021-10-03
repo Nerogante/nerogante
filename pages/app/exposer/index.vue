@@ -152,15 +152,15 @@
                   @click:prepend="clickAddSpreadLimit(-1, 0, 20)"
                   @input="inputControl(0)"
                 />
-                <v-checkbox
-                  v-model="controls[0][0].keepBalance"
-                  label="Keep Balance"
-                  color="blue"
-                  hide-details
-                  dense
-                  @click="inputControl(0)"
-                />
-                <div class="d-flex justify-end pt-2">
+                <div class="d-flex justify-space-between pt-2">
+                  <v-checkbox
+                    v-model="controls[0][0].keepBalance"
+                    label="Balanced"
+                    color="blue"
+                    hide-details
+                    dense
+                    @click="inputControl(0)"
+                  />
                   <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetControls(0)">
                     <v-icon left>
                       mdi-undo-variant
@@ -177,25 +177,33 @@
               <v-col cols="12" class="">
                 <v-col cols="12" class="pa-0 temperature">
                   <v-slider
-                    v-for="(element, index) in controls[1]"
+                    v-for="(element, index) in [0, 1, 2]"
+                    v-show="!(index === 2 && controls[1][3].keepBalance)"
                     :key="index"
-                    v-model="element.strength"
-                    :class="['gradient-red', 'gradient-green'][index]"
+                    v-model="controls[1][index].strength"
+                    :class="['gradient-red', 'gradient-green', ''][index]"
                     dense
                     color="transparent"
-                    min="-256"
-                    max="256"
+                    min="-100"
+                    max="100"
                     thumb-label="always"
                     thumb-size=""
                     :thumb-color="['red darken-3', 'green darken-3', 'grey darken-2'][index]"
                     append-icon="mdi-plus"
                     prepend-icon="mdi-minus"
-                    @click:append="clickAddBalanceStrength(1, -256, 256)"
-                    @click:prepend="clickAddBalanceStrength(-1, -256, 256)"
+                    @click:append="clickAddBalanceStrength(1, -100, 100)"
+                    @click:prepend="clickAddBalanceStrength(-1, -100, 100)"
                     @input="inputControl(1)"
                   />
                 </v-col>
-                <div class="d-flex justify-end pt-2">
+                <div class="d-flex justify-end">
+                  <!-- <v-checkbox
+                    v-model="controls[1][3].keepBalance"
+                    label="Balanced"
+                    color="blue"
+                    hide-details
+                    dense
+                  /> -->
                   <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetControls(1)">
                     <v-icon left>
                       mdi-undo-variant
@@ -231,7 +239,7 @@
                     @input="inputControl(2)"
                   />
                 </v-col>
-                <div class="d-flex justify-end pt-2">
+                <div class="d-flex justify-end">
                   <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetControls(2)">
                     <v-icon left>
                       mdi-undo-variant
@@ -242,6 +250,40 @@
               </v-col>
             </v-tab-item>
             <!--  -->
+
+            <!-- Color -->
+            <v-tab-item value="tab-4" :transition="tabsTransition" :reverse-transition="tabsTransition" eager>
+              <v-col cols="12" class="py-0">
+                <v-col cols="12" class="px-0 pb-0">
+                  <v-slider
+                    v-for="(element, index) in controls[3]"
+                    :key="index"
+                    v-model="element.value"
+                    :vertical="false"
+                    dense
+                    min="-100"
+                    max="100"
+                    thumb-label="always"
+                    thumb-size=""
+                    :hide-details="false"
+                    thumb-color="blue darken-3"
+                    append-icon="mdi-plus"
+                    prepend-icon="mdi-minus"
+                    @click:append="clickAddMidShift(1, -100, 100)"
+                    @click:prepend="clickAddMidShift(-1, -100, 100)"
+                    @input="inputControl(3)"
+                  />
+                </v-col>
+                <div class="d-flex justify-end">
+                  <v-btn dark :disabled="!channelControlsEnabled" @click="clickResetControls(3)">
+                    <v-icon left>
+                      mdi-undo-variant
+                    </v-icon>
+                    Reset
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-tab-item>
 
             <!--  -->
           </v-tabs-items>
@@ -305,13 +347,13 @@
             Width:
           </span>
           <span>
-            {{width}}
+            {{ width }}
           </span>
           <span class="green--text text--accent-3">
             Height:
           </span>
           <span>
-            {{height}}
+            {{ height }}
           </span>
         </div>
       </v-footer>
@@ -367,10 +409,13 @@ export default {
           { limit: 0, keepBalance: true }
         ],
         [
-          { strength: 0 }, { strength: 0 }
+          { strength: 0 }, { strength: 0 }, { strength: 0 }, { keepBalance: true }
         ],
         [
           { value: 0 }, { value: 0 }, { value: 0 }
+        ],
+        [
+          { value: 0 }
         ]
       ],
       lastControls: [
@@ -378,10 +423,13 @@ export default {
           { limit: 0, keepBalance: true }
         ],
         [
-          { strength: 0 }, { strength: 0 }
+          { strength: 0 }, { strength: 0 }, { strength: 0 }
         ],
         [
           { value: 0 }, { value: 0 }, { value: 0 }
+        ],
+        [
+          { value: 0 }
         ]
       ],
       UIMessage: 'Debug: ',
@@ -421,7 +469,7 @@ export default {
       return (this.controls[0][0].limit === 0)
     },
     tempDefault () {
-      return this.controls[1][0].strength === 0 && this.controls[1][1].strength === 0
+      return this.controls[1][0].strength === 0 && this.controls[1][1].strength === 0 && this.controls[1][2].strength === 0
     },
     lightDefault () {
       return this.controls[2][0].value === 0 && this.controls[2][1].value === 0 && this.controls[2][2].value === 0
@@ -490,20 +538,19 @@ export default {
         this.imageData = this.ctxMain.getImageData(0, 0, this.canvasMain.width, this.canvasMain.height)
         console.log('Image Loaded. width:', this.width, 'height:', this.height, 'total pixels:', this.width * this.height)
 
-        const bytesPerPage = 64 * 1024 // 65.536
         const channelLength = this.width * this.height
         const viewLength = channelLength * 4
+        // const bytesPerPage = 64 * 1024 // 65.536
         // const bytesNeeded = (channelLength * 4 * 2) + (256 * 4 * 3) + (256 * 6)
-        const pagesNeeded = Math.ceil(2560000000 / bytesPerPage) + 1
+        // const pagesNeeded = Math.ceil(2560000000 / bytesPerPage) + 1
 
-        const memory = new WebAssembly.Memory({
-          initial: pagesNeeded
-        })
+        // const memory = new WebAssembly.Memory({
+        //   initial: pagesNeeded
+        // })
         const importObject = {
           env: {
             abort: (_msg, _file, line, column) =>
-              console.error(`Error at ${line}:${column}`),
-            memory
+              console.error(`Error at ${line}:${column}`)
           },
           index: {
             consoleFloat: value => console.log(value),
@@ -511,49 +558,42 @@ export default {
           }
         }
         this.wasmHistogram = await WebAssembly.instantiateStreaming(fetch('/wasm/optimized.wasm'), importObject)
-        const exports = this.wasmHistogram.instance.exports
-        const buffer = memory.buffer
         // [original]
         // [percentile]
-        // [grayWorld]
-        // [B]
-        let arrayOffset = 0
+        // [temp]
+        // [light]
         const totalViews = 4
-        for (let i = 0; i < totalViews; i++) {
-          this.views[i] = new Uint8ClampedArray(buffer, arrayOffset, viewLength)
-          arrayOffset += viewLength
-        }
+        const exports = this.wasmHistogram.instance.exports
+        exports.initData(this.width, this.height, totalViews)
+        const buffer = exports.memory.buffer
 
         for (let i = 0; i < totalViews; i++) {
-          this.counts[i] = Array(3)
-          for (let c = 0; c < 3; c++) {
-            this.counts[i][c] = new Uint32Array(buffer, arrayOffset, 256)
-            arrayOffset += 256 * 4
+          console.log(exports.getViewOffset(i))
+          this.views[i] = new Uint8ClampedArray(buffer, exports.getViewOffset(i), viewLength)
+          this.views[i].set(this.imageData.data)
+
+          this.counts[i] = new Array(3)
+          for (let channel = 0; channel < 3; channel++) {
+            this.counts[i][channel] = new Uint32Array(buffer, exports.getCountOffset(i, channel), 256)
+          }
+          this.displayCounts[i] = new Array(3)
+          for (let channel = 0; channel < 3; channel++) {
+            this.displayCounts[i][channel] = new Uint8Array(buffer, exports.getDisplayCountOffset(i, channel), 256)
           }
         }
-        for (let i = 0; i < totalViews; i++) {
-          this.displayCounts[i] = Array(3)
-          for (let c = 0; c < 3; c++) {
-            this.displayCounts[i][c] = new Uint8ClampedArray(buffer, arrayOffset, 256)
-            arrayOffset += 256
-          }
-        }
-        this.views[0].set(this.imageData.data)
-        this.views[1].set(this.imageData.data)
-        this.views[2].set(this.imageData.data)
-        this.views[3].set(this.imageData.data)
-        exports.initData(this.width, this.height, totalViews)
+        this.updateCanvas(3)
         exports.calculateCounts(0)
         exports.calculateDisplayCounts(0)
-
-        const endTime = performance.now()
-        this.UIMessage = 'Load time'
-        this.UIValue = endTime - startTime
         this.debugMemory()
 
         this.updateHistograms(0)
         this.adjustmentTabs = 0
         this.imageLoaded = true
+
+        const endTime = performance.now()
+        this.UIMessage = 'Load time'
+        this.UIValue = endTime - startTime
+        exports.__collect()
       }
     },
     // Levels
@@ -566,10 +606,14 @@ export default {
       const limit = Math.ceil((this.width * this.height * 0.0001) * limitValue * (keepBalance ? 4 : 2))
 
       // Temp
+
       const balanceR = this.controls[1][0].strength
       const balanceG = this.controls[1][1].strength
+      this.controls[1][2].strength = this.controls[1][3].keepBalance ? -balanceR : this.controls[1][2].strength
+      const balanceB = this.controls[1][2].strength
       const lastBalanceR = this.lastControls[1][0].strength
       const lastBalanceG = this.lastControls[1][1].strength
+      const lastBalanceB = this.lastControls[1][2].strength
 
       // Light
       const midAmount = this.controls[2][0].value
@@ -579,8 +623,8 @@ export default {
       const highlightAmount = this.controls[2][2].value
       const lastHighlightAmount = this.lastControls[2][2].value
 
-      const runPercentileStretch = (limitValue !== lastLimitValue) || (keepBalance !== lastKeepBalance)
-      const runColorBalance = (balanceR !== lastBalanceR || balanceG !== lastBalanceG) || (runPercentileStretch && !this.tempDefault)
+      const runPercentileStretch = (limitValue !== lastLimitValue) || (keepBalance !== lastKeepBalance && limitValue !== -1)
+      const runColorBalance = (balanceR !== lastBalanceR || balanceG !== lastBalanceG || balanceB !== lastBalanceB) || (runPercentileStretch && !this.tempDefault)
       const runLight = (midAmount !== lastMidAmount || shadowAmount !== lastShadowAmount || highlightAmount !== lastHighlightAmount) || ((runPercentileStretch || runColorBalance) && !this.lightDefault)
 
       let displayIndex = 0
@@ -600,11 +644,11 @@ export default {
       this.wasmHistogram.instance.exports.process(
         runPercentileStretch, runColorBalance, runLight,
         keepBalance, limit, limitValue,
-        balanceR, balanceG,
+        balanceR, balanceG, balanceB,
         midAmount, shadowAmount, highlightAmount)
-      this.wasmHistogram.instance.exports.__collect()
 
       const endTime = performance.now()
+      this.wasmHistogram.instance.exports.__collect()
 
       this.UIMessage = 'Process time: '
       this.UIValue = endTime - startTime
@@ -613,7 +657,7 @@ export default {
         this.totalRuns++
         this.runSum += endTime - startTime
       }
-      this.debugMemory()
+      // this.debugMemory()
 
       // Assign Last values
       this.lastControls[0][0].limit = this.controls[0][0].limit
@@ -621,6 +665,7 @@ export default {
 
       this.lastControls[1][0].strength = this.controls[1][0].strength
       this.lastControls[1][1].strength = this.controls[1][1].strength
+      this.lastControls[1][2].strength = this.controls[1][2].strength
 
       this.lastControls[2][0].value = this.controls[2][0].value
       this.lastControls[2][1].value = this.controls[2][1].value
@@ -635,9 +680,10 @@ export default {
         controls[0].limit = 0
         controls[0].keepBalance = true
       } else if (index === 1) {
-        controls.forEach((element) => {
-          element.strength = 0
-        })
+        controls[0].strength = 0
+        controls[1].strength = 0
+        controls[2].strength = 0
+        controls[3].keepBalance = true
       } else if (index === 2) {
         controls.forEach((element) => {
           element.value = 0
