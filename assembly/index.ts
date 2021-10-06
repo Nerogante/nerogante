@@ -17,10 +17,11 @@ let luma_strength_r: f64 = 0
 let luma_strength_g: f64 = 0
 let luma_strength_b: f64 = 0
 
-const temp_cache = new StaticArray<Uint32Array>(201)
-const exposure_cache = new StaticArray<StaticArray<i32>>(201)
-const shadow_cache = new StaticArray<StaticArray<i32>>(201)
-const light_cache = new StaticArray<StaticArray<i32>>(201)
+const clip_cache = new StaticArray<StaticArray<StaticArray<Uint8Array>>>(2)
+const temp_cache = new StaticArray<Uint8Array>(201)
+const exposure_cache = new StaticArray<Uint8Array>(201)
+const shadow_cache = new StaticArray<StaticArray<Uint8Array>>(201)
+const light_cache = new StaticArray<StaticArray<Uint8Array>>(201)
 
 const lineUpFromPoint1= new Float32Array(256)
 const lineDownToPoint1 = new Float32Array(256)
@@ -82,7 +83,7 @@ export function initData (_width: i32, _height: i32, _totalViews: i32): void {
 
   const bytesPerPage = 64 * 1024 // 65.536
   const bytesNeeded = (viewLength * 4) + (256 * 4 * 4) + (256 * 4 * 4)
-  const pagesNeeded = Math.ceil(bytesNeeded / bytesPerPage) + 1
+  const pagesNeeded = Math.ceil(bytesNeeded / bytesPerPage) + 1000
 
   memory.grow(<i32> pagesNeeded)
 
@@ -194,160 +195,96 @@ export function initData (_width: i32, _height: i32, _totalViews: i32): void {
     curve_sin_mid_pow[i] = [0.0000000000000000000000000, 0.0001517740110641914745224, 0.0006070039028550276672888, 0.0013654133071059749819642, 0.0024265417964677861960288, 0.0037897451640321205314221, 0.0054541958144270130323661, 0.0074188832662467462525369, 0.0096826147655111240858394, 0.0122440160097816771317403, 0.0151015319824952618660285, 0.0182534278970084389015494, 0.0216977902497795978320472, 0.0254325279820493861671071, 0.0294553737493141974679300, 0.0337638852978221007394843, 0.0383554469472553241637947, 0.0432272711786995458838057, 0.0483764003269355480352232, 0.0537997083760260938478659, 0.0594939028571077402340883, 0.0654555268472358231512942, 0.0716809610680686076777945, 0.0781664260831168161702820, 0.0849079845922246639888797, 0.0919015438218891700383750, 0.0991428580099666528768765, 0.1066275309832583756408653, 0.1143510188264096616439502, 0.1223086326405030954678210, 0.1304955413896704274900884, 0.1389067748339953001224245, 0.1475372265469264143611383, 0.1563816570153686302813156, 0.1654346968205708534593867, 0.1746908498978789747724250, 0.1841444968733745024547233, 0.1937898984753750331044841, 0.2036211990187225540083205, 0.2136324299597473774792178, 0.2238175135197470744241599, 0.2341702663747819435080544, 0.2446844034095465025835381, 0.2553535415330382418730437, 0.2661712035537066034507347, 0.2771308221117307901693039, 0.2882257436660378702164564, 0.2994492325336406413072154, 0.3107944749788448257632467, 0.3222545833498410283723956, 0.3338226002601701880578844, 0.3454915028125262743685653, 0.3572542068623289490680861, 0.3691035713184798172648016, 0.3810324024786905794393022, 0.3930334583967512451785353, 0.4050994532790869739891093, 0.4172230619079350666389416, 0.4293969240884543125957862, 0.4416136491170717937038148, 0.4538658202683489850670639, 0.4661459992976462740621457, 0.4784467309568520843043871, 0.4907605475204350753415383, 0.5030799733190693956430550, 0.5153975292780850203655518, 0.5277057374579849913232010, 0.5399971255942707104580336, 0.5522642316338267631792291, 0.5644996082651015933961958, 0.5766958274393427785753374, 0.5888454848801344398978586, 0.6009412045785050837665153, 0.6129756432708736157977114, 0.6249414948971154792900506, 0.6368314950360414172791934, 0.6486384253156012302810041, 0.6603551177951275663602360, 0.6719744593169640900498507, 0.6834893958248361434115736, 0.6948929366463395540520764, 0.7061781587369517776409111, 0.7173382108829824410634046, 0.7283663178609202093483077, 0.7392557845506431135618186, 0.7499999999999998889776975, 0.7605924414382925213828912, 0.7710266782362246162918495, 0.7812963758099115141320112, 0.7913952994665803819529515, 0.8013173181896282581959667, 0.8110564083607368912609559, 0.8206066574167891758406768, 0.8299622674393610788357023, 0.8391175586746170145246992, 0.8480669729814631629949417, 0.8568050772058759534388628, 0.8653265664793464706505688, 0.8736262674394456029247635, 0.8816991413705513869203401, 0.8895402872628351831352234, 0.8971449447876429506010254, 0.9045084971874736146091323, 0.9116264740787936027288652, 0.9184945541659887968677367, 0.9251085678648069965390732, 0.9314644998336947256944995, 0.9375584914114963863696062, 0.9433868429600309468696651, 0.9489460161101290758267623, 0.9542326359097618171389854, 0.9592434928729615117859453, 0.9639755449282872978855607, 0.9684259192656553549838350, 0.9725919140804097917651916, 0.9764710002135782440646494, 0.9800608226873139816603953, 0.9833592021345937128629089, 0.9863641361223023373838714, 0.9890738003669027333941699, 0.9914865498419507261473882, 0.9936009197767845524396080, 0.9954156265457801966434204, 0.9969295684476368046844641, 0.9981418263742146690375989, 0.9990516643685221076509606, 0.9996585300715115085523621, 0.9999620550574152000322670, 0.9999620550574152000322670, 0.9996585300715115085523621, 0.9990516643685221076509606, 0.9981418263742146690375989, 0.9969295684476368046844641, 0.9954156265457801966434204, 0.9936009197767845524396080, 0.9914865498419509481919931, 0.9890738003669029554387748, 0.9863641361223023373838714, 0.9833592021345937128629089, 0.9800608226873139816603953, 0.9764710002135782440646494, 0.9725919140804097917651916, 0.9684259192656553549838350, 0.9639755449282872978855607, 0.9592434928729615117859453, 0.9542326359097620391835903, 0.9489460161101291868490648, 0.9433868429600311689142700, 0.9375584914114962753473037, 0.9314644998336947256944995, 0.9251085678648069965390732, 0.9184945541659887968677367, 0.9116264740787936027288652, 0.9045084971874738366537372, 0.8971449447876429506010254, 0.8895402872628354051798283, 0.8816991413705513869203401, 0.8736262674394453808801586, 0.8653265664793466926951737, 0.8568050772058761754834677, 0.8480669729814633850395467, 0.8391175586746170145246992, 0.8299622674393615229249122, 0.8206066574167895089075841, 0.8110564083607368912609559, 0.8013173181896282581959667, 0.7913952994665803819529515, 0.7812963758099117361766162, 0.7710266782362248383364545, 0.7605924414382927434274961, 0.7500000000000001110223025, 0.7392557845506435576510285, 0.7283663178609202093483077, 0.7173382108829824410634046, 0.7061781587369517776409111, 0.6948929366463395540520764, 0.6834893958248361434115736, 0.6719744593169640900498507, 0.6603551177951275663602360, 0.6486384253156014523256090, 0.6368314950360416393237983, 0.6249414948971155903123531, 0.6129756432708740598869213, 0.6009412045785054168334227, 0.5888454848801346619424635, 0.5766958274393430006199424, 0.5644996082651019264631032, 0.5522642316338270962461365, 0.5399971255942707104580336, 0.5277057374579849913232010, 0.5153975292780852424101568, 0.5030799733190693956430550, 0.4907605475204352418749920, 0.4784467309568523618601432, 0.4661459992976464405955994, 0.4538658202683493181339713, 0.4416136491170716826815124, 0.4293969240884541460623325, 0.4172230619079349556166392, 0.4050994532790870850114118, 0.3930334583967512451785353, 0.3810324024786905794393022, 0.3691035713184798172648016, 0.3572542068623290600903886, 0.3454915028125264409020190, 0.3338226002601702990801869, 0.3222545833498411949058493, 0.3107944749788451033190029, 0.2994492325336408633518204, 0.2882257436660380922610614, 0.2771308221117311232362113, 0.2661712035537069365176421, 0.2553535415330381308507413, 0.2446844034095465025835381, 0.2341702663747819990192056, 0.2238175135197471299353111, 0.2136324299597474885015203, 0.2036211990187226095194717, 0.1937898984753751163712110, 0.1841444968733746967437526, 0.1746908498978787804833956, 0.1654346968205707701926599, 0.1563816570153685192590132, 0.1475372265469263310944115, 0.1389067748339956054337563, 0.1304955413896707050458446, 0.1223086326405034007791528, 0.1143510188264099947108576, 0.1066275309832584172742287, 0.0991428580099667222658155, 0.0919015438218892394273141, 0.0849079845922247611333944, 0.0781664260831169410703723, 0.0716809610680687325778848, 0.0654555268472359758069601, 0.0594939028571078928897542, 0.0537997083760260383367147, 0.0483764003269355341574354, 0.0432272711786995458838057, 0.0383554469472553241637947, 0.0337638852978221076783782, 0.0294553737493142356318465, 0.0254325279820494208615766, 0.0216977902497796464043045, 0.0182534278970084840043597, 0.0151015319824953173771798, 0.0122440160097817343776150, 0.0096826147655111813317141, 0.0074188832662468034984116, 0.0054541958144270668087938, 0.0037897451640321691036795, 0.0024265417964678282630731, 0.0013654133071059767166877, 0.0006070039028550303777942, 0.0001517740110641936158217, 0.0000000000000000000000000][i]
 
   }
+}
+
+export function cacheCalculations (): void {
+  cacheClip()
   cacheTemp()
   cacheExposure()
   cacheShadow()
   cacheLight()
 }
 
-export function process (runPercentileStretch: bool, runColorBalance: bool, runLight: bool, 
-   keepBalance: bool, limit: i32, limitValue: i32, 
-   balanceR: i32, balanceG: i32, balanceB: i32, 
-   midAmount: i32, highlightAmount: i32, shadowAmount: i32
-   ): void {
+export function process (
+  default_clip: bool, default_temp: bool, default_light: bool,
+  runPercentileStretch: bool, runColorBalance: bool, runLight: bool, 
+  keepBalance: bool, limit: i32, limitValue: i32, 
+  balanceR: i32, balanceG: i32, balanceB: i32, 
+  midAmount: i32, highlightAmount: i32, shadowAmount: i32
+
+  ): void {
+  let source_index: i32 = 0
   // Run percentile stretch
   if (runPercentileStretch) {
-    percentileStretch(keepBalance, limit, limitValue)
+    percentileStretch(keepBalance, limit, limitValue, source_index)
+    source_index = 1
     calculateCounts(1)
     calculateDisplayCounts(1)
-    if (!runColorBalance) {
-      copyData(1, 2)
-    }
+  } else if (!default_clip) {
+    source_index = 1
   }
   // End percentile stretch
 
   // Run gray world
   if (runColorBalance) {
-    colorBalance(balanceR, balanceG, balanceB)
+    colorBalance(balanceR, balanceG, balanceB, source_index)
+    source_index = 2
     calculateCounts(2)
     calculateDisplayCounts(2)
+  } else if (!default_temp) {
+    source_index = 2
   }
   // End gray world
 
-  // Center Shift
+  // // Center Shift
   if (runLight) {
     // centerShift(newCenter)
-    lightAdjustment(midAmount, highlightAmount, shadowAmount)
+    lightAdjustment(midAmount, highlightAmount, shadowAmount, source_index)
+    source_index = 3
     calculateCounts(3)
     calculateDisplayCounts(3)
   }
   // End center shift
 
-  // Run Levels
-  // if (runLevels) {
-  //   levels(levels0, levels1, levels2, levels3, levels4)
-  //   calculateCounts(3)
-  //   calculateDisplayCounts(3)
-  // }
-  // End Levels
 }
 export function colorChange (limit: i32, limitValue: i32):void {
   
 }
 
-export function percentileStretch (keepBalance: bool, maxPixels: i32, limitValue: i32): void {
-  const clips = new StaticArray<u8>(6)
-  clips[1] = 255
-  clips[3] = 255
-  clips[5] = 255
-  
-  if (limitValue >= 0) {
-    for (let channel = 0; channel < 3; channel++) {
-      const countOffset = getCountOffset(0, channel)
-      const limitL: u32 = maxPixels + load<u32>(countOffset)
-      const limitR: u32 = maxPixels + load<u32>(countOffset + 255 * 4)
-      let sumL: u32 = 0
-      let sumR: u32 = 0
-      let clipL: u8 = 0
-      let clipR: u8 = 255
-      for (let i: i32 = 0; i <= 255; i++) {
-        sumL += load<u32>(countOffset + i * 4)
-        if (sumL <= limitL) {
-          clipL = i as u8
-        } else {
-          break
-        }
-      }
-      for (let i: i32 = 255; i >= 0; i--) {
-        sumR += load<u32>(countOffset + i * 4)
-        if (sumR <= limitR) {
-          clipR = i as u8
-        } else {
-          break
-        }
-      }
-      clips[0 + channel * 2] = clipL
-      clips[1 + channel * 2] = clipR
-    }
-  }
-
-  if (keepBalance) {
-    let minL = clips[0]
-    minL = clips[2] < minL ? clips[2] : minL
-    minL = clips[4] < minL ? clips[4] : minL
-
-    clips[0] = minL
-    clips[2] = minL
-    clips[4] = minL
-
-    let maxR = clips[1]
-    maxR = clips[3] > maxR ? clips[3] : maxR
-    maxR = clips[5] > maxR ? clips[5] : maxR
-
-    clips[1] = maxR
-    clips[3] = maxR
-    clips[5] = maxR
-  }
-  // 
-
-  const rfactor: f32 = 1.0 / (unchecked(clips[1]) - unchecked(clips[0])) * 255
-  const gfactor: f32 = 1.0 / (unchecked(clips[3]) - unchecked(clips[2])) * 255
-  const bfactor: f32 = 1.0 / (unchecked(clips[5]) - unchecked(clips[4])) * 255
-
+export function percentileStretch (keepBalance: bool, maxPixels: i32, limitValue: i32, source_index: i32): void {
   let dst_r: i32 = 0
   let dst_g: i32 = 0
   let dst_b: i32 = 0
-  let curve_r: f64 = 1
-  let curve_g: f64 = 1
-  let curve_b: f64 = 1
-  const rclipL = unchecked(clips[0])
-  const gclipL = unchecked(clips[2])
-  const bclipL = unchecked(clips[4])
-  let temp_r: f64 = 0
-  let temp_g: f64 = 0
-  let temp_b: f64 = 0
+  
+  const originOffset = getViewOffset(source_index)
+  const resultOffset = getViewOffset(source_index + 1)
 
-  let avg: i32 = 0
-  const divider: f32 = 1 / 3
+  const b_index: i32 = (keepBalance ? 1 : 0)
+  const valIndex: i32 = limitValue + 1
 
-  const originOffset = getViewOffset(0)
-  const resultOffset = getViewOffset(1)
+  const cache_offset_r: i32 = changetype<i32>(clip_cache[b_index][valIndex][0].buffer) + clip_cache[b_index][valIndex][0].byteOffset
+  const cache_offset_g: i32 = changetype<i32>(clip_cache[b_index][valIndex][1].buffer) + clip_cache[b_index][valIndex][1].byteOffset
+  const cache_offset_b: i32 = changetype<i32>(clip_cache[b_index][valIndex][2].buffer) + clip_cache[b_index][valIndex][2].byteOffset
 
   for (let i = 0; i < viewLength; i += 4) {
     dst_r = load<u8>(originOffset + i)
     dst_g = load<u8>(originOffset + i + 1) 
     dst_b = load<u8>(originOffset + i + 2)
 
-    temp_r = <f32> (dst_r - rclipL) * rfactor
-    temp_g = <f32> (dst_g - gclipL) * gfactor
-    temp_b = <f32> (dst_b - bclipL) * bfactor
-
-    if (temp_r > 255) temp_r = 255
-    if (temp_r < 0) temp_r = 0
-    if (temp_g > 255) temp_g = 255
-    if (temp_g < 0) temp_g = 0
-    if (temp_b > 255) temp_b = 255
-    if (temp_b < 0) temp_b = 0
-
-    store<u8>(resultOffset + i, <u8> temp_r)
-    store<u8>(resultOffset + i + 1, <u8> temp_g)
-    store<u8>(resultOffset + i + 2, <u8> temp_b)
+    dst_r = load<u8>(cache_offset_r + dst_r)
+    dst_g = load<u8>(cache_offset_g + dst_g)
+    dst_b = load<u8>(cache_offset_b + dst_b)
+    
+    store<u8>(resultOffset + i, <u8> dst_r)
+    store<u8>(resultOffset + i + 1, <u8> dst_g)
+    store<u8>(resultOffset + i + 2, <u8> dst_b)
   }
 }
 
-export function colorBalance (balanceR: i32, balanceG: i32, balanceB: i32): void {
-  const originStartOffset = getViewOffset(1)
-  const targetOffset = getViewOffset(2)
+export function colorBalance (balanceR: i32, balanceG: i32, balanceB: i32, source_index: i32): void {
+  const originStartOffset = getViewOffset(source_index)
+  const originEndOffset = originStartOffset + viewLength
+  let targetOffset = getViewOffset(2)
 
   let dst_r: u8 = 0
   let dst_g: u8 = 0
@@ -361,24 +298,25 @@ export function colorBalance (balanceR: i32, balanceG: i32, balanceB: i32): void
   const offset_g: i32 = changetype<i32>(temp_cache[g_index].buffer) + temp_cache[g_index].byteOffset
   const offset_b: i32 = changetype<i32>(temp_cache[b_index].buffer) + temp_cache[b_index].byteOffset
 
-  for (let i = 0; i < viewLength; i += 4) {
-    dst_r = load<u8>(originStartOffset + i)
-    dst_g = load<u8>(originStartOffset + i + 1)
-    dst_b = load<u8>(originStartOffset + i + 2)
+  for (let i = originStartOffset; i < originEndOffset; i += 4, targetOffset += 4) {
+    dst_r = load<u8>(i)
+    dst_g = load<u8>(i + 1)
+    dst_b = load<u8>(i + 2)
 
-    dst_r = load<u8>(offset_r + 4 * dst_r)
-    dst_g = load<u8>(offset_g + 4 * dst_g)
-    dst_b = load<u8>(offset_b + 4 * dst_b)
+    dst_r = load<u8>(offset_r + dst_r)
+    dst_g = load<u8>(offset_g + dst_g)
+    dst_b = load<u8>(offset_b + dst_b)
     
-    store<u8>(targetOffset + i, dst_r)
-    store<u8>(targetOffset + i + 1, dst_g)
-    store<u8>(targetOffset + i + 2, dst_b)
+    store<u8>(targetOffset, dst_r)
+    store<u8>(targetOffset + 1, dst_g)
+    store<u8>(targetOffset + 2, dst_b)
   }
 }
 
-export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount: i32): void {
-  const originStartOffset = getViewOffset(2)
-  const targetOffset = getViewOffset(3)
+export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount: i32, source_index: i32): void {
+  const originStartOffset = getViewOffset(source_index)
+  const originEndOffset = originStartOffset + viewLength
+  let targetOffset = getViewOffset(3)
 
   let temp_r: f64 = 0
   let temp_g: f64 = 0
@@ -397,60 +335,75 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
   const shadow_index: i32 = 100 + shadowAmount
   const light_index: i32 = 100 + lightAmount
 
-  for (let i = 0; i < viewLength; i += 4) {
-    dst_r = load<u8>(originStartOffset + i)
-    dst_g = load<u8>(originStartOffset + i + 1)
-    dst_b = load<u8>(originStartOffset + i + 2)
-    // unchecked(dst_r = result_temp[i])
-    // unchecked(dst_g = result_temp[i + 1])
-    // unchecked(dst_b = result_temp[i + 2])
+  const offset_exp: i32 = changetype<i32>(exposure_cache[exp_index].buffer) + exposure_cache[exp_index].byteOffset
+  // const shadow_offset: i32 = changetype<i32>(shadow_cache[shadow_index].buffer) + shadow_cache[shadow_index].byteOffset
+
+  for (let i = originStartOffset; i < originEndOffset; i += 4, targetOffset += 4) {
+    dst_r = load<u8>(i)
+    dst_g = load<u8>(i + 1)
+    dst_b = load<u8>(i + 2)
 
     // EXposure
-    dst_r = unchecked(exposure_cache[exp_index][dst_r])
-    dst_g = unchecked(exposure_cache[exp_index][dst_g])
-    dst_b = unchecked(exposure_cache[exp_index][dst_b])
+    dst_r = load<u8>(offset_exp + dst_r)
+    dst_g = load<u8>(offset_exp + dst_g)
+    dst_b = load<u8>(offset_exp + dst_b)
+    // dst_r = unchecked(exposure_cache[exp_index][dst_r])
+    // dst_g = unchecked(exposure_cache[exp_index][dst_g])
+    // dst_b = unchecked(exposure_cache[exp_index][dst_b])
     
     // Shadows
     if (shadowAmount > 0) {
+      // avg = getAverage(dst_r, dst_g, dst_b)
+
+      // temp_r = load<i32>(shadow_offset + dst_r * 4)
+      // temp_g = load<i32>(shadow_offset + dst_g * 4)
+      // temp_b = load<i32>(shadow_offset + dst_b * 4)
+
+      // curve_r = unchecked(curve_gamma_down_2[avg])
+      // curve_g = unchecked(curve_gamma_down_2[avg])
+      // curve_b = unchecked(curve_gamma_down_2[avg])
+
+      // dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
+      // dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
+      // dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
+      
       avg = getAverage(dst_r, dst_g, dst_b)
-
-      temp_r = unchecked(shadow_cache[shadow_index][dst_r])
-      temp_g = unchecked(shadow_cache[shadow_index][dst_g])
-      temp_b = unchecked(shadow_cache[shadow_index][dst_b])
-
-      curve_r = unchecked(curve_gamma_down_2[avg])
-      curve_g = unchecked(curve_gamma_down_2[avg])
-      curve_b = unchecked(curve_gamma_down_2[avg])
-
-      dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-      dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-      dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
+      
+      dst_r = unchecked(shadow_cache[shadow_index][avg][dst_r])
+      dst_g = unchecked(shadow_cache[shadow_index][avg][dst_g])
+      dst_b = unchecked(shadow_cache[shadow_index][avg][dst_b])
     }
     if (shadowAmount < 0) {
-      dst_r = unchecked(shadow_cache[shadow_index][dst_r])
-      dst_g = unchecked(shadow_cache[shadow_index][dst_g])
-      dst_b = unchecked(shadow_cache[shadow_index][dst_b])
+      avg = getAverage(dst_r, dst_g, dst_b)
+      dst_r = unchecked(shadow_cache[shadow_index][avg][dst_r])
+      dst_g = unchecked(shadow_cache[shadow_index][avg][dst_g])
+      dst_b = unchecked(shadow_cache[shadow_index][avg][dst_b])
     }
 
     //  Lights
     if (lightAmount > 0) {
-      dst_r = unchecked(light_cache[light_index][dst_r])
-      dst_g = unchecked(light_cache[light_index][dst_g])
-      dst_b = unchecked(light_cache[light_index][dst_b])
+      avg = getAverage(dst_r, dst_g, dst_b)
+
+      dst_r = unchecked(light_cache[light_index][avg][dst_r])
+      dst_g = unchecked(light_cache[light_index][avg][dst_g])
+      dst_b = unchecked(light_cache[light_index][avg][dst_b])
     }
     if (lightAmount < 0) {
       avg = getAverage(dst_r, dst_g, dst_b)
-      curve_r = unchecked(curve_gamma_up_2[avg])
-      curve_g = unchecked(curve_gamma_up_2[avg])
-      curve_b = unchecked(curve_gamma_up_2[avg])
+      dst_r = unchecked(light_cache[light_index][avg][dst_r])
+      dst_g = unchecked(light_cache[light_index][avg][dst_g])
+      dst_b = unchecked(light_cache[light_index][avg][dst_b])
+      // curve_r = unchecked(curve_gamma_up_2[avg])
+      // curve_g = unchecked(curve_gamma_up_2[avg])
+      // curve_b = unchecked(curve_gamma_up_2[avg])
       
-      temp_r = unchecked(light_cache[light_index][dst_r])
-      temp_g = unchecked(light_cache[light_index][dst_g])
-      temp_b = unchecked(light_cache[light_index][dst_b])
+      // temp_r = unchecked(light_cache[light_index][dst_r])
+      // temp_g = unchecked(light_cache[light_index][dst_g])
+      // temp_b = unchecked(light_cache[light_index][dst_b])
 
-      dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
-      dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
-      dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
+      // dst_r = <i32> lerp_clamped(dst_r, temp_r, curve_r)
+      // dst_g = <i32> lerp_clamped(dst_g, temp_g, curve_g)
+      // dst_b = <i32> lerp_clamped(dst_b, temp_b, curve_b)
     }
 
   //   // Saturation
@@ -470,9 +423,9 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
   //   dstG = <i32> lerp_clamped(dstG, shadowG, curve_g)
   //   dstB = <i32> lerp_clamped(dstB, shadowB, curve_b)
 
-    store<u8>(targetOffset + i, <u8> dst_r)
-    store<u8>(targetOffset + i + 1, <u8> dst_g)
-    store<u8>(targetOffset + i + 2, <u8> dst_b)
+    store<u8>(targetOffset, <u8> dst_r)
+    store<u8>(targetOffset + 1, <u8> dst_g)
+    store<u8>(targetOffset + 2, <u8> dst_b)
     // unchecked(result_light[i] = dst_r)
     // unchecked(result_light[i + 1] = dst_g)
     // unchecked(result_light[i + 2] = dst_b)
@@ -641,34 +594,134 @@ function highestRGB(r: i32, g: i32, b: i32): i32 {
     return b
 }
 
+function cacheClip (): void {
+  for (let b = 0; b < 2; b++) {
+    clip_cache[b] = new StaticArray<StaticArray<Uint8Array>>(101)
+    const keepBalance: bool = (b == 1)
+
+    for (let limitValue = 0; limitValue < 101; limitValue++) {
+      clip_cache[b][limitValue] = new StaticArray<Uint8Array>(3)
+      clip_cache[b][limitValue][0] = new Uint8Array(256)
+      clip_cache[b][limitValue][1] = new Uint8Array(256)
+      clip_cache[b][limitValue][2] = new Uint8Array(256)
+      const maxPixels: i32 = <i32> Math.ceil((<f64> width * <f64> height * 0.0001) * <f64> limitValue)
+
+      const clips = new StaticArray<i32>(6)
+      clips[1] = 255
+      clips[3] = 255
+      clips[5] = 255
+      
+      if (limitValue >= 0) {
+        for (let channel = 0; channel < 3; channel++) {
+          const countOffset = getCountOffset(0, channel)
+          const limitL: u32 = maxPixels + load<u32>(countOffset)
+          const limitR: u32 = maxPixels + load<u32>(countOffset + 255 * 4)
+          let sumL: u32 = 0
+          let sumR: u32 = 0
+          let clipL: i32 = 0
+          let clipR: i32 = 255
+          for (let i: i32 = 0; i <= 255; i++) {
+            sumL += load<u32>(countOffset + i * 4)
+            if (sumL <= limitL) {
+              clipL = i
+            } else {
+              break
+            }
+          }
+          for (let i: i32 = 255; i >= 0; i--) {
+            sumR += load<u32>(countOffset + i * 4)
+            if (sumR <= limitR) {
+              clipR = i
+            } else {
+              break
+            }
+          }
+          clips[0 + channel * 2] = clipL
+          clips[1 + channel * 2] = clipR
+        }
+      }
+
+      if (keepBalance) {
+        let minL = clips[0]
+        minL = clips[2] < minL ? clips[2] : minL
+        minL = clips[4] < minL ? clips[4] : minL
+
+        clips[0] = minL
+        clips[2] = minL
+        clips[4] = minL
+
+        let maxR = clips[1]
+        maxR = clips[3] > maxR ? clips[3] : maxR
+        maxR = clips[5] > maxR ? clips[5] : maxR
+
+        clips[1] = maxR
+        clips[3] = maxR
+        clips[5] = maxR
+      }
+      // 
+
+      const rfactor: f64 = 1.0 / (unchecked(clips[1]) - unchecked(clips[0])) * 255
+      const gfactor: f64 = 1.0 / (unchecked(clips[3]) - unchecked(clips[2])) * 255
+      const bfactor: f64 = 1.0 / (unchecked(clips[5]) - unchecked(clips[4])) * 255
+
+      let curve_p: f64 = 1
+      const rclipL = unchecked(clips[0])
+      const gclipL = unchecked(clips[2])
+      const bclipL = unchecked(clips[4])
+      let temp_r: f64 = 0
+      let temp_g: f64 = 0
+      let temp_b: f64 = 0
+      for (let dst_p = 0; dst_p < 256; dst_p++) {
+        temp_r = <f64> (dst_p - rclipL) * rfactor
+        temp_g = <f64> (dst_p - gclipL) * gfactor
+        temp_b = <f64> (dst_p - bclipL) * bfactor
+        if (temp_r > 255) temp_r = 255
+        if (temp_r < 0) temp_r = 0
+        if (temp_g > 255) temp_g = 255
+        if (temp_g < 0) temp_g = 0
+        if (temp_b > 255) temp_b = 255
+        if (temp_b < 0) temp_b = 0
+        clip_cache[b][limitValue][0][dst_p] = <u8> temp_r
+        clip_cache[b][limitValue][1][dst_p] = <u8> temp_g
+        clip_cache[b][limitValue][2][dst_p] = <u8> temp_b
+      }
+    }
+  }
+}
+
 function cacheTemp (): void {
   for (let i = 0; i < 201; i++) {
-    temp_cache[i] = new Uint32Array(256)
+    temp_cache[i] = new Uint8Array(256)
     const temp_amount: i32 = -100 + i
     
     for (let dst_p = 0; dst_p < 256; dst_p++) {
       let curve_p: f64 = 1
+      let temp_p: f64 = 0
 
       if (temp_amount > 0) {
-        curve_p = unchecked(curve_gamma_down_0_25[dst_p])
+        // curve_p = unchecked(curve_gamma_down_0_25[dst_p])
+        const inv_p = 255 - dst_p
+        curve_p = unchecked(curve_gamma_down_0_50[inv_p])
+        temp_p = 255 - inv_p * Math.pow(2, -temp_amount * 0.01)
       } else {
-        curve_p = unchecked(curve_gamma_up_0_25[dst_p])
+        // curve_p = unchecked(curve_gamma_up_0_25[dst_p])
+        curve_p = unchecked(curve_gamma_down_0_50[dst_p])
+        temp_p = dst_p * Math.pow(2, temp_amount * 0.01)
       }
 
-      // const temp_p: f64 = dst_p
-      let temp_p: f64 = dst_p + <f64> temp_amount * unchecked(curveSinFull_1[dst_p])
-      if (temp_p > 255) temp_p = 255
-      if (temp_p < 0) temp_p = 0
+      // temp_p: f64 = dst_p + <f64> temp_amount * unchecked(curveSinFull_1[dst_p])
+      // if (temp_p > 255) temp_p = 255
+      // if (temp_p < 0) temp_p = 0
       temp_p = lerp_clamped(dst_p, temp_p, curve_p)
 
-      temp_cache[i][dst_p] = <i32> temp_p
+      temp_cache[i][dst_p] = <u8> temp_p
     }
   }
 }
 
 function cacheExposure(): void {
   for (let i = 0; i < 201; i++) {
-    exposure_cache[i] = new StaticArray<i32>(256)
+    exposure_cache[i] = new Uint8Array(256)
     const exp_amount: i32 = -100 + i
     // i = 0    exp = -100
     // i = 99   exp = -1
@@ -688,71 +741,114 @@ function cacheExposure(): void {
       let temp_p: f64 = dst_p
       // Exposure
       if (exp_amount > 0) {
-        curve_p = (1 - unchecked(curveLogUp0[dst_p]))
-        temp_p = lerp_f64(<f64> dst_p, <f64> dst_p * exp_plus, curve_p)
-        if (temp_p > 255) temp_p = 255
+        // curve_p = (1 - unchecked(curveLogUp0[dst_p]))
+        // temp_p = lerp_f64(<f64> dst_p, <f64> dst_p * exp_plus, curve_p)
+        // if (temp_p > 255) temp_p = 255
+        const inv_p = 255 - dst_p
+        curve_p = unchecked(curve_gamma_down_0_50[inv_p])
+        temp_p = 255 - inv_p * exp_minus
+        temp_p = lerp_clamped(dst_p, temp_p, curve_p)
       } else if (exp_amount < 0) {
-        curve_p = unchecked(curve_gamma_down_0_25[<i32> (0.99 * dst_p)])
-        temp_p = <f64> dst_p * lerp_f64(1, exp_minus, curve_p) 
-        temp_p = lerp_f64(dst_p, temp_p, curve_p)
-        // temp_p = temp_p * exp_stretch_strength_down
+        // curve_p = unchecked(curve_gamma_down_0_25[<i32> (0.99 * dst_p)])
+        // temp_p = <f64> dst_p * lerp_f64(1, exp_minus, curve_p) 
+        // temp_p = lerp_f64(dst_p, temp_p, curve_p)
+        // // temp_p = temp_p * exp_stretch_strength_down
+        curve_p = unchecked(curve_gamma_down_0_50[<i32> (1 * dst_p)])
+        temp_p = dst_p * exp_minus
+        temp_p = lerp_clamped(dst_p, temp_p, curve_p)
       }
   
       // Stretch
 
-      exposure_cache[i][dst_p] = <i32> temp_p
+      exposure_cache[i][dst_p] = <u8> temp_p
     }
   }
 }
 
 function cacheShadow (): void {
   for (let i = 0; i < 201; i++) {
-    shadow_cache[i] = new StaticArray<i32>(256)
+    shadow_cache[i] = new StaticArray<Uint8Array>(256)
     const shadow_amount: i32 = -100 + i
-    for (let dst_p = 0; dst_p < 256; dst_p++) {
-      let temp_p: f64 = dst_p
+    const exp_minus: f64 = Math.pow(2, -Math.abs(shadow_amount) * 0.05)
 
-      if (shadow_amount > 0) {
-        temp_p = <f32> dst_p + <f64> shadow_amount * (unchecked(curve_gamma_up_0_50[dst_p]) + 0.1)
-        if (temp_p > 255)  temp_p = 255
+    for (let avg = 0; avg < 256; avg++) {
+      shadow_cache[i][avg] = new Uint8Array(256)
+      for (let dst_p = 0; dst_p < 256; dst_p++) {
+        let temp_p: f64 = dst_p
+        let curve_p: f64 = 0
 
-      } else if (shadow_amount < 0) {
-        const curve_r: f64 = unchecked(curve_gamma_down_2[dst_p])
-        temp_p = <f32> dst_p + <f32> shadow_amount * (unchecked(curve_gamma_up_0_50[dst_p]) + 0.1)
+        if (shadow_amount > 0) {
+          // temp_p = <f32> dst_p + <f64> shadow_amount * (unchecked(curve_gamma_up_0_50[dst_p]) + 0.1)
+          // if (temp_p > 255)  temp_p = 255
+          const inv_p: i32 = 255 - dst_p
+          const inv_avg: i32 = 255 - avg
+          curve_p = unchecked(curveSinFull_0[<i32> (1 * inv_p)])
+          temp_p = 255 - inv_p * exp_minus
+          temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+          curve_p = unchecked(curveLogDown0[<i32> ((0.75 * inv_avg) + (0.25 * inv_p))])
+          temp_p = lerp_clamped(temp_p, dst_p, curve_p)
 
-        if (temp_p < 0)  temp_p = 0
-        
-        temp_p = <i32> lerp_clamped(dst_p, temp_p, curve_r)
+        } else if (shadow_amount < 0) {
+          // curve_r: f64 = unchecked(curve_gamma_down_2[dst_p])
+          // temp_p = <f32> dst_p + <f32> shadow_amount * (unchecked(curve_gamma_up_0_50[dst_p]) + 0.1)
+
+          // if (temp_p < 0)  temp_p = 0
+          
+          // temp_p = <i32> lerp_clamped(dst_p, temp_p, curve_r)
+          curve_p = unchecked(curve_gamma_down_2[<i32> (1 * dst_p)])
+          temp_p = dst_p * exp_minus
+          temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+        }
+
+        shadow_cache[i][avg][dst_p] = <u8> temp_p
       }
-
-      shadow_cache[i][dst_p] = <i32> temp_p
     }
   }
 }
 
 function cacheLight (): void {
   for (let i = 0; i < 201; i++) {
-    light_cache[i] = new StaticArray<i32>(256)
+    light_cache[i] = new StaticArray<Uint8Array>(256)
     const light_amount: i32 = -100 + i
-    for (let dst_p = 0; dst_p < 256; dst_p++) {
-      let temp_p: f64 = dst_p
+    const exp_minus: f64 = Math.pow(2, -Math.abs(light_amount) * 0.05)
 
-      if (light_amount > 0) {
-        const curve_r = unchecked(curve_gamma_up_2[dst_p])
-        
-        temp_p = <f32> dst_p + <f64> light_amount * (unchecked(curve_gamma_down_0_50[dst_p]) + 0.1)
-  
-        if (temp_p > 255)  temp_p = 255
-  
-        temp_p = <i32> lerp_clamped(dst_p, temp_p, curve_r)
-      } else if (light_amount < 0) {
-        temp_p = <f32> dst_p + <f64> light_amount * (unchecked(curve_gamma_down_0_50[dst_p]) + 0.1)
+    for (let avg = 0; avg < 256; avg++) {
+      light_cache[i][avg] = new Uint8Array(256)
 
-        // if (temp_p > 255)  temp_p = 255
+      for (let dst_p = 0; dst_p < 256; dst_p++) {
+        let temp_p: f64 = dst_p
+        let curve_p: f64 = 0
+  
+        if (light_amount > 0) {
+          // const curve_r = unchecked(curve_gamma_up_2[dst_p])
+          
+          // temp_p = <f32> dst_p + <f64> light_amount * (unchecked(curve_gamma_down_0_50[dst_p]) + 0.1)
+    
+          // if (temp_p > 255)  temp_p = 255
+    
+          // temp_p = <i32> lerp_clamped(dst_p, temp_p, curve_r)
+          
+          const inv_p: i32 = 255 - dst_p
+          curve_p = unchecked(curve_gamma_down_2[inv_p])
+          temp_p = 255 - inv_p * exp_minus
+          temp_p =<i32> lerp_clamped(dst_p, temp_p, curve_p)
+        } else if (light_amount < 0) {
+          // temp_p = <f32> dst_p + <f64> light_amount * (unchecked(curve_gamma_down_0_50[dst_p]) + 0.25)
+  
+          // if (temp_p > 255)  temp_p = 255
+          // if (temp_p < 0)  temp_p = 0
+          curve_p = unchecked(curveSinFull_1[<i32> (1 * dst_p)])
+          temp_p = dst_p * exp_minus
+          temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+          curve_p = unchecked(curve_gamma_down_0_50[<i32> ((0.75 * avg) + (0.25 * dst_p))])
+          temp_p = lerp_clamped(temp_p, dst_p, curve_p)
+        }
+  
+        light_cache[i][avg][dst_p] = <u8> temp_p
       }
-
-      light_cache[i][dst_p] = <i32> temp_p
+      
     }
+    
   }
 }
 
@@ -859,11 +955,6 @@ function clearDisplayCounts (index: u32): void {
       store<u32>(i, 0)
     } 
   }
-  // const displayCountOffset = getDisplayCountOffset(index, 0)
-  // const endDisplayCount: u32 = displayCountOffset + (256 * 3)
-  // for (let i: u32 = displayCountOffset; i < endDisplayCount; i++) {
-  //   store<u8>(i, 0)
-  // }
 }
 
 function copyData(from: u32, to: u32): void {

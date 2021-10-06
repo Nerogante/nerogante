@@ -141,15 +141,15 @@
                   v-model="controls[0][0].limit"
                   dense
                   min="0"
-                  max="20"
+                  max="100"
                   thumb-label="always"
                   thumb-size=""
                   hide-details=""
                   thumb-color="blue darken-3"
                   append-icon="mdi-plus"
                   prepend-icon="mdi-minus"
-                  @click:append="clickAddSpreadLimit(1, 0, 20)"
-                  @click:prepend="clickAddSpreadLimit(-1, 0, 20)"
+                  @click:append="clickAddSpreadLimit(1, 0, 100)"
+                  @click:prepend="clickAddSpreadLimit(-1, 0, 100)"
                   @input="inputControl(0)"
                 />
                 <div class="d-flex justify-space-between pt-2">
@@ -432,11 +432,15 @@ export default {
           { value: 0 }
         ]
       ],
+      lastRunClip: false,
+      lastRunTemp: false,
+      lastRunLight: false,
       UIMessage: 'Debug: ',
       UIValue: 0,
       totalRuns: 0,
       runSum: 0,
       wasmHistogram: null,
+      lastDisplayIndex: 0,
       curvesHistograms: []
     }
   },
@@ -584,6 +588,7 @@ export default {
         this.updateCanvas(3)
         exports.calculateCounts(0)
         exports.calculateDisplayCounts(0)
+        exports.cacheCalculations()
         this.debugMemory()
 
         this.updateHistograms(0)
@@ -603,7 +608,8 @@ export default {
       const lastLimitValue = this.lastControls[0][0].limit - 1
       const keepBalance = this.controls[0][0].keepBalance
       const lastKeepBalance = this.lastControls[0][0].keepBalance
-      const limit = Math.ceil((this.width * this.height * 0.0001) * limitValue * (keepBalance ? 4 : 2))
+      const limit = Math.ceil((this.width * this.height * 0.0001) * limitValue)
+      // const limit = Math.ceil((this.width * this.height * 0.0001) * limitValue * (keepBalance ? 4 : 2))
 
       // Temp
 
@@ -623,13 +629,13 @@ export default {
       const highlightAmount = this.controls[2][2].value
       const lastHighlightAmount = this.lastControls[2][2].value
 
-      const runPercentileStretch = (limitValue !== lastLimitValue) || (keepBalance !== lastKeepBalance && limitValue !== -1)
-      const runColorBalance = (balanceR !== lastBalanceR || balanceG !== lastBalanceG || balanceB !== lastBalanceB) || (runPercentileStretch && !this.tempDefault)
-      const runLight = (midAmount !== lastMidAmount || shadowAmount !== lastShadowAmount || highlightAmount !== lastHighlightAmount) || ((runPercentileStretch || runColorBalance) && !this.lightDefault)
+      const runClip = (limitValue !== lastLimitValue) || (keepBalance !== lastKeepBalance && !this.clipDefault)
+      const runColorBalance = (balanceR !== lastBalanceR || balanceG !== lastBalanceG || balanceB !== lastBalanceB) || (runClip && !this.tempDefault)
+      const runLight = (midAmount !== lastMidAmount || shadowAmount !== lastShadowAmount || highlightAmount !== lastHighlightAmount) || ((runClip || runColorBalance) && !this.lightDefault)
 
       let displayIndex = 0
 
-      if (runLight) {
+      if (!this.lightDefault) {
         displayIndex = 3
       } else if (!this.tempDefault) {
         displayIndex = 2
@@ -637,12 +643,13 @@ export default {
         displayIndex = 1
       }
 
-      console.log({ runPercentileStretch }, { runColorBalance }, { runLight })
+      console.log({ runClip }, { runColorBalance }, { runLight }, displayIndex)
 
       const startTime = performance.now()
 
       this.wasmHistogram.instance.exports.process(
-        runPercentileStretch, runColorBalance, runLight,
+        this.clipDefault, this.tempDefault, this.lightDefault,
+        runClip, runColorBalance, runLight,
         keepBalance, limit, limitValue,
         balanceR, balanceG, balanceB,
         midAmount, shadowAmount, highlightAmount)
@@ -653,7 +660,7 @@ export default {
       this.UIMessage = 'Process time: '
       this.UIValue = endTime - startTime
 
-      if (runPercentileStretch || runColorBalance || runLight) {
+      if (runClip || runColorBalance || runLight) {
         this.totalRuns++
         this.runSum += endTime - startTime
       }

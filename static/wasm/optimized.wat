@@ -1,17 +1,17 @@
 (module
- (type $i32_i32_i32_=>_none (func (param i32 i32 i32)))
- (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $none_=>_none (func))
+ (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
+ (type $i32_i32_i32_=>_none (func (param i32 i32 i32)))
  (type $i32_=>_none (func (param i32)))
+ (type $i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32)))
  (type $i32_i32_=>_none (func (param i32 i32)))
  (type $i32_=>_i32 (func (param i32) (result i32)))
- (type $i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32)))
  (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
  (type $i32_i32_=>_f64 (func (param i32 i32) (result f64)))
  (type $i32_i32_f32_=>_none (func (param i32 i32 f32)))
  (type $i32_i32_f64_=>_none (func (param i32 i32 f64)))
  (type $f64_=>_f64 (func (param f64) (result f64)))
- (type $i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32)))
+ (type $i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32)))
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
  (global $assembly/index/viewLength (mut i32) (i32.const 0))
  (global $assembly/index/channelLength (mut i32) (i32.const 0))
@@ -27,6 +27,7 @@
  (global $assembly/index/luma_strength_r (mut f64) (f64.const 0))
  (global $assembly/index/luma_strength_g (mut f64) (f64.const 0))
  (global $assembly/index/luma_strength_b (mut f64) (f64.const 0))
+ (global $assembly/index/clip_cache (mut i32) (i32.const 0))
  (global $assembly/index/temp_cache (mut i32) (i32.const 0))
  (global $assembly/index/exposure_cache (mut i32) (i32.const 0))
  (global $assembly/index/shadow_cache (mut i32) (i32.const 0))
@@ -324,9 +325,10 @@
  (data (i32.const 85064) "\01\00\00\00*\00\00\00O\00b\00j\00e\00c\00t\00 \00a\00l\00r\00e\00a\00d\00y\00 \00p\00i\00n\00n\00e\00d")
  (data (i32.const 85148) "<")
  (data (i32.const 85160) "\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d")
- (data (i32.const 85248) "\12\00\00\00 \00\00\00\00\00\00\00 ")
- (data (i32.const 85276) "A\00\00\00\02\00\00\00\04A\00\00\00\00\00\00\01\01\00\00\02\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00A\00\00\00\02\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00$\t\00\00\00\00\00\00\04A\00\00\00\00\00\00\01\19\00\00\02\00\00\00$\1a\00\00\00\00\00\00\02\1a\00\00\00\00\00\00\02\t\00\00\00\00\00\00d")
+ (data (i32.const 85248) "\11\00\00\00 \00\00\00\00\00\00\00 ")
+ (data (i32.const 85276) "A\00\00\00\02\00\00\00\04A\00\00\00\00\00\00\01\01\00\00\02\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00A\00\00\00\02\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00\01\19\00\00\02\00\00\00$\1a\00\00\00\00\00\00\02\1a\00\00\00\00\00\00\02\t\00\00\00\00\00\00$\t")
  (export "initData" (func $assembly/index/initData))
+ (export "cacheCalculations" (func $assembly/index/cacheCalculations))
  (export "process" (func $assembly/index/process))
  (export "colorChange" (func $assembly/index/colorChange))
  (export "percentileStretch" (func $assembly/index/percentileStretch))
@@ -726,10 +728,10 @@
   if
    unreachable
   end
-  i32.const 85408
+  i32.const 85392
   i32.const 0
   i32.store
-  i32.const 86976
+  i32.const 86960
   i32.const 0
   i32.store
   loop $for-loop|0
@@ -740,7 +742,7 @@
     local.get $1
     i32.const 2
     i32.shl
-    i32.const 85408
+    i32.const 85392
     i32.add
     i32.const 0
     i32.store offset=4
@@ -758,7 +760,7 @@
       i32.add
       i32.const 2
       i32.shl
-      i32.const 85408
+      i32.const 85392
       i32.add
       i32.const 0
       i32.store offset=96
@@ -776,13 +778,13 @@
     br $for-loop|0
    end
   end
-  i32.const 85408
-  i32.const 86980
+  i32.const 85392
+  i32.const 86964
   memory.size
   i32.const 16
   i32.shl
   call $~lib/rt/tlsf/addMemory
-  i32.const 85408
+  i32.const 85392
   global.set $~lib/rt/tlsf/ROOT
  )
  (func $~lib/rt/tlsf/searchBlock (param $0 i32) (param $1 i32) (result i32)
@@ -1290,7 +1292,7 @@
    end
   end
  )
- (func $~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>#constructor (param $0 i32) (result i32)
+ (func $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>>#constructor (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 268435455
@@ -1307,7 +1309,31 @@
   i32.const 2
   i32.shl
   local.tee $0
-  i32.const 6
+  i32.const 10
+  call $~lib/rt/tcms/__new
+  local.tee $1
+  local.get $0
+  call $~lib/memory/memory.fill
+  local.get $1
+ )
+ (func $~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>#constructor (param $0 i32) (result i32)
+  (local $1 i32)
+  local.get $0
+  i32.const 268435455
+  i32.gt_u
+  if
+   i32.const 1056
+   i32.const 1104
+   i32.const 90
+   i32.const 60
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $0
+  i32.const 2
+  i32.shl
+  local.tee $0
+  i32.const 9
   call $~lib/rt/tcms/__new
   local.tee $1
   local.get $0
@@ -1391,190 +1417,178 @@
   call $~lib/memory/memory.fill
   local.get $0
   global.set $assembly/index/counts
-  i32.const 16
-  i32.const 10
-  call $~lib/rt/tcms/__new
-  local.tee $0
-  i32.const 16
-  call $~lib/memory/memory.fill
-  local.get $0
+  i32.const 4
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>>#constructor
   global.set $assembly/index/displayCounts
+  i32.const 8
+  i32.const 11
+  call $~lib/rt/tcms/__new
+  local.tee $0
+  i32.const 8
+  call $~lib/memory/memory.fill
+  local.get $0
+  global.set $assembly/index/clip_cache
   i32.const 201
-  call $~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>#constructor
+  call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>#constructor
   global.set $assembly/index/temp_cache
-  i32.const 804
-  i32.const 12
-  call $~lib/rt/tcms/__new
-  local.tee $0
-  i32.const 804
-  call $~lib/memory/memory.fill
-  local.get $0
+  i32.const 201
+  call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>#constructor
   global.set $assembly/index/exposure_cache
-  i32.const 804
-  i32.const 12
-  call $~lib/rt/tcms/__new
-  local.tee $0
-  i32.const 804
-  call $~lib/memory/memory.fill
-  local.get $0
+  i32.const 201
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>>#constructor
   global.set $assembly/index/shadow_cache
-  i32.const 804
-  i32.const 12
-  call $~lib/rt/tcms/__new
-  local.tee $0
-  i32.const 804
-  call $~lib/memory/memory.fill
-  local.get $0
+  i32.const 201
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>>#constructor
   global.set $assembly/index/light_cache
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/lineUpFromPoint1
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/lineDownToPoint1
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/lineUpFromPoint2
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/lineDownToPoint2
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/lineDownToPoint75
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/lineDownToPoint5
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveExpUp
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveExpDown
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveCircleBigUp
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveCircleBigDown
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveRootMidUp
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveRootMidDown
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveGrayUp
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveGrayDown
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveSinFull
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveSinFull32
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveSinFull224
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveSinUp
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveSinDown
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveLogDown0
   i32.const 12
-  i32.const 13
+  i32.const 12
   call $~lib/rt/tcms/__new
   i32.const 256
   i32.const 2
   call $~lib/arraybuffer/ArrayBufferView#constructor
   global.set $assembly/index/curveLogUp0
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1582,7 +1596,7 @@
   local.get $0
   global.set $assembly/index/curveSinFull_0
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1590,7 +1604,7 @@
   local.get $0
   global.set $assembly/index/curveSinUpMid_f64
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1598,7 +1612,7 @@
   local.get $0
   global.set $assembly/index/curve_camel
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1606,7 +1620,7 @@
   local.get $0
   global.set $assembly/index/curveSinFull_25
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1614,7 +1628,7 @@
   local.get $0
   global.set $assembly/index/curveSinFull_5
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1622,7 +1636,7 @@
   local.get $0
   global.set $assembly/index/curveSinFull_1
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1630,7 +1644,7 @@
   local.get $0
   global.set $assembly/index/curve_sin_mid_pow
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1638,7 +1652,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_up_0_25
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1646,7 +1660,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_up_0_50
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1654,7 +1668,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_up_1
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1662,7 +1676,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_up_1_50
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1670,7 +1684,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_up_2
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1678,7 +1692,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_down_0_25
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1686,7 +1700,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_down_0_50
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1694,7 +1708,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_down_1
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -1702,7 +1716,7 @@
   local.get $0
   global.set $assembly/index/curve_gamma_down_1_50
   i32.const 2048
-  i32.const 14
+  i32.const 13
   call $~lib/rt/tcms/__new
   local.tee $0
   i32.const 2048
@@ -2627,7 +2641,7 @@
    end
   end
   i32.const 16
-  i32.const 15
+  i32.const 14
   call $~lib/rt/tcms/__new
   local.tee $1
   local.get $5
@@ -2772,6 +2786,1104 @@
   i32.add
   local.get $2
   f64.store
+ )
+ (func $assembly/index/initData (param $0 i32) (param $1 i32) (param $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 i32)
+  (local $9 i32)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 i32)
+  (local $13 i32)
+  (local $14 i32)
+  (local $15 i32)
+  (local $16 i32)
+  (local $17 i32)
+  (local $18 i32)
+  (local $19 i32)
+  (local $20 i32)
+  (local $21 i32)
+  (local $22 i32)
+  local.get $0
+  global.set $assembly/index/width
+  local.get $1
+  global.set $assembly/index/height
+  global.get $assembly/index/width
+  global.get $assembly/index/height
+  i32.mul
+  global.set $assembly/index/channelLength
+  global.get $assembly/index/channelLength
+  i32.const 2
+  i32.shl
+  global.set $assembly/index/viewLength
+  global.get $assembly/index/viewLength
+  i32.const 2
+  i32.shl
+  i32.const -8192
+  i32.sub
+  i32.const 65536
+  i32.div_s
+  f64.convert_i32_s
+  f64.ceil
+  f64.const 1e3
+  f64.add
+  i32.trunc_f64_s
+  memory.grow
+  drop
+  i32.const 4
+  i32.const 1456
+  call $~lib/rt/__newArray
+  i32.const 2
+  call $~lib/array/Array<f64>#__get
+  global.set $assembly/index/luma_strength_r
+  i32.const 4
+  i32.const 1632
+  call $~lib/rt/__newArray
+  i32.const 2
+  call $~lib/array/Array<f64>#__get
+  global.set $assembly/index/luma_strength_g
+  i32.const 4
+  i32.const 1696
+  call $~lib/rt/__newArray
+  i32.const 2
+  call $~lib/array/Array<f64>#__get
+  global.set $assembly/index/luma_strength_b
+  loop $for-loop|0
+   local.get $2
+   local.get $3
+   i32.gt_s
+   if
+    global.get $assembly/index/views
+    local.get $3
+    global.get $assembly/index/viewLength
+    local.set $0
+    i32.const 12
+    i32.const 3
+    call $~lib/rt/tcms/__new
+    local.get $0
+    i32.const 0
+    call $~lib/arraybuffer/ArrayBufferView#constructor
+    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|0
+   end
+  end
+  i32.const 0
+  local.set $3
+  loop $for-loop|1
+   local.get $2
+   local.get $3
+   i32.gt_s
+   if
+    global.get $assembly/index/counts
+    local.get $3
+    i32.const 12
+    i32.const 6
+    call $~lib/rt/tcms/__new
+    local.tee $0
+    i32.const 12
+    call $~lib/memory/memory.fill
+    local.get $0
+    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+    i32.const 0
+    local.set $0
+    loop $for-loop|2
+     local.get $0
+     i32.const 3
+     i32.lt_s
+     if
+      global.get $assembly/index/counts
+      local.get $3
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $0
+      i32.const 12
+      i32.const 5
+      call $~lib/rt/tcms/__new
+      i32.const 256
+      i32.const 2
+      call $~lib/arraybuffer/ArrayBufferView#constructor
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      local.get $0
+      i32.const 1
+      i32.add
+      local.set $0
+      br $for-loop|2
+     end
+    end
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|1
+   end
+  end
+  i32.const 0
+  local.set $3
+  loop $for-loop|3
+   local.get $2
+   local.get $3
+   i32.gt_s
+   if
+    global.get $assembly/index/displayCounts
+    local.get $3
+    i32.const 3
+    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>#constructor
+    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+    i32.const 0
+    local.set $0
+    loop $for-loop|4
+     local.get $0
+     i32.const 3
+     i32.lt_s
+     if
+      global.get $assembly/index/displayCounts
+      local.get $3
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $0
+      i32.const 12
+      i32.const 8
+      call $~lib/rt/tcms/__new
+      i32.const 256
+      i32.const 0
+      call $~lib/arraybuffer/ArrayBufferView#constructor
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      local.get $0
+      i32.const 1
+      i32.add
+      local.set $0
+      br $for-loop|4
+     end
+    end
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|3
+   end
+  end
+  i32.const 256
+  i32.const 1888
+  call $~lib/rt/__newArray
+  local.set $1
+  i32.const 256
+  i32.const 3968
+  call $~lib/rt/__newArray
+  local.set $2
+  i32.const 256
+  i32.const 6048
+  call $~lib/rt/__newArray
+  local.set $4
+  i32.const 256
+  i32.const 8128
+  call $~lib/rt/__newArray
+  local.set $5
+  i32.const 256
+  i32.const 10208
+  call $~lib/rt/__newArray
+  local.set $6
+  i32.const 256
+  i32.const 12288
+  call $~lib/rt/__newArray
+  local.set $7
+  i32.const 256
+  i32.const 14368
+  call $~lib/rt/__newArray
+  local.set $8
+  i32.const 256
+  i32.const 16448
+  call $~lib/rt/__newArray
+  local.set $9
+  i32.const 256
+  i32.const 18528
+  call $~lib/rt/__newArray
+  local.set $10
+  i32.const 256
+  i32.const 20608
+  call $~lib/rt/__newArray
+  local.set $11
+  i32.const 256
+  i32.const 22688
+  call $~lib/rt/__newArray
+  local.set $12
+  i32.const 256
+  i32.const 24768
+  call $~lib/rt/__newArray
+  local.set $13
+  i32.const 256
+  i32.const 26848
+  call $~lib/rt/__newArray
+  local.set $14
+  i32.const 256
+  i32.const 28928
+  call $~lib/rt/__newArray
+  local.set $15
+  i32.const 256
+  i32.const 31008
+  call $~lib/rt/__newArray
+  local.set $0
+  i32.const 256
+  i32.const 33088
+  call $~lib/rt/__newArray
+  local.set $16
+  i32.const 256
+  i32.const 35168
+  call $~lib/rt/__newArray
+  local.set $17
+  i32.const 256
+  i32.const 37248
+  call $~lib/rt/__newArray
+  local.set $18
+  i32.const 256
+  i32.const 39328
+  call $~lib/rt/__newArray
+  local.set $19
+  i32.const 256
+  i32.const 41408
+  call $~lib/rt/__newArray
+  local.set $20
+  i32.const 256
+  i32.const 43488
+  call $~lib/rt/__newArray
+  local.set $21
+  i32.const 256
+  i32.const 45568
+  call $~lib/rt/__newArray
+  local.set $22
+  i32.const 0
+  local.set $3
+  loop $for-loop|5
+   local.get $3
+   i32.const 256
+   i32.lt_s
+   if
+    global.get $assembly/index/lineUpFromPoint1
+    local.get $3
+    local.get $1
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDownToPoint1
+    local.get $3
+    local.get $2
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineUpFromPoint2
+    local.get $3
+    local.get $4
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDownToPoint2
+    local.get $3
+    local.get $5
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDownToPoint5
+    local.get $3
+    local.get $7
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/lineDownToPoint75
+    local.get $3
+    local.get $6
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveExpUp
+    local.get $3
+    local.get $8
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveExpDown
+    local.get $3
+    local.get $9
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveCircleBigUp
+    local.get $3
+    local.get $10
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveCircleBigDown
+    local.get $3
+    local.get $11
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveRootMidUp
+    local.get $3
+    local.get $12
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveRootMidDown
+    local.get $3
+    local.get $13
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveGrayUp
+    local.get $3
+    local.get $14
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveGrayDown
+    local.get $3
+    local.get $15
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinFull
+    local.get $3
+    local.get $0
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinFull32
+    local.get $3
+    local.get $16
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinFull224
+    local.get $3
+    local.get $17
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinUp
+    local.get $3
+    local.get $18
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinDown
+    local.get $3
+    local.get $19
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveLogDown0
+    local.get $3
+    local.get $20
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveLogUp0
+    local.get $3
+    local.get $21
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    f32.demote_f64
+    call $~lib/typedarray/Float32Array#__set
+    global.get $assembly/index/curveSinFull_0
+    local.get $3
+    local.get $0
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curveSinUpMid_f64
+    local.get $3
+    local.get $22
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_camel
+    local.get $3
+    i32.const 256
+    i32.const 47712
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curveSinFull_1
+    local.get $3
+    i32.const 256
+    i32.const 49792
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curveSinFull_25
+    local.get $3
+    i32.const 256
+    i32.const 51872
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curveSinFull_5
+    local.get $3
+    i32.const 256
+    i32.const 53952
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_up_0_25
+    local.get $3
+    i32.const 256
+    i32.const 56032
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_up_0_50
+    local.get $3
+    i32.const 256
+    i32.const 58112
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_up_1
+    local.get $3
+    i32.const 256
+    i32.const 60192
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_up_1_50
+    local.get $3
+    i32.const 256
+    i32.const 62272
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_up_2
+    local.get $3
+    i32.const 256
+    i32.const 64352
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_down_0_25
+    local.get $3
+    i32.const 256
+    i32.const 66432
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_down_0_50
+    local.get $3
+    i32.const 256
+    i32.const 68512
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_down_1
+    local.get $3
+    i32.const 256
+    i32.const 70592
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_down_1_50
+    local.get $3
+    i32.const 256
+    i32.const 72672
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_gamma_down_2
+    local.get $3
+    i32.const 256
+    i32.const 74752
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    global.get $assembly/index/curve_sin_mid_pow
+    local.get $3
+    i32.const 256
+    i32.const 76832
+    call $~lib/rt/__newArray
+    local.get $3
+    call $~lib/array/Array<f64>#__get
+    call $~lib/staticarray/StaticArray<f64>#__set
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|5
+   end
+  end
+ )
+ (func $assembly/index/getCountOffset (param $0 i32) (param $1 i32) (result i32)
+  global.get $assembly/index/counts
+  local.get $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.get $1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.load
+  global.get $assembly/index/counts
+  local.get $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.get $1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.tee $0
+  i32.load offset=4
+  local.get $0
+  i32.load
+  i32.sub
+  i32.add
+ )
+ (func $~lib/staticarray/StaticArray<i32>#__get (param $0 i32) (param $1 i32) (result i32)
+  local.get $0
+  i32.const 20
+  i32.sub
+  i32.load offset=16
+  i32.const 2
+  i32.shr_u
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1520
+   i32.const 1104
+   i32.const 115
+   i32.const 41
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $1
+  i32.const 2
+  i32.shl
+  local.get $0
+  i32.add
+  i32.load
+ )
+ (func $~lib/typedarray/Uint8Array#__set (param $0 i32) (param $1 i32) (param $2 i32)
+  local.get $0
+  i32.load offset=8
+  local.get $1
+  i32.le_u
+  if
+   i32.const 1520
+   i32.const 47648
+   i32.const 177
+   i32.const 45
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $1
+  local.get $0
+  i32.load offset=4
+  i32.add
+  local.get $2
+  i32.store8
+ )
+ (func $assembly/index/cacheClip
+  (local $0 i32)
+  (local $1 f64)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 f64)
+  (local $9 f64)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 i32)
+  (local $13 i32)
+  (local $14 i32)
+  (local $15 i32)
+  (local $16 i32)
+  (local $17 f64)
+  (local $18 f64)
+  (local $19 f64)
+  loop $for-loop|0
+   local.get $6
+   i32.const 2
+   i32.lt_s
+   if
+    global.get $assembly/index/clip_cache
+    local.get $6
+    i32.const 101
+    call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>>#constructor
+    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+    local.get $6
+    i32.const 1
+    i32.eq
+    local.set $15
+    i32.const 0
+    local.set $5
+    loop $for-loop|1
+     local.get $5
+     i32.const 101
+     i32.lt_s
+     if
+      global.get $assembly/index/clip_cache
+      local.get $6
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $5
+      i32.const 3
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>#constructor
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      global.get $assembly/index/clip_cache
+      local.get $6
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $5
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      i32.const 0
+      i32.const 12
+      i32.const 8
+      call $~lib/rt/tcms/__new
+      i32.const 256
+      i32.const 0
+      call $~lib/arraybuffer/ArrayBufferView#constructor
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      global.get $assembly/index/clip_cache
+      local.get $6
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $5
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      i32.const 1
+      i32.const 12
+      i32.const 8
+      call $~lib/rt/tcms/__new
+      i32.const 256
+      i32.const 0
+      call $~lib/arraybuffer/ArrayBufferView#constructor
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      global.get $assembly/index/clip_cache
+      local.get $6
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $5
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      i32.const 2
+      i32.const 12
+      i32.const 8
+      call $~lib/rt/tcms/__new
+      i32.const 256
+      i32.const 0
+      call $~lib/arraybuffer/ArrayBufferView#constructor
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      global.get $assembly/index/width
+      f64.convert_i32_s
+      global.get $assembly/index/height
+      f64.convert_i32_s
+      f64.mul
+      f64.const 0.0001
+      f64.mul
+      local.get $5
+      f64.convert_i32_s
+      f64.mul
+      f64.ceil
+      i32.trunc_f64_s
+      local.set $12
+      i32.const 24
+      i32.const 16
+      call $~lib/rt/tcms/__new
+      local.tee $0
+      i32.const 24
+      call $~lib/memory/memory.fill
+      local.get $0
+      local.tee $4
+      i32.const 1
+      i32.const 255
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      local.get $4
+      i32.const 3
+      i32.const 255
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      local.get $4
+      i32.const 5
+      i32.const 255
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      local.get $5
+      i32.const 0
+      i32.ge_s
+      if
+       i32.const 0
+       local.set $7
+       loop $for-loop|2
+        local.get $7
+        i32.const 3
+        i32.lt_s
+        if
+         i32.const 0
+         local.get $7
+         call $assembly/index/getCountOffset
+         local.tee $10
+         i32.load
+         local.get $12
+         i32.add
+         local.set $16
+         local.get $10
+         i32.load offset=1020
+         local.get $12
+         i32.add
+         local.set $11
+         i32.const 0
+         local.set $13
+         i32.const 0
+         local.set $14
+         i32.const 0
+         local.set $3
+         i32.const 255
+         local.set $2
+         i32.const 0
+         local.set $0
+         loop $for-loop|3
+          local.get $0
+          i32.const 255
+          i32.le_s
+          if
+           local.get $16
+           local.get $0
+           i32.const 2
+           i32.shl
+           local.get $10
+           i32.add
+           i32.load
+           local.get $13
+           i32.add
+           local.tee $13
+           i32.ge_u
+           if
+            local.get $0
+            local.tee $3
+            i32.const 1
+            i32.add
+            local.set $0
+            br $for-loop|3
+           end
+          end
+         end
+         i32.const 255
+         local.set $0
+         loop $for-loop|4
+          local.get $0
+          i32.const 0
+          i32.ge_s
+          if
+           local.get $11
+           local.get $0
+           i32.const 2
+           i32.shl
+           local.get $10
+           i32.add
+           i32.load
+           local.get $14
+           i32.add
+           local.tee $14
+           i32.ge_u
+           if
+            local.get $0
+            local.tee $2
+            i32.const 1
+            i32.sub
+            local.set $0
+            br $for-loop|4
+           end
+          end
+         end
+         local.get $4
+         local.get $7
+         i32.const 1
+         i32.shl
+         local.tee $0
+         local.get $3
+         call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+         local.get $4
+         local.get $0
+         i32.const 1
+         i32.add
+         local.get $2
+         call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+         local.get $7
+         i32.const 1
+         i32.add
+         local.set $7
+         br $for-loop|2
+        end
+       end
+      end
+      local.get $15
+      if
+       local.get $4
+       i32.const 0
+       call $~lib/staticarray/StaticArray<i32>#__get
+       local.set $0
+       local.get $4
+       i32.const 2
+       call $~lib/staticarray/StaticArray<i32>#__get
+       local.get $0
+       i32.lt_s
+       if
+        local.get $4
+        i32.const 2
+        call $~lib/staticarray/StaticArray<i32>#__get
+        local.set $0
+       end
+       local.get $4
+       i32.const 0
+       local.get $4
+       i32.const 4
+       call $~lib/staticarray/StaticArray<i32>#__get
+       local.get $0
+       i32.lt_s
+       if
+        local.get $4
+        i32.const 4
+        call $~lib/staticarray/StaticArray<i32>#__get
+        local.set $0
+       end
+       local.get $0
+       call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+       local.get $4
+       i32.const 2
+       local.get $0
+       call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+       local.get $4
+       i32.const 4
+       local.get $0
+       call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+       local.get $4
+       i32.const 1
+       call $~lib/staticarray/StaticArray<i32>#__get
+       local.set $0
+       local.get $4
+       i32.const 3
+       call $~lib/staticarray/StaticArray<i32>#__get
+       local.get $0
+       i32.gt_s
+       if
+        local.get $4
+        i32.const 3
+        call $~lib/staticarray/StaticArray<i32>#__get
+        local.set $0
+       end
+       local.get $4
+       i32.const 1
+       local.get $4
+       i32.const 5
+       call $~lib/staticarray/StaticArray<i32>#__get
+       local.get $0
+       i32.gt_s
+       if
+        local.get $4
+        i32.const 5
+        call $~lib/staticarray/StaticArray<i32>#__get
+        local.set $0
+       end
+       local.get $0
+       call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+       local.get $4
+       i32.const 3
+       local.get $0
+       call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+       local.get $4
+       i32.const 5
+       local.get $0
+       call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      end
+      f64.const 1
+      local.get $4
+      i32.load offset=4
+      local.get $4
+      i32.load
+      local.tee $11
+      i32.sub
+      f64.convert_i32_s
+      f64.div
+      f64.const 255
+      f64.mul
+      local.set $17
+      f64.const 1
+      local.get $4
+      i32.load offset=12
+      local.get $4
+      i32.load offset=8
+      local.tee $2
+      i32.sub
+      f64.convert_i32_s
+      f64.div
+      f64.const 255
+      f64.mul
+      local.set $18
+      f64.const 1
+      local.get $4
+      i32.load offset=20
+      local.get $4
+      i32.load offset=16
+      local.tee $0
+      i32.sub
+      f64.convert_i32_s
+      f64.div
+      f64.const 255
+      f64.mul
+      local.set $19
+      i32.const 0
+      local.set $3
+      loop $for-loop|5
+       local.get $3
+       i32.const 256
+       i32.lt_s
+       if
+        local.get $3
+        local.get $2
+        i32.sub
+        f64.convert_i32_s
+        local.get $18
+        f64.mul
+        local.set $8
+        local.get $3
+        local.get $0
+        i32.sub
+        f64.convert_i32_s
+        local.get $19
+        f64.mul
+        local.set $9
+        global.get $assembly/index/clip_cache
+        local.get $6
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $5
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        i32.const 0
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $3
+        local.get $3
+        local.get $11
+        i32.sub
+        f64.convert_i32_s
+        local.get $17
+        f64.mul
+        local.tee $1
+        f64.const 255
+        f64.gt
+        if
+         f64.const 255
+         local.set $1
+        end
+        local.get $1
+        f64.const 0
+        f64.lt
+        if (result f64)
+         f64.const 0
+        else
+         local.get $1
+        end
+        i32.trunc_f64_u
+        i32.const 255
+        i32.and
+        call $~lib/typedarray/Uint8Array#__set
+        global.get $assembly/index/clip_cache
+        local.get $6
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $5
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        i32.const 1
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $3
+        f64.const 255
+        local.get $8
+        local.get $8
+        f64.const 255
+        f64.gt
+        select
+        local.tee $8
+        f64.const 0
+        f64.lt
+        if (result f64)
+         f64.const 0
+        else
+         local.get $8
+        end
+        i32.trunc_f64_u
+        i32.const 255
+        i32.and
+        call $~lib/typedarray/Uint8Array#__set
+        global.get $assembly/index/clip_cache
+        local.get $6
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $5
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        i32.const 2
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $3
+        f64.const 255
+        local.get $9
+        local.get $9
+        f64.const 255
+        f64.gt
+        select
+        local.tee $9
+        f64.const 0
+        f64.lt
+        if (result f64)
+         f64.const 0
+        else
+         local.get $9
+        end
+        i32.trunc_f64_u
+        i32.const 255
+        i32.and
+        call $~lib/typedarray/Uint8Array#__set
+        local.get $3
+        i32.const 1
+        i32.add
+        local.set $3
+        br $for-loop|5
+       end
+      end
+      local.get $5
+      i32.const 1
+      i32.add
+      local.set $5
+      br $for-loop|1
+     end
+    end
+    local.get $6
+    i32.const 1
+    i32.add
+    local.set $6
+    br $for-loop|0
+   end
+  end
  )
  (func $~lib/math/NativeMath.pow (param $0 f64) (result f64)
   (local $1 i32)
@@ -3217,171 +4329,48 @@
    end
   end
  )
- (func $assembly/index/initData (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 f64)
-  (local $4 i32)
-  (local $5 f64)
+ (func $assembly/index/cacheShadow
+  (local $0 f64)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 f64)
+  (local $5 i32)
   (local $6 f64)
   (local $7 f64)
   (local $8 i32)
-  (local $9 i32)
-  (local $10 i32)
-  (local $11 i32)
-  (local $12 i32)
-  (local $13 i32)
-  (local $14 i32)
-  (local $15 i32)
-  (local $16 i32)
-  (local $17 i32)
-  (local $18 i32)
-  (local $19 i32)
-  (local $20 i32)
-  (local $21 i32)
-  (local $22 i32)
-  (local $23 i32)
-  (local $24 i32)
-  (local $25 i32)
-  (local $26 i32)
-  (local $27 f64)
-  local.get $0
-  global.set $assembly/index/width
-  local.get $1
-  global.set $assembly/index/height
-  global.get $assembly/index/width
-  global.get $assembly/index/height
-  i32.mul
-  global.set $assembly/index/channelLength
-  global.get $assembly/index/channelLength
-  i32.const 2
-  i32.shl
-  global.set $assembly/index/viewLength
-  global.get $assembly/index/viewLength
-  i32.const 2
-  i32.shl
-  i32.const -8192
-  i32.sub
-  i32.const 65536
-  i32.div_s
-  f64.convert_i32_s
-  f64.ceil
-  f64.const 1
-  f64.add
-  i32.trunc_f64_s
-  memory.grow
-  drop
-  i32.const 4
-  i32.const 1456
-  call $~lib/rt/__newArray
-  i32.const 2
-  call $~lib/array/Array<f64>#__get
-  global.set $assembly/index/luma_strength_r
-  i32.const 4
-  i32.const 1632
-  call $~lib/rt/__newArray
-  i32.const 2
-  call $~lib/array/Array<f64>#__get
-  global.set $assembly/index/luma_strength_g
-  i32.const 4
-  i32.const 1696
-  call $~lib/rt/__newArray
-  i32.const 2
-  call $~lib/array/Array<f64>#__get
-  global.set $assembly/index/luma_strength_b
+  (local $9 f64)
   loop $for-loop|0
    local.get $2
-   local.get $4
-   i32.gt_s
+   i32.const 201
+   i32.lt_s
    if
-    global.get $assembly/index/viewLength
-    local.set $0
-    global.get $assembly/index/views
-    local.get $4
-    i32.const 12
-    i32.const 3
-    call $~lib/rt/tcms/__new
-    local.get $0
-    i32.const 0
-    call $~lib/arraybuffer/ArrayBufferView#constructor
+    global.get $assembly/index/shadow_cache
+    local.get $2
+    i32.const 256
+    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>#constructor
     call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-    local.get $4
-    i32.const 1
-    i32.add
-    local.set $4
-    br $for-loop|0
-   end
-  end
-  i32.const 0
-  local.set $4
-  loop $for-loop|1
-   local.get $2
-   local.get $4
-   i32.gt_s
-   if
-    global.get $assembly/index/counts
-    local.get $4
-    i32.const 3
-    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>#constructor
-    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+    local.get $2
+    i32.const 100
+    i32.sub
+    local.tee $5
+    f64.convert_i32_s
+    f64.abs
+    f64.const -0.05
+    f64.mul
+    call $~lib/math/NativeMath.pow
+    local.set $6
     i32.const 0
-    local.set $0
-    loop $for-loop|2
-     local.get $0
-     i32.const 3
+    local.set $3
+    loop $for-loop|1
+     local.get $3
+     i32.const 256
      i32.lt_s
      if
-      global.get $assembly/index/counts
-      local.get $4
+      global.get $assembly/index/shadow_cache
+      local.get $2
       call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
-      local.get $0
-      i32.const 12
-      i32.const 5
-      call $~lib/rt/tcms/__new
-      i32.const 256
-      i32.const 2
-      call $~lib/arraybuffer/ArrayBufferView#constructor
-      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-      local.get $0
-      i32.const 1
-      i32.add
-      local.set $0
-      br $for-loop|2
-     end
-    end
-    local.get $4
-    i32.const 1
-    i32.add
-    local.set $4
-    br $for-loop|1
-   end
-  end
-  i32.const 0
-  local.set $4
-  loop $for-loop|3
-   local.get $2
-   local.get $4
-   i32.gt_s
-   if
-    global.get $assembly/index/displayCounts
-    i32.const 12
-    i32.const 9
-    call $~lib/rt/tcms/__new
-    local.tee $1
-    i32.const 12
-    call $~lib/memory/memory.fill
-    local.get $4
-    local.get $1
-    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-    i32.const 0
-    local.set $0
-    loop $for-loop|4
-     local.get $0
-     i32.const 3
-     i32.lt_s
-     if
-      global.get $assembly/index/displayCounts
-      local.get $4
-      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
-      local.get $0
+      local.get $3
       i32.const 12
       i32.const 8
       call $~lib/rt/tcms/__new
@@ -3389,577 +4378,344 @@
       i32.const 0
       call $~lib/arraybuffer/ArrayBufferView#constructor
       call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-      local.get $0
+      i32.const 0
+      local.set $1
+      loop $for-loop|2
+       local.get $1
+       i32.const 256
+       i32.lt_s
+       if
+        local.get $1
+        f64.convert_i32_s
+        local.set $0
+        local.get $5
+        i32.const 0
+        i32.gt_s
+        if (result f64)
+         block $__inlined_func$assembly/index/lerp_clamped (result f64)
+          global.get $assembly/index/curveLogDown0
+          i32.load offset=4
+          i32.const 255
+          local.get $3
+          i32.sub
+          f64.convert_i32_s
+          f64.const 0.75
+          f64.mul
+          i32.const 255
+          local.get $1
+          i32.sub
+          local.tee $8
+          f64.convert_i32_s
+          local.tee $0
+          f64.const 0.25
+          f64.mul
+          f64.add
+          i32.trunc_f64_s
+          i32.const 2
+          i32.shl
+          i32.add
+          f32.load
+          f64.promote_f32
+          local.set $7
+          f64.const 255
+          block $__inlined_func$assembly/index/lerp_clamped0 (result f64)
+           f64.const 255
+           local.get $1
+           f64.convert_i32_s
+           local.tee $4
+           f64.const 1
+           global.get $assembly/index/curveSinFull_0
+           local.get $8
+           i32.const 3
+           i32.shl
+           i32.add
+           f64.load
+           local.tee $9
+           f64.sub
+           f64.mul
+           f64.const 255
+           local.get $0
+           local.get $6
+           f64.mul
+           f64.sub
+           local.get $9
+           f64.mul
+           f64.add
+           local.tee $0
+           f64.const 255
+           f64.gt
+           br_if $__inlined_func$assembly/index/lerp_clamped0
+           drop
+           f64.const 0
+           local.get $0
+           f64.const 0
+           f64.lt
+           br_if $__inlined_func$assembly/index/lerp_clamped0
+           drop
+           local.get $0
+          end
+          f64.const 1
+          local.get $7
+          f64.sub
+          f64.mul
+          local.get $4
+          local.get $7
+          f64.mul
+          f64.add
+          local.tee $0
+          f64.const 255
+          f64.gt
+          br_if $__inlined_func$assembly/index/lerp_clamped
+          drop
+          f64.const 0
+          local.get $0
+          f64.const 0
+          f64.lt
+          br_if $__inlined_func$assembly/index/lerp_clamped
+          drop
+          local.get $0
+         end
+        else
+         local.get $5
+         i32.const 0
+         i32.lt_s
+         if (result f64)
+          block $__inlined_func$assembly/index/lerp_clamped1 (result f64)
+           f64.const 255
+           local.get $1
+           f64.convert_i32_s
+           local.tee $0
+           f64.const 1
+           global.get $assembly/index/curve_gamma_down_2
+           local.get $1
+           i32.const 3
+           i32.shl
+           i32.add
+           f64.load
+           local.tee $4
+           f64.sub
+           f64.mul
+           local.get $0
+           local.get $6
+           f64.mul
+           local.get $4
+           f64.mul
+           f64.add
+           local.tee $0
+           f64.const 255
+           f64.gt
+           br_if $__inlined_func$assembly/index/lerp_clamped1
+           drop
+           f64.const 0
+           local.get $0
+           f64.const 0
+           f64.lt
+           br_if $__inlined_func$assembly/index/lerp_clamped1
+           drop
+           local.get $0
+          end
+         else
+          local.get $0
+         end
+        end
+        local.set $0
+        global.get $assembly/index/shadow_cache
+        local.get $2
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $3
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $1
+        local.get $0
+        i32.trunc_f64_u
+        i32.const 255
+        i32.and
+        call $~lib/typedarray/Uint8Array#__set
+        local.get $1
+        i32.const 1
+        i32.add
+        local.set $1
+        br $for-loop|2
+       end
+      end
+      local.get $3
       i32.const 1
       i32.add
-      local.set $0
-      br $for-loop|4
+      local.set $3
+      br $for-loop|1
      end
     end
-    local.get $4
-    i32.const 1
-    i32.add
-    local.set $4
-    br $for-loop|3
-   end
-  end
-  i32.const 256
-  i32.const 1888
-  call $~lib/rt/__newArray
-  local.set $1
-  i32.const 256
-  i32.const 3968
-  call $~lib/rt/__newArray
-  local.set $2
-  i32.const 256
-  i32.const 6048
-  call $~lib/rt/__newArray
-  local.set $8
-  i32.const 256
-  i32.const 8128
-  call $~lib/rt/__newArray
-  local.set $9
-  i32.const 256
-  i32.const 10208
-  call $~lib/rt/__newArray
-  local.set $10
-  i32.const 256
-  i32.const 12288
-  call $~lib/rt/__newArray
-  local.set $11
-  i32.const 256
-  i32.const 14368
-  call $~lib/rt/__newArray
-  local.set $12
-  i32.const 256
-  i32.const 16448
-  call $~lib/rt/__newArray
-  local.set $13
-  i32.const 256
-  i32.const 18528
-  call $~lib/rt/__newArray
-  local.set $14
-  i32.const 256
-  i32.const 20608
-  call $~lib/rt/__newArray
-  local.set $15
-  i32.const 256
-  i32.const 22688
-  call $~lib/rt/__newArray
-  local.set $16
-  i32.const 256
-  i32.const 24768
-  call $~lib/rt/__newArray
-  local.set $17
-  i32.const 256
-  i32.const 26848
-  call $~lib/rt/__newArray
-  local.set $18
-  i32.const 256
-  i32.const 28928
-  call $~lib/rt/__newArray
-  local.set $19
-  i32.const 256
-  i32.const 31008
-  call $~lib/rt/__newArray
-  local.set $0
-  i32.const 256
-  i32.const 33088
-  call $~lib/rt/__newArray
-  local.set $20
-  i32.const 256
-  i32.const 35168
-  call $~lib/rt/__newArray
-  local.set $21
-  i32.const 256
-  i32.const 37248
-  call $~lib/rt/__newArray
-  local.set $22
-  i32.const 256
-  i32.const 39328
-  call $~lib/rt/__newArray
-  local.set $23
-  i32.const 256
-  i32.const 41408
-  call $~lib/rt/__newArray
-  local.set $24
-  i32.const 256
-  i32.const 43488
-  call $~lib/rt/__newArray
-  local.set $25
-  i32.const 256
-  i32.const 45568
-  call $~lib/rt/__newArray
-  local.set $26
-  i32.const 0
-  local.set $4
-  loop $for-loop|5
-   local.get $4
-   i32.const 256
-   i32.lt_s
-   if
-    global.get $assembly/index/lineUpFromPoint1
-    local.get $4
-    local.get $1
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDownToPoint1
-    local.get $4
     local.get $2
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineUpFromPoint2
-    local.get $4
-    local.get $8
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDownToPoint2
-    local.get $4
-    local.get $9
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDownToPoint5
-    local.get $4
-    local.get $11
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/lineDownToPoint75
-    local.get $4
-    local.get $10
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveExpUp
-    local.get $4
-    local.get $12
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveExpDown
-    local.get $4
-    local.get $13
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveCircleBigUp
-    local.get $4
-    local.get $14
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveCircleBigDown
-    local.get $4
-    local.get $15
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveRootMidUp
-    local.get $4
-    local.get $16
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveRootMidDown
-    local.get $4
-    local.get $17
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveGrayUp
-    local.get $4
-    local.get $18
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveGrayDown
-    local.get $4
-    local.get $19
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinFull
-    local.get $4
-    local.get $0
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinFull32
-    local.get $4
-    local.get $20
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinFull224
-    local.get $4
-    local.get $21
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinUp
-    local.get $4
-    local.get $22
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinDown
-    local.get $4
-    local.get $23
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveLogDown0
-    local.get $4
-    local.get $24
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveLogUp0
-    local.get $4
-    local.get $25
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    f32.demote_f64
-    call $~lib/typedarray/Float32Array#__set
-    global.get $assembly/index/curveSinFull_0
-    local.get $4
-    local.get $0
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curveSinUpMid_f64
-    local.get $4
-    local.get $26
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_camel
-    local.get $4
-    i32.const 256
-    i32.const 47712
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curveSinFull_1
-    local.get $4
-    i32.const 256
-    i32.const 49792
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curveSinFull_25
-    local.get $4
-    i32.const 256
-    i32.const 51872
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curveSinFull_5
-    local.get $4
-    i32.const 256
-    i32.const 53952
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_up_0_25
-    local.get $4
-    i32.const 256
-    i32.const 56032
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_up_0_50
-    local.get $4
-    i32.const 256
-    i32.const 58112
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_up_1
-    local.get $4
-    i32.const 256
-    i32.const 60192
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_up_1_50
-    local.get $4
-    i32.const 256
-    i32.const 62272
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_up_2
-    local.get $4
-    i32.const 256
-    i32.const 64352
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_down_0_25
-    local.get $4
-    i32.const 256
-    i32.const 66432
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_down_0_50
-    local.get $4
-    i32.const 256
-    i32.const 68512
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_down_1
-    local.get $4
-    i32.const 256
-    i32.const 70592
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_down_1_50
-    local.get $4
-    i32.const 256
-    i32.const 72672
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_gamma_down_2
-    local.get $4
-    i32.const 256
-    i32.const 74752
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    global.get $assembly/index/curve_sin_mid_pow
-    local.get $4
-    i32.const 256
-    i32.const 76832
-    call $~lib/rt/__newArray
-    local.get $4
-    call $~lib/array/Array<f64>#__get
-    call $~lib/staticarray/StaticArray<f64>#__set
-    local.get $4
     i32.const 1
     i32.add
-    local.set $4
-    br $for-loop|5
+    local.set $2
+    br $for-loop|0
    end
   end
-  i32.const 0
-  local.set $1
-  loop $for-loop|00
-   local.get $1
+ )
+ (func $assembly/index/cacheCalculations
+  (local $0 f64)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 f64)
+  (local $5 i32)
+  (local $6 f64)
+  (local $7 f64)
+  (local $8 i32)
+  call $assembly/index/cacheClip
+  loop $for-loop|0
+   local.get $2
    i32.const 201
    i32.lt_s
    if
     global.get $assembly/index/temp_cache
-    local.get $1
+    local.get $2
     i32.const 12
-    i32.const 5
+    i32.const 8
     call $~lib/rt/tcms/__new
     i32.const 256
-    i32.const 2
+    i32.const 0
     call $~lib/arraybuffer/ArrayBufferView#constructor
     call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-    local.get $1
+    local.get $2
     i32.const 100
     i32.sub
-    local.set $2
+    local.set $3
     i32.const 0
-    local.set $0
-    loop $for-loop|11
-     local.get $0
+    local.set $1
+    loop $for-loop|1
+     local.get $1
      i32.const 256
      i32.lt_s
      if
-      local.get $2
+      local.get $3
       i32.const 0
       i32.gt_s
-      if (result i32)
-       global.get $assembly/index/curve_gamma_down_0_25
-       local.get $0
+      if (result f64)
+       global.get $assembly/index/curve_gamma_down_0_50
+       i32.const 255
+       local.get $1
+       i32.sub
+       local.tee $5
        i32.const 3
        i32.shl
        i32.add
-      else
-       global.get $assembly/index/curve_gamma_up_0_25
-       local.get $0
-       i32.const 3
-       i32.shl
-       i32.add
-      end
-      f64.load
-      local.set $6
-      local.get $0
-      f64.convert_i32_s
-      local.get $2
-      f64.convert_i32_s
-      global.get $assembly/index/curveSinFull_1
-      local.get $0
-      i32.const 3
-      i32.shl
-      i32.add
-      f64.load
-      f64.mul
-      f64.add
-      local.tee $3
-      f64.const 255
-      f64.gt
-      if
+       f64.load
+       local.set $0
        f64.const 255
-       local.set $3
+       local.get $5
+       f64.convert_i32_s
+       i32.const 0
+       local.get $3
+       i32.sub
+       f64.convert_i32_s
+       f64.const 0.01
+       f64.mul
+       call $~lib/math/NativeMath.pow
+       f64.mul
+       f64.sub
+      else
+       global.get $assembly/index/curve_gamma_down_0_50
+       local.get $1
+       i32.const 3
+       i32.shl
+       i32.add
+       f64.load
+       local.set $0
+       local.get $1
+       f64.convert_i32_s
+       local.get $3
+       f64.convert_i32_s
+       f64.const 0.01
+       f64.mul
+       call $~lib/math/NativeMath.pow
+       f64.mul
       end
-      local.get $3
-      f64.const 0
-      f64.lt
-      if
-       f64.const 0
-       local.set $3
-      end
-      global.get $assembly/index/temp_cache
-      local.get $1
-      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
       local.set $4
+      global.get $assembly/index/temp_cache
+      local.get $2
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $1
       block $__inlined_func$assembly/index/lerp_clamped (result f64)
        f64.const 255
-       local.get $0
+       local.get $1
        f64.convert_i32_s
        f64.const 1
-       local.get $6
+       local.get $0
        f64.sub
        f64.mul
-       local.get $3
-       local.get $6
+       local.get $4
+       local.get $0
        f64.mul
        f64.add
-       local.tee $3
+       local.tee $0
        f64.const 255
        f64.gt
        br_if $__inlined_func$assembly/index/lerp_clamped
        drop
        f64.const 0
-       local.get $3
+       local.get $0
        f64.const 0
        f64.lt
        br_if $__inlined_func$assembly/index/lerp_clamped
        drop
-       local.get $3
+       local.get $0
       end
-      i32.trunc_f64_s
-      local.set $8
-      local.get $4
-      i32.load offset=8
-      i32.const 2
-      i32.shr_u
-      local.get $0
-      i32.le_u
-      if
-       i32.const 1520
-       i32.const 47648
-       i32.const 882
-       i32.const 64
-       call $~lib/builtins/abort
-       unreachable
-      end
-      local.get $4
-      i32.load offset=4
-      local.get $0
-      i32.const 2
-      i32.shl
-      i32.add
-      local.get $8
-      i32.store
-      local.get $0
+      i32.trunc_f64_u
+      i32.const 255
+      i32.and
+      call $~lib/typedarray/Uint8Array#__set
+      local.get $1
       i32.const 1
       i32.add
-      local.set $0
-      br $for-loop|11
+      local.set $1
+      br $for-loop|1
      end
     end
-    local.get $1
+    local.get $2
     i32.const 1
     i32.add
-    local.set $1
-    br $for-loop|00
+    local.set $2
+    br $for-loop|0
    end
   end
   i32.const 0
-  local.set $1
-  loop $for-loop|02
-   local.get $1
+  local.set $2
+  loop $for-loop|00
+   local.get $2
    i32.const 201
    i32.lt_s
    if
     global.get $assembly/index/exposure_cache
-    i32.const 1024
-    i32.const 11
-    call $~lib/rt/tcms/__new
-    local.tee $2
-    i32.const 1024
-    call $~lib/memory/memory.fill
-    local.get $1
     local.get $2
+    i32.const 12
+    i32.const 8
+    call $~lib/rt/tcms/__new
+    i32.const 256
+    i32.const 0
+    call $~lib/arraybuffer/ArrayBufferView#constructor
     call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-    local.get $1
+    local.get $2
     i32.const 100
     i32.sub
-    local.tee $2
+    local.tee $3
     f64.convert_i32_s
     f64.abs
-    local.tee $5
+    local.tee $0
     f64.const 0.05
     f64.mul
     call $~lib/math/NativeMath.pow
-    local.set $7
-    local.get $5
+    drop
+    local.get $0
     f64.const -0.05
     f64.mul
     call $~lib/math/NativeMath.pow
-    local.set $27
+    local.set $4
     f64.const -3
     call $~lib/math/NativeMath.pow
     drop
     global.get $assembly/index/curve_gamma_down_0_25
-    local.get $5
+    local.get $0
     f64.const 2.55
     f64.mul
     i32.trunc_f64_s
@@ -3969,448 +4725,335 @@
     f64.load
     drop
     i32.const 0
-    local.set $0
-    loop $for-loop|13
-     local.get $0
+    local.set $1
+    loop $for-loop|11
+     local.get $1
      i32.const 256
      i32.lt_s
      if
-      local.get $0
+      local.get $1
       f64.convert_i32_s
-      local.set $5
-      local.get $2
+      local.set $0
+      local.get $3
       i32.const 0
       i32.gt_s
       if (result f64)
-       local.get $0
-       f64.convert_i32_s
-       local.tee $5
-       f64.const 1
-       f64.const 1
-       global.get $assembly/index/curveLogUp0
-       i32.load offset=4
-       local.get $0
-       i32.const 2
-       i32.shl
-       i32.add
-       f32.load
-       f64.promote_f32
-       f64.sub
-       local.tee $3
-       f64.sub
-       f64.mul
-       local.get $5
-       local.get $7
-       f64.mul
-       local.get $3
-       f64.mul
-       f64.add
-       local.tee $5
-       f64.const 255
-       f64.gt
-       if (result f64)
+       block $__inlined_func$assembly/index/lerp_clamped2 (result f64)
         f64.const 255
-       else
-        local.get $5
-       end
-      else
-       local.get $2
-       i32.const 0
-       i32.lt_s
-       if (result f64)
-        f64.const 1
-        global.get $assembly/index/curve_gamma_down_0_25
-        local.get $0
+        local.get $1
         f64.convert_i32_s
+        f64.const 1
+        global.get $assembly/index/curve_gamma_down_0_50
+        i32.const 255
+        local.get $1
+        i32.sub
         local.tee $5
-        f64.const 0.99
-        f64.mul
-        i32.trunc_f64_s
         i32.const 3
         i32.shl
         i32.add
         f64.load
-        local.tee $3
+        local.tee $0
         f64.sub
-        local.set $6
-        local.get $5
-        local.get $6
         f64.mul
-        local.get $5
-        local.get $6
-        local.get $27
-        local.get $3
-        f64.mul
-        f64.add
-        f64.mul
-        local.get $3
-        f64.mul
-        f64.add
-       else
-        local.get $5
-       end
-      end
-      local.set $5
-      global.get $assembly/index/exposure_cache
-      local.get $1
-      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
-      local.get $0
-      local.get $5
-      i32.trunc_f64_s
-      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-      local.get $0
-      i32.const 1
-      i32.add
-      local.set $0
-      br $for-loop|13
-     end
-    end
-    local.get $1
-    i32.const 1
-    i32.add
-    local.set $1
-    br $for-loop|02
-   end
-  end
-  i32.const 0
-  local.set $1
-  loop $for-loop|04
-   local.get $1
-   i32.const 201
-   i32.lt_s
-   if
-    global.get $assembly/index/shadow_cache
-    i32.const 1024
-    i32.const 11
-    call $~lib/rt/tcms/__new
-    local.tee $2
-    i32.const 1024
-    call $~lib/memory/memory.fill
-    local.get $1
-    local.get $2
-    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-    local.get $1
-    i32.const 100
-    i32.sub
-    local.set $2
-    i32.const 0
-    local.set $0
-    loop $for-loop|15
-     local.get $0
-     i32.const 256
-     i32.lt_s
-     if
-      local.get $0
-      f64.convert_i32_s
-      local.set $5
-      local.get $2
-      i32.const 0
-      i32.gt_s
-      if (result f64)
-       local.get $0
-       f32.convert_i32_s
-       f64.promote_f32
-       local.get $2
-       f64.convert_i32_s
-       global.get $assembly/index/curve_gamma_up_0_50
-       local.get $0
-       i32.const 3
-       i32.shl
-       i32.add
-       f64.load
-       f64.const 0.1
-       f64.add
-       f64.mul
-       f64.add
-       local.tee $5
-       f64.const 255
-       f64.gt
-       if (result f64)
         f64.const 255
-       else
         local.get $5
+        f64.convert_i32_s
+        local.get $4
+        f64.mul
+        f64.sub
+        local.get $0
+        f64.mul
+        f64.add
+        local.tee $0
+        f64.const 255
+        f64.gt
+        br_if $__inlined_func$assembly/index/lerp_clamped2
+        drop
+        f64.const 0
+        local.get $0
+        f64.const 0
+        f64.lt
+        br_if $__inlined_func$assembly/index/lerp_clamped2
+        drop
+        local.get $0
        end
       else
-       local.get $2
+       local.get $3
        i32.const 0
        i32.lt_s
        if (result f64)
-        block $__inlined_func$assembly/index/lerp_clamped6 (result f64)
+        block $__inlined_func$assembly/index/lerp_clamped1 (result f64)
          f64.const 255
-         local.get $0
+         local.get $1
          f64.convert_i32_s
+         local.tee $0
          f64.const 1
-         local.get $0
+         global.get $assembly/index/curve_gamma_down_0_50
+         local.get $1
          i32.const 3
          i32.shl
-         local.tee $4
-         global.get $assembly/index/curve_gamma_down_2
          i32.add
          f64.load
          local.tee $6
          f64.sub
          f64.mul
          local.get $0
-         f32.convert_i32_s
-         f64.promote_f32
-         local.get $2
-         f32.convert_i32_s
-         f64.promote_f32
          local.get $4
-         global.get $assembly/index/curve_gamma_up_0_50
-         i32.add
-         f64.load
-         f64.const 0.1
-         f64.add
          f64.mul
-         f64.add
-         local.tee $3
-         f64.const 0
-         f64.lt
-         if (result f64)
-          f64.const 0
-         else
-          local.get $3
-         end
          local.get $6
          f64.mul
          f64.add
-         local.tee $3
+         local.tee $0
          f64.const 255
          f64.gt
-         br_if $__inlined_func$assembly/index/lerp_clamped6
+         br_if $__inlined_func$assembly/index/lerp_clamped1
          drop
          f64.const 0
-         local.get $3
+         local.get $0
          f64.const 0
          f64.lt
-         br_if $__inlined_func$assembly/index/lerp_clamped6
+         br_if $__inlined_func$assembly/index/lerp_clamped1
          drop
-         local.get $3
+         local.get $0
         end
-        i32.trunc_f64_s
-        f64.convert_i32_s
        else
-        local.get $5
+        local.get $0
        end
       end
-      local.set $5
-      global.get $assembly/index/shadow_cache
-      local.get $1
+      local.set $0
+      global.get $assembly/index/exposure_cache
+      local.get $2
       call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $1
       local.get $0
-      local.get $5
-      i32.trunc_f64_s
-      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-      local.get $0
+      i32.trunc_f64_u
+      i32.const 255
+      i32.and
+      call $~lib/typedarray/Uint8Array#__set
+      local.get $1
       i32.const 1
       i32.add
-      local.set $0
-      br $for-loop|15
+      local.set $1
+      br $for-loop|11
      end
     end
-    local.get $1
+    local.get $2
     i32.const 1
     i32.add
-    local.set $1
-    br $for-loop|04
+    local.set $2
+    br $for-loop|00
    end
   end
+  call $assembly/index/cacheShadow
   i32.const 0
-  local.set $1
-  loop $for-loop|07
-   local.get $1
+  local.set $2
+  loop $for-loop|03
+   local.get $2
    i32.const 201
    i32.lt_s
    if
     global.get $assembly/index/light_cache
-    i32.const 1024
-    i32.const 11
-    call $~lib/rt/tcms/__new
-    local.tee $2
-    i32.const 1024
-    call $~lib/memory/memory.fill
-    local.get $1
     local.get $2
+    i32.const 256
+    call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8Array>#constructor
     call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-    local.get $1
+    local.get $2
     i32.const 100
     i32.sub
-    local.set $2
+    local.tee $5
+    f64.convert_i32_s
+    f64.abs
+    f64.const -0.05
+    f64.mul
+    call $~lib/math/NativeMath.pow
+    local.set $6
     i32.const 0
-    local.set $0
-    loop $for-loop|18
-     local.get $0
+    local.set $3
+    loop $for-loop|14
+     local.get $3
      i32.const 256
      i32.lt_s
      if
-      local.get $0
-      f64.convert_i32_s
-      local.set $5
+      global.get $assembly/index/light_cache
       local.get $2
+      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+      local.get $3
+      i32.const 12
+      i32.const 8
+      call $~lib/rt/tcms/__new
+      i32.const 256
       i32.const 0
-      i32.gt_s
-      if (result f64)
-       block $__inlined_func$assembly/index/lerp_clamped9 (result f64)
-        f64.const 255
-        local.get $0
-        f64.convert_i32_s
-        f64.const 1
-        local.get $0
-        i32.const 3
-        i32.shl
-        local.tee $4
-        global.get $assembly/index/curve_gamma_up_2
-        i32.add
-        f64.load
-        local.tee $6
-        f64.sub
-        f64.mul
-        local.get $0
-        f32.convert_i32_s
-        f64.promote_f32
-        local.get $2
-        f64.convert_i32_s
-        local.get $4
-        global.get $assembly/index/curve_gamma_down_0_50
-        i32.add
-        f64.load
-        f64.const 0.1
-        f64.add
-        f64.mul
-        f64.add
-        local.tee $3
-        f64.const 255
-        f64.gt
-        if (result f64)
-         f64.const 255
-        else
-         local.get $3
-        end
-        local.get $6
-        f64.mul
-        f64.add
-        local.tee $3
-        f64.const 255
-        f64.gt
-        br_if $__inlined_func$assembly/index/lerp_clamped9
-        drop
-        f64.const 0
-        local.get $3
-        f64.const 0
-        f64.lt
-        br_if $__inlined_func$assembly/index/lerp_clamped9
-        drop
-        local.get $3
-       end
-       i32.trunc_f64_s
-       f64.convert_i32_s
-      else
-       local.get $2
-       i32.const 0
+      call $~lib/arraybuffer/ArrayBufferView#constructor
+      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
+      i32.const 0
+      local.set $1
+      loop $for-loop|2
+       local.get $1
+       i32.const 256
        i32.lt_s
-       if (result f64)
-        local.get $0
-        f32.convert_i32_s
-        f64.promote_f32
-        local.get $2
+       if
+        local.get $1
         f64.convert_i32_s
-        global.get $assembly/index/curve_gamma_down_0_50
-        local.get $0
-        i32.const 3
-        i32.shl
-        i32.add
-        f64.load
-        f64.const 0.1
-        f64.add
-        f64.mul
-        f64.add
-       else
+        local.set $0
         local.get $5
+        i32.const 0
+        i32.gt_s
+        if (result f64)
+         block $__inlined_func$assembly/index/lerp_clamped5 (result f64)
+          f64.const 255
+          local.get $1
+          f64.convert_i32_s
+          f64.const 1
+          global.get $assembly/index/curve_gamma_down_2
+          i32.const 255
+          local.get $1
+          i32.sub
+          local.tee $8
+          i32.const 3
+          i32.shl
+          i32.add
+          f64.load
+          local.tee $0
+          f64.sub
+          f64.mul
+          f64.const 255
+          local.get $8
+          f64.convert_i32_s
+          local.get $6
+          f64.mul
+          f64.sub
+          local.get $0
+          f64.mul
+          f64.add
+          local.tee $0
+          f64.const 255
+          f64.gt
+          br_if $__inlined_func$assembly/index/lerp_clamped5
+          drop
+          f64.const 0
+          local.get $0
+          f64.const 0
+          f64.lt
+          br_if $__inlined_func$assembly/index/lerp_clamped5
+          drop
+          local.get $0
+         end
+         i32.trunc_f64_s
+         f64.convert_i32_s
+        else
+         local.get $5
+         i32.const 0
+         i32.lt_s
+         if (result f64)
+          block $__inlined_func$assembly/index/lerp_clamped0 (result f64)
+           global.get $assembly/index/curve_gamma_down_0_50
+           local.get $3
+           f64.convert_i32_s
+           f64.const 0.75
+           f64.mul
+           local.get $1
+           f64.convert_i32_s
+           local.tee $4
+           f64.const 0.25
+           f64.mul
+           f64.add
+           i32.trunc_f64_s
+           i32.const 3
+           i32.shl
+           i32.add
+           f64.load
+           local.set $7
+           f64.const 255
+           block $__inlined_func$assembly/index/lerp_clamped16 (result f64)
+            f64.const 255
+            local.get $4
+            f64.const 1
+            global.get $assembly/index/curveSinFull_1
+            local.get $1
+            i32.const 3
+            i32.shl
+            i32.add
+            f64.load
+            local.tee $0
+            f64.sub
+            f64.mul
+            local.get $4
+            local.get $6
+            f64.mul
+            local.get $0
+            f64.mul
+            f64.add
+            local.tee $0
+            f64.const 255
+            f64.gt
+            br_if $__inlined_func$assembly/index/lerp_clamped16
+            drop
+            f64.const 0
+            local.get $0
+            f64.const 0
+            f64.lt
+            br_if $__inlined_func$assembly/index/lerp_clamped16
+            drop
+            local.get $0
+           end
+           f64.const 1
+           local.get $7
+           f64.sub
+           f64.mul
+           local.get $4
+           local.get $7
+           f64.mul
+           f64.add
+           local.tee $0
+           f64.const 255
+           f64.gt
+           br_if $__inlined_func$assembly/index/lerp_clamped0
+           drop
+           f64.const 0
+           local.get $0
+           f64.const 0
+           f64.lt
+           br_if $__inlined_func$assembly/index/lerp_clamped0
+           drop
+           local.get $0
+          end
+         else
+          local.get $0
+         end
+        end
+        local.set $0
+        global.get $assembly/index/light_cache
+        local.get $2
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $3
+        call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+        local.get $1
+        local.get $0
+        i32.trunc_f64_u
+        i32.const 255
+        i32.and
+        call $~lib/typedarray/Uint8Array#__set
+        local.get $1
+        i32.const 1
+        i32.add
+        local.set $1
+        br $for-loop|2
        end
       end
-      local.set $5
-      global.get $assembly/index/light_cache
-      local.get $1
-      call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
-      local.get $0
-      local.get $5
-      i32.trunc_f64_s
-      call $~lib/staticarray/StaticArray<~lib/typedarray/Uint8ClampedArray>#__set
-      local.get $0
+      local.get $3
       i32.const 1
       i32.add
-      local.set $0
-      br $for-loop|18
+      local.set $3
+      br $for-loop|14
      end
     end
-    local.get $1
+    local.get $2
     i32.const 1
     i32.add
-    local.set $1
-    br $for-loop|07
+    local.set $2
+    br $for-loop|03
    end
   end
- )
- (func $~lib/staticarray/StaticArray<u8>#__set (param $0 i32) (param $1 i32) (param $2 i32)
-  local.get $0
-  i32.const 20
-  i32.sub
-  i32.load offset=16
-  local.get $1
-  i32.le_u
-  if
-   i32.const 1520
-   i32.const 1104
-   i32.const 130
-   i32.const 41
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $0
-  local.get $1
-  i32.add
-  local.get $2
-  i32.store8
- )
- (func $assembly/index/getCountOffset (param $0 i32) (param $1 i32) (result i32)
-  global.get $assembly/index/counts
-  local.get $0
-  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
-  local.get $1
-  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
-  i32.load
-  global.get $assembly/index/counts
-  local.get $0
-  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
-  local.get $1
-  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
-  local.tee $0
-  i32.load offset=4
-  local.get $0
-  i32.load
-  i32.sub
-  i32.add
- )
- (func $~lib/staticarray/StaticArray<u8>#__get (param $0 i32) (param $1 i32) (result i32)
-  local.get $0
-  i32.const 20
-  i32.sub
-  i32.load offset=16
-  local.get $1
-  i32.le_u
-  if
-   i32.const 1520
-   i32.const 1104
-   i32.const 115
-   i32.const 41
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $0
-  local.get $1
-  i32.add
-  i32.load8_u
  )
  (func $assembly/index/getViewOffset (param $0 i32) (result i32)
   global.get $assembly/index/views
@@ -4427,365 +5070,134 @@
   i32.sub
   i32.add
  )
- (func $assembly/index/percentileStretch (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
+ (func $assembly/index/percentileStretch (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
-  (local $8 f64)
-  (local $9 f64)
-  (local $10 f64)
-  (local $11 i32)
-  (local $12 i32)
-  (local $13 i32)
-  (local $14 i32)
-  (local $15 f32)
-  (local $16 f32)
-  (local $17 f32)
-  i32.const 6
-  i32.const 17
-  call $~lib/rt/tcms/__new
-  local.tee $3
-  i32.const 6
-  call $~lib/memory/memory.fill
+  (local $8 i32)
+  (local $9 i32)
   local.get $3
-  local.tee $5
-  i32.const 1
-  i32.const 255
-  call $~lib/staticarray/StaticArray<u8>#__set
-  local.get $5
-  i32.const 3
-  i32.const 255
-  call $~lib/staticarray/StaticArray<u8>#__set
-  local.get $5
-  i32.const 5
-  i32.const 255
-  call $~lib/staticarray/StaticArray<u8>#__set
-  local.get $2
-  i32.const 0
-  i32.ge_s
-  if
-   loop $for-loop|0
-    local.get $7
-    i32.const 3
-    i32.lt_s
-    if
-     i32.const 0
-     local.get $7
-     call $assembly/index/getCountOffset
-     local.tee $11
-     i32.load
-     local.get $1
-     i32.add
-     local.set $14
-     local.get $11
-     i32.load offset=1020
-     local.get $1
-     i32.add
-     local.set $6
-     i32.const 0
-     local.set $12
-     i32.const 0
-     local.set $13
-     i32.const 0
-     local.set $4
-     i32.const 255
-     local.set $3
-     i32.const 0
-     local.set $2
-     loop $for-loop|2
-      local.get $2
-      i32.const 255
-      i32.le_s
-      if
-       local.get $14
-       local.get $2
-       i32.const 2
-       i32.shl
-       local.get $11
-       i32.add
-       i32.load
-       local.get $12
-       i32.add
-       local.tee $12
-       i32.ge_u
-       if
-        local.get $2
-        local.tee $4
-        i32.const 1
-        i32.add
-        local.set $2
-        br $for-loop|2
-       end
-      end
-     end
-     i32.const 255
-     local.set $2
-     loop $for-loop|4
-      local.get $2
-      i32.const 0
-      i32.ge_s
-      if
-       local.get $6
-       local.get $2
-       i32.const 2
-       i32.shl
-       local.get $11
-       i32.add
-       i32.load
-       local.get $13
-       i32.add
-       local.tee $13
-       i32.ge_u
-       if
-        local.get $2
-        local.tee $3
-        i32.const 1
-        i32.sub
-        local.set $2
-        br $for-loop|4
-       end
-      end
-     end
-     local.get $5
-     local.get $7
-     i32.const 1
-     i32.shl
-     local.tee $2
-     local.get $4
-     call $~lib/staticarray/StaticArray<u8>#__set
-     local.get $5
-     local.get $2
-     i32.const 1
-     i32.add
-     local.get $3
-     call $~lib/staticarray/StaticArray<u8>#__set
-     local.get $7
-     i32.const 1
-     i32.add
-     local.set $7
-     br $for-loop|0
-    end
-   end
-  end
-  local.get $0
-  if
-   local.get $5
-   i32.const 0
-   call $~lib/staticarray/StaticArray<u8>#__get
-   local.set $0
-   local.get $5
-   i32.const 2
-   call $~lib/staticarray/StaticArray<u8>#__get
-   local.get $0
-   i32.lt_u
-   if
-    local.get $5
-    i32.const 2
-    call $~lib/staticarray/StaticArray<u8>#__get
-    local.set $0
-   end
-   local.get $5
-   i32.const 0
-   local.get $5
-   i32.const 4
-   call $~lib/staticarray/StaticArray<u8>#__get
-   local.get $0
-   i32.lt_u
-   if
-    local.get $5
-    i32.const 4
-    call $~lib/staticarray/StaticArray<u8>#__get
-    local.set $0
-   end
-   local.get $0
-   call $~lib/staticarray/StaticArray<u8>#__set
-   local.get $5
-   i32.const 2
-   local.get $0
-   call $~lib/staticarray/StaticArray<u8>#__set
-   local.get $5
-   i32.const 4
-   local.get $0
-   call $~lib/staticarray/StaticArray<u8>#__set
-   local.get $5
-   i32.const 1
-   call $~lib/staticarray/StaticArray<u8>#__get
-   local.set $0
-   local.get $5
-   i32.const 3
-   call $~lib/staticarray/StaticArray<u8>#__get
-   local.get $0
-   i32.gt_u
-   if
-    local.get $5
-    i32.const 3
-    call $~lib/staticarray/StaticArray<u8>#__get
-    local.set $0
-   end
-   local.get $5
-   i32.const 1
-   local.get $5
-   i32.const 5
-   call $~lib/staticarray/StaticArray<u8>#__get
-   local.get $0
-   i32.gt_u
-   if
-    local.get $5
-    i32.const 5
-    call $~lib/staticarray/StaticArray<u8>#__get
-    local.set $0
-   end
-   local.get $0
-   call $~lib/staticarray/StaticArray<u8>#__set
-   local.get $5
-   i32.const 3
-   local.get $0
-   call $~lib/staticarray/StaticArray<u8>#__set
-   local.get $5
-   i32.const 5
-   local.get $0
-   call $~lib/staticarray/StaticArray<u8>#__set
-  end
-  f32.const 1
-  local.get $5
-  i32.load8_u offset=1
-  local.get $5
-  i32.load8_u
-  local.tee $3
-  i32.sub
-  f32.convert_i32_u
-  f32.div
-  f32.const 255
-  f32.mul
-  local.set $15
-  f32.const 1
-  local.get $5
-  i32.load8_u offset=3
-  local.get $5
-  i32.load8_u offset=2
-  local.tee $1
-  i32.sub
-  f32.convert_i32_u
-  f32.div
-  f32.const 255
-  f32.mul
-  local.set $16
-  f32.const 1
-  local.get $5
-  i32.load8_u offset=5
-  local.get $5
-  i32.load8_u offset=4
-  local.tee $0
-  i32.sub
-  f32.convert_i32_u
-  f32.div
-  f32.const 255
-  f32.mul
-  local.set $17
-  i32.const 0
   call $assembly/index/getViewOffset
   local.set $5
+  local.get $3
   i32.const 1
+  i32.add
   call $assembly/index/getViewOffset
-  local.set $4
+  local.set $3
+  global.get $assembly/index/clip_cache
+  local.get $0
+  i32.eqz
+  i32.eqz
+  local.tee $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.get $2
+  i32.const 1
+  i32.add
+  local.tee $1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
   i32.const 0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.load
+  global.get $assembly/index/clip_cache
+  local.get $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.get $1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.const 0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.tee $2
+  i32.load offset=4
+  local.get $2
+  i32.load
+  i32.sub
+  i32.add
+  local.set $6
+  global.get $assembly/index/clip_cache
+  local.get $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.get $1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.const 1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.load
+  global.get $assembly/index/clip_cache
+  local.get $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.get $1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.const 1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.tee $2
+  i32.load offset=4
+  local.get $2
+  i32.load
+  i32.sub
+  i32.add
   local.set $2
-  loop $for-loop|5
+  global.get $assembly/index/clip_cache
+  local.get $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.get $1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.const 2
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.load
+  global.get $assembly/index/clip_cache
+  local.get $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.get $1
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.const 2
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.tee $0
+  i32.load offset=4
+  local.get $0
+  i32.load
+  i32.sub
+  i32.add
+  local.set $7
+  loop $for-loop|0
    global.get $assembly/index/viewLength
-   local.get $2
+   local.get $4
    i32.gt_s
    if
-    local.get $2
+    local.get $4
     local.get $5
     i32.add
-    local.tee $6
-    i32.load8_u
-    local.get $3
-    i32.sub
-    f32.convert_i32_s
-    local.get $15
-    f32.mul
-    f64.promote_f32
-    local.set $8
-    local.get $6
+    local.tee $0
     i32.load8_u offset=1
-    local.get $1
-    i32.sub
-    f32.convert_i32_s
-    local.get $16
-    f32.mul
-    f64.promote_f32
-    local.set $9
-    local.get $6
-    i32.load8_u offset=2
-    local.get $0
-    i32.sub
-    f32.convert_i32_s
-    local.get $17
-    f32.mul
-    f64.promote_f32
-    local.set $10
     local.get $2
+    i32.add
+    i32.load8_u
+    local.set $8
+    local.get $0
+    i32.load8_u offset=2
+    local.get $7
+    i32.add
+    i32.load8_u
+    local.set $9
+    local.get $3
     local.get $4
     i32.add
-    local.tee $6
-    f64.const 255
-    local.get $8
-    local.get $8
-    f64.const 255
-    f64.gt
-    select
-    local.tee $8
-    f64.const 0
-    f64.lt
-    if (result f64)
-     f64.const 0
-    else
-     local.get $8
-    end
-    i32.trunc_f64_u
+    local.tee $1
+    local.get $0
+    i32.load8_u
+    local.get $6
+    i32.add
+    i32.load8_u
     i32.store8
-    local.get $6
-    f64.const 255
-    local.get $9
-    local.get $9
-    f64.const 255
-    f64.gt
-    select
-    local.tee $9
-    f64.const 0
-    f64.lt
-    if (result f64)
-     f64.const 0
-    else
-     local.get $9
-    end
-    i32.trunc_f64_u
+    local.get $1
+    local.get $8
     i32.store8 offset=1
-    local.get $6
-    f64.const 255
-    local.get $10
-    local.get $10
-    f64.const 255
-    f64.gt
-    select
-    local.tee $10
-    f64.const 0
-    f64.lt
-    if (result f64)
-     f64.const 0
-    else
-     local.get $10
-    end
-    i32.trunc_f64_u
+    local.get $1
+    local.get $9
     i32.store8 offset=2
-    local.get $2
+    local.get $4
     i32.const 4
     i32.add
-    local.set $2
-    br $for-loop|5
+    local.set $4
+    br $for-loop|0
    end
   end
  )
@@ -5064,20 +5476,20 @@
    end
   end
  )
- (func $assembly/index/colorBalance (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
+ (func $assembly/index/colorBalance (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
-  (local $8 i32)
-  (local $9 i32)
-  i32.const 1
+  local.get $3
   call $assembly/index/getViewOffset
-  local.set $4
+  local.tee $3
+  global.get $assembly/index/viewLength
+  i32.add
+  local.set $5
   i32.const 2
   call $assembly/index/getViewOffset
-  local.set $5
+  local.set $4
   global.get $assembly/index/temp_cache
   local.get $0
   i32.const 100
@@ -5130,561 +5542,361 @@
   i32.add
   local.set $2
   loop $for-loop|0
-   global.get $assembly/index/viewLength
    local.get $3
-   i32.gt_s
+   local.get $5
+   i32.lt_s
    if
     local.get $3
-    local.get $4
-    i32.add
-    local.tee $0
     i32.load8_u offset=1
-    i32.const 2
-    i32.shl
     local.get $7
     i32.add
     i32.load8_u
-    local.set $8
-    local.get $0
+    local.set $1
+    local.get $3
     i32.load8_u offset=2
-    i32.const 2
-    i32.shl
     local.get $2
     i32.add
     i32.load8_u
-    local.set $9
+    local.set $0
+    local.get $4
     local.get $3
-    local.get $5
-    i32.add
-    local.tee $1
-    local.get $0
     i32.load8_u
-    i32.const 2
-    i32.shl
     local.get $6
     i32.add
     i32.load8_u
     i32.store8
+    local.get $4
     local.get $1
-    local.get $8
     i32.store8 offset=1
-    local.get $1
-    local.get $9
+    local.get $4
+    local.get $0
     i32.store8 offset=2
     local.get $3
     i32.const 4
     i32.add
     local.set $3
+    local.get $4
+    i32.const 4
+    i32.add
+    local.set $4
     br $for-loop|0
    end
   end
  )
- (func $assembly/index/lightAdjustment (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
+ (func $assembly/index/lightAdjustment (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
-  (local $5 f64)
-  (local $6 f64)
+  (local $5 i32)
+  (local $6 i32)
   (local $7 i32)
   (local $8 i32)
   (local $9 i32)
   (local $10 i32)
   (local $11 i32)
-  (local $12 f64)
-  (local $13 f64)
-  (local $14 i32)
-  (local $15 f64)
-  (local $16 i32)
-  (local $17 i32)
-  i32.const 2
+  local.get $3
   call $assembly/index/getViewOffset
-  local.set $9
+  local.tee $3
+  global.get $assembly/index/viewLength
+  i32.add
+  local.set $11
   i32.const 3
   call $assembly/index/getViewOffset
-  local.set $8
-  local.get $0
-  i32.const 100
-  i32.add
   local.set $7
   local.get $2
   i32.const 100
   i32.add
-  local.set $11
+  local.set $9
   local.get $1
   i32.const 100
   i32.add
   local.set $10
+  global.get $assembly/index/exposure_cache
+  local.get $0
+  i32.const 100
+  i32.add
+  local.tee $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  i32.load
+  global.get $assembly/index/exposure_cache
+  local.get $0
+  call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/typedarray/Uint32Array>>#__get
+  local.tee $0
+  i32.load offset=4
+  local.get $0
+  i32.load
+  i32.sub
+  i32.add
+  local.set $8
   loop $for-loop|0
-   global.get $assembly/index/viewLength
-   local.get $14
-   i32.gt_s
+   local.get $3
+   local.get $11
+   i32.lt_s
    if
-    global.get $assembly/index/exposure_cache
-    local.get $7
-    i32.const 2
-    i32.shl
-    i32.add
-    i32.load
-    local.tee $0
-    local.get $9
-    local.get $14
-    i32.add
-    local.tee $16
-    i32.load8_u
-    i32.const 2
-    i32.shl
-    i32.add
-    i32.load
-    local.set $17
-    local.get $16
-    i32.load8_u offset=1
-    i32.const 2
-    i32.shl
-    local.get $0
-    i32.add
-    i32.load
-    local.set $4
-    local.get $16
-    i32.load8_u offset=2
-    i32.const 2
-    i32.shl
-    local.get $0
-    i32.add
-    i32.load
-    local.set $3
-    local.get $2
-    i32.const 0
-    i32.gt_s
-    if
-     global.get $assembly/index/shadow_cache
-     local.get $11
-     i32.const 2
-     i32.shl
-     i32.add
-     i32.load
-     local.tee $16
-     local.get $4
-     i32.const 2
-     i32.shl
-     i32.add
-     i32.load
-     f64.convert_i32_s
-     local.set $13
-     local.get $3
-     i32.const 2
-     i32.shl
-     local.get $16
-     i32.add
-     i32.load
-     f64.convert_i32_s
-     local.set $12
-     global.get $assembly/index/curve_gamma_down_2
-     local.get $17
-     f64.convert_i32_s
-     local.tee $5
-     global.get $assembly/index/luma_strength_r
-     f64.mul
-     local.get $4
-     f64.convert_i32_s
-     global.get $assembly/index/luma_strength_g
-     f64.mul
-     f64.add
-     local.get $3
-     f64.convert_i32_s
-     global.get $assembly/index/luma_strength_b
-     f64.mul
-     f64.add
-     i32.trunc_f64_s
-     i32.const 3
-     i32.shl
-     i32.add
-     f64.load
-     local.tee $6
-     local.set $15
-     block $__inlined_func$assembly/index/lerp_clamped (result f64)
-      f64.const 255
-      local.get $5
-      f64.const 1
-      local.get $6
-      local.tee $5
-      f64.sub
-      f64.mul
-      local.get $17
-      i32.const 2
-      i32.shl
-      local.get $16
-      i32.add
-      i32.load
-      f64.convert_i32_s
-      local.get $6
-      f64.mul
-      f64.add
-      local.tee $6
-      f64.const 255
-      f64.gt
-      br_if $__inlined_func$assembly/index/lerp_clamped
-      drop
-      f64.const 0
-      local.get $6
-      f64.const 0
-      f64.lt
-      br_if $__inlined_func$assembly/index/lerp_clamped
-      drop
-      local.get $6
-     end
-     i32.trunc_f64_s
-     local.set $17
-     block $__inlined_func$assembly/index/lerp_clamped12 (result f64)
-      f64.const 255
-      local.get $4
-      f64.convert_i32_s
-      f64.const 1
-      local.get $15
-      f64.sub
-      f64.mul
-      local.get $13
-      local.get $15
-      f64.mul
-      f64.add
-      local.tee $6
-      f64.const 255
-      f64.gt
-      br_if $__inlined_func$assembly/index/lerp_clamped12
-      drop
-      f64.const 0
-      local.get $6
-      f64.const 0
-      f64.lt
-      br_if $__inlined_func$assembly/index/lerp_clamped12
-      drop
-      local.get $6
-     end
-     i32.trunc_f64_s
-     local.set $4
-     block $__inlined_func$assembly/index/lerp_clamped13 (result f64)
-      f64.const 255
-      local.get $3
-      f64.convert_i32_s
-      f64.const 1
-      local.get $5
-      f64.sub
-      f64.mul
-      local.get $12
-      local.get $5
-      f64.mul
-      f64.add
-      local.tee $5
-      f64.const 255
-      f64.gt
-      br_if $__inlined_func$assembly/index/lerp_clamped13
-      drop
-      f64.const 0
-      local.get $5
-      f64.const 0
-      f64.lt
-      br_if $__inlined_func$assembly/index/lerp_clamped13
-      drop
-      local.get $5
-     end
-     i32.trunc_f64_s
-     local.set $3
-    end
-    local.get $2
-    i32.const 0
-    i32.lt_s
-    if
-     global.get $assembly/index/shadow_cache
-     local.get $11
-     i32.const 2
-     i32.shl
-     i32.add
-     i32.load
-     local.tee $0
-     local.get $17
-     i32.const 2
-     i32.shl
-     i32.add
-     i32.load
-     local.set $17
-     local.get $3
-     i32.const 2
-     i32.shl
-     local.get $0
-     i32.add
-     i32.load
-     local.set $3
-     local.get $4
-     i32.const 2
-     i32.shl
-     local.get $0
-     i32.add
-     i32.load
-     local.set $4
-    end
-    local.get $1
-    i32.const 0
-    i32.gt_s
-    if
-     global.get $assembly/index/light_cache
-     local.get $10
-     i32.const 2
-     i32.shl
-     i32.add
-     i32.load
-     local.tee $0
-     local.get $17
-     i32.const 2
-     i32.shl
-     i32.add
-     i32.load
-     local.set $17
-     local.get $3
-     i32.const 2
-     i32.shl
-     local.get $0
-     i32.add
-     i32.load
-     local.set $3
-     local.get $4
-     i32.const 2
-     i32.shl
-     local.get $0
-     i32.add
-     i32.load
-     local.set $4
-    end
-    local.get $1
-    i32.const 0
-    i32.lt_s
-    if
-     global.get $assembly/index/curve_gamma_up_2
-     local.get $17
-     f64.convert_i32_s
-     local.tee $5
-     global.get $assembly/index/luma_strength_r
-     f64.mul
-     local.get $4
-     f64.convert_i32_s
-     global.get $assembly/index/luma_strength_g
-     f64.mul
-     f64.add
-     local.get $3
-     f64.convert_i32_s
-     global.get $assembly/index/luma_strength_b
-     f64.mul
-     f64.add
-     i32.trunc_f64_s
-     i32.const 3
-     i32.shl
-     i32.add
-     f64.load
-     local.tee $6
-     local.set $15
-     global.get $assembly/index/light_cache
-     local.get $10
-     i32.const 2
-     i32.shl
-     i32.add
-     i32.load
-     local.tee $0
-     local.get $4
-     i32.const 2
-     i32.shl
-     i32.add
-     i32.load
-     f64.convert_i32_s
-     local.set $13
-     local.get $3
-     i32.const 2
-     i32.shl
-     local.get $0
-     i32.add
-     i32.load
-     f64.convert_i32_s
-     local.set $12
-     block $__inlined_func$assembly/index/lerp_clamped36 (result f64)
-      f64.const 255
-      local.get $5
-      f64.const 1
-      local.get $6
-      local.tee $5
-      f64.sub
-      f64.mul
-      local.get $17
-      i32.const 2
-      i32.shl
-      local.get $0
-      i32.add
-      i32.load
-      f64.convert_i32_s
-      local.get $6
-      f64.mul
-      f64.add
-      local.tee $6
-      f64.const 255
-      f64.gt
-      br_if $__inlined_func$assembly/index/lerp_clamped36
-      drop
-      f64.const 0
-      local.get $6
-      f64.const 0
-      f64.lt
-      br_if $__inlined_func$assembly/index/lerp_clamped36
-      drop
-      local.get $6
-     end
-     i32.trunc_f64_s
-     local.set $17
-     block $__inlined_func$assembly/index/lerp_clamped37 (result f64)
-      f64.const 255
-      local.get $4
-      f64.convert_i32_s
-      f64.const 1
-      local.get $15
-      f64.sub
-      f64.mul
-      local.get $13
-      local.get $15
-      f64.mul
-      f64.add
-      local.tee $6
-      f64.const 255
-      f64.gt
-      br_if $__inlined_func$assembly/index/lerp_clamped37
-      drop
-      f64.const 0
-      local.get $6
-      f64.const 0
-      f64.lt
-      br_if $__inlined_func$assembly/index/lerp_clamped37
-      drop
-      local.get $6
-     end
-     i32.trunc_f64_s
-     local.set $4
-     block $__inlined_func$assembly/index/lerp_clamped38 (result f64)
-      f64.const 255
-      local.get $3
-      f64.convert_i32_s
-      f64.const 1
-      local.get $5
-      f64.sub
-      f64.mul
-      local.get $12
-      local.get $5
-      f64.mul
-      f64.add
-      local.tee $5
-      f64.const 255
-      f64.gt
-      br_if $__inlined_func$assembly/index/lerp_clamped38
-      drop
-      f64.const 0
-      local.get $5
-      f64.const 0
-      f64.lt
-      br_if $__inlined_func$assembly/index/lerp_clamped38
-      drop
-      local.get $5
-     end
-     i32.trunc_f64_s
-     local.set $3
-    end
-    local.get $8
-    local.get $14
-    i32.add
-    local.tee $0
-    local.get $17
-    i32.store8
-    local.get $0
-    local.get $4
-    i32.store8 offset=1
-    local.get $0
     local.get $3
+    i32.load8_u
+    local.get $8
+    i32.add
+    i32.load8_u
+    local.set $5
+    local.get $3
+    i32.load8_u offset=1
+    local.get $8
+    i32.add
+    i32.load8_u
+    local.set $6
+    local.get $3
+    i32.load8_u offset=2
+    local.get $8
+    i32.add
+    i32.load8_u
+    local.set $4
+    local.get $2
+    i32.const 0
+    i32.gt_s
+    if
+     local.get $5
+     global.get $assembly/index/shadow_cache
+     local.get $9
+     i32.const 2
+     i32.shl
+     i32.add
+     i32.load
+     local.get $5
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_r
+     f64.mul
+     local.get $6
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_g
+     f64.mul
+     f64.add
+     local.get $4
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_b
+     f64.mul
+     f64.add
+     i32.trunc_f64_s
+     i32.const 2
+     i32.shl
+     i32.add
+     i32.load
+     i32.load offset=4
+     local.tee $0
+     i32.add
+     i32.load8_u
+     local.set $5
+     local.get $0
+     local.get $6
+     i32.add
+     i32.load8_u
+     local.set $6
+     local.get $0
+     local.get $4
+     i32.add
+     i32.load8_u
+     local.set $4
+    end
+    local.get $2
+    i32.const 0
+    i32.lt_s
+    if
+     local.get $5
+     global.get $assembly/index/shadow_cache
+     local.get $9
+     i32.const 2
+     i32.shl
+     i32.add
+     i32.load
+     local.get $5
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_r
+     f64.mul
+     local.get $6
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_g
+     f64.mul
+     f64.add
+     local.get $4
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_b
+     f64.mul
+     f64.add
+     i32.trunc_f64_s
+     i32.const 2
+     i32.shl
+     i32.add
+     i32.load
+     i32.load offset=4
+     local.tee $0
+     i32.add
+     i32.load8_u
+     local.set $5
+     local.get $0
+     local.get $6
+     i32.add
+     i32.load8_u
+     local.set $6
+     local.get $0
+     local.get $4
+     i32.add
+     i32.load8_u
+     local.set $4
+    end
+    local.get $1
+    i32.const 0
+    i32.gt_s
+    if
+     local.get $5
+     global.get $assembly/index/light_cache
+     local.get $10
+     i32.const 2
+     i32.shl
+     i32.add
+     i32.load
+     local.get $5
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_r
+     f64.mul
+     local.get $6
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_g
+     f64.mul
+     f64.add
+     local.get $4
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_b
+     f64.mul
+     f64.add
+     i32.trunc_f64_s
+     i32.const 2
+     i32.shl
+     i32.add
+     i32.load
+     i32.load offset=4
+     local.tee $0
+     i32.add
+     i32.load8_u
+     local.set $5
+     local.get $0
+     local.get $6
+     i32.add
+     i32.load8_u
+     local.set $6
+     local.get $0
+     local.get $4
+     i32.add
+     i32.load8_u
+     local.set $4
+    end
+    local.get $1
+    i32.const 0
+    i32.lt_s
+    if
+     local.get $5
+     global.get $assembly/index/light_cache
+     local.get $10
+     i32.const 2
+     i32.shl
+     i32.add
+     i32.load
+     local.get $5
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_r
+     f64.mul
+     local.get $6
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_g
+     f64.mul
+     f64.add
+     local.get $4
+     f64.convert_i32_s
+     global.get $assembly/index/luma_strength_b
+     f64.mul
+     f64.add
+     i32.trunc_f64_s
+     i32.const 2
+     i32.shl
+     i32.add
+     i32.load
+     i32.load offset=4
+     local.tee $0
+     i32.add
+     i32.load8_u
+     local.set $5
+     local.get $0
+     local.get $6
+     i32.add
+     i32.load8_u
+     local.set $6
+     local.get $0
+     local.get $4
+     i32.add
+     i32.load8_u
+     local.set $4
+    end
+    local.get $7
+    local.get $5
+    i32.store8
+    local.get $7
+    local.get $6
+    i32.store8 offset=1
+    local.get $7
+    local.get $4
     i32.store8 offset=2
-    local.get $14
+    local.get $3
     i32.const 4
     i32.add
-    local.set $14
+    local.set $3
+    local.get $7
+    i32.const 4
+    i32.add
+    local.set $7
     br $for-loop|0
    end
   end
  )
- (func $assembly/index/process (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (param $6 i32) (param $7 i32) (param $8 i32) (param $9 i32) (param $10 i32) (param $11 i32)
-  local.get $0
-  if
-   local.get $3
-   local.get $4
-   local.get $5
+ (func $assembly/index/process (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (param $6 i32) (param $7 i32) (param $8 i32) (param $9 i32) (param $10 i32) (param $11 i32) (param $12 i32) (param $13 i32) (param $14 i32)
+  local.get $3
+  if (result i32)
+   local.get $6
+   local.get $7
+   local.get $8
+   i32.const 0
    call $assembly/index/percentileStretch
    i32.const 1
    call $assembly/index/calculateCounts
    i32.const 1
    call $assembly/index/calculateDisplayCounts
-   local.get $1
+   i32.const 1
+  else
+   local.get $0
    i32.eqz
-   if
-    i32.const 0
-    local.set $0
-    i32.const 1
-    call $assembly/index/getViewOffset
-    local.set $3
-    i32.const 1
-    i32.const 0
-    call $assembly/index/getCountOffset
-    drop
-    i32.const 1
-    i32.const 0
-    call $assembly/index/getDisplayCountOffset
-    drop
-    i32.const 2
-    call $assembly/index/getViewOffset
-    local.set $4
-    i32.const 2
-    i32.const 0
-    call $assembly/index/getCountOffset
-    drop
-    i32.const 2
-    i32.const 0
-    call $assembly/index/getDisplayCountOffset
-    drop
-    loop $for-loop|0
-     global.get $assembly/index/viewLength
-     local.get $0
-     i32.gt_s
-     if
-      local.get $0
-      local.get $4
-      i32.add
-      local.get $0
-      local.get $3
-      i32.add
-      i32.load8_u
-      i32.store8
-      local.get $0
-      i32.const 1
-      i32.add
-      local.set $0
-      br $for-loop|0
-     end
-    end
-   end
   end
-  local.get $1
-  if
-   local.get $6
-   local.get $7
-   local.get $8
+  local.set $0
+  local.get $4
+  if (result i32)
+   local.get $9
+   local.get $10
+   local.get $11
+   local.get $0
    call $assembly/index/colorBalance
    i32.const 2
    call $assembly/index/calculateCounts
    i32.const 2
    call $assembly/index/calculateDisplayCounts
+   i32.const 2
+  else
+   local.get $0
+   i32.const 2
+   local.get $1
+   select
   end
-  local.get $2
+  local.set $0
+  local.get $5
   if
-   local.get $9
-   local.get $10
-   local.get $11
+   local.get $12
+   local.get $13
+   local.get $14
+   local.get $0
    call $assembly/index/lightAdjustment
    i32.const 3
    call $assembly/index/calculateCounts
@@ -6196,7 +6408,7 @@
     i32.const -4
     i32.and
     local.get $0
-    i32.const 85396
+    i32.const 85388
     i32.lt_u
     if
      local.get $0
@@ -6219,7 +6431,7 @@
      i32.const 4
      i32.add
      local.tee $0
-     i32.const 85396
+     i32.const 85388
      i32.ge_u
      if
       global.get $~lib/rt/tlsf/ROOT
@@ -6482,7 +6694,7 @@
     end
    end
   end
-  global.get $assembly/index/temp_cache
+  global.get $assembly/index/clip_cache
   local.tee $0
   if
    local.get $0
@@ -6551,7 +6763,7 @@
     end
    end
   end
-  global.get $assembly/index/exposure_cache
+  global.get $assembly/index/temp_cache
   local.tee $0
   if
    local.get $0
@@ -6620,7 +6832,7 @@
     end
    end
   end
-  global.get $assembly/index/shadow_cache
+  global.get $assembly/index/exposure_cache
   local.tee $0
   if
    local.get $0
@@ -6689,7 +6901,7 @@
     end
    end
   end
-  global.get $assembly/index/light_cache
+  global.get $assembly/index/shadow_cache
   local.tee $0
   if
    local.get $0
@@ -6758,7 +6970,7 @@
     end
    end
   end
-  global.get $assembly/index/lineUpFromPoint1
+  global.get $assembly/index/light_cache
   local.tee $0
   if
    local.get $0
@@ -6827,7 +7039,7 @@
     end
    end
   end
-  global.get $assembly/index/lineDownToPoint1
+  global.get $assembly/index/lineUpFromPoint1
   local.tee $0
   if
    local.get $0
@@ -6896,7 +7108,7 @@
     end
    end
   end
-  global.get $assembly/index/lineUpFromPoint2
+  global.get $assembly/index/lineDownToPoint1
   local.tee $0
   if
    local.get $0
@@ -6965,7 +7177,7 @@
     end
    end
   end
-  global.get $assembly/index/lineDownToPoint2
+  global.get $assembly/index/lineUpFromPoint2
   local.tee $0
   if
    local.get $0
@@ -7034,7 +7246,7 @@
     end
    end
   end
-  global.get $assembly/index/lineDownToPoint75
+  global.get $assembly/index/lineDownToPoint2
   local.tee $0
   if
    local.get $0
@@ -7103,7 +7315,7 @@
     end
    end
   end
-  global.get $assembly/index/lineDownToPoint5
+  global.get $assembly/index/lineDownToPoint75
   local.tee $0
   if
    local.get $0
@@ -7172,7 +7384,7 @@
     end
    end
   end
-  global.get $assembly/index/curveExpUp
+  global.get $assembly/index/lineDownToPoint5
   local.tee $0
   if
    local.get $0
@@ -7241,7 +7453,7 @@
     end
    end
   end
-  global.get $assembly/index/curveExpDown
+  global.get $assembly/index/curveExpUp
   local.tee $0
   if
    local.get $0
@@ -7310,7 +7522,7 @@
     end
    end
   end
-  global.get $assembly/index/curveCircleBigUp
+  global.get $assembly/index/curveExpDown
   local.tee $0
   if
    local.get $0
@@ -7379,7 +7591,7 @@
     end
    end
   end
-  global.get $assembly/index/curveCircleBigDown
+  global.get $assembly/index/curveCircleBigUp
   local.tee $0
   if
    local.get $0
@@ -7448,7 +7660,7 @@
     end
    end
   end
-  global.get $assembly/index/curveRootMidUp
+  global.get $assembly/index/curveCircleBigDown
   local.tee $0
   if
    local.get $0
@@ -7517,7 +7729,7 @@
     end
    end
   end
-  global.get $assembly/index/curveRootMidDown
+  global.get $assembly/index/curveRootMidUp
   local.tee $0
   if
    local.get $0
@@ -7586,7 +7798,7 @@
     end
    end
   end
-  global.get $assembly/index/curveGrayUp
+  global.get $assembly/index/curveRootMidDown
   local.tee $0
   if
    local.get $0
@@ -7655,7 +7867,7 @@
     end
    end
   end
-  global.get $assembly/index/curveGrayDown
+  global.get $assembly/index/curveGrayUp
   local.tee $0
   if
    local.get $0
@@ -7724,7 +7936,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinFull
+  global.get $assembly/index/curveGrayDown
   local.tee $0
   if
    local.get $0
@@ -7793,7 +8005,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinFull32
+  global.get $assembly/index/curveSinFull
   local.tee $0
   if
    local.get $0
@@ -7862,7 +8074,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinFull224
+  global.get $assembly/index/curveSinFull32
   local.tee $0
   if
    local.get $0
@@ -7931,7 +8143,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinUp
+  global.get $assembly/index/curveSinFull224
   local.tee $0
   if
    local.get $0
@@ -8000,7 +8212,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinDown
+  global.get $assembly/index/curveSinUp
   local.tee $0
   if
    local.get $0
@@ -8069,7 +8281,7 @@
     end
    end
   end
-  global.get $assembly/index/curveLogDown0
+  global.get $assembly/index/curveSinDown
   local.tee $0
   if
    local.get $0
@@ -8138,7 +8350,7 @@
     end
    end
   end
-  global.get $assembly/index/curveLogUp0
+  global.get $assembly/index/curveLogDown0
   local.tee $0
   if
    local.get $0
@@ -8207,7 +8419,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinFull_0
+  global.get $assembly/index/curveLogUp0
   local.tee $0
   if
    local.get $0
@@ -8276,7 +8488,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinUpMid_f64
+  global.get $assembly/index/curveSinFull_0
   local.tee $0
   if
    local.get $0
@@ -8345,7 +8557,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_camel
+  global.get $assembly/index/curveSinUpMid_f64
   local.tee $0
   if
    local.get $0
@@ -8414,7 +8626,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinFull_25
+  global.get $assembly/index/curve_camel
   local.tee $0
   if
    local.get $0
@@ -8483,7 +8695,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinFull_5
+  global.get $assembly/index/curveSinFull_25
   local.tee $0
   if
    local.get $0
@@ -8552,7 +8764,7 @@
     end
    end
   end
-  global.get $assembly/index/curveSinFull_1
+  global.get $assembly/index/curveSinFull_5
   local.tee $0
   if
    local.get $0
@@ -8621,7 +8833,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_sin_mid_pow
+  global.get $assembly/index/curveSinFull_1
   local.tee $0
   if
    local.get $0
@@ -8690,7 +8902,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_up_0_25
+  global.get $assembly/index/curve_sin_mid_pow
   local.tee $0
   if
    local.get $0
@@ -8759,7 +8971,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_up_0_50
+  global.get $assembly/index/curve_gamma_up_0_25
   local.tee $0
   if
    local.get $0
@@ -8828,7 +9040,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_up_1
+  global.get $assembly/index/curve_gamma_up_0_50
   local.tee $0
   if
    local.get $0
@@ -8897,7 +9109,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_up_1_50
+  global.get $assembly/index/curve_gamma_up_1
   local.tee $0
   if
    local.get $0
@@ -8966,7 +9178,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_up_2
+  global.get $assembly/index/curve_gamma_up_1_50
   local.tee $0
   if
    local.get $0
@@ -9035,7 +9247,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_down_0_25
+  global.get $assembly/index/curve_gamma_up_2
   local.tee $0
   if
    local.get $0
@@ -9104,7 +9316,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_down_0_50
+  global.get $assembly/index/curve_gamma_down_0_25
   local.tee $0
   if
    local.get $0
@@ -9173,7 +9385,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_down_1
+  global.get $assembly/index/curve_gamma_down_0_50
   local.tee $0
   if
    local.get $0
@@ -9242,7 +9454,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_down_1_50
+  global.get $assembly/index/curve_gamma_down_1
   local.tee $0
   if
    local.get $0
@@ -9311,7 +9523,7 @@
     end
    end
   end
-  global.get $assembly/index/curve_gamma_down_2
+  global.get $assembly/index/curve_gamma_down_1_50
   local.tee $0
   if
    local.get $0
@@ -9380,6 +9592,75 @@
     end
    end
   end
+  global.get $assembly/index/curve_gamma_down_2
+  local.tee $0
+  if
+   local.get $0
+   if
+    global.get $~lib/rt/tcms/white
+    local.get $0
+    i32.const 20
+    i32.sub
+    local.tee $0
+    i32.load offset=4
+    i32.const 3
+    i32.and
+    i32.eq
+    if
+     block $__inlined_func$~lib/rt/tcms/Object#unlink89
+      local.get $0
+      i32.load offset=4
+      i32.const -4
+      i32.and
+      local.tee $1
+      i32.eqz
+      if
+       local.get $0
+       i32.load offset=8
+       drop
+       br $__inlined_func$~lib/rt/tcms/Object#unlink89
+      end
+      local.get $1
+      local.get $0
+      i32.load offset=8
+      local.tee $2
+      i32.store offset=8
+      local.get $2
+      local.get $2
+      i32.load offset=4
+      i32.const 3
+      i32.and
+      local.get $1
+      i32.or
+      i32.store offset=4
+     end
+     global.get $~lib/rt/tcms/toSpace
+     local.tee $2
+     i32.load offset=8
+     local.set $1
+     local.get $0
+     global.get $~lib/rt/tcms/white
+     i32.eqz
+     local.get $2
+     i32.or
+     i32.store offset=4
+     local.get $0
+     local.get $1
+     i32.store offset=8
+     local.get $1
+     local.get $1
+     i32.load offset=4
+     i32.const 3
+     i32.and
+     local.get $0
+     i32.or
+     i32.store offset=4
+     local.get $2
+     local.get $0
+     i32.store offset=8
+    end
+   end
+  end
   global.get $~lib/rt/tcms/white
   i32.const 1504
   i32.load
@@ -9387,7 +9668,7 @@
   i32.and
   i32.eq
   if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink89
+   block $__inlined_func$~lib/rt/tcms/Object#unlink91
     i32.const 1504
     i32.load
     i32.const -4
@@ -9398,7 +9679,7 @@
      i32.const 1508
      i32.load
      drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink89
+     br $__inlined_func$~lib/rt/tcms/Object#unlink91
     end
     local.get $0
     i32.const 1508
@@ -9446,7 +9727,7 @@
   i32.and
   i32.eq
   if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink91
+   block $__inlined_func$~lib/rt/tcms/Object#unlink93
     i32.const 1040
     i32.load
     i32.const -4
@@ -9457,7 +9738,7 @@
      i32.const 1044
      i32.load
      drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink91
+     br $__inlined_func$~lib/rt/tcms/Object#unlink93
     end
     local.get $0
     i32.const 1044
@@ -9505,7 +9786,7 @@
   i32.and
   i32.eq
   if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink93
+   block $__inlined_func$~lib/rt/tcms/Object#unlink95
     i32.const 1744
     i32.load
     i32.const -4
@@ -9516,7 +9797,7 @@
      i32.const 1748
      i32.load
      drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink93
+     br $__inlined_func$~lib/rt/tcms/Object#unlink95
     end
     local.get $0
     i32.const 1748
@@ -9564,7 +9845,7 @@
   i32.and
   i32.eq
   if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink95
+   block $__inlined_func$~lib/rt/tcms/Object#unlink97
     i32.const 1152
     i32.load
     i32.const -4
@@ -9575,7 +9856,7 @@
      i32.const 1156
      i32.load
      drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink95
+     br $__inlined_func$~lib/rt/tcms/Object#unlink97
     end
     local.get $0
     i32.const 1156
@@ -9623,7 +9904,7 @@
   i32.and
   i32.eq
   if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink97
+   block $__inlined_func$~lib/rt/tcms/Object#unlink99
     i32.const 85056
     i32.load
     i32.const -4
@@ -9634,7 +9915,7 @@
      i32.const 85060
      i32.load
      drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink97
+     br $__inlined_func$~lib/rt/tcms/Object#unlink99
     end
     local.get $0
     i32.const 85060
@@ -9682,7 +9963,7 @@
   i32.and
   i32.eq
   if
-   block $__inlined_func$~lib/rt/tcms/Object#unlink99
+   block $__inlined_func$~lib/rt/tcms/Object#unlink101
     i32.const 85152
     i32.load
     i32.const -4
@@ -9693,7 +9974,7 @@
      i32.const 85156
      i32.load
      drop
-     br $__inlined_func$~lib/rt/tcms/Object#unlink99
+     br $__inlined_func$~lib/rt/tcms/Object#unlink101
     end
     local.get $0
     i32.const 85156
@@ -9744,18 +10025,15 @@
    block $folding-inner2
     block $folding-inner1
      block $invalid
-      block $~lib/staticarray/StaticArray<u8>
+      block $~lib/staticarray/StaticArray<i32>
        block $~lib/staticarray/StaticArray<f64>
-        block $~lib/staticarray/StaticArray<i32>
-         block $~lib/string/String
-          block $~lib/arraybuffer/ArrayBuffer
-           local.get $0
-           i32.const 8
-           i32.sub
-           i32.load
-           br_table $~lib/arraybuffer/ArrayBuffer $~lib/string/String $folding-inner2 $folding-inner2 $folding-inner1 $folding-inner2 $folding-inner1 $folding-inner1 $folding-inner2 $folding-inner1 $folding-inner1 $~lib/staticarray/StaticArray<i32> $folding-inner1 $folding-inner2 $~lib/staticarray/StaticArray<f64> $folding-inner3 $folding-inner3 $~lib/staticarray/StaticArray<u8> $invalid
-          end
-          return
+        block $~lib/string/String
+         block $~lib/arraybuffer/ArrayBuffer
+          local.get $0
+          i32.const 8
+          i32.sub
+          i32.load
+          br_table $~lib/arraybuffer/ArrayBuffer $~lib/string/String $folding-inner2 $folding-inner2 $folding-inner1 $folding-inner2 $folding-inner1 $folding-inner1 $folding-inner2 $folding-inner1 $folding-inner1 $folding-inner1 $folding-inner2 $~lib/staticarray/StaticArray<f64> $folding-inner3 $folding-inner3 $~lib/staticarray/StaticArray<i32> $invalid
          end
          return
         end
