@@ -17,10 +17,15 @@ let luma_strength_r: f64 = 0
 let luma_strength_g: f64 = 0
 let luma_strength_b: f64 = 0
 
+// (2 * 101 * 3 * 256)
 const clip_cache = new StaticArray<StaticArray<StaticArray<Uint8Array>>>(2)
+// (201 * 256)
 const temp_cache = new StaticArray<Uint8Array>(201)
+// (201 * 256)
 const exposure_cache = new StaticArray<Uint8Array>(201)
+// (201 * 256 * 256)
 const shadow_cache = new StaticArray<StaticArray<Uint8Array>>(201)
+// (201 * 256 * 256
 const light_cache = new StaticArray<StaticArray<Uint8Array>>(201)
 
 const lineUpFromPoint1= new Float32Array(256)
@@ -82,8 +87,12 @@ export function initData (_width: i32, _height: i32, _totalViews: i32): void {
   viewLength = channelLength * 4
 
   const bytesPerPage = 64 * 1024 // 65.536
-  const bytesNeeded = (viewLength * 4) + (256 * 4 * 4) + (256 * 4 * 4)
-  const pagesNeeded = Math.ceil(bytesNeeded / bytesPerPage) + 1000
+  let bytesNeeded = (viewLength * 4) + (256 * 4 * 3 * 4) + (256 * 4 * 3 *  4)
+  bytesNeeded += (2 * 101 * 3 * 256) // CLip cache
+  bytesNeeded += (201 * 256) // Temp cache
+  bytesNeeded += (201 * 256) + (201 * 256 * 256) + (201 * 256 * 256) // Light cache
+
+  const pagesNeeded = Math.ceil(bytesNeeded / bytesPerPage) + 500
 
   memory.grow(<i32> pagesNeeded)
 
@@ -601,6 +610,7 @@ function cacheClip (): void {
 
     for (let limitValue = 0; limitValue < 101; limitValue++) {
       clip_cache[b][limitValue] = new StaticArray<Uint8Array>(3)
+
       clip_cache[b][limitValue][0] = new Uint8Array(256)
       clip_cache[b][limitValue][1] = new Uint8Array(256)
       clip_cache[b][limitValue][2] = new Uint8Array(256)
@@ -664,7 +674,9 @@ function cacheClip (): void {
       const gfactor: f64 = 1.0 / (unchecked(clips[3]) - unchecked(clips[2])) * 255
       const bfactor: f64 = 1.0 / (unchecked(clips[5]) - unchecked(clips[4])) * 255
 
-      let curve_p: f64 = 1
+      let curve_r: f64 = 1
+      let curve_g: f64 = 1
+      let curve_b: f64 = 1
       const rclipL = unchecked(clips[0])
       const gclipL = unchecked(clips[2])
       const bclipL = unchecked(clips[4])
@@ -672,15 +684,46 @@ function cacheClip (): void {
       let temp_g: f64 = 0
       let temp_b: f64 = 0
       for (let dst_p = 0; dst_p < 256; dst_p++) {
+        // if (rfactor >= 0) curve_r = unchecked(curve_gamma_down_0_50[dst_p])
+        //  else curve_r = unchecked(curve_gamma_up_0_50[dst_p])
+        
+        //  if (gfactor >= 0) curve_g = unchecked(curve_gamma_down_0_50[dst_p])
+        //  else curve_g = unchecked(curve_gamma_up_0_50[dst_p])
+         
+        //  if (bfactor >= 0) curve_b = unchecked(curve_gamma_down_0_50[dst_p])
+        //  else curve_b = unchecked(curve_gamma_up_0_50[dst_p])
+
+        curve_r = unchecked(curveSinFull_5[dst_p])
+        curve_g = unchecked(curveSinFull_5[dst_p])
+        curve_b = unchecked(curveSinFull_5[dst_p])
+
         temp_r = <f64> (dst_p - rclipL) * rfactor
         temp_g = <f64> (dst_p - gclipL) * gfactor
         temp_b = <f64> (dst_p - bclipL) * bfactor
-        if (temp_r > 255) temp_r = 255
+
         if (temp_r < 0) temp_r = 0
-        if (temp_g > 255) temp_g = 255
         if (temp_g < 0) temp_g = 0
-        if (temp_b > 255) temp_b = 255
         if (temp_b < 0) temp_b = 0
+        
+        temp_r = lerp_f64(dst_p, temp_r, curve_r)
+        temp_g = lerp_f64(dst_p, temp_g, curve_g)
+        temp_b = lerp_f64(dst_p, temp_b, curve_b)
+
+        // if (temp_r > 255) temp_r = 255
+        // if (temp_g > 255) temp_g = 255
+        // if (temp_b > 255) temp_b = 255
+
+        // if (temp_r > 255) temp_r = 255 - 0
+        // if (temp_r < 0) temp_r = 0 + (dst_p) * 0.5
+        // if (temp_g > 255) temp_g = 255 - 0
+        // if (temp_g < 0) temp_g = 0 + (dst_p) * 0.5
+        // if (temp_b > 255) temp_b = 255 - 0
+        // if (temp_b < 0) temp_b = 0 + (dst_p) * 0.5
+
+        temp_r = lerp_clamped(dst_p, temp_r, <f64> limitValue / 101)
+        temp_g = lerp_clamped(dst_p, temp_g, <f64> limitValue / 101)
+        temp_b = lerp_clamped(dst_p, temp_b, <f64> limitValue / 101)
+        
         clip_cache[b][limitValue][0][dst_p] = <u8> temp_r
         clip_cache[b][limitValue][1][dst_p] = <u8> temp_g
         clip_cache[b][limitValue][2][dst_p] = <u8> temp_b
@@ -770,7 +813,7 @@ function cacheShadow (): void {
     shadow_cache[i] = new StaticArray<Uint8Array>(256)
     const shadow_amount: i32 = -100 + i
     const exp_minus: f64 = Math.pow(2, -Math.abs(shadow_amount) * 0.05)
-
+    const shadow_abs: i32 = <i32> Math.abs(shadow_amount)
     for (let avg = 0; avg < 256; avg++) {
       shadow_cache[i][avg] = new Uint8Array(256)
       for (let dst_p = 0; dst_p < 256; dst_p++) {
@@ -778,26 +821,48 @@ function cacheShadow (): void {
         let curve_p: f64 = 0
 
         if (shadow_amount > 0) {
-          // temp_p = <f32> dst_p + <f64> shadow_amount * (unchecked(curve_gamma_up_0_50[dst_p]) + 0.1)
-          // if (temp_p > 255)  temp_p = 255
-          const inv_p: i32 = 255 - dst_p
-          const inv_avg: i32 = 255 - avg
-          curve_p = unchecked(curveSinFull_0[<i32> (1 * inv_p)])
-          temp_p = 255 - inv_p * exp_minus
-          temp_p = lerp_clamped(dst_p, temp_p, curve_p)
-          curve_p = unchecked(curveLogDown0[<i32> ((0.75 * inv_avg) + (0.25 * inv_p))])
-          temp_p = lerp_clamped(temp_p, dst_p, curve_p)
+          // ----- Inverted Light
+          const curve_dst: f64 = unchecked(curve_gamma_down_2[avg])
+          const curve_avg: f64 = unchecked(curve_gamma_up_0_50[dst_p])
+          const curve_mix: f64 = unchecked(curve_gamma_down_2[<i32> (
+            (0 * dst_p) + 
+            (1 * avg))])
+          temp_p = <f64> dst_p + (<f64> shadow_amount * 2 * curve_dst * curve_avg)
+          temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
+          // // ----- Test 0
+          // const curve_dst: f64 = unchecked(curve_gamma_up_0_50[dst_p])
+          // // const curve_avg: f64 = unchecked(curve_gamma_up_0_50[avg]) * 0 + 1
+          // const curve_mix: f64 = 1 - unchecked(curve_gamma_up_0_50[<i32> (
+          //   (0.25 * dst_p) + 
+          //   (0.75 * avg))])
+          // temp_p = <f64> dst_p + (<f64> shadow_amount * 2 * curve_dst * 1)
+          // temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
+
+          // ----- Test 1
+          // curve_p = unchecked(curve_gamma_up_0_50[dst_p])
+          // temp_p = <f64> dst_p + <f64> shadow_amount * 2 * curve_p
+          // // if (temp_p > 255)  temp_p = 255 - (255 - temp_p) * 0.5
+          // curve_p = unchecked(curve_gamma_down_2[avg])
+          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+          
+          // ----- Test 2
+          // const inv_p: i32 = 255 - dst_p
+          // const inv_avg: i32 = 255 - avg
+          // curve_p = unchecked(curveSinFull_0[<i32> ((1 * inv_p) + (0 * inv_avg))])
+          // temp_p = 255 - (inv_p * exp_minus + lerp_f64(0, 0, 0))
+          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+          // curve_p = unchecked(curveLogDown0[<i32> ((0 * inv_p) + (1 * (inv_avg)))]) 
+          // temp_p = lerp_clamped(temp_p, dst_p, curve_p)
 
         } else if (shadow_amount < 0) {
-          // curve_r: f64 = unchecked(curve_gamma_down_2[dst_p])
-          // temp_p = <f32> dst_p + <f32> shadow_amount * (unchecked(curve_gamma_up_0_50[dst_p]) + 0.1)
-
-          // if (temp_p < 0)  temp_p = 0
-          
-          // temp_p = <i32> lerp_clamped(dst_p, temp_p, curve_r)
-          curve_p = unchecked(curve_gamma_down_2[<i32> (1 * dst_p)])
-          temp_p = dst_p * exp_minus
-          temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+          // ----- Normal Shadow
+          const curve_dst: f64 = unchecked(curve_gamma_down_2[dst_p])
+          const curve_avg: f64 = unchecked(curve_gamma_up_0_50[avg])
+          const curve_mix: f64 = unchecked(curve_gamma_up_1[<i32> (
+            (1 * dst_p) + 
+            (0 * avg))])
+          temp_p = <f64> dst_p + (<f64> shadow_amount * 4 * curve_dst * curve_avg)
+          temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
         }
 
         shadow_cache[i][avg][dst_p] = <u8> temp_p
@@ -820,28 +885,53 @@ function cacheLight (): void {
         let curve_p: f64 = 0
   
         if (light_amount > 0) {
-          // const curve_r = unchecked(curve_gamma_up_2[dst_p])
+          // // ----- Test 0
+          // const curve_dst: f64 = unchecked(curve_gamma_down_0_50[avg])
+          // // const curve_avg: f64 = unchecked(curve_gamma_up_0_50[avg]) * 0 + 1
+          // const curve_mix: f64 = 1 - unchecked(curve_gamma_down_0_50[<i32> (
+          //   (1 * dst_p) + 
+          //   (0 * avg))])
+          // temp_p = <f64> dst_p + (<f64> light_amount * 2 * curve_dst * 1)
+          // temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
+
+          // // ----- Test 1
+          const curve_dst: f64 = unchecked(curve_gamma_up_2[dst_p])
+          const curve_avg: f64 = unchecked(curve_gamma_down_0_50[avg])
+          const curve_mix: f64 = unchecked(curve_gamma_down_1[<i32> (
+            (1 * dst_p) + 
+            (0 * avg))])
+          temp_p = <f64> dst_p + (<f64> light_amount * 4 * curve_dst * curve_avg)
+          temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
+
+          // ----- Test 2
+          // temp_p = <f64> dst_p + <f64> light_amount * 2 * curve_p
+          // if (temp_p > 255)  temp_p = 255 + (temp_p - 255) * ((255 - avg) / 256)
           
-          // temp_p = <f32> dst_p + <f64> light_amount * (unchecked(curve_gamma_down_0_50[dst_p]) + 0.1)
-    
-          // if (temp_p > 255)  temp_p = 255
-    
-          // temp_p = <i32> lerp_clamped(dst_p, temp_p, curve_r)
+          // curve_p = unchecked(curve_gamma_up_2[dst_p])
           
-          const inv_p: i32 = 255 - dst_p
-          curve_p = unchecked(curve_gamma_down_2[inv_p])
-          temp_p = 255 - inv_p * exp_minus
-          temp_p =<i32> lerp_clamped(dst_p, temp_p, curve_p)
+          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
         } else if (light_amount < 0) {
-          // temp_p = <f32> dst_p + <f64> light_amount * (unchecked(curve_gamma_down_0_50[dst_p]) + 0.25)
-  
-          // if (temp_p > 255)  temp_p = 255
-          // if (temp_p < 0)  temp_p = 0
-          curve_p = unchecked(curveSinFull_1[<i32> (1 * dst_p)])
-          temp_p = dst_p * exp_minus
-          temp_p = lerp_clamped(dst_p, temp_p, curve_p)
-          curve_p = unchecked(curve_gamma_down_0_50[<i32> ((0.75 * avg) + (0.25 * dst_p))])
-          temp_p = lerp_clamped(temp_p, dst_p, curve_p)
+          // ----- Test 0
+          const curve_dst: f64 = unchecked(curve_gamma_up_2[dst_p])
+          const curve_avg: f64 = unchecked(curve_gamma_down_0_50[avg])
+          const curve_mix: f64 = unchecked(curve_gamma_down_1[<i32> (
+            (1 * dst_p) + 
+            (0 * avg))])
+          temp_p = <f64> dst_p + (<f64> light_amount * 4 * curve_dst * curve_avg)
+          temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
+
+          // ----- Test 1
+          // curve_p = unchecked(curve_gamma_down_0_50[dst_p])
+          // temp_p = <f64> dst_p + <f64> light_amount * 2 * curve_p
+          // // if (temp_p > 255)  temp_p = 255
+          // curve_p = unchecked(curve_gamma_up_2[avg])
+          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+          // ----- Test 2
+          // curve_p = unchecked(curveSinFull_1[<i32> (1 * dst_p)])
+          // temp_p = dst_p * exp_minus
+          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+          // curve_p = unchecked(curve_gamma_down_0_50[<i32> ((0.75 * avg) + (0.25 * dst_p))])
+          // temp_p = lerp_clamped(temp_p, dst_p, curve_p)
         }
   
         light_cache[i][avg][dst_p] = <u8> temp_p

@@ -572,7 +572,7 @@ export default {
         const buffer = exports.memory.buffer
 
         for (let i = 0; i < totalViews; i++) {
-          console.log(exports.getViewOffset(i))
+          // console.log(exports.getViewOffset(i))
           this.views[i] = new Uint8ClampedArray(buffer, exports.getViewOffset(i), viewLength)
           this.views[i].set(this.imageData.data)
 
