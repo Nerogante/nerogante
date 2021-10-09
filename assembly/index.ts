@@ -821,38 +821,21 @@ function cacheShadow (): void {
         let curve_p: f64 = 0
 
         if (shadow_amount > 0) {
-          // ----- Inverted Light
-          const curve_dst: f64 = unchecked(curve_gamma_down_2[avg])
-          const curve_avg: f64 = unchecked(curve_gamma_up_0_50[dst_p])
-          const curve_mix: f64 = unchecked(curve_gamma_down_2[<i32> (
-            (0 * dst_p) + 
-            (1 * avg))])
-          temp_p = <f64> dst_p + (<f64> shadow_amount * 2 * curve_dst * curve_avg)
-          temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
-          // // ----- Test 0
-          // const curve_dst: f64 = unchecked(curve_gamma_up_0_50[dst_p])
-          // // const curve_avg: f64 = unchecked(curve_gamma_up_0_50[avg]) * 0 + 1
-          // const curve_mix: f64 = 1 - unchecked(curve_gamma_up_0_50[<i32> (
-          //   (0.25 * dst_p) + 
-          //   (0.75 * avg))])
-          // temp_p = <f64> dst_p + (<f64> shadow_amount * 2 * curve_dst * 1)
-          // temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
-
-          // ----- Test 1
-          // curve_p = unchecked(curve_gamma_up_0_50[dst_p])
-          // temp_p = <f64> dst_p + <f64> shadow_amount * 2 * curve_p
-          // // if (temp_p > 255)  temp_p = 255 - (255 - temp_p) * 0.5
-          // curve_p = unchecked(curve_gamma_down_2[avg])
-          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+          const curve_dst_1: f64 = unchecked(curve_gamma_up_0_50[dst_p]) * 0.5
+          const curve_dst_2: f64 = unchecked(curve_gamma_up_2[dst_p]) * 0.5
           
-          // ----- Test 2
-          // const inv_p: i32 = 255 - dst_p
-          // const inv_avg: i32 = 255 - avg
-          // curve_p = unchecked(curveSinFull_0[<i32> ((1 * inv_p) + (0 * inv_avg))])
-          // temp_p = 255 - (inv_p * exp_minus + lerp_f64(0, 0, 0))
-          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
-          // curve_p = unchecked(curveLogDown0[<i32> ((0 * inv_p) + (1 * (inv_avg)))]) 
-          // temp_p = lerp_clamped(temp_p, dst_p, curve_p)
+          const dst_power: f64 = unchecked(curve_gamma_up_2[dst_p])
+          const avg_power: f64 = 1 - dst_power
+          
+          const curve_mix_1: f64 = ( unchecked(curve_gamma_down_2[<i32> (
+            (dst_power * dst_p) + 
+            (avg_power * avg))])) * 0.5
+          const curve_mix_2: f64 = ( unchecked(curve_gamma_down_2[<i32> (
+            (dst_power * dst_p) + 
+            (avg_power * avg))])) * 0.5
+
+          temp_p = <f64> dst_p + (<f64> shadow_amount * 2 * (curve_dst_1 + curve_dst_2))
+          temp_p = lerp_clamped(dst_p, temp_p, curve_mix_1 + curve_mix_2)
 
         } else if (shadow_amount < 0) {
           // ----- Normal Shadow
@@ -911,27 +894,22 @@ function cacheLight (): void {
           
           // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
         } else if (light_amount < 0) {
-          // ----- Test 0
-          const curve_dst: f64 = unchecked(curve_gamma_up_2[dst_p])
-          const curve_avg: f64 = unchecked(curve_gamma_down_0_50[avg])
-          const curve_mix: f64 = unchecked(curve_gamma_down_1[<i32> (
-            (1 * dst_p) + 
-            (0 * avg))])
-          temp_p = <f64> dst_p + (<f64> light_amount * 4 * curve_dst * curve_avg)
-          temp_p = lerp_clamped(dst_p, temp_p, curve_mix)
+          const curve_dst_1: f64 = unchecked(curve_gamma_down_0_50[dst_p]) * 0.5
+          const curve_dst_2: f64 = unchecked(curve_gamma_down_2[dst_p]) * 0.5
+          
+          const dst_power: f64 = unchecked(curve_gamma_down_2[dst_p])
+          const avg_power: f64 = 1 - dst_power
 
-          // ----- Test 1
-          // curve_p = unchecked(curve_gamma_down_0_50[dst_p])
-          // temp_p = <f64> dst_p + <f64> light_amount * 2 * curve_p
-          // // if (temp_p > 255)  temp_p = 255
-          // curve_p = unchecked(curve_gamma_up_2[avg])
-          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
-          // ----- Test 2
-          // curve_p = unchecked(curveSinFull_1[<i32> (1 * dst_p)])
-          // temp_p = dst_p * exp_minus
-          // temp_p = lerp_clamped(dst_p, temp_p, curve_p)
-          // curve_p = unchecked(curve_gamma_down_0_50[<i32> ((0.75 * avg) + (0.25 * dst_p))])
-          // temp_p = lerp_clamped(temp_p, dst_p, curve_p)
+          const curve_mix_1: f64 = ( unchecked(curve_gamma_up_2[<i32> (
+            (dst_power * dst_p) + 
+            (avg_power * avg))])) * 0.5
+          const curve_mix_2: f64 = ( unchecked(curve_gamma_up_2[<i32> (
+            (dst_power * dst_p) + 
+            (avg_power * avg))])) * 0.5
+
+          temp_p = <f64> dst_p + (<f64> light_amount * 2 * (curve_dst_1 + curve_dst_2))
+          temp_p = lerp_clamped(dst_p, temp_p, curve_mix_1 + curve_mix_2)
+
         }
   
         light_cache[i][avg][dst_p] = <u8> temp_p
