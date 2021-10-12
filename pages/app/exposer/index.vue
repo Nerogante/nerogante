@@ -440,7 +440,6 @@ export default {
       totalRuns: 0,
       runSum: 0,
       wasmHistogram: null,
-      lastDisplayIndex: 0,
       curvesHistograms: []
     }
   },
@@ -477,6 +476,9 @@ export default {
     },
     lightDefault () {
       return this.controls[2][0].value === 0 && this.controls[2][1].value === 0 && this.controls[2][2].value === 0
+    },
+    saturationDefault () {
+      return this.controls[3][0].value === 0
     }
   },
   mounted () {
@@ -553,8 +555,9 @@ export default {
         // })
         const importObject = {
           env: {
-            abort: (_msg, _file, line, column) =>
-              console.error(`Error at ${line}:${column}`)
+            abort: (_msg, _file, line, column) => {
+              console.error(`A little error at:  ${line}:${column}`)
+            }
           },
           index: {
             consoleFloat: value => console.log(value),
@@ -566,7 +569,7 @@ export default {
         // [percentile]
         // [temp]
         // [light]
-        const totalViews = 4
+        const totalViews = 5
         const exports = this.wasmHistogram.instance.exports
         exports.initData(this.width, this.height, totalViews)
         const buffer = exports.memory.buffer
@@ -585,12 +588,12 @@ export default {
             this.displayCounts[i][channel] = new Uint8Array(buffer, exports.getDisplayCountOffset(i, channel), 256)
           }
         }
-        this.updateCanvas(3)
         exports.calculateCounts(0)
         exports.calculateDisplayCounts(0)
         exports.cacheCalculations()
         this.debugMemory()
 
+        this.updateCanvas(0)
         this.updateHistograms(0)
         this.adjustmentTabs = 0
         this.imageLoaded = true
@@ -629,13 +632,20 @@ export default {
       const highlightAmount = this.controls[2][2].value
       const lastHighlightAmount = this.lastControls[2][2].value
 
+      // Saturation
+      const satAmount = this.controls[3][0].value
+      const lastSatAmount = this.lastControls[3][0].value
+
       const runClip = (limitValue !== lastLimitValue) || (keepBalance !== lastKeepBalance && !this.clipDefault)
       const runColorBalance = (balanceR !== lastBalanceR || balanceG !== lastBalanceG || balanceB !== lastBalanceB) || (runClip && !this.tempDefault)
       const runLight = (midAmount !== lastMidAmount || shadowAmount !== lastShadowAmount || highlightAmount !== lastHighlightAmount) || ((runClip || runColorBalance) && !this.lightDefault)
+      const runSaturation = (satAmount !== lastSatAmount) || ((runClip || runColorBalance || runLight) && !this.saturationDefault)
 
       let displayIndex = 0
 
-      if (!this.lightDefault) {
+      if (!this.saturationDefault) {
+        displayIndex = 4
+      } else if (!this.lightDefault) {
         displayIndex = 3
       } else if (!this.tempDefault) {
         displayIndex = 2
@@ -643,16 +653,18 @@ export default {
         displayIndex = 1
       }
 
-      console.log({ runClip }, { runColorBalance }, { runLight }, displayIndex)
+      console.log({ runClip }, { runColorBalance }, { runLight }, { runSaturation }, displayIndex)
 
       const startTime = performance.now()
 
       this.wasmHistogram.instance.exports.process(
-        this.clipDefault, this.tempDefault, this.lightDefault,
-        runClip, runColorBalance, runLight,
+        this.clipDefault, this.tempDefault, this.lightDefault, this.saturationDefault,
+        runClip, runColorBalance, runLight, runSaturation,
         keepBalance, limit, limitValue,
         balanceR, balanceG, balanceB,
-        midAmount, shadowAmount, highlightAmount)
+        midAmount, shadowAmount, highlightAmount,
+        satAmount
+      )
 
       const endTime = performance.now()
       this.wasmHistogram.instance.exports.__collect()
@@ -695,6 +707,8 @@ export default {
         controls.forEach((element) => {
           element.value = 0
         })
+      } else if (index === 3) {
+        controls[0].value = 0
       }
       this.inputControl()
     },

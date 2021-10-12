@@ -8,9 +8,9 @@ let channelLength: i32
 let width: i32
 let height: i32
 
-const views = new StaticArray<Uint8ClampedArray>(4)
-const counts = new StaticArray<StaticArray<Uint32Array>>(4)
-const displayCounts = new StaticArray<StaticArray<Uint8Array>>(4)
+const views = new StaticArray<Uint8ClampedArray>(5)
+const counts = new StaticArray<StaticArray<Uint32Array>>(5)
+const displayCounts = new StaticArray<StaticArray<Uint8Array>>(5)
 
 const luma_mode: i32 = 2
 let luma_strength_r: f64 = 0
@@ -27,6 +27,8 @@ const exposure_cache = new StaticArray<Uint8Array>(201)
 const shadow_cache = new StaticArray<StaticArray<Uint8Array>>(201)
 // (201 * 256 * 256
 const light_cache = new StaticArray<StaticArray<Uint8Array>>(201)
+// (201 * 256 * 256)
+const saturation_cache = new StaticArray<StaticArray<Uint8Array>>(201)
 
 const lineUpFromPoint1= new Float32Array(256)
 const lineDownToPoint1 = new Float32Array(256)
@@ -87,14 +89,14 @@ export function initData (_width: i32, _height: i32, _totalViews: i32): void {
   viewLength = channelLength * 4
 
   const bytesPerPage = 64 * 1024 // 65.536
-  let bytesNeeded = (viewLength * 4) + (256 * 4 * 3 * 4) + (256 * 4 * 3 *  4)
+  let bytesNeeded = (viewLength * _totalViews) + (256 * 4 * 3 * _totalViews) + (256 * 4 * 3 *  _totalViews)
   bytesNeeded += (2 * 101 * 3 * 256) // CLip cache
   bytesNeeded += (201 * 256) // Temp cache
-  bytesNeeded += (201 * 256) + (201 * 256 * 256) + (201 * 256 * 256) // Light cache
+  bytesNeeded += (201 * 256) + (201 * 256 * 256) + (201 * 256 * 256) + (201 * 256 * 256) // Light cache
 
-  const pagesNeeded = Math.ceil(bytesNeeded / bytesPerPage) + 500
+  const pagesNeeded: i32 = <i32> Math.ceil(bytesNeeded / bytesPerPage) + 500
 
-  memory.grow(<i32> pagesNeeded)
+  memory.grow(pagesNeeded)
 
   luma_strength_r = [1 / 3, 0.299, 0.2126, 0.2627][luma_mode]
   luma_strength_g = [1 / 3, 0.587, 0.7152, 0.6780][luma_mode]
@@ -212,14 +214,16 @@ export function cacheCalculations (): void {
   cacheExposure()
   cacheShadow()
   cacheLight()
+  cacheSaturation()
 }
 
 export function process (
-  default_clip: bool, default_temp: bool, default_light: bool,
-  runPercentileStretch: bool, runColorBalance: bool, runLight: bool, 
+  default_clip: bool, default_temp: bool, default_light: bool, default_saturation: bool,
+  runPercentileStretch: bool, runColorBalance: bool, runLight: bool, runSaturation: bool,
   keepBalance: bool, limit: i32, limitValue: i32, 
   balanceR: i32, balanceG: i32, balanceB: i32, 
-  midAmount: i32, highlightAmount: i32, shadowAmount: i32
+  midAmount: i32, highlightAmount: i32, shadowAmount: i32,
+  satAmount: i32
 
   ): void {
   let source_index: i32 = 0
@@ -252,8 +256,19 @@ export function process (
     source_index = 3
     calculateCounts(3)
     calculateDisplayCounts(3)
+  } else if (!default_light) {
+    source_index = 3
   }
   // End center shift
+
+  if (runSaturation) {
+    saturation(satAmount, source_index)
+    source_index = 4
+    calculateCounts(4)
+    calculateDisplayCounts(4)
+  } else if (!default_saturation) {
+    source_index = 4
+  }
 
 }
 export function colorChange (limit: i32, limitValue: i32):void {
@@ -441,6 +456,36 @@ export function lightAdjustment (midAmount: i32, lightAmount: i32, shadowAmount:
   }
 }
 
+export function saturation (satAmount: i32, source_index: i32): void {
+  const originStartOffset = getViewOffset(source_index)
+  const originEndOffset = originStartOffset + viewLength
+  let targetOffset = getViewOffset(4)
+
+  let dst_r: i32 = 0
+  let dst_g: i32 = 0
+  let dst_b: i32 = 0
+  
+  let avg: i32 = 0
+
+  const saturation_index = satAmount + 100
+  
+  for (let i = 0; i < viewLength; i += 4) {
+    dst_r = load<u8>(originStartOffset + i)
+    dst_g = load<u8>(originStartOffset + i + 1)
+    dst_b = load<u8>(originStartOffset + i + 2)
+
+    avg = getAverage(dst_r, dst_g, dst_b)
+
+    dst_r = unchecked(saturation_cache[saturation_index][avg][dst_r])
+    dst_g = unchecked(saturation_cache[saturation_index][avg][dst_g])
+    dst_b = unchecked(saturation_cache[saturation_index][avg][dst_b])
+
+    store<u8>(targetOffset + i, dst_r)
+    store<u8>(targetOffset + i + 1, dst_g)
+    store<u8>(targetOffset + i + 2, dst_b)
+  }
+}
+
 export function grayWorld (strength: i32): void {
   let sumR: f32 = 0
   let sumG: f32 = 0
@@ -576,6 +621,7 @@ function lowestRGB(r: i32, g: i32, b: i32): i32 {
   // if (g < r && g < b) return g
   // return b
 }
+
 function middleRGB (r: i32, g: i32, b: i32): i32 {
   if (r < g) 
     if (r > b) 
@@ -917,6 +963,29 @@ function cacheLight (): void {
       
     }
     
+  }
+}
+
+function cacheSaturation (): void {
+  for (let index = 0; index < 201; index++) {
+    const satAmount: i32 = -100 + index
+    saturation_cache[index] = new StaticArray<Uint8Array>(256)
+
+    let temp_p: f64 = 0
+    let curve_p: f64 = 1
+    let factor: f64 = (255 + satAmount) / (255 - satAmount)
+
+    for (let avg = 0; avg < 256; avg++) {
+      saturation_cache[index][avg] = new Uint8Array(256)
+      for (let dst_p = 0; dst_p < 256; dst_p++) {
+          
+        temp_p = <f32> avg + <f32> (dst_p - avg) * factor
+
+        temp_p = lerp_clamped(dst_p, temp_p, curve_p)
+
+        saturation_cache[index][avg][dst_p] = <i32> temp_p
+      }
+    }
   }
 }
 
