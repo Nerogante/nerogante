@@ -1,12 +1,13 @@
 <template>
   <div>
     <v-app-bar
-      fixed
+      :hidden="fixed"
+      :app="false"
+      :fixed="!fixed"
       flat
       dark
       dense
       class="px-0 mx-0 barra"
-      :value="!hidden"
       color="black darken-1"
     >
       <!-- <v-app-bar-nav-icon @click="mini = !mini" /> -->

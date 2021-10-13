@@ -18,15 +18,23 @@
         </v-btn>
         <v-spacer />
 
-        <v-btn icon color="">
-          <v-icon>mdi-select-compare</v-icon>
+        <v-btn
+          icon
+          :color="switches.compare ? 'blue' : ''"
+          :disabled="!imageLoaded"
+          @click="clickCompare"
+        >
+          <v-icon>
+            mdi-compare
+          </v-icon>
         </v-btn>
 
-        <v-btn icon color="" @click="runBenchmarkLight">
-          <v-icon>mdi-console</v-icon>
-        </v-btn>
-
-        <v-btn icon :color="switches.histograms ? 'green accent-4' : 'white'" @click="switches.histograms = !switches.histograms">
+        <v-btn
+          icon
+          :disabled="!imageLoaded"
+          :color="switches.histograms ? 'green accent-4' : 'white'"
+          @click="switches.histograms = !switches.histograms"
+        >
           <v-icon>mdi-chart-histogram</v-icon>
         </v-btn>
 
@@ -38,6 +46,7 @@
             <v-btn
               icon
               v-bind="attrs"
+              :disabled="!imageLoaded"
               v-on="on"
             >
               <v-icon>mdi-dots-vertical</v-icon>
@@ -112,7 +121,7 @@
         @mouseup="canvasMouseUp"
         @mouseout="canvasMouseOut"
         @dblclick="canvasDoubleClick"
-        @resize="canvasContainerResize"
+        @resize="workAreaResized"
       >
         <canvas
           ref="mainCanvas"
@@ -191,8 +200,8 @@
                     :thumb-color="['red darken-3', 'green darken-3', 'grey darken-2'][index]"
                     append-icon="mdi-plus"
                     prepend-icon="mdi-minus"
-                    @click:append="clickAddBalanceStrength(1, -100, 100)"
-                    @click:prepend="clickAddBalanceStrength(-1, -100, 100)"
+                    @click:append="clickAddBalanceStrength(1, -100, 100, index)"
+                    @click:prepend="clickAddBalanceStrength(-1, -100, 100, index)"
                     @input="inputControl(1)"
                   />
                 </v-col>
@@ -234,8 +243,8 @@
                     thumb-color="blue darken-3"
                     append-icon="mdi-plus"
                     prepend-icon="mdi-minus"
-                    @click:append="clickAddMidShift(1, -100, 100)"
-                    @click:prepend="clickAddMidShift(-1, -100, 100)"
+                    @click:append="clickAddLight(1, -100, 100, index)"
+                    @click:prepend="clickAddLight(-1, -100, 100, index)"
                     @input="inputControl(2)"
                   />
                 </v-col>
@@ -269,8 +278,8 @@
                     thumb-color="blue darken-3"
                     append-icon="mdi-plus"
                     prepend-icon="mdi-minus"
-                    @click:append="clickAddMidShift(1, -100, 100)"
-                    @click:prepend="clickAddMidShift(-1, -100, 100)"
+                    @click:append="clickAddSaturation(1, -100, 100)"
+                    @click:prepend="clickAddSaturation(-1, -100, 100)"
                     @input="inputControl(3)"
                   />
                 </v-col>
@@ -293,6 +302,7 @@
             background-color="transparent"
             icons-and-text
             dark
+            optional
             height=""
             :centered="$vuetify.breakpoint.mobile"
             :vertical="!$vuetify.breakpoint.mobile"
@@ -320,7 +330,9 @@
             </v-tab>
             <v-tab href="#tab-4" :disabled="!imageLoaded">
               Color
-              <v-icon>mdi-palette</v-icon>
+              <v-icon :color="saturationDefault ? 'grey' : 'green accent-3'">
+                mdi-palette
+              </v-icon>
             </v-tab>
           </v-tabs>
         </div>
@@ -361,6 +373,8 @@
     <!-- <p>Ola ke tal</p> -->
     <!-- Hidden inputs -->
     <input v-show="false" ref="imageInput" type="file" accepts="image/*" @change="loadImage">
+    <img v-show="false" ref="exportedImage" src="" alt="">
+    <a v-show="false" ref="downloadLink" href="" />
   </div>
 </template>
 
@@ -374,7 +388,8 @@ export default {
     return {
       switches: {
         histograms: true,
-        debugHistograms: false
+        debugHistograms: false,
+        compare: false
       },
       imageLoaded: false,
       documentName: 'Untitled',
@@ -440,7 +455,8 @@ export default {
       totalRuns: 0,
       runSum: 0,
       wasmHistogram: null,
-      curvesHistograms: []
+      curvesHistograms: [],
+      resizeObserver: null
     }
   },
   head () {
@@ -495,17 +511,49 @@ export default {
       this.histograms[i].strokeStyle = 'lightgrey'
     }
     this.initializeCurves()
+    this.resizeObserver = new ResizeObserver(this.workAreaResized)
+    this.resizeObserver.observe(document.getElementById('canvasContainer'))
+  },
+  beforeDestroy () {
+    this.resizeObserver.disconnect()
   },
   methods: {
     ...mapMutations({
       hideAppBar: 'appBar/hide'
     }),
     clickOpenImage () {
+      this.adjustmentTabs = null
+      this.imageLoaded = false
       this.$refs.imageInput.click()
     },
     clickExportImage () {
-      console.log('Export Image')
-      this.drawCurves()
+      // this.$refs.downloadLink.download = 'exposer_image.png'
+      // this.$refs.downloadLink.href = this.canvasMain.toDataURL('image/png')
+      // this.$refs.downloadLink.click()
+
+      const canvas = this.canvasMain
+      canvas.toBlob((blob) => {
+        const downloadLink = this.$refs.downloadLink
+        const newImg = this.$refs.exportedImage
+        const url = URL.createObjectURL(blob)
+
+        newImg.onload = function () {
+          // no longer need to read the blob so it's revoked
+          // URL.revokeObjectURL(url)
+        }
+
+        newImg.src = url
+        document.body.appendChild(newImg)
+
+        const fullName = this.$refs.imageInput.files[0].name
+        const name = fullName.substring(0, fullName.lastIndexOf('.'))
+
+        downloadLink.download = name + '.jpeg'
+        downloadLink.href = url
+        downloadLink.click()
+        URL.revokeObjectURL(url)
+      }, 'image/jpeg', 1)
+      // this.drawCurves()
     },
     async runBenchmarkLight () {
       const caca = async () => {
@@ -522,6 +570,8 @@ export default {
     },
     loadImage () {
       if (this.$refs.imageInput.files.length === 0) {
+        this.adjustmentTabs = 'tab-1'
+        this.imageLoaded = true
         return
       }
       const file = this.$refs.imageInput.files[0]
@@ -576,7 +626,9 @@ export default {
 
         for (let i = 0; i < totalViews; i++) {
           // console.log(exports.getViewOffset(i))
-          this.views[i] = new Uint8ClampedArray(buffer, exports.getViewOffset(i), viewLength)
+          const nextOffset = exports.getViewOffset(i)
+          console.log({ nextOffset })
+          this.views[i] = new Uint8ClampedArray(buffer, nextOffset, viewLength)
           this.views[i].set(this.imageData.data)
 
           this.counts[i] = new Array(3)
@@ -595,17 +647,19 @@ export default {
 
         this.updateCanvas(0)
         this.updateHistograms(0)
-        this.adjustmentTabs = 0
-        this.imageLoaded = true
 
         const endTime = performance.now()
         this.UIMessage = 'Load time'
         this.UIValue = endTime - startTime
         exports.__collect()
+
+        this.imageLoaded = true
+        this.adjustmentTabs = 'tab-1'
       }
     },
     // Levels
     process () {
+      this.switches.compare = false
       // Clip
       const limitValue = this.controls[0][0].limit - 1
       const lastLimitValue = this.lastControls[0][0].limit - 1
@@ -653,7 +707,7 @@ export default {
         displayIndex = 1
       }
 
-      console.log({ runClip }, { runColorBalance }, { runLight }, { runSaturation }, displayIndex)
+      // console.log({ runClip }, { runColorBalance }, { runLight }, { runSaturation }, displayIndex)
 
       const startTime = performance.now()
 
@@ -738,24 +792,40 @@ export default {
     },
     // Levels
     clickAddSpreadLimit (amount, min, max) {
-      const old = this.controls[0].limit
+      const old = this.controls[0][0].limit
       if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
-        this.controls[0].limit += amount
+        this.controls[0][0].limit += amount
         this.inputControl(0)
       }
     },
-    clickAddBalanceStrength (amount, min, max) {
-      const old = this.controls[1].strength
+    clickAddBalanceStrength (amount, min, max, index) {
+      const old = this.controls[1][index].strength
       if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
-        this.controls[1].strength += amount
+        this.controls[1][index].strength += amount
         this.inputControl(1)
       }
     },
-    clickAddMidShift (amount, min, max) {
-      const old = this.controls[2].newCenter
+    clickAddLight (amount, min, max, index) {
+      const old = this.controls[2][index].value
       if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
-        this.controls[2].newCenter += amount
+        this.controls[2][index].value += amount
         this.inputControl(2)
+      }
+    },
+    clickAddSaturation (amount, min, max) {
+      const old = this.controls[3][0].value
+      if (((amount < 0) && (old + amount >= min)) || ((amount > 0) && (old + amount <= max))) {
+        this.controls[3][0].value += amount
+        this.inputControl(2)
+      }
+    },
+    clickCompare () {
+      if (!this.switches.compare) {
+        this.updateCanvas(0)
+        this.updateHistograms(0)
+        this.switches.compare = !this.switches.compare
+      } else {
+        this.process()
       }
     },
     initializeCurves () {
@@ -953,6 +1023,9 @@ export default {
       this.offsetX = 0
       this.offsetY = 0
     },
+    workAreaResized () {
+      this.canvasContainerResize()
+    },
     canvasContainerResize () {
       const container = document.getElementById('canvasContainer')
       const containerRatio = container.clientHeight / container.clientWidth
@@ -969,6 +1042,9 @@ export default {
     },
     hardReset () {
       // this.ctxMain.clearRect(0, 0, this.canvasMain.width, this.canvasMain.height)
+      for (let i = 0; i < 4; i++) {
+        this.clickResetControls(i)
+      }
     },
     debugArray (array, length) {
       const text = []

@@ -1,16 +1,32 @@
 <template>
-  <section>
-    <v-container>
-      <v-row>
-        <v-col>
-          ola ke tal
-        </v-col>
-        <v-col>
-          jeje
-        </v-col>
-      </v-row>
-    </v-container>
-  </section>
+  <div>
+    <section class="black  h-100-v">
+      <v-container class="h-100-p">
+        <v-row align="center" class="h-100-p">
+          <v-col class="">
+            <h1 class="text-h1 font-weight-bold white--text text--accent-4">
+              A little bit of everything
+            </h1>
+            <v-btn
+              x-large
+              rounded
+              class="green accent-3 mt-12 font-weight-black "
+            >
+              Latest Apps
+            </v-btn>
+          </v-col>
+          <v-col>
+            <h1 class="text-h1 green--text text--accent-3 font-weight-black text-center">
+
+            </h1>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+    <section class="h-100-v">
+      a
+    </section>
+  </div>
 </template>
 
 <script>

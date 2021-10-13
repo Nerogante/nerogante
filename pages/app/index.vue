@@ -66,7 +66,7 @@ export default {
             {
               title: 'Exposer',
               hidden: false,
-              description: 'Enhance white balance on your photos',
+              description: 'Expose',
               route: '/app/exposer',
               icon: 'mdi-invert-colors',
               image: 'cat meme.png',
