@@ -4,13 +4,16 @@
       <v-container class="h-100-p">
         <v-row align="center" class="h-100-p">
           <v-col class="">
-            <h1 class="text-h1 font-weight-bold white--text text--accent-4">
+            <h1 class="text-h2 font-weight-bold grey--text text--lighten-5">
               A little bit of everything
             </h1>
+            <!-- <div class="mt-8 white--text text-body-1">
+              Master of nothing
+            </div> -->
             <v-btn
               x-large
               rounded
-              class="green accent-3 mt-12 font-weight-black "
+              class="mt-8 green accent-3 font-weight-black "
             >
               Latest Apps
             </v-btn>

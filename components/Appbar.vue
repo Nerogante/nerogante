@@ -8,7 +8,8 @@
       dark
       dense
       class="px-0 mx-0 barra"
-      color="black darken-1"
+      color="black darken-4"
+      elevation="1"
     >
       <!-- <v-app-bar-nav-icon @click="mini = !mini" /> -->
       <v-btn disabled icon />
@@ -54,7 +55,7 @@
       fixed
       dense
       style="right: unset"
-      color="transparent"
+      color="black"
     >
       <v-btn
         fab
@@ -82,7 +83,7 @@ export default {
     return {
       links: [
         {
-          title: 'Games',
+          title: '',
           route: '/games',
           icon: 'mdi-gamepad-round-right'
         },

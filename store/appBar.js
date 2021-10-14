@@ -15,6 +15,11 @@ export const mutations = {
     state.fixed = true
     state.hidden = true
   },
+  show (state) {
+    state.app = true
+    state.fixed = false
+    state.hidden = false
+  },
 
   setHidden (state, hidden) {
     state.hidden = hidden

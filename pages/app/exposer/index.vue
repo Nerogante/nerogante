@@ -516,10 +516,13 @@ export default {
   },
   beforeDestroy () {
     this.resizeObserver.disconnect()
+    this.showAppBar()
   },
   methods: {
     ...mapMutations({
-      hideAppBar: 'appBar/hide'
+      hideAppBar: 'appBar/hide',
+      toggleAppBar: 'appBar/toggleAppBar',
+      showAppBar: 'appBar/show'
     }),
     clickOpenImage () {
       this.adjustmentTabs = null
@@ -829,134 +832,134 @@ export default {
       }
     },
     initializeCurves () {
-      const zeroArray = (size) => {
-        const zeroes = Array(size)
-        for (let i = 0; i < size; i++) {
-          zeroes[i] = 0
-        }
-        return zeroes
-      }
-      const curveGamma = (exp = 1, flipX = false) => {
-        const factors = zeroArray()
-        for (let i = 0; i <= 255; i++) {
-          const y = 255 * Math.pow((i / 255), exp) * 1 / 255
-          factors[flipX ? 255 - i : i] = y.toFixed(25)
-        }
-        return factors
-      }
-      const curveShadow = (flipX = false) => {
-        const factors = zeroArray(256)
-        for (let i = 0; i < 256; i++) {
-          const xNorm = i / 255
-          let y = Math.sin(Math.pow(xNorm, 2) * Math.PI)
-          y = Math.pow(y, 2)
-          factors[flipX ? 255 - i : i] = y.toFixed(25)
-        }
-        return factors
-      }
-      const curveSinRoot = () => {
-        const factors = zeroArray(256)
-        for (let i = 0; i < 256; i++) {
-          let y = Math.sin(i / 255 * Math.PI)
-          y = Math.pow(y, 2)
-          factors[i] = y.toFixed(25)
-        }
-        return factors
-      }
-      const curveTo255 = () => {
-        const factors = zeroArray(256)
-        for (let i = 1; i < 256; i++) {
-          const y = 255 / (i)
-          factors[i] = y / 1
-        }
-        return factors
-      }
-      const curveSphereFull = (center = 128) => {
-        const factors = zeroArray(256)
-        let xFactor = 1 / (center)
-        const radius = 1
-        for (let i = 0, x = 0; i <= center; i++, x += xFactor) {
-          const y = 1 - Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = y
-          // factors[i] = Math.pow(y, 2).toFixed(10)
-        }
+      // const zeroArray = (size) => {
+      //   const zeroes = Array(size)
+      //   for (let i = 0; i < size; i++) {
+      //     zeroes[i] = 0
+      //   }
+      //   return zeroes
+      // }
+      // const curveGamma = (exp = 1, flipX = false) => {
+      //   const factors = zeroArray()
+      //   for (let i = 0; i <= 255; i++) {
+      //     const y = 255 * Math.pow((i / 255), exp) * 1 / 255
+      //     factors[flipX ? 255 - i : i] = y.toFixed(25)
+      //   }
+      //   return factors
+      // }
+      // const curveShadow = (flipX = false) => {
+      //   const factors = zeroArray(256)
+      //   for (let i = 0; i < 256; i++) {
+      //     const xNorm = i / 255
+      //     let y = Math.sin(Math.pow(xNorm, 2) * Math.PI)
+      //     y = Math.pow(y, 2)
+      //     factors[flipX ? 255 - i : i] = y.toFixed(25)
+      //   }
+      //   return factors
+      // }
+      // const curveSinRoot = () => {
+      //   const factors = zeroArray(256)
+      //   for (let i = 0; i < 256; i++) {
+      //     let y = Math.sin(i / 255 * Math.PI)
+      //     y = Math.pow(y, 2)
+      //     factors[i] = y.toFixed(25)
+      //   }
+      //   return factors
+      // }
+      // const curveTo255 = () => {
+      //   const factors = zeroArray(256)
+      //   for (let i = 1; i < 256; i++) {
+      //     const y = 255 / (i)
+      //     factors[i] = y / 1
+      //   }
+      //   return factors
+      // }
+      // const curveSphereFull = (center = 128) => {
+      //   const factors = zeroArray(256)
+      //   let xFactor = 1 / (center)
+      //   const radius = 1
+      //   for (let i = 0, x = 0; i <= center; i++, x += xFactor) {
+      //     const y = 1 - Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+      //     factors[i] = y
+      //     // factors[i] = Math.pow(y, 2).toFixed(10)
+      //   }
 
-        xFactor = 1 / (255 - center + 1)
-        for (let i = 255, x = 0; i >= center; i--, x += xFactor) {
-          const y = 1 - Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
-          factors[i] = y
-          // factors[i] = Math.pow(y, 2).toFixed(10)
-        }
-        return factors
-      }
-      const curveSinFull = (min = 0) => {
-        const factors = zeroArray(256)
-        for (let i = 0; i < 128; i++) {
-          const y = Math.sin((i) * (1 / 256) * Math.PI) * (1 - min) + min
-          factors[i] = y.toFixed(25)
-          factors[255 - i] = y.toFixed(25)
-        }
-        return factors
-      }
-      const curveCamel = () => {
-        const factors = zeroArray(256)
-        for (let i = 0; i < 256; i++) {
-          const y = Math.pow(Math.sin((i) / 255 * Math.PI * 2), 2).toFixed(25)
-          factors[i] = y
-        }
-        return factors
-      }
-      const lineUp = (from = 0, to = 255, min = 0, max = 1) => {
-        const factors = zeroArray(256)
-        const lineFactor = (1 - min) / (255)
-        let currentScale = 0
-        for (let i = from; i <= to; i++) {
-          factors[i] = currentScale * lineFactor + min
-          currentScale++
-        }
-        return factors
-      }
-      const lineDown = (from = 255, to = 0, min = 0, max = 1) => {
-        const factors = zeroArray(256)
-        const lineFactor = (1 - min) / (255)
-        let currentScale = 0
-        for (let i = from; i >= to; i--) {
-          factors[i] = currentScale * lineFactor + min
-          currentScale++
-        }
-        return factors
-      }
-      const curveSinUp = (flipX = false, flipY = false) => {
-        const factors = zeroArray(256)
-        let degree = 0
-        let radian = 0
-        const angleFactor = 90 / 255
-        for (let i = 0; i <= 255; i++) {
-          radian = util.degrees_to_radians(degree)
-          const y = Math.sin(radian)
-          factors[flipX ? (255 - i) : i] = flipY ? (1 - y) : y
-          degree += angleFactor
-        }
-        return factors
-      }
-      const logUp = (offset = 1) => {
-        const factors = zeroArray(256)
-        for (let i = 0; i < 256; i++) {
-          factors[i] = Math.log10(i + offset) / Math.log10(255 + offset)
-        }
-        return factors
-      }
-      const logDown = (offset = 1) => {
-        const factors = zeroArray(256)
-        for (let i = 0; i < 256; i++) {
-          factors[255 - i] = Math.log10(i + offset) / Math.log10(255 + offset)
-        }
-        return factors
-      }
-      // util.exportArray(data)
-      this.curvesHistograms = [
-        curveTo255()
-      ]
+      //   xFactor = 1 / (255 - center + 1)
+      //   for (let i = 255, x = 0; i >= center; i--, x += xFactor) {
+      //     const y = 1 - Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))
+      //     factors[i] = y
+      //     // factors[i] = Math.pow(y, 2).toFixed(10)
+      //   }
+      //   return factors
+      // }
+      // const curveSinFull = (min = 0) => {
+      //   const factors = zeroArray(256)
+      //   for (let i = 0; i < 128; i++) {
+      //     const y = Math.sin((i) * (1 / 256) * Math.PI) * (1 - min) + min
+      //     factors[i] = y.toFixed(25)
+      //     factors[255 - i] = y.toFixed(25)
+      //   }
+      //   return factors
+      // }
+      // const curveCamel = () => {
+      //   const factors = zeroArray(256)
+      //   for (let i = 0; i < 256; i++) {
+      //     const y = Math.pow(Math.sin((i) / 255 * Math.PI * 2), 2).toFixed(25)
+      //     factors[i] = y
+      //   }
+      //   return factors
+      // }
+      // const lineUp = (from = 0, to = 255, min = 0, max = 1) => {
+      //   const factors = zeroArray(256)
+      //   const lineFactor = (1 - min) / (255)
+      //   let currentScale = 0
+      //   for (let i = from; i <= to; i++) {
+      //     factors[i] = currentScale * lineFactor + min
+      //     currentScale++
+      //   }
+      //   return factors
+      // }
+      // const lineDown = (from = 255, to = 0, min = 0, max = 1) => {
+      //   const factors = zeroArray(256)
+      //   const lineFactor = (1 - min) / (255)
+      //   let currentScale = 0
+      //   for (let i = from; i >= to; i--) {
+      //     factors[i] = currentScale * lineFactor + min
+      //     currentScale++
+      //   }
+      //   return factors
+      // }
+      // const curveSinUp = (flipX = false, flipY = false) => {
+      //   const factors = zeroArray(256)
+      //   let degree = 0
+      //   let radian = 0
+      //   const angleFactor = 90 / 255
+      //   for (let i = 0; i <= 255; i++) {
+      //     radian = util.degrees_to_radians(degree)
+      //     const y = Math.sin(radian)
+      //     factors[flipX ? (255 - i) : i] = flipY ? (1 - y) : y
+      //     degree += angleFactor
+      //   }
+      //   return factors
+      // }
+      // const logUp = (offset = 1) => {
+      //   const factors = zeroArray(256)
+      //   for (let i = 0; i < 256; i++) {
+      //     factors[i] = Math.log10(i + offset) / Math.log10(255 + offset)
+      //   }
+      //   return factors
+      // }
+      // const logDown = (offset = 1) => {
+      //   const factors = zeroArray(256)
+      //   for (let i = 0; i < 256; i++) {
+      //     factors[255 - i] = Math.log10(i + offset) / Math.log10(255 + offset)
+      //   }
+      //   return factors
+      // }
+      // // util.exportArray(data)
+      // this.curvesHistograms = [
+      //   curveTo255()
+      // ]
     },
     drawCurves () {
       this.switches.debugHistograms = true
