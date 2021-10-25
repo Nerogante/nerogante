@@ -12,22 +12,20 @@
         </router-view>
       </v-container>
     </v-main>
-    <!-- <v-footer>
-      <v-spacer />
-      <div>
-        &copy; NEROGANTE {{ new Date().getFullYear() }}
-      </div>
-    </v-footer> -->
+    <Footer />
   </v-app>
 </template>
 
 <script>
 // import { mapMutations } from 'vuex'
 import Appbar from '../components/Appbar'
+import Footer from '../components/Footer'
+
 export default {
   name: 'Default',
   components: {
-    Appbar
+    Appbar,
+    Footer
   },
   mounted () {
     // this.loadTheme()

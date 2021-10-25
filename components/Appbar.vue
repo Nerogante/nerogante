@@ -9,12 +9,18 @@
       dense
       class="px-0 mx-0 barra"
       color="black darken-4"
-      elevation="1"
+      elevation="2"
     >
       <!-- <v-app-bar-nav-icon @click="mini = !mini" /> -->
       <v-btn disabled icon />
 
-      <router-link id="page-title" to="/" class="text-uppercase font-weight-bold text-decoration-none ml-5 white--text">
+      <!-- Logo Title -->
+      <router-link
+        id="page-title"
+        to="/"
+        class="text-uppercase font-weight-bold text-decoration-none ml-5 white--text"
+        exact-active-class=""
+      >
         <v-toolbar-title>
           Nerogante
         </v-toolbar-title>
@@ -22,20 +28,22 @@
 
       <v-spacer />
 
+      <!-- Links -->
       <router-link
         v-for="link of links"
         v-show="true"
         :key="link.title"
         :to="link.route"
         text
-        class="d-none d-md-block head-link text-decoration-none mx-3 font-weight-bold white--text"
-        active-class="selected-link"
+        class="d-none d-md-block page-link text-decoration-none mx-3"
+        active-class="selected font-weight-bold"
         link
         nuxt
       >
         {{ link.title }}
       </router-link>
 
+      <!-- Links Mobile -->
       <v-btn
         v-for="link of links"
         :key="link.icon"
@@ -44,7 +52,8 @@
         nuxt
         link
         class="d-md-none"
-        active-class="green--text"
+        color=""
+        active-class="red--text text--lighten-2"
       >
         <v-icon>{{ link.icon }}</v-icon>
       </v-btn>
@@ -56,11 +65,13 @@
       dense
       style="right: unset"
       color="black"
+      :elevation="fixed ? 2 : 0"
     >
       <v-btn
         fab
         small
         text
+        color="red"
         @click="toggleAppbar"
       >
         <v-avatar>
@@ -85,12 +96,12 @@ export default {
         {
           title: '',
           route: '/games',
-          icon: 'mdi-gamepad-round-right'
+          icon: 'mdi-google-controller'
         },
         {
-          title: 'Web Apps',
+          title: 'Apps',
           route: '/app',
-          icon: 'mdi-tools'
+          icon: 'mdi-apps'
         },
         {
           title: 'Donate',
@@ -140,19 +151,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$primary: #00C853;
+// @import '~vuetify/src/styles/styles.sass';
 
-.head-link:hover {
-  color: $primary !important;
-}
-.selected-link {
-  color: $primary !important;
+// $primary: #00C853;
+$primary: var(--v-primary-base);
+
+.page-link {
+  color: hsl(0, 0%, 70%);
+  &.selected {
+    color: white;
+  }
+  &:hover {
+    color: hsl(0, 0%, 90%);
+  }
 }
 #page-title {
   // border-bottom-color: $primary;
   // border-bottom-style: solid;
+  // color: $primary !important;
   :hover {
-    color: $primary !important;
+    color: hsl(0, 0%, 90%);
   }
 }
 </style>

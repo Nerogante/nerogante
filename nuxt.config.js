@@ -1,3 +1,4 @@
+import colors from 'vuetify/lib/util/colors'
 
 export default {
   target: 'static',
@@ -55,8 +56,14 @@ export default {
   vuetify: {
     customVariables: ['~/assets/scss/variables.scss'],
     theme: {
-      light: false,
-      dark: false
+      options: { customProperties: true },
+      light: true,
+      dark: false,
+      themes: {
+        light: {
+          primary: colors.red
+        }
+      }
     },
     icons: {
 

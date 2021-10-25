@@ -1,34 +1,81 @@
 <template>
-  <div>
-    <section class="black  h-100-v">
-      <v-container class="h-100-p">
-        <v-row align="center" class="h-100-p">
-          <v-col class="">
-            <h1 class="text-h2 font-weight-bold grey--text text--lighten-5">
-              A little bit of everything
+  <div class="">
+    <!-- Hero -->
+    <section class="py-16">
+      <v-container class="mt-12">
+        <v-row align="stretch" class="">
+          <v-col cols="12" md="6" class="d-flex flex-column align-start justify-center">
+            <h1
+              class="text-h4 text-md-h2 font-weight-bold
+              "
+            >
+              I make random apps and games
             </h1>
-            <!-- <div class="mt-8 white--text text-body-1">
-              Master of nothing
-            </div> -->
             <v-btn
+              to="/app"
               x-large
               rounded
-              class="mt-8 green accent-3 font-weight-black "
+              color="red accent-4"
+              class="font-weight-black
+              white--text mt-8
+              "
             >
-              Latest Apps
+              Let me see
             </v-btn>
           </v-col>
-          <v-col>
-            <h1 class="text-h1 green--text text--accent-3 font-weight-black text-center">
+          <v-col cols="12" md="6" class="">
+            <!-- <v-img src="placeholder_1080p.png" /> -->
+            <div
+              class="game-grid-container"
+              :style="{
+                gridTemplateRows: 'repeat(' + game.height + ', 1fr)',
+                gridTemplateColumns: 'repeat(' + game.width + ', 1fr)'
+              }"
+            >
+              <v-btn
+                v-for="btn in game.size"
+                :key="btn"
+                color=""
+                class=""
+                height="100%"
+                width="100%"
+              >
 
-            </h1>
+              </v-btn>
+            </div>
           </v-col>
         </v-row>
       </v-container>
     </section>
-    <section class="h-100-v">
-      a
+    <!-- Latest Games -->
+    <!--  -->
+
+    <!-- Latest Apps -->
+    <section class="py-16 blue-grey lighten-5">
+      <v-container>
+        <v-row class="" justify="start">
+          <v-col cols="12">
+            <h1 class="text-h4 font-weight-bold">
+              Latest Apps
+            </h1>
+          </v-col>
+          <v-col v-for="app in latestApps" :key="app.title" cols="12" md="3">
+            <v-card :to="app.url">
+              <v-img
+                :src="app.src"
+                class="grey"
+                contain
+                eager
+              />
+              <v-card-title>
+                {{ app.title }}
+              </v-card-title>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
     </section>
+    <!--  -->
   </div>
 </template>
 
@@ -41,7 +88,49 @@ export default {
   },
   data () {
     return {
-
+      game: {
+        height: 0,
+        width: 0,
+        size: 0
+      },
+      latestApps: [
+        {
+          title: 'Exposer',
+          description: 'Simple photo editor',
+          src: 'placeholder_500.png',
+          url: '/app/exposer'
+        },
+        {
+          title: 'Exposer1',
+          description: 'Simple photo editor',
+          src: 'placeholder_500.png',
+          url: '/app/exposer'
+        },
+        {
+          title: 'Exposer2',
+          description: 'Simple photo editor',
+          src: 'placeholder_500.png',
+          url: '/app/exposer'
+        },
+        {
+          title: 'Exposer3',
+          description: 'Simple photo editor',
+          src: 'placeholder_500.png',
+          url: '/app/exposer'
+        }
+      ],
+      latestGames: [
+        {
+          title: 'Exposer',
+          description: 'Simple photo editor',
+          src: ''
+        },
+        {
+          title: 'Exposer',
+          description: 'Simple photo editor',
+          src: ''
+        }
+      ]
     }
   },
   head () {
@@ -56,7 +145,9 @@ export default {
 
   },
   mounted () {
-
+    this.game.height = 5
+    this.game.width = 5
+    this.game.size = this.game.height * this.game.width
   },
   destroyed () {
 
@@ -67,7 +158,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 #playground {
   height: 100vh;
   width: 100%;
@@ -94,5 +185,21 @@ export default {
   to {
     transform: rotate(360deg);
   }
+}
+.game-grid-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  display: grid;
+  gap: 0.5em;
+  padding: 0.5em;
+
+  // background-color: hsl(0, 0%, 50%);
+  // div {
+  //   background-color: hsl(0, 0%, 80%);
+  //   height: 100%;
+  //   width: 100%;
+  //   border-radius: 10%;
+  // }
 }
 </style>
