@@ -1,124 +1,89 @@
 <template>
   <div class="">
     <!-- Hero -->
-    <section class="py-16">
+    <!-- <section class="py-16 grey darken-4">
       <v-container class="mt-12">
-        <v-row align="stretch" class="">
-          <v-col cols="12" md="6" class="d-flex flex-column align-start justify-center">
+        <v-row align="stretch" class="py-8">
+          <v-col cols="12" md="12" class="">
             <h1
               class="text-h4 text-md-h2 font-weight-bold
+              text-center
+              white--text
               "
             >
-              I make random apps and games
+              Welcome to my hideout
             </h1>
-            <v-btn
-              to="/app"
-              x-large
-              rounded
-              color="red accent-4"
-              class="font-weight-black
-              white--text mt-8
-              "
-            >
-              Let me see
-            </v-btn>
-          </v-col>
-          <v-col cols="12" md="6" class="">
-            <!-- <v-img src="placeholder_1080p.png" /> -->
-            <div
-              class="game-grid-container"
-              :style="{
-                gridTemplateRows: 'repeat(' + game.height + ', 1fr)',
-                gridTemplateColumns: 'repeat(' + game.width + ', 1fr)'
-              }"
-            >
-              <v-btn
-                v-for="btn in game.size"
-                :key="btn"
-                color=""
-                class=""
-                height="100%"
-                width="100%"
-              >
-
-              </v-btn>
-            </div>
           </v-col>
         </v-row>
       </v-container>
-    </section>
+    </section> -->
     <!-- Latest Games -->
     <!--  -->
 
     <!-- Latest Apps -->
-    <section class="py-16 blue-grey lighten-5">
-      <v-container>
-        <v-row class="" justify="start">
-          <v-col cols="12">
-            <h1 class="text-h4 font-weight-bold">
+    <section class="py-12">
+      <v-container class="mt-12">
+        <v-row class="" justify="center">
+          <v-col cols="12" class="mb-6">
+            <h1 class="text-h4 font-weight-bold text-center">
               Latest Apps
             </h1>
           </v-col>
-          <v-col v-for="app in latestApps" :key="app.title" cols="12" md="3">
-            <v-card :to="app.url">
+          <v-col v-for="app in lastApps" :key="app.title" cols="12" md="3">
+            <v-card :to="app.url" color="transparent" elevation="0" class="card-image-hover">
               <v-img
                 :src="app.src"
-                class="grey"
+                class=""
                 contain
                 eager
               />
-              <v-card-title>
+              <v-card-title class="font-weight-bold px-0">
                 {{ app.title }}
               </v-card-title>
+              <v-card-subtitle class="px-0">
+                {{ app.description }}
+              </v-card-subtitle>
             </v-card>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <v-btn outlined x-large to="/app">
+              View all apps
+            </v-btn>
           </v-col>
         </v-row>
       </v-container>
     </section>
     <!--  -->
+
+    <!-- Games -->
+    <section class="py-12 grey lighten-3">
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="12" class="mb-6">
+            <h1 class="text-h4 font-weight-bold text-center">
+              Latest Games
+            </h1>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
   </div>
 </template>
 
 <script>
 
+// import util from 'assets/util'
+import appList from 'assets/data/appList'
+
 export default {
   components: {
+    // appList
     // ToolCard
     // Darken 4 lighten 5
   },
+  scrollToTop: true,
   data () {
     return {
-      game: {
-        height: 0,
-        width: 0,
-        size: 0
-      },
-      latestApps: [
-        {
-          title: 'Exposer',
-          description: 'Simple photo editor',
-          src: 'placeholder_500.png',
-          url: '/app/exposer'
-        },
-        {
-          title: 'Exposer1',
-          description: 'Simple photo editor',
-          src: 'placeholder_500.png',
-          url: '/app/exposer'
-        },
-        {
-          title: 'Exposer2',
-          description: 'Simple photo editor',
-          src: 'placeholder_500.png',
-          url: '/app/exposer'
-        },
-        {
-          title: 'Exposer3',
-          description: 'Simple photo editor',
-          src: 'placeholder_500.png',
-          url: '/app/exposer'
-        }
-      ],
       latestGames: [
         {
           title: 'Exposer',
@@ -142,12 +107,12 @@ export default {
     }
   },
   computed: {
-
+    lastApps () {
+      return appList.apps.slice(0, 4)
+    }
   },
-  mounted () {
-    this.game.height = 5
-    this.game.width = 5
-    this.game.size = this.game.height * this.game.width
+  async mounted () {
+
   },
   destroyed () {
 
@@ -178,6 +143,12 @@ export default {
 .rotate {
    animation: rotation 2s infinite alternate
 }
+.card-image-hover {
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    filter: brightness(70%);
+  }
+}
 @keyframes rotation {
   from {
     transform: rotate(0deg);
@@ -185,21 +156,5 @@ export default {
   to {
     transform: rotate(360deg);
   }
-}
-.game-grid-container {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-
-  display: grid;
-  gap: 0.5em;
-  padding: 0.5em;
-
-  // background-color: hsl(0, 0%, 50%);
-  // div {
-  //   background-color: hsl(0, 0%, 80%);
-  //   height: 100%;
-  //   width: 100%;
-  //   border-radius: 10%;
-  // }
 }
 </style>

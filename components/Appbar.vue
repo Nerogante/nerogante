@@ -9,7 +9,7 @@
       dense
       class="px-0 mx-0 barra"
       color="black darken-4"
-      elevation="2"
+      elevation="0"
     >
       <!-- <v-app-bar-nav-icon @click="mini = !mini" /> -->
       <v-btn disabled icon />
@@ -65,7 +65,7 @@
       dense
       style="right: unset"
       color="black"
-      :elevation="fixed ? 2 : 0"
+      :elevation="fixed ? 0 : 0"
     >
       <v-btn
         fab
@@ -104,7 +104,7 @@ export default {
           icon: 'mdi-apps'
         },
         {
-          title: 'Donate',
+          title: 'Support',
           route: '/donate',
           icon: 'mdi-gift'
         }
