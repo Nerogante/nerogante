@@ -21,15 +21,15 @@
     <!--  -->
 
     <!-- Latest Apps -->
-    <section class="py-12">
+    <section class="py-12 white">
       <v-container class="mt-12">
         <v-row class="" justify="center">
           <v-col cols="12" class="mb-6">
             <h1 class="text-h4 font-weight-bold text-center">
-              Latest Apps
+              Featured Apps
             </h1>
           </v-col>
-          <v-col v-for="app in lastApps" :key="app.title" cols="12" md="3">
+          <v-col v-for="app in latestApps" :key="app.title" cols="12" md="3">
             <v-card :to="app.url" color="transparent" elevation="0" class="card-image-hover">
               <v-img
                 :src="app.src"
@@ -46,7 +46,7 @@
             </v-card>
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn outlined x-large to="/app">
+            <v-btn outlined x-large to="/app" color="">
               View all apps
             </v-btn>
           </v-col>
@@ -74,6 +74,7 @@
 
 // import util from 'assets/util'
 import appList from 'assets/data/appList'
+import { mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -84,18 +85,7 @@ export default {
   scrollToTop: true,
   data () {
     return {
-      latestGames: [
-        {
-          title: 'Exposer',
-          description: 'Simple photo editor',
-          src: ''
-        },
-        {
-          title: 'Exposer',
-          description: 'Simple photo editor',
-          src: ''
-        }
-      ]
+
     }
   },
   head () {
@@ -107,18 +97,25 @@ export default {
     }
   },
   computed: {
-    lastApps () {
-      return appList.apps.slice(0, 4)
+    latestApps () {
+      return appList.apps.slice(0, 2)
+    },
+    latestGames () {
+      return []
     }
   },
-  async mounted () {
-
+  mounted () {
+    this.showAppBar()
   },
   destroyed () {
 
   },
   methods: {
-
+    ...mapMutations({
+      hideAppBar: 'appBar/hide',
+      toggleAppBar: 'appBar/toggleAppBar',
+      showAppBar: 'appBar/show'
+    })
   }
 }
 </script>

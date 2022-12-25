@@ -1,28 +1,42 @@
 const appList = {
+  categories: [
+    {
+      id: 0,
+      name: 'Image Processing'
+    },
+    {
+      id: 1,
+      name: 'Random Nonsense'
+    }
+  ],
   apps: [
     {
       title: 'Exposer',
       description: 'Simple photo editor',
       src: '/appimg/exposer_512.png',
-      url: '/app/exposer'
+      url: '/app/exposer',
+      category: 0
+    },
+    {
+      title: 'Link Extractor',
+      description: 'Get links from various sites',
+      src: '/appimg/memorize_512.png',
+      url: '/app/downloader',
+      category: 1
     },
     {
       title: 'Memorize',
-      description: 'Simple photo editor',
-      src: 'asd.png',
-      url: '/app/memorize'
+      description: 'Remember the sequence',
+      src: '/appimg/memorize_512.png',
+      url: '/app/memorize',
+      category: 1
     },
     {
-      title: 'Exposer2',
-      description: 'Simple photo editor',
+      title: 'Math Rush',
+      description: 'Random series of math operations',
       src: 'placeholder_500.png',
-      url: '/app/exposer'
-    },
-    {
-      title: 'Exposer3',
-      description: 'Simple photo editor',
-      src: 'placeholder_500.png',
-      url: '/app/exposer'
+      url: '/app/exposer',
+      category: 1
     }
   ]
 }

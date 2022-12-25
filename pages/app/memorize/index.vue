@@ -1,9 +1,52 @@
 <template>
   <div class="">
-    <section class="py-16">
-      <v-container class="mt-12">
+    <v-app-bar
+      dense
+      dark
+      class="d-flex justify-center"
+      elevation="0"
+    >
+      <v-app-bar-title class="">
+        Memorize
+      </v-app-bar-title>
+    </v-app-bar>
+    <section class="py-">
+      <v-container class="">
         <v-row>
+          <!-- <v-col cols="12">
+            <h1 class="">
+              Memorize
+            </h1>
+          </v-col> -->
+          <!-- <v-col cols="12" md="3" order="2">
+            <v-text-field
+              type="number"
+              label="Size"
+              color="accent"
+              value="3"
+              min="2"
+              max="5"
+            />
+            <v-btn color="blue white--text">
+              Start
+            </v-btn>
+          </v-col> -->
+          <v-col cols="auto" md="3" class="">
+
+          </v-col>
           <v-col cols="12" md="6">
+            <v-col class="d-flex justify-start">
+              <v-col cols="4">
+                <h1>
+                  Best: {{ game.best }}
+                </h1>
+              </v-col>
+              <v-col cols="4" class="">
+                <h1 class="text-center">
+                  {{ game.turn }}
+                </h1>
+              </v-col>
+            </v-col>
             <div
               class="game-grid-container"
               :style="{
@@ -22,6 +65,7 @@
               />
             </div>
           </v-col>
+          <v-col cols="3" />
         </v-row>
       </v-container>
     </section>
@@ -49,6 +93,7 @@ export default {
         width: 0,
         size: 0,
         turn: 0,
+        best: 0,
         movesAI: [],
         movesPlayer: [],
         canPlayerClick: false
@@ -56,7 +101,12 @@ export default {
     }
   },
   async mounted () {
-    this.game.height = util.getRndInteger(2, 5)
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
+    this.game.height = util.getRndInteger(3, 3)
     this.game.width = this.game.height
     this.game.size = this.game.height * this.game.width
 
@@ -80,6 +130,10 @@ export default {
     },
     async nextLevel () {
       this.game.canPlayerClick = false
+
+      if (this.game.turn >= this.game.best) {
+        this.game.best = this.game.turn
+      }
       const allBlocks = [...document.querySelectorAll('.block')]
       for (let i = 0; i < allBlocks.length; i++) {
         allBlocks[i].classList.remove(...this.game.colorBad)
@@ -144,11 +198,7 @@ export default {
             this.game.canPlayerClick = true
           }
         } else {
-          element.classList.add(...this.game.colorBad)
-          await util.delay(500)
-          this.resetGame()
-          await util.delay(500)
-          this.nextLevel()
+          this.lose(element)
         }
       }
       // element.classList.add(...this.game.colors[nextColorIndex])
@@ -160,6 +210,13 @@ export default {
       }
       element.classList.remove(...this.game.colorGood)
       element.classList.remove(...this.game.colorBad)
+    },
+    async lose (element) {
+      element.classList.add(...this.game.colorBad)
+      await util.delay(500)
+      this.resetGame()
+      await util.delay(500)
+      this.nextLevel()
     },
     isLastCorrect (turn) {
       return false

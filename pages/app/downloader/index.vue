@@ -1,32 +1,27 @@
 <template>
-  <div class="py-5">
-    <section>
+  <div class="">
+    <v-app-bar dense elevation="0" color="transparent" />
+    <section class="">
       <v-container>
         <v-row justify="start" class="">
           <v-col xs="1" md="2" class="d-none d-md-block" />
           <v-col xs="12" md="8">
-            <AppInfo :app="tool" />
-            <v-form id="searchForm" ref="superform" v-model="valid" class="mb-5" @submit.prevent="addLinks">
-              <v-textarea
-                v-model="searchURL"
-                label="Paste links here"
-                rows="2"
+            <v-card color="transparent" elevation="0">
+            <v-form id="searchForm" ref="superform" class="" @submit.prevent="search">
+
+              <v-card-title>
+                {{tool.title}}
+              </v-card-title>
+              <v-card-text class="pb-0">
+
+              <v-text-field
+                v-model="userSearch"
+                label="Paste link here"
+                prepend-inner-icon="mdi-magnify"
+                :error-messages="searchError"
                 clearable
                 filled
-                dense
               />
-              <v-row no-gutters justify="end">
-                <v-btn
-                  type="submit"
-                  color="primary"
-                  :disabled="!searchURL"
-                >
-                  <v-icon left>
-                    mdi-plus
-                  </v-icon>
-                  Add
-                </v-btn>
-              </v-row>
               <!-- <v-btn
                 type="submit"
                 color="primary"
@@ -37,31 +32,36 @@
                 </v-icon>
                 Add Links
               </v-btn> -->
+              </v-card-text>
+              <v-card-actions class="pt-0">
+                <v-row justify="end">
+                  <v-col cols="auto">
+
+                <v-btn
+                right
+                type="submit"
+                color="primary"
+              >
+                <v-icon left>
+                  mdi-magnify
+                </v-icon>
+                Search
+              </v-btn>
+                  </v-col>
+
+                </v-row>
+
+              </v-card-actions>
             </v-form>
-            {{ selected.length }} selected
-            <v-btn fab class="elevation-1" small color="primary">
-              <v-icon dark>
-                mdi-download
-              </v-icon>
-            </v-btn>
-            <v-btn fab class="elevation-1" small>
-              <v-icon dark>
-                mdi-delete
-              </v-icon>
-            </v-btn>
-            <!-- <v-data-table
-              v-model="selected"
-              :headers="headers"
-              :items="links"
-              item-key="url"
-              show-select
-              no-data-text="No links added"
-              class="elevation-1"
-            /> -->
-            <!-- <Cyberdrop v-for="link in cyberdropLinks" :key="link.link" :link="link.link" /> -->
-            <v-expansion-panels accordion multiple hover dense>
-              <Downloadable v-for="link of links" :key="link.url" :link="link.url" />
-            </v-expansion-panels>
+            </v-card>
+            <v-card class="my-5">
+              <v-card-text>
+                <!-- <iframe src="https://jpg.church/a/213.N0tPn" allow="jpg.church">
+
+                </iframe> -->
+              </v-card-text>
+            </v-card>
+
           </v-col>
           <v-col md="2" class="d-none" />
         </v-row>
@@ -85,18 +85,18 @@ import util from '~/assets/util'
 import Downloadable from '~/components/Downloadable'
 export default {
   components: {
-    AppInfo,
-    Downloadable
+
   },
   data () {
     return {
       tool: {
-        title: 'Creepy Downloader',
+        title: 'Link Extractor',
         description: 'Download files from various sites'
       },
-      errorMessage: '',
-      searchURL: '',
-      valid: false,
+      searchError: '',
+      userSearch: '',
+      validURL: true,
+      iframeURL: '',
       selected: [],
       headers: [
         {
@@ -124,15 +124,44 @@ export default {
     }
   },
   methods: {
-    submit () {
-      // this.$refs.form.submit()
-      // try {
-      //   if (this.$refs.superform.validate()) {
-
-      //   }
-      // } catch (error) {
-      //   console.log(error)
-      // }
+    search (event) {
+      const validHosts = [
+        'jpg.church'
+      ]
+      if (!this.userSearch.includes('http://') && !this.userSearch.includes('https://')) {
+        this.userSearch = 'https://' + this.userSearch
+      }
+      this.validURL = this.isValidUrl(this.userSearch)
+      if (!this.validURL) {
+        this.searchError = 'Not a valid URL'
+        return
+      } else {
+        this.searchError = ''
+      }
+      const searchURL = new URL(this.userSearch)
+      console.log(searchURL)
+      if (validHosts.includes(searchURL.host)) {
+        this.searchError = ''
+      } else {
+        this.searchError = 'Site not registered'
+        return
+      }
+      // const xhr = new XMLHttpRequest()
+      // xhr.open('POST', searchURL.href)
+      // xhr.setRequestHeader('X-PINGOTHER', 'pingpong')
+      // xhr.setRequestHeader('Content-Type', 'application/xml')
+      // xhr.onreadystatechange = this.runJpegChurch
+      // xhr.send('<person><name>Arun</name></person>')
+      this.runJpegChurch(searchURL)
+    },
+    async runJpegChurch (site) {
+      // console.log(site)
+      this.iframeURL = site.href
+      const response = await this.$axios({
+        method: 'get',
+        url: 'https://www.patreon.com/api/posts?include=user.null%2Caccess_rules.tier.null%2Cattachments.null%2Caudio.null%2Cimages.null%2Cpoll.choices.null%2Cpoll.current_user_responses.null&fields[user]=full_name%2Cimage_url%2Curl&fields[post]=comment_count%2Ccontent%2Ccontent_teaser_text%2Ccurrent_user_can_view%2Cembed%2Cimage%2Cis_paid%2Clike_count%2Cmin_cents_pledged_to_view%2Cpatreon_url%2Cpatron_count%2Cpledge_url%2Cpost_file%2Cpost_type%2Cpublished_at%2Cteaser_text%2Ctitle%2Cupgrade_url%2Curl&fields[reward]=[]&fields[access-rule]=access_rule_type%2Camount_cents%2Cpost_count&fields[media]=download_url%2Cimage_urls%2Cmetadata&filter[campaign_id]=642119&filter[contains_exclusive_posts]=true&filter[is_draft]=false&page[size]=1000&sort=-published_at&json-api-use-default-includes=false&json-api-version=1.0'
+      })
+      console.log(response)
     },
     addLinks () {
       const changed = this.searchURL.replace(/\s/g, '\n')
